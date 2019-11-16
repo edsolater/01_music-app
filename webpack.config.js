@@ -5,7 +5,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
  * @type {webpack.Configuration}
  */
 const config = {
-  mode: 'production',
+  mode: 'development',
   entry: {
     main: './src/AppEntry.tsx'
   },
@@ -15,7 +15,7 @@ const config = {
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx'],
-    modules: ['src', 'node_modules'] //typescript 识别根路径（绝对路径的根节点）
+    modules: ['src'] //typescript 识别根路径（绝对路径的根节点）
   },
 
   module: {
