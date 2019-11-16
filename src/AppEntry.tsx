@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import './example.css'
+import './AppEntry.css'
 import { Popover } from './components'
 import { GetWidgetHandler } from 'type_helper'
 
