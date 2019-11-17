@@ -110,7 +110,9 @@ const Slider: FC<{
           left: `${(value ? value / total : styleLeft) * 100}%`
         }}
       />
-      <div className="Track" />
+      <div className="Track" >
+        <div className="ActiveLine" style={{width:`${(value ? value / total : styleLeft) * 100}%`}}/>
+      </div>
     </div>
   )
 }
