@@ -29,7 +29,8 @@ const App: React.FC<{
           RightLabel={`${new Time(currentSongSeconds).print({ format: 'MM:ss' })} / ${
             prop.totalSeconds
           }`}
-          currentProgress={currentSongSeconds / prop.totalSeconds}
+          current={0}
+          total={prop.totalSeconds}
         />
         <ButtonGroup className="info-panel">
           <Button className="favorite" Content="❤" onClick={() => console.log(`I'm clicked a`)} />
