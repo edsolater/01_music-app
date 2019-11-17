@@ -70,7 +70,7 @@ const Slider: FC<{
     <div className={classnames(className, 'Slider')} {...restProps}>
       <div
         className="Trigger"
-        onMouseDown={e => {
+        onPointerDown={e => {
           inDragging.on()
           const track = (e.target as HTMLDivElement).parentElement!.getElementsByClassName(
             'Track'
@@ -90,12 +90,12 @@ const Slider: FC<{
            */
           const clearTriggerFunction = () => {
             inDragging.off()
-            document.removeEventListener('mousemove', moveTrigger)
-            document.removeEventListener('mouseup', clearTriggerFunction)
+            document.removeEventListener('pointermove', moveTrigger)
+            document.removeEventListener('pointerup', clearTriggerFunction)
           }
 
-          document.addEventListener('mousemove', moveTrigger)
-          document.addEventListener('mouseup', clearTriggerFunction)
+          document.addEventListener('pointermove', moveTrigger)
+          document.addEventListener('pointerup', clearTriggerFunction)
         }}
         style={{
           left: `${(value ? value / total : styleLeft) * 100}%`
