@@ -66,36 +66,45 @@ const Slider: FC<{
         }
       }
     })
+    /**
+     * 移动 Trigger
+     */
+    const moveTrigger = (percentage:number) => {
+      setPercentage(percentage)
+      if (onChangeTrigger)
+        onChangeTrigger(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    }
   return (
-    <div className={classnames(className, 'Slider')} {...restProps}>
+    <div className={classnames(className, 'Slider')} onClick={(e) => {
+      const track = (e.target as HTMLDivElement)
+      const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
+      moveTrigger((e.clientX - trackClientLeft) / trackWidth)
+    }} {...restProps}>
       <div
         className="Trigger"
         onPointerDown={e => {
-          inDragging.on()
           const track = (e.target as HTMLDivElement).parentElement!.getElementsByClassName(
             'Track'
           )[0] as HTMLDivElement
           const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
           /**
-           * 给 document 鼠标移动执行的事件
+           * document 绑定拖拽事件 
            */
-          const moveTrigger = (e: MouseEvent) => {
-            const currentTriggerInUI = (e.clientX - trackClientLeft) / trackWidth
-            setPercentage(currentTriggerInUI)
-            if (onChangeTrigger)
-              onChangeTrigger(Math.round(constraint(currentTriggerInUI, { range: [0, 1] }) * total))
+          const moveHandler = e => {
+            inDragging.on()
+            moveTrigger((e.clientX - trackClientLeft) / trackWidth)
           }
           /**
            * 清理 document 上述事件
            */
-          const clearTriggerFunction = () => {
+          const clearMoveHandler = () => {
             inDragging.off()
-            document.removeEventListener('pointermove', moveTrigger)
-            document.removeEventListener('pointerup', clearTriggerFunction)
+            document.removeEventListener('pointermove', moveHandler)
+            document.removeEventListener('pointerup', clearMoveHandler)
           }
 
-          document.addEventListener('pointermove', moveTrigger)
-          document.addEventListener('pointerup', clearTriggerFunction)
+          document.addEventListener('pointermove', moveHandler)
+          document.addEventListener('pointerup', clearMoveHandler)
         }}
         style={{
           left: `${(value ? value / total : styleLeft) * 100}%`
