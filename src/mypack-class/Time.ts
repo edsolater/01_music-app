@@ -1,4 +1,4 @@
-export default class Time {
+class TimeClass {
   seconds: number
   constructor(inputTime: any) {
     this.seconds = inputTime
@@ -10,3 +10,6 @@ export default class Time {
     return ''
   }
 }
+const Time = (inputTime)=>new TimeClass(inputTime)
+Time.prototype = TimeClass
+export default Time

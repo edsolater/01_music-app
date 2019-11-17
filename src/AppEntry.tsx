@@ -25,7 +25,7 @@ const App: React.FC<{
         </ButtonGroup>
         <Timeline
           LeftLabel={<div className="songName">{prop.song}</div>}
-          RightLabel={`${new Time(currentSongSeconds).print({ format: 'MM:ss' })} / ${
+          RightLabel={`${Time(currentSongSeconds).print({ format: 'MM:ss' })} / ${
             prop.totalSeconds
           }`}
           initSecond={0}
