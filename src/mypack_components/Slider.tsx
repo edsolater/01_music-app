@@ -2,6 +2,7 @@ import React, { FC, useRef, useState } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { attachWidgetHandlers } from './__myComponentUtil'
+import { constraint } from '../mypack_utils'
 
 const Slider: FC<{
   /**
@@ -11,67 +12,81 @@ const Slider: FC<{
   /**
    * 总长度
    */
-  total?: number
+  total: number
+  /**
+   * 当前所在位置 (初始值)
+   */
+  defaultValue?: number
   /**
    * 当前所在位置
    */
-  defaultValue?: number
-  onChangeCurrentByTrigger?: Function
+  value?: number
+  /**
+   * 上抛控制用函数
+   */
   widgetHandler?: {
-    change?: {
-      current?: Function
+    state: {
+      inDragging?: boolean
+    }
+    action: {
+      setCurrent?: Function
     }
   }
+  onChangeTrigger?: (current: number) => any
 } & JSX.IntrinsicElements['div']> = ({
   className,
   total = 100,
-  defaultValue = 0,
+  value,
+  defaultValue,
   widgetHandler,
-  onChangeCurrentByTrigger,
+  onChangeTrigger,
   ...restProps
 }) => {
   const sliderTriggerRef = useRef(null)
-  const [isDragged, setIsDragged] = useState(false)
-  const [styleLeft, setStyleLeft] = useState(`${(defaultValue / total) * 100}%`)
-  const setCurrentPercentage = (percentage: number) => {
-    if (percentage < 0) {
-      percentage = 0
-    } else if (percentage > 1) {
-      percentage = 1
-    }
-    setStyleLeft(`${percentage * 100}%`)
+  const [inDragging, setInDragging] = useState(false)
+  const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total)
+  const setPercentage = (percentage: number) => {
+    if (value) return
+    setStyleLeft(constraint(percentage, { range: [0, 1] }))
   }
   // 上抛控制权 widgetHandler
-  attachWidgetHandlers(widgetHandler, {
-    change: {
-      current: (seconds: number) => {
-        if (isDragged) return
-        else setCurrentPercentage(seconds / total)
+  if (widgetHandler)
+    attachWidgetHandlers(widgetHandler, {
+      state: {
+        // 指示说父级想要看时能看到当前子组件的状态，但不能监听，数据的所属权在于子组件
+        get inDragging() {
+          return inDragging
+        }
+      },
+      action: {
+        setCurrent: (current: number) => {
+          if (inDragging) return
+          else setPercentage(current / total)
+        }
       }
-    }
-  })
+    })
   return (
     <div className={classnames(className, 'Slider')} {...restProps}>
       <div
         className="SliderTrigger"
         ref={sliderTriggerRef}
         onMouseDown={() => {
-          setIsDragged(true)
+          setInDragging(true)
           const trigger = (sliderTriggerRef.current as unknown) as HTMLDivElement
           const slider = trigger.parentElement!
           /**
            * 给 document 鼠标移动执行的事件
            */
           const moveTrigger = (e: MouseEvent) => {
-            const current = (e.clientX - slider.offsetLeft) / slider.offsetWidth
-            setCurrentPercentage(current)
-            if (onChangeCurrentByTrigger) onChangeCurrentByTrigger(Math.round(current * total))
+            const currentTriggerInUI = (e.clientX - slider.offsetLeft) / slider.offsetWidth
+            setPercentage(currentTriggerInUI)
+            if (onChangeTrigger) onChangeTrigger(Math.round(currentTriggerInUI * total))
           }
           /**
            * 清理 document 上述事件
            */
           const clearTriggerFunction = () => {
-            setIsDragged(false)
+            setInDragging(false)
             document.removeEventListener('mousemove', moveTrigger)
             document.removeEventListener('mouseup', clearTriggerFunction)
           }
@@ -80,7 +95,7 @@ const Slider: FC<{
           document.addEventListener('mouseup', clearTriggerFunction)
         }}
         style={{
-          left: styleLeft
+          left: `${(value ? value / total : styleLeft) * 100}%`
         }}
       />
       <div className="SliderTrack" />

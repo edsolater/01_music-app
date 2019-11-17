@@ -29,7 +29,7 @@ const App: React.FC<{
           RightLabel={`${new Time(currentSongSeconds).print({ format: 'MM:ss' })} / ${
             prop.totalSeconds
           }`}
-          current={0}
+          initSecond={0}
           total={prop.totalSeconds}
         />
         <ButtonGroup className="info-panel">

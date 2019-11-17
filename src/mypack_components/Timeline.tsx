@@ -2,7 +2,6 @@ import React, { FC, ReactNode, useEffect, useState } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Slider } from '.'
-import { GetWidgetHandler } from 'type_helper'
 
 const Timeline: FC<{
   /**
@@ -11,33 +10,26 @@ const Timeline: FC<{
   className?: ClassValue
   LeftLabel?: ReactNode
   RightLabel?: ReactNode
-  current?: number
-  total?: number
+  initSecond?: number
+  total: number
 } & JSX.IntrinsicElements['div']> = ({
   className,
   LeftLabel,
   RightLabel,
-  current = 0,
+  initSecond = 0,
   total = 100,
   ...restProps
 }) => {
-  const [currentSecond, setCurrentSecond] = useState(current)
-  const widgetHandler: GetWidgetHandler<typeof Slider> = {
-    change: {
-      current: undefined
-    }
-  }
+  const [currentSecond, setCurrentSecond] = useState(initSecond)
   useEffect(() => {
     const timeoutID = setTimeout(() => {
       if (currentSecond >= total) {
         console.log("it's end")
       } else {
-        widgetHandler.change &&
-          widgetHandler.change.current &&
-          widgetHandler.change.current(currentSecond + 1)
         setCurrentSecond(currentSecond + 1)
       }
     }, 1000)
+    // 以此把UI的控制权交给react，而不是Dom
     return () => clearTimeout(timeoutID)
   })
   return (
@@ -45,10 +37,9 @@ const Timeline: FC<{
       {LeftLabel && <div className="LeftLabel">{LeftLabel}</div>}
       {RightLabel && <div className="RightLabel">{RightLabel}</div>}
       <Slider
-        defaultValue={currentSecond}
+        value={currentSecond}
         total={total}
-        onChangeCurrentByTrigger={currentSeconds => setCurrentSecond(currentSeconds)}
-        widgetHandler={widgetHandler}
+        onChangeTrigger={currentSeconds => setCurrentSecond(currentSeconds)}
       />
     </div>
   )
