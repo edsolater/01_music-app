@@ -5,6 +5,7 @@ import './AppEntry.css'
 import { Button, ButtonGroup, Image, Timeline } from './mypack_components'
 import { Time } from './mypack-class'
 import album from './assets/头像.png'
+import { useToggableState } from 'mypack_components/__myHooks'
 
 const App: React.FC<{
   song: string
@@ -12,16 +13,14 @@ const App: React.FC<{
   totalSeconds: number
 }> = prop => {
   const [currentSongSeconds, setSongSeconds] = useState(0)
-  const addSecond = () => {
-    setSongSeconds(currentSongSeconds + 1)
-  }
+  const onGoing = useToggableState(true)
   return (
     <div className="temp-grid-item">
       <div className="player-bar">
         <Image className="album-face" src={prop.album} />
         <ButtonGroup className="music-buttons">
           <Button className="last-track" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
-          <Button className="play-pause" Content="⏯" onClick={() => console.log(`I'm clicked 2`)} />
+          <Button className="play-pause" Content="⏯" onClick={() => onGoing.toggle()} />
           <Button className="next-track" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
         </ButtonGroup>
         <Timeline
@@ -30,6 +29,7 @@ const App: React.FC<{
             prop.totalSeconds
           }`}
           initSecond={0}
+          isPlaying={onGoing.state}
           total={prop.totalSeconds}
         />
         <ButtonGroup className="info-panel">
