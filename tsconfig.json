@@ -8,6 +8,6 @@
     "moduleResolution": "node", //可以使用无“/”分割的绝对路径
     "strictNullChecks": true
   },
-  "include": ["src"],
+  "include": ["src", "node_modules"],
   // "exclude": ["node_modules"]
 }

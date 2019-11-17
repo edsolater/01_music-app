@@ -1,9 +1,54 @@
+/* 初始化样式 */
 body {
   margin: 0;
 }
+
+/* 基础组件的样式 */
 .ButtonGroup {
   display: flex;
 }
+
+.Timeline {
+  display: grid;
+  grid-template:
+    'LeftLabel RightLabel' max-content
+    'Slider    Slider    ' 1fr / 1fr 1fr;
+}
+.Timeline .LeftLabel {
+  grid-area: LeftLabel;
+  justify-self: left;
+}
+.Timeline .RightLabel {
+  grid-area: RightLabel;
+  justify-self: right;
+}
+.Timeline .Slider {
+  grid-area: Slider;
+}
+.Slider {
+  display: grid;
+  place-items: center;
+  height: 20px;
+  color: crimson;
+  contain: paint;
+}
+.Slider .SliderTrack {
+  width:100%;
+  height: 3px;
+  margin:auto;
+  background-color: rgb(202, 202, 202);
+}
+.Slider .SliderTrigger {
+  position: absolute;
+  border-radius: 1000px;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.404);
+}
+
+/* 业务样式 */
 .temp-grid-item {
   width: 100%;
   min-height: 50px;
@@ -31,7 +76,7 @@ body {
   border-radius: 1000px;
   background: rgb(216, 216, 216);
   display: grid;
-  place-content: center;
+  place-items: center;
 }
 .player-bar .music-buttons .Button:last-child {
   margin-right: 0;
