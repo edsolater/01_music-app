@@ -16,12 +16,18 @@ export class SwitchObject {
     this.state = false
     this.setStateOfReact(this.state)
   }
+  on(){
+    this.open()
+  }
+  off(){
+    this.close()
+  }
 }
 
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
  */
-export const useSwitcher = (initState: boolean) => {
+export const useToggableState = (initState: boolean) => {
   const [state, setState] = useState(initState)
   useDebugValue(state ? 'on' : 'off')
   return new SwitchObject(state, setState)

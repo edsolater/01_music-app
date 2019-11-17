@@ -5,8 +5,8 @@ const constraint = (
   } = {}
 ) => {
   const [min, max] = config.range || []
-  if (min && num < min) num = min
-  if (max && num > max) num = max
+  if (min !== undefined && num < min) num = min
+  if (max !== undefined && num > max) num = max
   return num
 }
 export default constraint

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import './Popover.css'
-import { SwitchObject, useSwitcher } from 'mypack_components/__myHooks/useSwitcher'
+import { SwitchObject, useToggableState } from 'mypack_components/__myHooks/useSwitcher'
 import { attachWidgetHandlers } from 'mypack_components/__myComponentUtil'
 
 /**
@@ -46,7 +46,7 @@ const Popover: React.FC<{
    */
   contentNode?: ReactElement
 }> = ({ widgetHandler, contentNode, children }) => {
-  const muskHandler = useSwitcher(false)
+  const muskHandler = useToggableState(false)
   attachWidgetHandlers(widgetHandler, { musk: muskHandler })
   return (
     <div
