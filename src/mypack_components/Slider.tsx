@@ -15,70 +15,72 @@ const Slider: FC<{
   /**
    * 当前所在位置
    */
-  initCurrent?: number
+  defaultValue?: number
   onChangeCurrentByTrigger?: Function
   widgetHandler?: {
-    change?:{
-      current?:Function
+    change?: {
+      current?: Function
     }
   }
 } & JSX.IntrinsicElements['div']> = ({
   className,
   total = 100,
-  initCurrent = 0,
+  defaultValue = 0,
   widgetHandler,
   onChangeCurrentByTrigger,
   ...restProps
 }) => {
   const sliderTriggerRef = useRef(null)
-  const [pasedLeft, setLeft] = useState(`${(initCurrent / total) * 100}%`)
   const [isDragged, setIsDragged] = useState(false)
+  const [styleLeft, setStyleLeft] = useState(`${(defaultValue / total) * 100}%`)
+  const setCurrentPercentage = (percentage: number) => {
+    if (percentage < 0) {
+      percentage = 0
+    } else if (percentage > 1) {
+      percentage = 1
+    }
+    setStyleLeft(`${percentage * 100}%`)
+  }
+  // 上抛控制权 widgetHandler
   attachWidgetHandlers(widgetHandler, {
     change: {
       current: (seconds: number) => {
         if (isDragged) return
-        else setLeft(`${(seconds/total) * 100}%`)
+        else setCurrentPercentage(seconds / total)
       }
     }
   })
-  const dragTrigger = (
-    event: MouseEvent,
-    elementSlider: HTMLElement,
-    elementSliderTrigger: HTMLElement
-  ) => {
-    const current = (event.clientX - elementSlider.offsetLeft) / elementSlider.offsetWidth
-    if (current < 0) {
-      setLeft(`${0}%`)
-    } else if (current > 1) {
-      setLeft(`${100}%`)
-    } else {
-      setLeft(`${current * 100}%`)
-    }
-    if (onChangeCurrentByTrigger) onChangeCurrentByTrigger(current * total)
-  }
-  //逻辑太繁杂了，要精简
   return (
     <div className={classnames(className, 'Slider')} {...restProps}>
       <div
         className="SliderTrigger"
         ref={sliderTriggerRef}
         onMouseDown={() => {
-          const elementSliderTrigger = (sliderTriggerRef.current as unknown) as HTMLDivElement
-          const elementSlider = elementSliderTrigger.parentElement!
           setIsDragged(true)
-          const tempMoveTrigger = (e: MouseEvent) => {
-            return dragTrigger(e, elementSlider, elementSliderTrigger)
+          const trigger = (sliderTriggerRef.current as unknown) as HTMLDivElement
+          const slider = trigger.parentElement!
+          /**
+           * 给 document 鼠标移动执行的事件
+           */
+          const moveTrigger = (e: MouseEvent) => {
+            const current = (e.clientX - slider.offsetLeft) / slider.offsetWidth
+            setCurrentPercentage(current)
+            if (onChangeCurrentByTrigger) onChangeCurrentByTrigger(Math.round(current * total))
           }
-          const tempStopTrigger = () => {
+          /**
+           * 清理 document 上述事件
+           */
+          const clearTriggerFunction = () => {
             setIsDragged(false)
-            document.removeEventListener('mousemove', tempMoveTrigger)
-            document.removeEventListener('mouseup', tempStopTrigger)
+            document.removeEventListener('mousemove', moveTrigger)
+            document.removeEventListener('mouseup', clearTriggerFunction)
           }
-          document.addEventListener('mousemove', tempMoveTrigger)
-          document.addEventListener('mouseup', tempStopTrigger)
+
+          document.addEventListener('mousemove', moveTrigger)
+          document.addEventListener('mouseup', clearTriggerFunction)
         }}
         style={{
-          left: pasedLeft
+          left: styleLeft
         }}
       />
       <div className="SliderTrack" />

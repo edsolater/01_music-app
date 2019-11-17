@@ -21,9 +21,7 @@ const Timeline: FC<{
   total = 100,
   ...restProps
 }) => {
-  let timeoutID: number
   const [currentSecond, setCurrentSecond] = useState(current)
-  console.log('currentSecond: ', currentSecond) //总是在变
   const widgetHandler: GetWidgetHandler<typeof Slider> = {
     change: {
       current: undefined
@@ -34,28 +32,24 @@ const Timeline: FC<{
       if (currentSecond >= total) {
         console.log("it's end")
       } else {
-        console.log('currentSecond: ', currentSecond)
         widgetHandler.change &&
           widgetHandler.change.current &&
           widgetHandler.change.current(currentSecond + 1)
         setCurrentSecond(currentSecond + 1)
       }
     }, 1000)
-    return ()=> clearTimeout(timeoutID)
+    return () => clearTimeout(timeoutID)
   })
   return (
     <div className={classnames(className, 'Timeline')} {...restProps}>
       {LeftLabel && <div className="LeftLabel">{LeftLabel}</div>}
       {RightLabel && <div className="RightLabel">{RightLabel}</div>}
       <Slider
-        initCurrent={currentSecond}
+        defaultValue={currentSecond}
         total={total}
-        onChangeCurrentByTrigger={currentSeconds => {
-          setCurrentSecond(currentSeconds)
-          // clearTimeout(timeoutID)
-        }}
+        onChangeCurrentByTrigger={currentSeconds => setCurrentSecond(currentSeconds)}
         widgetHandler={widgetHandler}
-      ></Slider>
+      />
     </div>
   )
 }

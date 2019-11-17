@@ -18,7 +18,7 @@ const App: React.FC<{
   return (
     <div className="temp-grid-item">
       <div className="player-bar">
-        <Image className="album-face" src={prop.album}></Image>
+        <Image className="album-face" src={prop.album} />
         <ButtonGroup className="music-buttons">
           <Button className="last-track" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
           <Button className="play-pause" Content="⏯" onClick={() => console.log(`I'm clicked 2`)} />

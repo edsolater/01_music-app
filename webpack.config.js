@@ -11,7 +11,7 @@ const config = {
   },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'cheap-module-eval-source-map',
-  devServer: { contentBase: ['./dist', './public'], inline: false },
+  devServer: { contentBase: ['./dist', './public', './node_modules'] ,inline:false}, //TODO 为了使用react-devtool
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx'],
