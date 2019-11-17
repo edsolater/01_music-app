@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom'
 import './AppEntry.css'
 import { Button, ButtonGroup, Image, Timeline } from './mypack_components'
 import { Time } from './mypack-class'
-import album from './assets/头像.jpg'
+import album from './assets/头像.png'
 
 const App: React.FC<{
   song: string

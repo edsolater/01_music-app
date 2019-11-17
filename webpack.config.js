@@ -11,11 +11,11 @@ const config = {
   },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'cheap-module-eval-source-map',
-  devServer: { contentBase: ['./dist', './public', './node_modules'] ,inline:false}, //TODO 为了使用react-devtool
+  devServer: { contentBase: ['./dist', './public'], inline: true },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
-    extensions: ['.ts', '.tsx'],
-    modules: ['src','node_modules'] //typescript 识别根路径（绝对路径的根节点）
+    extensions: ['.ts', '.tsx', '.js'],
+    modules: ['src', 'node_modules'] //typescript 识别根路径（绝对路径的根节点）
   },
 
   module: {
