@@ -1,18 +1,12 @@
 import React, { FC } from 'react'
 import * as classnames from 'classnames'
+import { ClassValue } from 'classnames/types'
 
-/**
- * 为了书写结构更流畅
- */
 const ButtonGroup: FC<{
   /**
-   * 更具体的className
+   * 接收classnames()能接收的各种参数
    */
-  className?:
-    | string
-    | {
-        [className: string]: boolean
-      }
+  className?: ClassValue
 } & JSX.IntrinsicElements['div']> = ({ className, ...restProps }) => (
   <div className={classnames(className, 'ButtonGroup')} {...restProps}></div>
 )

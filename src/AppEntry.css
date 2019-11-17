@@ -1,31 +1,30 @@
 body {
   margin: 0;
 }
+.ButtonGroup {
+  display: flex;
+}
 .temp-grid-item {
   width: 100%;
   min-height: 50px;
 }
 
 .player-bar {
-  display:grid;
-  grid-template-columns: 80px max-content 1fr max-content ;
+  display: grid;
+  grid-template: 80px / 80px max-content 1fr max-content;
   align-items: center;
   background: rgb(158, 158, 158);
   height: 100%;
   gap: 16px;
 }
 
-.player-bar .album-picture {
-  background: rgb(240, 240, 240);
-  height: 80px;
-  width: 80px;
+.player-bar .album-face {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
-.player-bar .soundtrack {
-  display: flex;
-  align-items: center;
-}
-.player-bar .soundtrack .Button {
+.player-bar .music-buttons .Button {
   width: 50px;
   height: 50px;
   margin-right: 8px;
@@ -34,13 +33,19 @@ body {
   display: grid;
   place-content: center;
 }
-.player-bar .soundtrack .Button:last-child{
+.player-bar .music-buttons .Button:last-child {
   margin-right: 0;
 }
 
-.player-bar .music-progress-bar {
+.player-bar .music-timeline {
   min-width: 300px;
   margin-right: 16px;
   flex: 1;
   background: dodgerblue;
+}
+.player-bar .info-panel .Button {
+  margin-right: 8px;
+}
+.player-bar .info-panel .Button:last-child {
+  margin-right: 0;
 }
