@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useEffect, useState } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import { Slider } from '.'
+import { Track } from '.'
 
 const Timeline: FC<{
   /**
@@ -49,7 +49,7 @@ const Timeline: FC<{
     <div className={classnames(className, 'Timeline')} {...restProps}>
       {LeftLabel && <div className="LeftLabel">{LeftLabel}</div>}
       {RightLabel && <div className="RightLabel">{RightLabel}</div>}
-      <Slider
+      <Track
         value={currentSecond}
         total={total}
         onChangeTrigger={currentSeconds => setCurrentSecond(currentSeconds)}

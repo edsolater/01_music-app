@@ -6,7 +6,7 @@ import { attachWidgetHandlers } from './__myComponentUtil'
 import { constraint } from '../mypack_utils'
 import { useToggableState } from './__myHooks'
 
-const Slider: FC<{
+export const Track: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -66,31 +66,31 @@ const Slider: FC<{
         }
       }
     })
-    /**
-     * 移动 Trigger
-     */
-    const moveTrigger = (percentage:number) => {
-      setPercentage(percentage)
-      if (onChangeTrigger)
-        onChangeTrigger(Math.round(constraint(percentage, { range: [0, 1] }) * total))
-    }
+  /**
+   * 移动 Trigger
+   */
+  const moveTrigger = (percentage: number) => {
+    setPercentage(percentage)
+    if (onChangeTrigger)
+      onChangeTrigger(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+  }
   return (
-    <div className={classnames(className, 'Slider')} onClick={(e) => {
-      const track = (e.target as HTMLDivElement).parentElement!.getElementsByClassName(
-        'Track'
-      )[0] as HTMLDivElement
-      const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
-      moveTrigger((e.clientX - trackClientLeft) / trackWidth)
-    }} {...restProps}>
+    <div
+      className={classnames(className, 'Track')}
+      onClick={e => {
+        const track = (e.target as HTMLDivElement).parentElement!
+        const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
+        moveTrigger((e.clientX - trackClientLeft) / trackWidth)
+      }}
+      {...restProps}
+    >
       <div
         className="Trigger"
         onPointerDown={e => {
-          const track = (e.target as HTMLDivElement).parentElement!.getElementsByClassName(
-            'Track'
-          )[0] as HTMLDivElement
+          const track = (e.target as HTMLDivElement).parentElement!
           const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
           /**
-           * document 绑定拖拽事件 
+           * document 绑定拖拽事件
            */
           const moveHandler = e => {
             inDragging.on()
@@ -112,10 +112,13 @@ const Slider: FC<{
           left: `${(value ? value / total : styleLeft) * 100}%`
         }}
       />
-      <div className="Track" >
-        <div className="ActiveLine" style={{width:`${(value ? value / total : styleLeft) * 100}%`}}/>
+      <div className="Trail">
+        <div
+          className="Fullfilled-Trail"
+          style={{ width: `${(value ? value / total : styleLeft) * 100}%` }}
+        />
       </div>
     </div>
   )
 }
-export default Slider
+
