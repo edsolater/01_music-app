@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Track } from '.'
 
-const Timeline: FC<{
+export const Timeline: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -57,4 +57,4 @@ const Timeline: FC<{
     </div>
   )
 }
-export default Timeline
+
