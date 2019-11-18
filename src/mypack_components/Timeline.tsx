@@ -16,8 +16,8 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
    * 已完成的秒数
    */
   currentSecond?: number
-  LeftLabel?: ReactNode
-  RightLabel?: ReactNode
+  Title?: ReactNode
+  Timestamp?: ReactNode
   onChange?: (second: number) => void
 }> = ({
   className,
@@ -25,15 +25,15 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
   currentSecond,
   onChange,
 
-  LeftLabel,
-  RightLabel,
+  Title,
+  Timestamp,
 
   ...restProps
 }) => {
   return (
     <div className={classnames(className, 'Timeline')} {...restProps}>
-      {LeftLabel && <div className="LeftLabel">{LeftLabel}</div>}
-      {RightLabel && <div className="RightLabel">{RightLabel}</div>}
+      {Title && <div className="Title">{Title}</div>}
+      {Timestamp && <div className="Timestamp">{Timestamp}</div>}
       <Track
         value={currentSecond}
         total={totalSeconds}

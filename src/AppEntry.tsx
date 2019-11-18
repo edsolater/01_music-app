@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 
 import './AppEntry.css'
 import { Button, ButtonGroup, Image, Timeline } from './mypack_components'
-import { Time } from './mypack-class'
+import { Time } from './mypack_class'
 import { useBooleanState, useNumberState } from 'mypack_components/__myHooks'
 
 import album from './assets/头像.png'
@@ -28,9 +28,16 @@ const App: React.FC<{
       console.log('end')
     }
   })
+  const play = () => {
+    audioPlayerRef.current && ((audioPlayerRef.current as unknown) as HTMLAudioElement).play()
+  }
+  const pause = () => {
+    audioPlayerRef.current && ((audioPlayerRef.current as unknown) as HTMLAudioElement).pause()
+  }
 
   return (
-    <div className="temp-grid-item">
+    <div className="app-box">
+      <div className="content-space" />
       <div className="player-bar">
         <audio ref={audioPlayerRef} src={music} autoPlay loop></audio>
         <Image className="album-face" src={prop.album} />
@@ -40,8 +47,7 @@ const App: React.FC<{
             className="play-pause"
             Content="⏯"
             onClick={() => {
-              const audioObject = (audioPlayerRef.current as unknown) as HTMLAudioElement
-              isPlaying.state ? audioObject.pause() : audioObject.play()
+              isPlaying.state ? pause() : play()
               isPlaying.toggle()
             }}
           />
@@ -50,8 +56,8 @@ const App: React.FC<{
         <Timeline
           totalSeconds={prop.totalSeconds}
           currentSecond={currentSecond.state}
-          LeftLabel={<div className="songName">{prop.song}</div>}
-          RightLabel={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${Time(
+          Title={<div className="songName">{prop.song}</div>}
+          Timestamp={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${Time(
             prop.totalSeconds
           ).print({ format: 'MM:ss' })}`}
           onChange={incomeCurrentSecond => currentSecond.set(incomeCurrentSecond)}

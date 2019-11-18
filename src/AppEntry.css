@@ -11,60 +11,64 @@ body {
 .Timeline {
   display: grid;
   grid-template:
-    'LeftLabel RightLabel' max-content
-    'Track     Track    ' 1fr / 1fr 1fr;
+    'Title  Timestamp' max-content
+    'Track  Track    ' 1fr / 1fr 1fr;
 }
-.Timeline .LeftLabel {
-  grid-area: LeftLabel;
+.Timeline .Title {
+  grid-area: Title;
   justify-self: left;
 }
-.Timeline .RightLabel {
-  grid-area: RightLabel;
+.Timeline .Timestamp {
+  grid-area: Timestamp;
   justify-self: right;
 }
 .Timeline .Track {
   grid-area: Track;
 }
 
-
-
 /* 业务样式 */
-.temp-grid-item { /* 业务样式的包壳，迟早要替换掉 */
+.app-box {
+  /* 业务样式的包壳，迟早要替换掉 */
   --theme-color-primary: crimson;
-  width: 100%;
-  min-height: 50px;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template: 'space' 1fr / auto;
 }
-
+.content-space {
+  grid-area: 'space';
+}
 .player-bar {
   display: grid;
-  grid-template: 80px / 80px max-content 1fr max-content;
+  grid-template-columns:  auto auto 1fr auto;
   align-items: center;
   background: rgb(158, 158, 158);
   height: 100%;
-  gap: 16px;
+  gap: 48px;
 }
 
 .player-bar .album-face {
-  height: 100%;
-  width: 100%;
+  --size: 80px;
+  width: var(--size);
+  height: var(--size);
   object-fit: cover;
 }
 
 .player-bar .music-buttons .Button {
   width: 50px;
   height: 50px;
-  margin-right: 8px;
+  margin-right: 16px;
   border-radius: 1000px;
   background: rgb(216, 216, 216);
   display: grid;
   place-items: center;
-  transition: .2s;
+  transition: 0.2s;
 }
 .player-bar .music-buttons .Button:hover {
   transform: scale(1.2);
 }
 .player-bar .music-buttons .Button:active {
-  filter: brightness(.8)
+  filter: brightness(0.8);
 }
 .player-bar .music-buttons .Button:last-child {
   margin-right: 0;
