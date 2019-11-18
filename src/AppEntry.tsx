@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './AppEntry.css'
@@ -16,6 +16,7 @@ const App: React.FC<{
 }> = prop => {
   const currentSecond = useNumberState(0)
   const isPlaying = useBooleanState(true)
+  let audioPlayerRef = useRef(null)
   useEffect(() => {
     const timeoutID = setTimeout(() => {
       if (isPlaying.state) {
@@ -33,11 +34,15 @@ const App: React.FC<{
   return (
     <div className="temp-grid-item">
       <div className="player-bar">
-        <audio src={music} autoPlay></audio>
+        <audio ref={audioPlayerRef} src={music} autoPlay loop></audio>
         <Image className="album-face" src={prop.album} />
         <ButtonGroup className="music-buttons">
           <Button className="last-track" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
-          <Button className="play-pause" Content="⏯" onClick={() => isPlaying.toggle()} />
+          <Button className="play-pause" Content="⏯" onClick={() => {
+            const audioObject = audioPlayerRef.current as unknown as HTMLAudioElement
+            isPlaying.state ? audioObject.pause() : audioObject.play()
+            isPlaying.toggle()
+          }} />
           <Button className="next-track" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
         </ButtonGroup>
         <Timeline

@@ -58,6 +58,13 @@ body {
   background: rgb(216, 216, 216);
   display: grid;
   place-items: center;
+  transition: .2s;
+}
+.player-bar .music-buttons .Button:hover {
+  transform: scale(1.2);
+}
+.player-bar .music-buttons .Button:active {
+  filter: brightness(.8)
 }
 .player-bar .music-buttons .Button:last-child {
   margin-right: 0;
