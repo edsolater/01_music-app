@@ -35,7 +35,8 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
       setCurrent?: Function
     }
   }
-  onChange?: (current: number) => void
+  onChange?: (currentSecond: number) => any
+  onChangeDone?: (currentSecond: number) => any
 }> = ({
   className,
   total = 100,
@@ -43,9 +44,10 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
   defaultValue,
   widgetHandler,
   onChange,
+  onChangeDone,
   ...restProps
 }) => {
-  const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total)
+  const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total || 0)
   const inDragging = useBooleanState(false)
   const setPercentage = (percentage: number) => {
     if (value) return
@@ -72,8 +74,11 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
    */
   const moveTrigger = (percentage: number) => {
     setPercentage(percentage)
-    if (onChange)
-      onChange(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    if (onChange) onChange(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+  }
+  const moveTriggerDone = (percentage: number) => {
+    setPercentage(percentage)
+    if (onChangeDone) onChangeDone(Math.round(constraint(percentage, { range: [0, 1] }) * total))
   }
   return (
     <div
@@ -100,14 +105,15 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
           /**
            * 清理 document 上述事件
            */
-          const clearMoveHandler = () => {
+          const moveHandlerDone = e => {
             inDragging.off()
+            moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
             document.removeEventListener('pointermove', moveHandler)
-            document.removeEventListener('pointerup', clearMoveHandler)
+            document.removeEventListener('pointerup', moveHandlerDone)
           }
 
           document.addEventListener('pointermove', moveHandler)
-          document.addEventListener('pointerup', clearMoveHandler)
+          document.addEventListener('pointerup', moveHandlerDone)
         }}
         style={{
           left: `${(value ? value / total : styleLeft) * 100}%`

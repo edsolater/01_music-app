@@ -7,10 +7,10 @@ export const Button: FC<{
    * 接收classnames()能接收的各种参数
    */
   className?: ClassValue
-  Content?: ReactNode
-} & JSX.IntrinsicElements['div']> = ({ className, Content, ...restProps }) => (
+  Text?: ReactNode
+} & JSX.IntrinsicElements['div']> = ({ className, Text, ...restProps }) => (
   <div className={classnames(className, 'Button')} {...restProps}>
-    {Content && <div className="ButtonContent">{Content}</div>}
+    {Text && <div className="Text">{Text}</div>}
   </div>
 )
 export default Button

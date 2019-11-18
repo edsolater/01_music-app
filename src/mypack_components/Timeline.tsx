@@ -18,12 +18,20 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
   currentSecond?: number
   Title?: ReactNode
   Timestamp?: ReactNode
+  /**
+   * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
+   */
   onChange?: (second: number) => void
+  /**
+   * 只在最后触发一次
+   */
+  onChangeDone?: (second: number) => any
 }> = ({
   className,
   totalSeconds,
   currentSecond,
   onChange,
+  onChangeDone,
 
   Title,
   Timestamp,
@@ -37,7 +45,8 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
       <Track
         value={currentSecond}
         total={totalSeconds}
-        onChange={currentSeconds => onChange && onChange(currentSeconds)}
+        onChange={onChange}
+        onChangeDone={onChangeDone}
       />
     </div>
   )

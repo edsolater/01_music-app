@@ -67,20 +67,20 @@ body {
   display: grid;
   place-items: center;
 }
-.player-bar .music-buttons .Button.last-song .ButtonContent {
+.player-bar .music-buttons .Button.last-song .Text {
   padding-bottom: 3px;
   padding-right: 1.5px;
 }
-.player-bar .music-buttons .Button.play .ButtonContent {
+.player-bar .music-buttons .Button.play .Text {
   padding-bottom: 0.5px;
-  padding-left: 1.5px;
+  padding-left: 2.5px;
   transform: scale(1.5);
 }
-.player-bar .music-buttons .Button.pause .ButtonContent {
+.player-bar .music-buttons .Button.pause .Text {
   padding-bottom: 3px;
   transform: scale(1.5);
 }
-.player-bar .music-buttons .Button.next-song .ButtonContent {
+.player-bar .music-buttons .Button.next-song .Text {
   padding-bottom: 3px;
   padding-left: 1.5px;
 }
