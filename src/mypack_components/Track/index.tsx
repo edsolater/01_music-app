@@ -4,8 +4,8 @@ import { ClassValue } from 'classnames/types'
 
 import './index.css'
 import { attachWidgetHandlers } from 'mypack_components/__myComponentUtil'
-import { constraint } from 'mypack_utils'
 import { useBooleanState } from 'mypack_components/__myHooks'
+import { constraint } from 'mypack_utils'
 
 export const Track: FC<JSX.IntrinsicElements['div'] & {
   /**
