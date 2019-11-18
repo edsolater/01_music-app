@@ -58,3 +58,4 @@ export const Timeline: FC<{
   )
 }
 
+export default Timeline

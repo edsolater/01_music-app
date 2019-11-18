@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-const Image: FC<{
+export const Image: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */

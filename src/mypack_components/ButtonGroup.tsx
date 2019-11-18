@@ -4,7 +4,7 @@ import { ClassValue } from 'classnames/types'
 
 import './ButtonGroup.css'
 
-const ButtonGroup: FC<{
+export const ButtonGroup: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */

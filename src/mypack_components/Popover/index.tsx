@@ -34,7 +34,7 @@ Musk.displayName = 'Child(Musk)'
 /**
  * 主组件
  */
-const Popover: React.FC<{
+export const Popover: React.FC<{
   widgetHandler?: {
     /**
      * musk的开关行为
@@ -61,4 +61,5 @@ const Popover: React.FC<{
   )
 }
 Popover.displayName = 'Widget(Popover)'
+
 export default Popover

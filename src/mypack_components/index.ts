@@ -1,7 +1,7 @@
 // 为了能够使用 autoImport 能力
-export { default as Popover } from './Popover'
-export { default as Button } from './Button'
-export { default as ButtonGroup } from './ButtonGroup'
-export { default as Image } from './Image'
-export { default as Timeline } from './Timeline'
+export * from './Popover'
+export * from './Button'
+export * from './ButtonGroup'
+export * from './Image'
+export * from './Timeline'
 export * from './Track'

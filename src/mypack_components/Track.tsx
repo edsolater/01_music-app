@@ -122,3 +122,4 @@ export const Track: FC<{
   )
 }
 
+export default Track
