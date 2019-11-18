@@ -76,7 +76,9 @@ const Slider: FC<{
     }
   return (
     <div className={classnames(className, 'Slider')} onClick={(e) => {
-      const track = (e.target as HTMLDivElement)
+      const track = (e.target as HTMLDivElement).parentElement!.getElementsByClassName(
+        'Track'
+      )[0] as HTMLDivElement
       const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
       moveTrigger((e.clientX - trackClientLeft) / trackWidth)
     }} {...restProps}>
