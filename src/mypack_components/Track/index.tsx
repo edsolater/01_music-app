@@ -5,9 +5,9 @@ import { ClassValue } from 'classnames/types'
 import './index.css'
 import { attachWidgetHandlers } from 'mypack_components/__myComponentUtil'
 import { constraint } from 'mypack_utils'
-import { useToggableState } from 'mypack_components/__myHooks'
+import { useBooleanState } from 'mypack_components/__myHooks'
 
-export const Track: FC<{
+export const Track: FC<JSX.IntrinsicElements['div'] & {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -35,8 +35,8 @@ export const Track: FC<{
       setCurrent?: Function
     }
   }
-  onChangeTrigger?: (current: number) => any
-} & JSX.IntrinsicElements['div']> = ({
+  onChangeTrigger?: (current: number) => void
+}> = ({
   className,
   total = 100,
   value,
@@ -46,7 +46,7 @@ export const Track: FC<{
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total)
-  const inDragging = useToggableState(false)
+  const inDragging = useBooleanState(false)
   const setPercentage = (percentage: number) => {
     if (value) return
     setStyleLeft(constraint(percentage, { range: [0, 1] }))

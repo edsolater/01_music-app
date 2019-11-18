@@ -1,9 +1,9 @@
-import React, { FC, ReactNode, useEffect, useState } from 'react'
+import React, { FC, ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Track } from '.'
 
-export const Timeline: FC<{
+export const Timeline: FC<JSX.IntrinsicElements['div'] & {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -11,48 +11,36 @@ export const Timeline: FC<{
   LeftLabel?: ReactNode
   RightLabel?: ReactNode
   /**
-   * 初始秒数（一般为0，即不设置）
-   */
-  initSecond?: number
-  /**
    * 总共秒数
    */
-  total: number
+  totalSeconds: number
+  /**
+   * 已完成的秒数
+   */
+  currentSecond?: number
   /**
    * 是否是正在播放的状态
    */
-  isPlaying?: boolean
-} & JSX.IntrinsicElements['div']> = ({
+  onChange?: (second: number) => void
+}> = ({
   className,
+  totalSeconds,
+  currentSecond,
+  onChange,
+
   LeftLabel,
   RightLabel,
-  initSecond = 0,
-  total,
-  isPlaying = true,
+
   ...restProps
 }) => {
-  const [currentSecond, setCurrentSecond] = useState(initSecond)
-  useEffect(() => {
-    const timeoutID = setTimeout(() => {
-      if (isPlaying) {
-        if (currentSecond >= total) {
-          console.log("it's end")
-        } else {
-          setCurrentSecond(currentSecond + 1)
-        }
-      }
-    }, 1000)
-    // 以此把UI的控制权交给react，而不是Dom
-    return () => clearTimeout(timeoutID)
-  })
   return (
     <div className={classnames(className, 'Timeline')} {...restProps}>
       {LeftLabel && <div className="LeftLabel">{LeftLabel}</div>}
       {RightLabel && <div className="RightLabel">{RightLabel}</div>}
       <Track
         value={currentSecond}
-        total={total}
-        onChangeTrigger={currentSeconds => setCurrentSecond(currentSeconds)}
+        total={totalSeconds}
+        onChangeTrigger={currentSeconds => onChange && onChange(currentSeconds)}
       />
     </div>
   )

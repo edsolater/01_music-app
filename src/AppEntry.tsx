@@ -1,19 +1,33 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './AppEntry.css'
 import { Button, ButtonGroup, Image, Timeline } from './mypack_components'
 import { Time } from './mypack-class'
 import album from './assets/头像.png'
-import { useToggableState } from 'mypack_components/__myHooks'
+import { useBooleanState } from 'mypack_components/__myHooks'
 
 const App: React.FC<{
   song: string
   album: string
   totalSeconds: number
 }> = prop => {
-  const [currentSongSeconds, setSongSeconds] = useState(0)
-  const onGoing = useToggableState(true)
+  const [currentSecond, setCurrentSecond] = useState(0)
+  const onGoing = useBooleanState(true)
+  useEffect(() => {
+    const timeoutID = setTimeout(() => {
+      if (onGoing.state) {
+        if (currentSecond >= prop.totalSeconds) {
+          console.log("it's end")
+        } else {
+          setCurrentSecond(currentSecond + 1)
+        }
+      }
+    }, 1000)
+    // 以此把UI的控制权交给react，而不是Dom
+    return () => clearTimeout(timeoutID)
+  })
+
   return (
     <div className="temp-grid-item">
       <div className="player-bar">
@@ -25,12 +39,10 @@ const App: React.FC<{
         </ButtonGroup>
         <Timeline
           LeftLabel={<div className="songName">{prop.song}</div>}
-          RightLabel={`${Time(currentSongSeconds).print({ format: 'MM:ss' })} / ${
-            prop.totalSeconds
-          }`}
-          initSecond={0}
-          isPlaying={onGoing.state}
-          total={prop.totalSeconds}
+          RightLabel={`${Time(currentSecond).print({ format: 'MM:ss' })} / ${prop.totalSeconds}`}
+          totalSeconds={prop.totalSeconds}
+          currentSecond={currentSecond}
+          onChange={currentSecond => setCurrentSecond(currentSecond)}
         />
         <ButtonGroup className="info-panel">
           <Button className="favorite" Content="❤" onClick={() => console.log(`I'm clicked a`)} />

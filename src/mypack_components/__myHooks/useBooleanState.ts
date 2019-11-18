@@ -1,6 +1,6 @@
 import { useState, useDebugValue } from 'react'
 
-export class SwitchObject {
+export class BooleanState {
   constructor(public state: boolean, private setStateOfReact: any) {
     //TODO: 这里能更generic一些
   }
@@ -27,8 +27,8 @@ export class SwitchObject {
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
  */
-export const useToggableState = (initState: boolean) => {
+export const useBooleanState = (initState: boolean) => {
   const [state, setState] = useState(initState)
   useDebugValue(state ? 'on' : 'off')
-  return new SwitchObject(state, setState)
+  return new BooleanState(state, setState)
 }
