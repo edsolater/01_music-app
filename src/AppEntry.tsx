@@ -39,10 +39,12 @@ const App: React.FC<{
           <Button className="next-track" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
         </ButtonGroup>
         <Timeline
-          LeftLabel={<div className="songName">{prop.song}</div>}
-          RightLabel={`${Time(currentSecond).print({ format: 'MM:ss' })} / ${prop.totalSeconds}`}
           totalSeconds={prop.totalSeconds}
           currentSecond={currentSecond.state}
+          LeftLabel={<div className="songName">{prop.song}</div>}
+          RightLabel={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${
+            prop.totalSeconds
+          }`}
           onChange={incomeCurrentSecond => currentSecond.set(incomeCurrentSecond)}
         />
         <ButtonGroup className="info-panel">

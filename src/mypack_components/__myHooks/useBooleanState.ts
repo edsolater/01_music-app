@@ -16,10 +16,10 @@ export class BooleanState {
     this.state = false
     this.setStateOfReact(this.state)
   }
-  on(){
+  turnOn(){
     this.open()
   }
-  off(){
+  turnOff(){
     this.close()
   }
 }

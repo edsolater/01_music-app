@@ -94,14 +94,14 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
            * document 绑定拖拽事件
            */
           const moveHandler = e => {
-            inDragging.on()
+            inDragging.turnOn()
             moveTrigger((e.clientX - trackClientLeft) / trackWidth)
           }
           /**
            * 清理 document 上述事件
            */
           const clearMoveHandler = () => {
-            inDragging.off()
+            inDragging.turnOff()
             document.removeEventListener('pointermove', moveHandler)
             document.removeEventListener('pointerup', clearMoveHandler)
           }

@@ -8,8 +8,6 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
    * 接收classnames()能接收的各种参数
    */
   className?: ClassValue
-  LeftLabel?: ReactNode
-  RightLabel?: ReactNode
   /**
    * 总共秒数
    */
@@ -18,9 +16,8 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
    * 已完成的秒数
    */
   currentSecond?: number
-  /**
-   * 是否是正在播放的状态
-   */
+  LeftLabel?: ReactNode
+  RightLabel?: ReactNode
   onChange?: (second: number) => void
 }> = ({
   className,
