@@ -37,7 +37,7 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
       <Track
         value={currentSecond}
         total={totalSeconds}
-        onChangeTrigger={currentSeconds => onChange && onChange(currentSeconds)}
+        onChange={currentSeconds => onChange && onChange(currentSeconds)}
       />
     </div>
   )

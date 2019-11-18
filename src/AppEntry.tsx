@@ -7,6 +7,7 @@ import { Time } from './mypack-class'
 import { useBooleanState, useNumberState } from 'mypack_components/__myHooks'
 
 import album from './assets/头像.png'
+import music from './assets/ezio Family.mp3'
 
 const App: React.FC<{
   song: string
@@ -32,6 +33,7 @@ const App: React.FC<{
   return (
     <div className="temp-grid-item">
       <div className="player-bar">
+        <audio src={music} autoPlay></audio>
         <Image className="album-face" src={prop.album} />
         <ButtonGroup className="music-buttons">
           <Button className="last-track" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />

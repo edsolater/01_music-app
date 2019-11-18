@@ -35,14 +35,14 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
       setCurrent?: Function
     }
   }
-  onChangeTrigger?: (current: number) => void
+  onChange?: (current: number) => void
 }> = ({
   className,
   total = 100,
   value,
   defaultValue,
   widgetHandler,
-  onChangeTrigger,
+  onChange,
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total)
@@ -72,8 +72,8 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
    */
   const moveTrigger = (percentage: number) => {
     setPercentage(percentage)
-    if (onChangeTrigger)
-      onChangeTrigger(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    if (onChange)
+      onChange(Math.round(constraint(percentage, { range: [0, 1] }) * total))
   }
   return (
     <div
