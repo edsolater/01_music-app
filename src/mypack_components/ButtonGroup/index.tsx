@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-import './ButtonGroup.css'
+import './index.css'
 
 export const ButtonGroup: FC<{
   /**

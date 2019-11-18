@@ -2,9 +2,10 @@ import React, { FC, useState } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-import { attachWidgetHandlers } from './__myComponentUtil'
-import { constraint } from '../mypack_utils'
-import { useToggableState } from './__myHooks'
+import './index.css'
+import { attachWidgetHandlers } from 'mypack_components/__myComponentUtil'
+import { constraint } from 'mypack_utils'
+import { useToggableState } from 'mypack_components/__myHooks'
 
 export const Track: FC<{
   /**

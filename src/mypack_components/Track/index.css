@@ -1,0 +1,46 @@
+.Track {
+  --trail-height: 30px;
+  display: grid;
+  place-items: center;
+  height: var(--trail-height);
+  contain: layout;
+}
+.Track .Trigger {
+  --trigger-diameter: 20px;
+  --trigger-color: white;
+  position: absolute;
+  z-index: 3;
+  border-radius: 1000px;
+  width: var(--trigger-diameter);
+  height: var(--trigger-diameter);
+  background-color: var(--trigger-color);
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.404);
+  transition: transform 0.2s ease;
+}
+.Track .Trigger:hover {
+  transform: scale(1.2);
+}
+.Track .Trigger:active {
+  filter: brightness(0.8);
+}
+.Track .Trail {
+  --trail-height: 3px;
+  --trail-color: rgb(202, 202, 202);
+  width: 100%;
+  height: var(--trail-height);
+  background-color: var(--trail-color);
+  contain: layout;
+}
+.Track .Trail .Fulfilled-Trail {
+  --fulfilled-trial-color: var(--theme-color-primary, rgb(160, 160, 160));
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--fulfilled-trial-color);
+  filter: grayscale(0.2);
+  transition: filter 0.2s;
+}
+.Track:hover .Trail .Fulfilled-Trail {
+  filter: none;
+}
