@@ -2,6 +2,10 @@
 body {
   margin: 0;
 }
+* {
+  user-select: none;
+  transition: .2s;
+}
 
 /* 基础组件的样式 */
 .ButtonGroup {
@@ -40,7 +44,7 @@ body {
 }
 .player-bar {
   display: grid;
-  grid-template-columns:  auto auto 1fr auto;
+  grid-template-columns: auto auto 1fr auto;
   align-items: center;
   background: rgb(158, 158, 158);
   height: 100%;
@@ -62,7 +66,23 @@ body {
   background: rgb(216, 216, 216);
   display: grid;
   place-items: center;
-  transition: 0.2s;
+}
+.player-bar .music-buttons .Button.last-song .ButtonContent {
+  padding-bottom: 3px;
+  padding-right: 1.5px;
+}
+.player-bar .music-buttons .Button.play .ButtonContent {
+  padding-bottom: 0.5px;
+  padding-left: 1.5px;
+  transform: scale(1.5);
+}
+.player-bar .music-buttons .Button.pause .ButtonContent {
+  padding-bottom: 3px;
+  transform: scale(1.5);
+}
+.player-bar .music-buttons .Button.next-song .ButtonContent {
+  padding-bottom: 3px;
+  padding-left: 1.5px;
 }
 .player-bar .music-buttons .Button:hover {
   transform: scale(1.2);

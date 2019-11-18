@@ -1,6 +1,6 @@
 //作为一种数据的集合，这个也要测试
 //！！！！欠测试！！！！
-class TimeClass {
+class _Time {
   constructor(public inputSeconds: number) {}
   print(config: { format?: 'MM:ss' } = {}) {
     if (config.format === 'MM:ss') {
@@ -35,6 +35,6 @@ class TimeClass {
     return Math.trunc(this.totalDays)
   }
 }
-const Time = <T extends number>(inputSeconds: T) => new TimeClass(inputSeconds)
-Time.prototype = TimeClass
-export default Time
+export const Time = <T extends number>(inputSeconds: T) => new _Time(inputSeconds)
+Time.prototype = _Time
+

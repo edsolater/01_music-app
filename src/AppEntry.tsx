@@ -42,16 +42,27 @@ const App: React.FC<{
         <audio ref={audioPlayerRef} src={music} autoPlay loop></audio>
         <Image className="album-face" src={prop.album} />
         <ButtonGroup className="music-buttons">
-          <Button className="last-track" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
-          <Button
-            className="play-pause"
-            Content="⏯"
-            onClick={() => {
-              isPlaying.state ? pause() : play()
-              isPlaying.toggle()
-            }}
-          />
-          <Button className="next-track" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
+          <Button className="last-song" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
+          {isPlaying.state ? (
+            <Button
+              className="pause"
+              Content="⏸"
+              onClick={() => {
+                pause()
+                isPlaying.off()
+              }}
+            />
+          ) : (
+            <Button
+              className="play"
+              Content="▶"
+              onClick={() => {
+                play()
+                isPlaying.on()
+              }}
+            />
+          )}
+          <Button className="next-song" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
         </ButtonGroup>
         <Timeline
           totalSeconds={prop.totalSeconds}
