@@ -18,17 +18,15 @@ const App: React.FC<{
   const isPlaying = useBooleanState(true)
   let audioPlayerRef = useRef(null)
   useEffect(() => {
-    const timeoutID = setTimeout(() => {
-      if (isPlaying.state) {
-        if (currentSecond.state >= prop.totalSeconds) {
-          console.log("it's end")
-        } else {
-          currentSecond.addOne()
-        }
-      }
-    }, 1000)
-    // 以此把UI的控制权交给react，而不是Dom
-    return () => clearTimeout(timeoutID)
+    if (currentSecond.state <= prop.totalSeconds - 1) {
+      const timeoutID = setTimeout(() => {
+        if (isPlaying.state) currentSecond.add(1)
+      }, 1000)
+      return () => clearTimeout(timeoutID)
+    } else {
+      currentSecond.set(prop.totalSeconds)
+      console.log('end')
+    }
   })
 
   return (
@@ -38,20 +36,24 @@ const App: React.FC<{
         <Image className="album-face" src={prop.album} />
         <ButtonGroup className="music-buttons">
           <Button className="last-track" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
-          <Button className="play-pause" Content="⏯" onClick={() => {
-            const audioObject = audioPlayerRef.current as unknown as HTMLAudioElement
-            isPlaying.state ? audioObject.pause() : audioObject.play()
-            isPlaying.toggle()
-          }} />
+          <Button
+            className="play-pause"
+            Content="⏯"
+            onClick={() => {
+              const audioObject = (audioPlayerRef.current as unknown) as HTMLAudioElement
+              isPlaying.state ? audioObject.pause() : audioObject.play()
+              isPlaying.toggle()
+            }}
+          />
           <Button className="next-track" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
         </ButtonGroup>
         <Timeline
           totalSeconds={prop.totalSeconds}
           currentSecond={currentSecond.state}
           LeftLabel={<div className="songName">{prop.song}</div>}
-          RightLabel={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${
+          RightLabel={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${Time(
             prop.totalSeconds
-          }`}
+          ).print({ format: 'MM:ss' })}`}
           onChange={incomeCurrentSecond => currentSecond.set(incomeCurrentSecond)}
         />
         <ButtonGroup className="info-panel">
@@ -69,7 +71,7 @@ ReactDOM.render(
     {...{
       song: 'words-Aimer',
       album: album,
-      totalSeconds: 223
+      totalSeconds: 144
     }}
   />,
   document.getElementById('root')
