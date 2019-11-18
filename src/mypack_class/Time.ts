@@ -4,11 +4,17 @@ class _Time {
   constructor(public inputSeconds: number) {}
   print(config: { format?: 'MM:ss' } = {}) {
     if (config.format === 'MM:ss') {
-      const minutes = `${this.minutesInClock}`.padStart(2, '0')
-      const seconds = `${this.secondsInClock}`.padStart(2, '0')
+      const minutes = `${Number.isNaN(this.minutesInClock) ? '--' : this.minutesInClock}`.padStart(
+        2,
+        '0'
+      )
+      const seconds = `${Number.isNaN(this.secondsInClock) ? '--' : this.secondsInClock}`.padStart(
+        2,
+        '0'
+      )
       return `${minutes}:${seconds}`
     }
-    return '--'
+    return '--:--'
   }
   get totalDays() {
     return this.inputSeconds / (60 * 60 * 24)
@@ -37,4 +43,3 @@ class _Time {
 }
 export const Time = <T extends number>(inputSeconds: T) => new _Time(inputSeconds)
 Time.prototype = _Time
-

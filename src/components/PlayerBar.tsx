@@ -7,8 +7,7 @@ import './PlayerBar.css'
 export const PlayerBar: React.FC<{
   songTitle: string
   albumUrl: string
-  soundtrackUrl:string
-  totalSeconds: number
+  soundtrackUrl: string
 }> = props => {
   const currentSecond = useNumberState(0)
   const isPlaying = useBooleanState(false)
@@ -19,14 +18,18 @@ export const PlayerBar: React.FC<{
     }
   }, [])
   useEffect(() => {
-    if (currentSecond.state <= props.totalSeconds) {
+    if (currentSecond.state <= audioPlayer.duration) {
       const timeoutID = setTimeout(() => {
-        if (isPlaying.state) currentSecond.add(1)
+        if (isPlaying.isTrue) currentSecond.add(1)
       }, 1000)
       return () => clearTimeout(timeoutID)
     } else {
-      currentSecond.set(props.totalSeconds)
-      console.log('end')
+      if (Number.isNaN(audioPlayer.duration)) {
+        console.log("audio isn't ready")
+      } else {
+        currentSecond.set(audioPlayer.duration)
+        console.log('end')
+      }
     }
   })
   const play = () => {
@@ -41,7 +44,7 @@ export const PlayerBar: React.FC<{
       <Image className="album-face" src={props.albumUrl} />
       <ButtonGroup className="music-buttons">
         <Button className="last-song" Text="⏮" onClick={() => console.log(`I'm clicked 1`)} />
-        {isPlaying.state ? (
+        {isPlaying.isTrue ? (
           <Button
             className="pause"
             Text="⏸"
@@ -66,8 +69,8 @@ export const PlayerBar: React.FC<{
         totalSeconds={audioPlayer.duration}
         currentSecond={currentSecond.state}
         Title={<div className="songName">{props.songTitle}</div>}
-        Timestamp={`${Time(audioPlayer.currentTime).print({ format: 'MM:ss' })} / ${Time(
-          props.totalSeconds
+        Timestamp={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${Time(
+          audioPlayer.duration
         ).print({ format: 'MM:ss' })}`}
         onChange={incomeCurrentSecond => {
           currentSecond.set(incomeCurrentSecond)

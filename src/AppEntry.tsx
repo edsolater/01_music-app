@@ -14,7 +14,6 @@ const App: React.FC<{}> = props => (
       {...{
         songTitle: 'words-Aimer',
         albumUrl: albumUrl,
-        totalSeconds: 144
       }}
       soundtrackUrl={soundtrackUrl}
     />

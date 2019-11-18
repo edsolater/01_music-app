@@ -2,6 +2,9 @@ export class BooleanState {
   constructor(public state: boolean, private setStateOfReact: any) {
     //TODO: 这里能更generic一些
   }
+  get isTrue(){
+    return this.state
+  }
   toggle() {
     this.state = !this.state
     this.setStateOfReact(this.state)
