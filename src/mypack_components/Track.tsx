@@ -114,7 +114,7 @@ export const Track: FC<{
       />
       <div className="Trail">
         <div
-          className="Fullfilled-Trail"
+          className="Fulfilled-Trail"
           style={{ width: `${(value ? value / total : styleLeft) * 100}%` }}
         />
       </div>

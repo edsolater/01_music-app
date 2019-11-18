@@ -27,10 +27,10 @@ body {
 }
 
 .Track {
-  --track-height: 30px;
+  --trail-height: 30px;
   display: grid;
   place-items: center;
-  height: var(--track-height);
+  height: var(--trail-height);
   contain: layout;
 }
 .Track .Trigger {
@@ -52,24 +52,24 @@ body {
   filter: brightness(0.8);
 }
 .Track .Trail {
-  --track-height: 3px;
-  --track-color: rgb(202, 202, 202);
+  --trail-height: 3px;
+  --trail-color: rgb(202, 202, 202);
   width: 100%;
-  height: var(--track-height);
-  background-color: var(--track-color);
+  height: var(--trail-height);
+  background-color: var(--trail-color);
   contain: layout;
 }
-.Track .Trail .Fullfilled-Trail {
-  --trial-color: crimson;
+.Track .Trail .Fulfilled-Trail {
+  --fulfilled-trial-color: crimson;
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--trial-color);
+  background-color: var(--fulfilled-trial-color);
   filter: grayscale(0.2);
   transition: filter 0.2s;
 }
-.Track:hover .Trail .Fullfilled-Trail {
+.Track:hover .Trail .Fulfilled-Trail {
   filter: none;
 }
 
