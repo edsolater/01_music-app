@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image,  Track } from '../mypack_components'
+import { Button, ButtonGroup, Image, Track } from '../mypack_components'
 import { Time } from '../mypack_class'
 import { useBooleanState, useNumberState, useCallbackRef } from 'mypack_components/__myHooks'
 import './PlayerBar.css'
@@ -11,20 +11,26 @@ export const PlayerBar: React.FC<{
 }> = props => {
   const currentSecond = useNumberState(0)
   const isPlaying = useBooleanState(false)
-  const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio())
+  const hasVolumePanel = useBooleanState(false)
+  /**
+   * 只能0到1之间
+   */
+  const volume = useNumberState(1)
+  const songLength = useNumberState(NaN)
+  const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), el => {
+    el.addEventListener('canplaythrough', () => {
+      songLength.set(el.duration)
+    })
+  })
   useEffect(() => {
-    if (currentSecond.state <= audioPlayer.duration) {
-      const timeoutID = setTimeout(() => {
-        if (isPlaying.isTrue) currentSecond.add(1)
-      }, 1000)
+    if (Number.isNaN(songLength.value)) {
+      console.log("audio isn't ready")
+    } else if (currentSecond.value <= songLength.value) {
+      const timeoutID = setTimeout(() => isPlaying.isTrue && currentSecond.add(1), 1000)
       return () => clearTimeout(timeoutID)
     } else {
-      if (Number.isNaN(audioPlayer.duration)) {
-        console.log("audio isn't ready")
-      } else {
-        currentSecond.set(audioPlayer.duration)
-        console.log('end')
-      }
+      currentSecond.set(songLength.value)
+      console.log('end')
     }
   })
   const play = () => {
@@ -33,6 +39,11 @@ export const PlayerBar: React.FC<{
   const pause = () => {
     if (audioPlayer) audioPlayer.pause()
   }
+  const setVolume = (newVolume: number) => {
+    audioPlayer.volume = newVolume
+    volume.set(newVolume)
+  }
+  const getVolume = () => volume.value
   return (
     <div className="player-bar">
       <audio ref={audioPlayerRef} src={props.soundtrackUrl}></audio>
@@ -62,12 +73,12 @@ export const PlayerBar: React.FC<{
       </ButtonGroup>
       <div className="timeline">
         <div className="songTitle">{props.songTitle}</div>
-        <div className="timestamp">{`${Time(currentSecond.state).print({
+        <div className="timestamp">{`${Time(currentSecond.value).print({
           format: 'MM:ss'
-        })} / ${Time(audioPlayer.duration).print({ format: 'MM:ss' })}`}</div>
+        })} / ${Time(songLength.value).print({ format: 'MM:ss' })}`}</div>
         <Track
-          value={currentSecond.state}
-          total={audioPlayer.duration}
+          value={currentSecond.value}
+          total={songLength.value}
           onChange={incomeCurrentSecond => {
             currentSecond.set(incomeCurrentSecond)
           }}
