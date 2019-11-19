@@ -9,14 +9,13 @@ export const PlayerBar: React.FC<{
   albumUrl: string
   soundtrackUrl: string
   initVolume?: number
-}> = props => {
-
+}> = (props) => {
   //#region 维护播放器所含的状态信息
   const state = {
     soundtrack: {
       currentSecond: useNumberState(0),
+      totalSeconds: useNumberState(NaN),
       isPlaying: useBooleanState(false),
-      length: useNumberState(NaN)
     },
     /**
      * 只能0到1之间
@@ -26,19 +25,19 @@ export const PlayerBar: React.FC<{
       get value(): number {
         return this.state.value
       },
-      hasPanel: useBooleanState(false)
+      hasPanel: useBooleanState(false),
     },
-    mode: ''
+    mode: '',
   }
   // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
   const isPlaying = state.soundtrack.isPlaying
+  const songLength = state.soundtrack.totalSeconds
   const hasVolumePanel = state.volume.hasPanel
   const volume = state.volume.state
-  const songLength = state.soundtrack.length
   //#endregion
 
-  const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), el => {
+  const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
       songLength.set(el.duration)
     })
@@ -95,15 +94,15 @@ export const PlayerBar: React.FC<{
       <div className="timeline">
         <div className="songTitle">{props.songTitle}</div>
         <div className="timestamp">{`${Time(currentSecond.value).print({
-          format: 'MM:ss'
+          format: 'MM:ss',
         })} / ${Time(songLength.value).print({ format: 'MM:ss' })}`}</div>
         <Track
           value={currentSecond.value}
           total={songLength.value}
-          onChange={incomeCurrentSecond => {
+          onChange={(incomeCurrentSecond) => {
             currentSecond.set(incomeCurrentSecond)
           }}
-          onChangeDone={incomeCurrentSecond => {
+          onChangeDone={(incomeCurrentSecond) => {
             currentSecond.set(incomeCurrentSecond)
             audioPlayer.currentTime = incomeCurrentSecond
           }}
@@ -118,7 +117,7 @@ export const PlayerBar: React.FC<{
           onClick={(_, switchToNextMode) => {
             switchToNextMode!()
           }}
-          onModeChange={newMode => {
+          onModeChange={(newMode) => {
             if (newMode === 'on') {
               audioPlayer.loop = true
             } else if (newMode === 'off') {
