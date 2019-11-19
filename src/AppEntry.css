@@ -8,27 +8,9 @@ body {
 }
 
 /* 基础组件的样式 */
-.ButtonGroup {
-  display: flex;
-}
 
-.Timeline {
-  display: grid;
-  grid-template:
-    'Title  Timestamp' max-content
-    'Track  Track    ' 1fr / 1fr 1fr;
-}
-.Timeline .Title {
-  grid-area: Title;
-  justify-self: left;
-}
-.Timeline .Timestamp {
-  grid-area: Timestamp;
-  justify-self: right;
-}
-.Timeline .Track {
-  grid-area: Track;
-}
+
+
 
 /* 业务样式 */
 .app-box {

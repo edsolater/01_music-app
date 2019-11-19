@@ -1,7 +1,8 @@
 import React, { FC, ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import { Track } from '.'
+import { Track } from '..'
+import './index.css'
 
 export const Timeline: FC<JSX.IntrinsicElements['div'] & {
   /**
@@ -30,12 +31,10 @@ export const Timeline: FC<JSX.IntrinsicElements['div'] & {
   className,
   totalSeconds,
   currentSecond,
-  onChange,
-  onChangeDone,
-
   Title,
   Timestamp,
-
+  onChange,
+  onChangeDone,
   ...restProps
 }) => {
   return (

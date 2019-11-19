@@ -1,7 +1,7 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Button, ButtonGroup, Image, Timeline } from '../mypack_components'
 import { Time } from '../mypack_class'
-import { useBooleanState, useNumberState } from 'mypack_components/__myHooks'
+import { useBooleanState, useNumberState, useCallbackRef } from 'mypack_components/__myHooks'
 import './PlayerBar.css'
 
 export const PlayerBar: React.FC<{
@@ -11,12 +11,7 @@ export const PlayerBar: React.FC<{
 }> = props => {
   const currentSecond = useNumberState(0)
   const isPlaying = useBooleanState(false)
-  const [audioPlayer, attachAudioPlayer] = useState(new Audio())
-  const audioPlayerRef = useCallback(node => {
-    if (node) {
-      attachAudioPlayer(node)
-    }
-  }, [])
+  const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio())
   useEffect(() => {
     if (currentSecond.state <= audioPlayer.duration) {
       const timeoutID = setTimeout(() => {
@@ -77,7 +72,7 @@ export const PlayerBar: React.FC<{
         }}
         onChangeDone={incomeCurrentSecond => {
           currentSecond.set(incomeCurrentSecond)
-          return (audioPlayer.currentTime = incomeCurrentSecond)
+          audioPlayer.currentTime = incomeCurrentSecond
         }}
       />
       <ButtonGroup className="info-panel">
