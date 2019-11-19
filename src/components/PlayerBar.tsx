@@ -8,8 +8,10 @@ export const PlayerBar: React.FC<{
   songTitle: string
   albumUrl: string
   soundtrackUrl: string
+  initVolume?: number
 }> = props => {
-  const initVolume = 1
+
+  //#region 维护播放器所含的状态信息
   const state = {
     soundtrack: {
       currentSecond: useNumberState(0),
@@ -20,7 +22,7 @@ export const PlayerBar: React.FC<{
      * 只能0到1之间
      */
     volume: {
-      state: useNumberState(initVolume),
+      state: useNumberState(props.initVolume || 1),
       get value(): number {
         return this.state.value
       },
@@ -28,14 +30,14 @@ export const PlayerBar: React.FC<{
     },
     mode: ''
   }
+  // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
   const isPlaying = state.soundtrack.isPlaying
   const hasVolumePanel = state.volume.hasPanel
-  /**
-   * 只能0到1之间
-   */
   const volume = state.volume.state
   const songLength = state.soundtrack.length
+  //#endregion
+
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), el => {
     el.addEventListener('canplaythrough', () => {
       songLength.set(el.duration)
