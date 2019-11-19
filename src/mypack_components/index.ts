@@ -2,5 +2,4 @@
 export * from './Button'
 export * from './ButtonGroup'
 export * from './Image'
-export * from './Timeline'
 export * from './Track'

@@ -7,7 +7,10 @@ import { attachWidgetHandlers } from 'mypack_components/__myComponentUtil'
 import { useBooleanState } from 'mypack_components/__myHooks'
 import { constraint } from 'mypack_utils'
 
-export const Track: FC<JSX.IntrinsicElements['div'] & {
+/**
+ * 注意它只能理解数字
+ */
+export const Track: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -35,7 +38,13 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
       setCurrent?: Function
     }
   }
+  /**
+   * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
+   */
   onChange?: (currentSecond: number) => any
+  /**
+   * 只在最后触发一次
+   */
   onChangeDone?: (currentSecond: number) => any
 }> = ({
   className,
@@ -86,7 +95,7 @@ export const Track: FC<JSX.IntrinsicElements['div'] & {
       onClick={e => {
         const track = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
-        moveTrigger((e.clientX - trackClientLeft) / trackWidth)
+        moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       {...restProps}
     >

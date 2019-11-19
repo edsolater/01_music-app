@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Timeline } from '../mypack_components'
+import { Button, ButtonGroup, Image,  Track } from '../mypack_components'
 import { Time } from '../mypack_class'
 import { useBooleanState, useNumberState, useCallbackRef } from 'mypack_components/__myHooks'
 import './PlayerBar.css'
@@ -60,21 +60,23 @@ export const PlayerBar: React.FC<{
         )}
         <Button className="next-song" Text="⏭" onClick={() => console.log(`I'm clicked 3`)} />
       </ButtonGroup>
-      <Timeline
-        totalSeconds={audioPlayer.duration}
-        currentSecond={currentSecond.state}
-        Title={<div className="songName">{props.songTitle}</div>}
-        Timestamp={`${Time(currentSecond.state).print({ format: 'MM:ss' })} / ${Time(
-          audioPlayer.duration
-        ).print({ format: 'MM:ss' })}`}
-        onChange={incomeCurrentSecond => {
-          currentSecond.set(incomeCurrentSecond)
-        }}
-        onChangeDone={incomeCurrentSecond => {
-          currentSecond.set(incomeCurrentSecond)
-          audioPlayer.currentTime = incomeCurrentSecond
-        }}
-      />
+      <div className="timeline">
+        <div className="songTitle">{props.songTitle}</div>
+        <div className="timestamp">{`${Time(currentSecond.state).print({
+          format: 'MM:ss'
+        })} / ${Time(audioPlayer.duration).print({ format: 'MM:ss' })}`}</div>
+        <Track
+          value={currentSecond.state}
+          total={audioPlayer.duration}
+          onChange={incomeCurrentSecond => {
+            currentSecond.set(incomeCurrentSecond)
+          }}
+          onChangeDone={incomeCurrentSecond => {
+            currentSecond.set(incomeCurrentSecond)
+            audioPlayer.currentTime = incomeCurrentSecond
+          }}
+        />
+      </div>
       <ButtonGroup className="info-panel">
         <Button className="favorite" Text="❤" onClick={() => console.log(`I'm clicked a`)} />
         <Button className="play-mode" Text="👨‍🔧" onClick={() => console.log(`I'm clicked b`)} />

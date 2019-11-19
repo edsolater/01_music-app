@@ -49,12 +49,22 @@
 .player-bar .music-buttons .Button:last-child {
   margin-right: 0;
 }
-
-.player-bar .music-timeline {
-  min-width: 300px;
-  margin-right: 16px;
-  flex: 1;
-  background: dodgerblue;
+.timeline {
+  display: grid;
+  grid-template:
+    'songTitle  timestamp' auto
+    'Track      Track    ' 1fr / 1fr 1fr;
+}
+.timeline .songTitle {
+  grid-area: songTitle;
+  justify-self: left;
+}
+.timeline .timestamp {
+  grid-area: timestamp;
+  justify-self: right;
+}
+.timeline .Track {
+  grid-area: Track;
 }
 .player-bar .info-panel .Button {
   margin-right: 8px;
