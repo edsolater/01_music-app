@@ -90,7 +90,21 @@ export const PlayerBar: React.FC<{
       </div>
       <ButtonGroup className="info-panel">
         <Button className="favorite" Text="❤" onClick={() => console.log(`I'm clicked a`)} />
-        <Button className="play-mode" Text="👨‍🔧" onClick={() => console.log(`I'm clicked b`)} />
+        <Button //这个按钮应该控制App的行为 而不是播放器的
+          className="play-mode"
+          Text="🔁"
+          modes={['on', 'off']}
+          onClick={(e, switchToNextMode) => {
+            switchToNextMode!()
+          }}
+          onModeChange={newMode => {
+            if (newMode === 'on') {
+              audioPlayer.loop = true
+            } else if (newMode === 'off') {
+              audioPlayer.loop = false
+            }
+          }}
+        />
         <Button className="volume" Text="🔉" onClick={() => console.log(`I'm clicked c`)} />
         <Button className="playlist" Text="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
