@@ -9,14 +9,33 @@ export const PlayerBar: React.FC<{
   albumUrl: string
   soundtrackUrl: string
 }> = props => {
-  const currentSecond = useNumberState(0)
-  const isPlaying = useBooleanState(false)
-  const hasVolumePanel = useBooleanState(false)
+  const initVolume = 1
+  const state = {
+    soundtrack: {
+      currentSecond: useNumberState(0),
+      isPlaying: useBooleanState(false),
+      length: useNumberState(NaN)
+    },
+    /**
+     * 只能0到1之间
+     */
+    volume: {
+      state: useNumberState(initVolume),
+      get value(): number {
+        return this.state.value
+      },
+      hasPanel: useBooleanState(false)
+    },
+    mode: ''
+  }
+  const currentSecond = state.soundtrack.currentSecond
+  const isPlaying = state.soundtrack.isPlaying
+  const hasVolumePanel = state.volume.hasPanel
   /**
    * 只能0到1之间
    */
-  const volume = useNumberState(1)
-  const songLength = useNumberState(NaN)
+  const volume = state.volume.state
+  const songLength = state.soundtrack.length
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), el => {
     el.addEventListener('canplaythrough', () => {
       songLength.set(el.duration)
@@ -94,7 +113,7 @@ export const PlayerBar: React.FC<{
           className="play-mode"
           Text="🔁"
           modes={['on', 'off']}
-          onClick={(e, switchToNextMode) => {
+          onClick={(_, switchToNextMode) => {
             switchToNextMode!()
           }}
           onModeChange={newMode => {
