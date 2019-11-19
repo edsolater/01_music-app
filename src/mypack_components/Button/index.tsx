@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, MouseEvent } from 'react'
+import React, { FC, ReactNode, useState, MouseEvent, ComponentProps } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import './index.css'
@@ -18,7 +18,7 @@ export const Button: FC<{
    * 生效前提： onClick
    */
   onModeChange?: (newMode: string) => void
-}> = ({ className, Text, modes, initMode: _initMode, onClick, onModeChange }) => {
+}&  Omit<JSX.IntrinsicElements['div'],"onClick">> = ({ className, Text, modes, initMode: _initMode, onClick, onModeChange,...restProps }) => {
   const [currentMode, changeMode] = modes ? useState(_initMode) : []
   return (
     <div
@@ -34,9 +34,12 @@ export const Button: FC<{
           })
         if (onClick) onClick(e, changeToNextMode)
       }}
+      {...restProps}
     >
       {Text && <div className="Text">{Text}</div>}
     </div>
   )
 }
 export default Button
+
+type ao = (...any) =>2

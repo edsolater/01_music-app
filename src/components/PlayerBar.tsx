@@ -125,7 +125,7 @@ export const PlayerBar: React.FC<{
             }
           }}
         />
-        <Button className="volume" Text="🔉" onClick={() => console.log(`I'm clicked c`)} />
+        <Button className="volume" Text="🔉"  />
         <Button className="playlist" Text="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
     </div>

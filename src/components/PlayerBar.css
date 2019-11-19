@@ -23,6 +23,15 @@
   display: grid;
   place-items: center;
 }
+.player-bar .music-buttons .Button:hover {
+  transform: scale(1.2);
+}
+.player-bar .music-buttons .Button:active {
+  filter: brightness(0.8);
+}
+.player-bar .music-buttons .Button:last-child {
+  margin-right: 0;
+}
 .player-bar .music-buttons .Button.last-song .Text {
   padding-bottom: 3px;
   padding-right: 1.5px;
@@ -39,15 +48,6 @@
 .player-bar .music-buttons .Button.next-song .Text {
   padding-bottom: 3px;
   padding-left: 1.5px;
-}
-.player-bar .music-buttons .Button:hover {
-  transform: scale(1.2);
-}
-.player-bar .music-buttons .Button:active {
-  filter: brightness(0.8);
-}
-.player-bar .music-buttons .Button:last-child {
-  margin-right: 0;
 }
 .timeline {
   display: grid;
@@ -72,3 +72,6 @@
 .player-bar .info-panel .Button:last-child {
   margin-right: 0;
 }
+.player-bar .info-panel .Button.play-mode.on {
+  filter: brightness(.8)
+} 
