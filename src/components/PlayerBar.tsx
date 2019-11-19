@@ -20,21 +20,14 @@ export const PlayerBar: React.FC<{
     /**
      * 只能0到1之间
      */
-    volume: {
-      state: useNumberState(props.initVolume || 1),
-      get value(): number {
-        return this.state.value
-      },
-      hasPanel: useBooleanState(false),
-    },
-    mode: '',
+    volume: useNumberState(props.initVolume || 1),
+    hasVolumePanel: useBooleanState(false),
   }
   // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
   const isPlaying = state.soundtrack.isPlaying
   const songLength = state.soundtrack.totalSeconds
-  const hasVolumePanel = state.volume.hasPanel
-  const volume = state.volume.state
+  const hasVolumePanel = state.hasVolumePanel
   //#endregion
 
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
@@ -42,6 +35,7 @@ export const PlayerBar: React.FC<{
       songLength.set(el.duration)
     })
   })
+  const [volumePanel, volumnPanelRef] = useCallbackRef(document.createElement('div'))
   useEffect(() => {
     if (Number.isNaN(songLength.value)) {
       console.log("audio isn't ready")
@@ -61,9 +55,30 @@ export const PlayerBar: React.FC<{
   }
   const setVolume = (newVolume: number) => {
     audioPlayer.volume = newVolume
-    volume.set(newVolume)
+    state.volume.set(newVolume)
   }
-  const getVolume = () => volume.value
+  const volumePanelTimeout = useNumberState(NaN)
+  const setVolumePanelTimeout = () => {
+    const timeoutID = window.setTimeout(hideVolumePanel, 1000)
+    volumePanelTimeout.set(timeoutID)
+  }
+  const clearVolumePanelTimeout = () => {
+    window.clearTimeout(volumePanelTimeout.value)
+  }
+  const enterVolumePanel = () => {
+    clearVolumePanelTimeout()
+  }
+  const leaveVolumePanel = () => {
+    setVolumePanelTimeout()
+  }
+  const showVolumePanel = () => {
+    state.hasVolumePanel.open()
+    setVolumePanelTimeout()
+  }
+  const hideVolumePanel = () => {
+    console.log('close')
+    state.hasVolumePanel.close()
+  }
   return (
     <div className="player-bar">
       <audio ref={audioPlayerRef} src={props.soundtrackUrl}></audio>
@@ -127,7 +142,20 @@ export const PlayerBar: React.FC<{
             },
           }}
         />
-        <Button className="volume" Text="🔉" />
+        <Button className="volume" Text="🔉" onPointerOver={showVolumePanel} />
+        <div
+          className="volume-panel"
+          ref={volumnPanelRef}
+          onClick={() => console.log(`I'm clicked sd`)}
+          style={{
+            opacity: state.hasVolumePanel.state ? 1 : 0,
+            pointerEvents: state.hasVolumePanel.state ? 'unset' : 'none',
+          }}
+          onPointerEnter={enterVolumePanel}
+          onPointerLeave={leaveVolumePanel}
+        >
+          hello
+        </div>
         <Button className="playlist" Text="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
     </div>

@@ -7,8 +7,8 @@ export const useCallbackRef = <T>(defaultElement: T, callback?: (element:T) => v
   const [element, attachElement] = useState(defaultElement)
   const elementRef = useCallback(node => {
     if (node) {
-      if (callback) callback(node)
       attachElement(node)
+      if (callback) callback(node)
     }
   }, [])
   return [element, elementRef] as const

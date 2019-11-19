@@ -7,6 +7,9 @@ export class NumberState extends Number {
     this.setStateOfReact(this.value);
     return this;
   }
+  /**
+   * @alias 
+   */
   increase(addNumber: number) {
     return this.add(addNumber);
   }

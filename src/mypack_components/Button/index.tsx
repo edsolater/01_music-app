@@ -18,7 +18,7 @@ export const Button: FC<{
     /**
      * 生效前提： onClick
      */
-    modeChange?: (newMode: string) => void
+    modeChange?: (newMode: string) => void //需要更generic
   }
 } & JSX.IntrinsicElements['div']> = ({
   className,
