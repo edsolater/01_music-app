@@ -13,26 +13,37 @@ export const Button: FC<{
    * 生效前提：mode
    */
   initMode?: string
-  onClick?: (event: MouseEvent, changeToNextMode: (() => void) | undefined) => void
-  /**
-   * 生效前提： onClick
-   */
-  onModeChange?: (newMode: string) => void
-}&  Omit<JSX.IntrinsicElements['div'],"onClick">> = ({ className, Text, modes, initMode: _initMode, onClick, onModeChange,...restProps }) => {
+  on?: {
+    click?: (event: MouseEvent, changeToNextMode: (() => void) | undefined) => void
+    /**
+     * 生效前提： onClick
+     */
+    modeChange?: (newMode: string) => void
+  }
+} & JSX.IntrinsicElements['div']> = ({
+  className,
+  Text,
+  modes,
+  initMode: _initMode,
+  on,
+  onClick,
+  ...restProps
+}) => {
   const [currentMode, changeMode] = modes ? useState(_initMode) : []
   return (
     <div
       className={classnames(className, 'Button', currentMode)}
-      onClick={e => {
+      onClick={(e) => {
         const changeToNextMode =
           modes &&
           (() => {
-            const prevIndex = modes.findIndex(modeString => currentMode === modeString)
+            const prevIndex = modes.findIndex((modeString) => currentMode === modeString)
             const newIndex = (prevIndex + 1) % modes.length
             if (changeMode) changeMode(modes[newIndex])
-            if (onModeChange) onModeChange(modes[newIndex])
+            if (on && on.modeChange) on.modeChange(modes[newIndex])
           })
-        if (onClick) onClick(e, changeToNextMode)
+        if (on && on.click) on.click(e, changeToNextMode)
+        if (onClick) onClick(e)
       }}
       {...restProps}
     >
@@ -41,5 +52,3 @@ export const Button: FC<{
   )
 }
 export default Button
-
-type ao = (...any) =>2

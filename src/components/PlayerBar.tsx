@@ -114,18 +114,20 @@ export const PlayerBar: React.FC<{
           className="play-mode"
           Text="🔁"
           modes={['on', 'off']}
-          onClick={(_, switchToNextMode) => {
-            switchToNextMode!()
-          }}
-          onModeChange={(newMode) => {
-            if (newMode === 'on') {
-              audioPlayer.loop = true
-            } else if (newMode === 'off') {
-              audioPlayer.loop = false
-            }
+          on={{
+            click: (_, switchToNextMode) => {
+              switchToNextMode!()
+            },
+            modeChange: (newMode) => {
+              if (newMode === 'on') {
+                audioPlayer.loop = true
+              } else if (newMode === 'off') {
+                audioPlayer.loop = false
+              }
+            },
           }}
         />
-        <Button className="volume" Text="🔉"  />
+        <Button className="volume" Text="🔉" />
         <Button className="playlist" Text="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
     </div>
