@@ -26,28 +26,22 @@ export const PlayerBar: React.FC<{
       _state: useBooleanState(false),
       _timeoutID: useNumberState(NaN),
       get exist() {
-        return this._state.value
+        return state.volumePanel._state.value
       },
       hide() {
-        this._state.close()
-        return this
+        state.volumePanel._state.close()
       },
       show() {
-        this._state.open()
-        return this
+        state.volumePanel._state.open()
       },
       deferHide() {
         const timeoutID = window.setTimeout(() => {
-          this.hide()
+          state.volumePanel.hide()
         }, 1000)
-        this._timeoutID.set(timeoutID)
-        return this
+        state.volumePanel._timeoutID.set(timeoutID)
       },
       dismissDeferHide() {
-        window.clearTimeout(this._timeoutID.value)
-      },
-      get __parent__() {
-        return state
+        window.clearTimeout(state.volumePanel._timeoutID.value)
       },
     },
   }
@@ -152,7 +146,8 @@ export const PlayerBar: React.FC<{
           className="volume"
           Text="🔉"
           onPointerOver={() => {
-            state.volumePanel.show().deferHide()
+            state.volumePanel.show()
+            state.volumePanel.deferHide()
           }}
         />
         <div
@@ -163,12 +158,8 @@ export const PlayerBar: React.FC<{
             opacity: state.volumePanel.exist ? 1 : 0,
             pointerEvents: state.volumePanel.exist ? 'unset' : 'none',
           }}
-          onPointerEnter={() => {
-            state.volumePanel.dismissDeferHide()
-          }}
-          onPointerLeave={() => {
-            state.volumePanel.deferHide()
-          }}
+          onPointerEnter={state.volumePanel.dismissDeferHide}
+          onPointerLeave={state.volumePanel.deferHide}
         >
           hello
         </div>
