@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Track } from '../../mypack/components'
-import { Time } from '../../mypack/class'
-import { useBooleanState, useNumberState, useCallbackRef } from '../../mypack/components/__customHooks'
+import { Button, ButtonGroup, Image, Track } from 'mypack/components'
+import { useBooleanState, useNumberState, useCallbackRef } from 'mypack/components/__customHooks'
+import { Time } from 'mypack/class'
+import { pipe } from 'mypack/utils'
 import './PlayerBar.css'
-import { pipe } from '../../mypack/utils'
 
 export const PlayerBar: React.FC<{
   songTitle: string
