@@ -1,24 +1,17 @@
 import { useStateBooleanUI } from './useStateBooleanUI'
 
-type TaskMasters = {
+type ComponentMasters = {
   'open-close': ReturnType<typeof useStateBooleanUI>
-  'depth': string
 }
 
 /**
  * 返回一个 “组件监工”，它操控component的行为
  */
-export const useComponentMaster = <T extends keyof TaskMasters>(config: {
+export const useComponentMaster = <T extends keyof ComponentMasters>(config: {
   type: T
   init?: any
-}): TaskMasters[T] => {
-  if (config.type === 'open-close') {
-    // @ts-ignore
-    return useStateBooleanUI(Boolean(config.init))
-  } else {
-    // @ts-ignore
-    return 'hello'
-  }
+}): ComponentMasters[T] => {
+  // @ts-ignore
+  if (config.type === 'open-close') return useStateBooleanUI(Boolean(config.init))
+  else throw Error()
 }
-
-

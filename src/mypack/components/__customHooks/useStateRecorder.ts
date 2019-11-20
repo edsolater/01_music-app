@@ -24,7 +24,5 @@ export const useStateRecorder = <T extends keyof StateReporters>(config: {
   if (config.type === 'counter(percentage)') return useStateNumber(Number(config.init))
   // @ts-ignore
   if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
-  else {
-    throw Error()
-  }
+  else throw Error()
 }
