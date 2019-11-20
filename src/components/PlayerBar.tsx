@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Track } from '../mypack_components'
-import { Time } from '../mypack_class'
-import { useBooleanState, useNumberState, useCallbackRef } from 'mypack_components/__myHooks'
+import { Button, ButtonGroup, Image, Track } from '../../mypack/components'
+import { Time } from '../../mypack/class'
+import { useBooleanState, useNumberState, useCallbackRef } from '../../mypack/components/__customHooks'
 import './PlayerBar.css'
-import { pipe } from 'mypack_utils'
+import { pipe } from '../../mypack/utils'
 
 export const PlayerBar: React.FC<{
   songTitle: string
@@ -39,11 +39,9 @@ export const PlayerBar: React.FC<{
         const timeoutID = window.setTimeout(() => {
           state.volumePanel.hide()
         }, 1000)
-        console.log('id: ', timeoutID)
         state.volumePanel._timeoutID.set(timeoutID)
       },
       dismissDeferHide() {
-        console.log('dismiss ID: ', state.volumePanel._timeoutID.value)
         window.clearTimeout(state.volumePanel._timeoutID.value)
       },
     },
@@ -148,7 +146,8 @@ export const PlayerBar: React.FC<{
         <Button
           className="volume"
           Text="🔉"
-          onPointerOver={pipe(state.volumePanel.show, state.volumePanel.deferHide)}
+          onPointerEnter={pipe(state.volumePanel.show, state.volumePanel.dismissDeferHide)}
+          onPointerLeave={state.volumePanel.deferHide}
         />
         <div
           className="volume-panel"

@@ -1,5 +1,5 @@
 import { useState, useDebugValue } from 'react'
-import { BooleanState } from '../../mypack_class/BooleanState'
+import { BooleanState } from '../../class/BooleanState'
 
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象

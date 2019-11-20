@@ -3,9 +3,9 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './index.css'
-import { attachWidgetHandlers } from 'mypack_components/__myComponentUtil'
-import { useBooleanState } from 'mypack_components/__myHooks'
-import { constraint } from 'mypack_utils'
+import { attachWidgetHandlers } from '../__componentUtil'
+import { useBooleanState } from '../__customHooks'
+import { constraint } from '../../utils'
 
 /**
  * 注意它只能理解数字

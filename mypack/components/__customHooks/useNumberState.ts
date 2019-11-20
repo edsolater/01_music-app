@@ -1,5 +1,5 @@
 import { useState, useDebugValue } from 'react'
-import { NumberState } from '../../mypack_class/NumberState'
+import { NumberState } from '../../class/NumberState'
 
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
