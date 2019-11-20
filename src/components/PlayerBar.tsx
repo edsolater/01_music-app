@@ -22,6 +22,34 @@ export const PlayerBar: React.FC<{
      */
     volume: useNumberState(props.initVolume || 1),
     hasVolumePanel: useBooleanState(false),
+    volumePanel: {
+      _state: useBooleanState(false),
+      _timeoutID: useNumberState(NaN),
+      get exist() {
+        return this._state.value
+      },
+      hide() {
+        this._state.close()
+        return this
+      },
+      show() {
+        this._state.open()
+        return this
+      },
+      deferHide() {
+        const timeoutID = window.setTimeout(() => {
+          this.hide()
+        }, 1000)
+        this._timeoutID.set(timeoutID)
+        return this
+      },
+      dismissDeferHide() {
+        window.clearTimeout(this._timeoutID.value)
+      },
+      get __parent__() {
+        return state
+      },
+    },
   }
   // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
@@ -40,8 +68,8 @@ export const PlayerBar: React.FC<{
     if (Number.isNaN(songLength.value)) {
       console.log("audio isn't ready")
     } else if (currentSecond.value <= songLength.value) {
-      const timeoutID = setTimeout(() => isPlaying.isTrue && currentSecond.add(1), 1000)
-      return () => clearTimeout(timeoutID)
+      const timeoutID = window.setTimeout(() => isPlaying.isTrue && currentSecond.add(1), 1000)
+      return () => window.clearTimeout(timeoutID)
     } else {
       currentSecond.set(songLength.value)
       console.log('end')
@@ -56,28 +84,6 @@ export const PlayerBar: React.FC<{
   const setVolume = (newVolume: number) => {
     audioPlayer.volume = newVolume
     state.volume.set(newVolume)
-  }
-  const volumePanelTimeout = useNumberState(NaN)
-  const setVolumePanelTimeout = () => {
-    const timeoutID = window.setTimeout(hideVolumePanel, 1000)
-    volumePanelTimeout.set(timeoutID)
-  }
-  const clearVolumePanelTimeout = () => {
-    window.clearTimeout(volumePanelTimeout.value)
-  }
-  const enterVolumePanel = () => {
-    clearVolumePanelTimeout()
-  }
-  const leaveVolumePanel = () => {
-    setVolumePanelTimeout()
-  }
-  const showVolumePanel = () => {
-    state.hasVolumePanel.open()
-    setVolumePanelTimeout()
-  }
-  const hideVolumePanel = () => {
-    console.log('close')
-    state.hasVolumePanel.close()
   }
   return (
     <div className="player-bar">
@@ -142,17 +148,27 @@ export const PlayerBar: React.FC<{
             },
           }}
         />
-        <Button className="volume" Text="🔉" onPointerOver={showVolumePanel} />
+        <Button
+          className="volume"
+          Text="🔉"
+          onPointerOver={() => {
+            state.volumePanel.show().deferHide()
+          }}
+        />
         <div
           className="volume-panel"
           ref={volumnPanelRef}
           onClick={() => console.log(`I'm clicked sd`)}
           style={{
-            opacity: state.hasVolumePanel.state ? 1 : 0,
-            pointerEvents: state.hasVolumePanel.state ? 'unset' : 'none',
+            opacity: state.volumePanel.exist ? 1 : 0,
+            pointerEvents: state.volumePanel.exist ? 'unset' : 'none',
           }}
-          onPointerEnter={enterVolumePanel}
-          onPointerLeave={leaveVolumePanel}
+          onPointerEnter={() => {
+            state.volumePanel.dismissDeferHide()
+          }}
+          onPointerLeave={() => {
+            state.volumePanel.deferHide()
+          }}
         >
           hello
         </div>

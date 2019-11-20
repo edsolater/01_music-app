@@ -68,7 +68,7 @@ export const Track: FC<{
       state: {
         // 指示说父级想要看时能看到当前子组件的状态，但不能监听，数据的所属权在于子组件
         get inDragging() {
-          return inDragging.state
+          return inDragging.value
         }
       },
       action: {

@@ -5,9 +5,10 @@
     "jsx": "react",
     "baseUrl": "./src", //typescript 根路径（绝对路径的根节点）
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node", //可以使用无“/”分割的绝对路径
+    "moduleResolution": "node", //可以自动使用文件夹下的 index.ts
     "strictNullChecks": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "noImplicitThis": true //this 在object literial中也会有上下文的智能判定
   },
   "include": ["src", "node_modules/react", "node_modules/react-dom"]
   // "exclude": ["node_modules"]
