@@ -53,6 +53,7 @@ export const PlayerBar: React.FC<{
   const hasVolumePanel = state.hasVolumePanel
   //#endregion
 
+  
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
       songLength.set(el.duration)
