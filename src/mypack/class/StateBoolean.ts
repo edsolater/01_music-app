@@ -1,5 +1,5 @@
-export class BooleanState {
-  constructor(public value: boolean, private setStateOfReact: any) {
+export class StateBoolean {
+  constructor(public value: boolean, protected setStateOfReact: any) {
     //TODO: 这里能更generic一些
   }
   get isOpen() {

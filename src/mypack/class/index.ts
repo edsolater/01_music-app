@@ -1,3 +1,4 @@
-export * from './BooleanState'
-export * from './NumberState'
+export * from './StateBoolean'
+export * from './StateNumber'
 export * from './Time'
+export * from './StateBooleanUI'

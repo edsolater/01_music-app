@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './index.css'
-import { useBooleanState } from '../__customHooks'
+import { useStateBoolean } from '../__customHooks'
 import { constraint } from '../../utils'
 
 /**
@@ -56,7 +56,7 @@ export const Track: FC<{
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total || 0)
-  const inDragging = useBooleanState(false)
+  const inDragging = useStateBoolean(false)
   const setPercentage = (percentage: number) => {
     if (value) return
     setStyleLeft(constraint(percentage, { range: [0, 1] }))

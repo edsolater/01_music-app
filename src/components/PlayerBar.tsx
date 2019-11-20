@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Track , Popover} from 'mypack/components'
-import { useBooleanState, useNumberState, useCallbackRef } from 'mypack/components/__customHooks'
+import { Button, ButtonGroup, Image, Track, Popover } from 'mypack/components'
+import {
+  useStateBoolean,
+  useStateNumber,
+  useCallbackRef,
+  useStateBooleanUI,
+} from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import { pipe } from 'mypack/utils'
 import './PlayerBar.css'
@@ -14,42 +19,20 @@ export const PlayerBar: React.FC<{
   //#region 维护播放器所含的状态信息
   const state = {
     soundtrack: {
-      currentSecond: useNumberState(0),
-      totalSeconds: useNumberState(NaN),
-      isPlaying: useBooleanState(false),
+      currentSecond: useStateNumber(0),
+      totalSeconds: useStateNumber(NaN),
+      isPlaying: useStateBoolean(false),
     },
     /**
      * 只能0到1之间
      */
-    volume: useNumberState(props.initVolume || 1),
-    volumePanel: {
-      _state: useBooleanState(false),
-      _timeoutID: useNumberState(NaN),
-      get exist() {
-        return state.volumePanel._state.value
-      },
-      hide() {
-        state.volumePanel._state.close()
-      },
-      show() {
-        state.volumePanel._state.open()
-      },
-      deferHide() {
-        const timeoutID = window.setTimeout(() => {
-          state.volumePanel.hide()
-        }, 1000)
-        state.volumePanel._timeoutID.set(timeoutID)
-      },
-      dismissDeferHide() {
-        window.clearTimeout(state.volumePanel._timeoutID.value)
-      },
-    },
+    volume: useStateNumber(props.initVolume || 1),
+    volumePanel: useStateBooleanUI(false),
   }
   // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
   const isPlaying = state.soundtrack.isPlaying
   const songLength = state.soundtrack.totalSeconds
-  const hasVolumePanel = state.volumePanel.exist
   //#endregion
 
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
@@ -145,10 +128,18 @@ export const PlayerBar: React.FC<{
         <Button
           className="volume"
           Content="🔉"
-          onPointerEnter={pipe(state.volumePanel.show, state.volumePanel.dismissDeferHide)}
-          onPointerLeave={state.volumePanel.deferHide}
+          onPointerEnter={() => {
+            state.volumePanel.show()
+            state.volumePanel.dismissDeferHide()
+          }}
+          onPointerLeave={() => {
+            state.volumePanel.deferHide()
+          }}
         />
-        <Popover volumePanel={state.volumePanel} volumnPanelRef={volumnPanelRef}></Popover>
+        <Popover
+          className="volume-panel"
+          showHideObject={state.volumePanel} /* volumnPanelRef={volumnPanelRef} */
+        ></Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
     </div>
