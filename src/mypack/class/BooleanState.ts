@@ -2,6 +2,12 @@ export class BooleanState {
   constructor(public value: boolean, private setStateOfReact: any) {
     //TODO: 这里能更generic一些
   }
+  get isOpen() {
+    return this.value
+  }
+  get isOn() {
+    return this.value
+  }
   get isTrue(){
     return this.value
   }
@@ -20,10 +26,10 @@ export class BooleanState {
     this.setStateOfReact(this.value)
     return this
   }
-  on() {
+  turnOn() {
     return this.open()
   }
-  off() {
+  turnOff() {
     return this.close()
   }
 }

@@ -107,14 +107,14 @@ export const Track: FC<{
            * document 绑定拖拽事件
            */
           const moveHandler = e => {
-            inDragging.on()
+            inDragging.turnOn()
             moveTrigger((e.clientX - trackClientLeft) / trackWidth)
           }
           /**
            * 清理 document 上述事件
            */
           const moveHandlerDone = e => {
-            inDragging.off()
+            inDragging.turnOff()
             moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
             document.removeEventListener('pointermove', moveHandler)
             document.removeEventListener('pointerup', moveHandlerDone)

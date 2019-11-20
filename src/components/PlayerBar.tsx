@@ -55,7 +55,7 @@ export const PlayerBar: React.FC<{
   
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
-      songLength.set(el.duration)
+      state.soundtrack.totalSeconds.set(el.duration)
     })
   })
   const [volumePanel, volumnPanelRef] = useCallbackRef(document.createElement('div'))
@@ -63,7 +63,7 @@ export const PlayerBar: React.FC<{
     if (Number.isNaN(songLength.value)) {
       console.log("audio isn't ready")
     } else if (currentSecond.value <= songLength.value) {
-      const timeoutID = window.setTimeout(() => isPlaying.isTrue && currentSecond.add(1), 1000)
+      const timeoutID = window.setTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
       return () => window.clearTimeout(timeoutID)
     } else {
       currentSecond.set(songLength.value)
@@ -92,7 +92,7 @@ export const PlayerBar: React.FC<{
             Text="⏸"
             onClick={() => {
               pause()
-              isPlaying.off()
+              isPlaying.turnOff()
             }}
           />
         ) : (
@@ -101,7 +101,7 @@ export const PlayerBar: React.FC<{
             Text="▶"
             onClick={() => {
               play()
-              isPlaying.on()
+              isPlaying.turnOn()
             }}
           />
         )}
