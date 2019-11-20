@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, ButtonGroup, Image, Track, Popover } from 'mypack/components'
 import {
-  useStateBoolean,
-  useStateNumber,
   useCallbackRef,
   useComponentMaster,
   useStateRecorder,
@@ -19,14 +17,11 @@ export const PlayerBar: React.FC<{
   //#region 维护播放器所含的状态信息
   const state = {
     soundtrack: {
-      currentSecond: useStateRecorder({type:'counter', init:0}),
-      totalSeconds: useStateRecorder({type:'counter'}),
-      isPlaying: useStateRecorder({type:'on-off-reporter'}),
+      currentSecond: useStateRecorder({ type: 'counter', init: 0 }),
+      totalSeconds: useStateRecorder({ type: 'counter' }),
+      isPlaying: useStateRecorder({ type: 'on-off-reporter' }),
     },
-    /**
-     * 只能0到1之间
-     */
-    volume: useStateNumber(props.initVolume || 1),
+    volume: useStateRecorder({ type: 'counter(percentage)', init: props.initVolume || 1 }),
     volumePanel: useComponentMaster({ type: 'open-close' }),
   }
   // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
