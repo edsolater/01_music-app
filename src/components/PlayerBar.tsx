@@ -22,7 +22,6 @@ export const PlayerBar: React.FC<{
      * 只能0到1之间
      */
     volume: useNumberState(props.initVolume || 1),
-    hasVolumePanel: useBooleanState(false),
     volumePanel: {
       _state: useBooleanState(false),
       _timeoutID: useNumberState(NaN),
@@ -50,7 +49,7 @@ export const PlayerBar: React.FC<{
   const currentSecond = state.soundtrack.currentSecond
   const isPlaying = state.soundtrack.isPlaying
   const songLength = state.soundtrack.totalSeconds
-  const hasVolumePanel = state.hasVolumePanel
+  const hasVolumePanel = state.volumePanel.exist
   //#endregion
 
   

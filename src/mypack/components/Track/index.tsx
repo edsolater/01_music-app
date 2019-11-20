@@ -3,7 +3,6 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './index.css'
-import { attachWidgetHandlers } from '../__componentUtil'
 import { useBooleanState } from '../__customHooks'
 import { constraint } from '../../utils'
 
@@ -64,7 +63,7 @@ export const Track: FC<{
   }
   // 上抛控制权 widgetHandler
   if (widgetHandler)
-    attachWidgetHandlers(widgetHandler, {
+    Object.assign(widgetHandler, {
       state: {
         // 指示说父级想要看时能看到当前子组件的状态，但不能监听，数据的所属权在于子组件
         get inDragging() {

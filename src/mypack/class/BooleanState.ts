@@ -26,10 +26,4 @@ export class BooleanState {
   off() {
     return this.close()
   }
-  yes() {
-    return this.open()
-  }
-  no() {
-    return this.close()
-  }
 }
