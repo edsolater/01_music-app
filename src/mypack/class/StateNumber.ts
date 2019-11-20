@@ -1,4 +1,4 @@
-export class NumberState {
+export class StateNumber {
   constructor(public value: number, private setStateOfReact: any) {}
   add(addNumber: number) {
     this.value = this.value + addNumber

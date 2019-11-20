@@ -4,10 +4,10 @@ import {
   useStateBoolean,
   useStateNumber,
   useCallbackRef,
-  useStateBooleanUI,
+  useComponentMaster,
+  useStateRecorder,
 } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
-import { pipe } from 'mypack/utils'
 import './PlayerBar.css'
 
 export const PlayerBar: React.FC<{
@@ -19,15 +19,15 @@ export const PlayerBar: React.FC<{
   //#region 维护播放器所含的状态信息
   const state = {
     soundtrack: {
-      currentSecond: useStateNumber(0),
-      totalSeconds: useStateNumber(NaN),
-      isPlaying: useStateBoolean(false),
+      currentSecond: useStateRecorder({type:'counter', init:0}),
+      totalSeconds: useStateRecorder({type:'counter'}),
+      isPlaying: useStateRecorder({type:'on-off-reporter'}),
     },
     /**
      * 只能0到1之间
      */
     volume: useStateNumber(props.initVolume || 1),
-    volumePanel: useStateBooleanUI(false),
+    volumePanel: useComponentMaster({ type: 'open-close' }),
   }
   // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
