@@ -7,7 +7,7 @@ export const Button: FC<{
    * 接收classnames()能接收的各种参数
    */
   className?: ClassValue
-  Text?: ReactNode
+  Content?: ReactNode
   modes?: string[]
   /**
    * 生效前提：mode
@@ -22,7 +22,7 @@ export const Button: FC<{
   }
 } & JSX.IntrinsicElements['div']> = ({
   className,
-  Text,
+  Content,
   modes,
   initMode: _initMode,
   on,
@@ -47,7 +47,7 @@ export const Button: FC<{
       }}
       {...restProps}
     >
-      {Text && <div className="Text">{Text}</div>}
+      {Content && <div className="Text">{Content}</div>}
     </div>
   )
 }

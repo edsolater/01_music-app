@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Track } from 'mypack/components'
+import { Button, ButtonGroup, Image, Track , Popover} from 'mypack/components'
 import { useBooleanState, useNumberState, useCallbackRef } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import { pipe } from 'mypack/utils'
@@ -52,7 +52,6 @@ export const PlayerBar: React.FC<{
   const hasVolumePanel = state.volumePanel.exist
   //#endregion
 
-  
   const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
       state.soundtrack.totalSeconds.set(el.duration)
@@ -85,11 +84,11 @@ export const PlayerBar: React.FC<{
       <audio ref={audioPlayerRef} src={props.soundtrackUrl}></audio>
       <Image className="album-face" src={props.albumUrl} />
       <ButtonGroup className="music-buttons">
-        <Button className="last-song" Text="⏮" onClick={() => console.log(`I'm clicked 1`)} />
+        <Button className="last-song" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
         {isPlaying.isTrue ? (
           <Button
             className="pause"
-            Text="⏸"
+            Content="⏸"
             onClick={() => {
               pause()
               isPlaying.turnOff()
@@ -98,14 +97,14 @@ export const PlayerBar: React.FC<{
         ) : (
           <Button
             className="play"
-            Text="▶"
+            Content="▶"
             onClick={() => {
               play()
               isPlaying.turnOn()
             }}
           />
         )}
-        <Button className="next-song" Text="⏭" onClick={() => console.log(`I'm clicked 3`)} />
+        <Button className="next-song" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
       </ButtonGroup>
       <div className="timeline">
         <div className="songTitle">{props.songTitle}</div>
@@ -125,10 +124,10 @@ export const PlayerBar: React.FC<{
         />
       </div>
       <ButtonGroup className="info-panel">
-        <Button className="favorite" Text="❤" onClick={() => console.log(`I'm clicked a`)} />
+        <Button className="favorite" Content="❤" onClick={() => console.log(`I'm clicked a`)} />
         <Button //这个按钮应该控制App的行为 而不是播放器的
           className="play-mode"
-          Text="🔁"
+          Content="🔁"
           modes={['on', 'off']}
           on={{
             click: (_, switchToNextMode) => {
@@ -145,24 +144,12 @@ export const PlayerBar: React.FC<{
         />
         <Button
           className="volume"
-          Text="🔉"
+          Content="🔉"
           onPointerEnter={pipe(state.volumePanel.show, state.volumePanel.dismissDeferHide)}
           onPointerLeave={state.volumePanel.deferHide}
         />
-        <div
-          className="volume-panel"
-          ref={volumnPanelRef}
-          onClick={() => console.log(`I'm clicked sd`)}
-          style={{
-            opacity: state.volumePanel.exist ? 1 : 0,
-            pointerEvents: state.volumePanel.exist ? 'unset' : 'none',
-          }}
-          onPointerEnter={state.volumePanel.dismissDeferHide}
-          onPointerLeave={state.volumePanel.deferHide}
-        >
-          hello
-        </div>
-        <Button className="playlist" Text="📃" onClick={() => console.log(`I'm clicked d`)} />
+        <Popover volumePanel={state.volumePanel} volumnPanelRef={volumnPanelRef}></Popover>
+        <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
     </div>
   )
