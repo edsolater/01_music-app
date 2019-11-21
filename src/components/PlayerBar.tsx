@@ -7,6 +7,7 @@ import {
 } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import './PlayerBar.css'
+import { setClearableTimeout } from 'mypack/webToolkit'
 
 export const PlayerBar: React.FC<{
   songTitle: string
@@ -40,19 +41,13 @@ export const PlayerBar: React.FC<{
     if (Number.isNaN(songLength.value)) {
       console.log("audio isn't ready")
     } else if (currentSecond.value <= songLength.value) {
-      const timeoutID = window.setTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
-      return () => window.clearTimeout(timeoutID)
+      return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
     } else {
       currentSecond.set(songLength.value)
       console.log('end')
     }
   })
-  const play = () => {
-    if (audioPlayer) audioPlayer.play()
-  }
-  const pause = () => {
-    if (audioPlayer) audioPlayer.pause()
-  }
+
   const setVolume = (newVolume: number) => {
     audioPlayer.volume = newVolume
     state.volume.set(newVolume)
@@ -68,7 +63,7 @@ export const PlayerBar: React.FC<{
             className="pause"
             Content="⏸"
             onClick={() => {
-              pause()
+              if (audioPlayer) audioPlayer.pause()
               isPlaying.turnOff()
             }}
           />
@@ -77,7 +72,7 @@ export const PlayerBar: React.FC<{
             className="play"
             Content="▶"
             onClick={() => {
-              play()
+              if (audioPlayer) audioPlayer.play()
               isPlaying.turnOn()
             }}
           />

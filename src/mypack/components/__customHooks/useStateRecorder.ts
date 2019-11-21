@@ -1,4 +1,3 @@
-import { StateBoolean } from 'mypack/class'
 import { useStateNumber } from './_useStateNumber'
 import { useStateBoolean } from './_useStateBoolean'
 
@@ -9,7 +8,7 @@ type StateReporters = {
    * // vscode 没有智能提示
    */
   'counter(percentage)': ReturnType<typeof useStateNumber>
-  'on-off-reporter': StateBoolean
+  'on-off-reporter': ReturnType<typeof useStateBoolean>
 }
 /**
  * 返回一个 “状态监工”， 它反应着component的状态
