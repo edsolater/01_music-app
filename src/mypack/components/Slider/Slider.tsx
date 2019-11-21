@@ -90,10 +90,10 @@ export const Slider: FC<{
   }
   return (
     <div
-      className={classnames(className, 'Track')}
+      className={classnames(className, 'Slider')}
       onClick={(e) => {
-        const track = (e.target as HTMLDivElement).parentElement!
-        const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
+        const slider = (e.target as HTMLDivElement).parentElement!
+        const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       {...restProps}
@@ -101,8 +101,12 @@ export const Slider: FC<{
       <div
         className="Trigger"
         onPointerDown={(e) => {
-          const track = (e.target as HTMLDivElement).parentElement!
-          const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
+          const slider = ((e.target as Element).parentElement as HTMLDivElement)!
+          const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
+          const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
+          trigger.style.transition = 'none'
+          passedTrack.style.transition = 'none'
+          const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
           /**
            * document 绑定拖拽事件
            */
@@ -113,23 +117,25 @@ export const Slider: FC<{
           /**
            * 清理 document 上述事件
            */
-          const moveHandlerDone = (e) => {
+          const handlerDone = (e) => {
+            trigger.style.transition = ''
+            passedTrack.style.transition = ''
             inDragging.turnOff()
             moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
             document.removeEventListener('pointermove', moveHandler)
-            document.removeEventListener('pointerup', moveHandlerDone)
+            document.removeEventListener('pointerup', handlerDone)
           }
 
           document.addEventListener('pointermove', moveHandler)
-          document.addEventListener('pointerup', moveHandlerDone)
+          document.addEventListener('pointerup', handlerDone)
         }}
         style={{
           left: `${(value ? value / total : styleLeft) * 100}%`,
         }}
       />
-      <div className="Trail">
+      <div className="Track">
         <div
-          className="Fulfilled-Trail"
+          className="PassedTrack"
           style={{ width: `${(value ? value / total : styleLeft) * 100}%` }}
         />
       </div>

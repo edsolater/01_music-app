@@ -15,7 +15,7 @@ body div {
 /* 业务样式 */
 .app-box {
   /* 业务样式的包壳，迟早要替换掉 */
-  --theme-color-primary: crimson;
+  --primary: crimson;
   width: 100vw;
   height: 100vh;
   display: grid;

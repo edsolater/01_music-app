@@ -53,7 +53,7 @@
   display: grid;
   grid-template:
     'songTitle  timestamp' auto
-    'Track      Track    ' 1fr / 1fr 1fr;
+    'Slider      Slider    ' 1fr / 1fr 1fr;
 }
 .timeline .songTitle {
   grid-area: songTitle;
@@ -63,8 +63,8 @@
   grid-area: timestamp;
   justify-self: right;
 }
-.timeline .Track {
-  grid-area: Track;
+.timeline .Slider {
+  grid-area: Slider;
 }
 .player-bar .info-panel .Button {
   margin-right: 8px;
