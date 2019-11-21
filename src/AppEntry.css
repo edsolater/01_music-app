@@ -1,16 +1,16 @@
 /* 初始化样式 */
 body {
+  display: unset;
   margin: 0;
 }
-* {
+body * {
   user-select: none;
-  transition: .2s;
+  transition: 0.2s;
+  box-sizing: border-box;
 }
-
-/* 基础组件的样式 */
-
-
-
+body div {
+  display: grid; /* 好像对性能完全没有影响 */
+}
 
 /* 业务样式 */
 .app-box {
@@ -24,4 +24,3 @@ body {
 .content-space {
   grid-area: 'space';
 }
-
