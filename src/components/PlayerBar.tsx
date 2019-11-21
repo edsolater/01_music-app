@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Track, Popover } from 'mypack/components'
+import { Button, ButtonGroup, Image, Slider, Popover } from 'mypack/components'
 import {
   useCallbackRef,
   useComponentMaster,
@@ -85,7 +85,7 @@ export const PlayerBar: React.FC<{
         <div className="timestamp">{`${Time(currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(songLength.value).print({ format: 'MM:ss' })}`}</div>
-        <Track
+        <Slider
           value={currentSecond.value}
           total={songLength.value}
           onChange={(incomeCurrentSecond) => {
@@ -128,7 +128,7 @@ export const PlayerBar: React.FC<{
           }}
         />
         <Popover className="volume-panel" showHideObject={state.volumePanel}>
-          <Track />
+          <Slider />
         </Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>

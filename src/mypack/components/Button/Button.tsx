@@ -1,7 +1,7 @@
 import React, { FC, ReactNode, useState, MouseEvent } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import './index.css'
+import './Button.css'
 export const Button: FC<{
   /**
    * 接收classnames()能接收的各种参数

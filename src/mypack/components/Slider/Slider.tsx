@@ -2,14 +2,14 @@ import React, { FC, useState } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-import './index.css'
+import './Slider.css'
 import { useStateRecorder } from '../__customHooks'
 import { constraint } from '../../utils'
 
 /**
  * 注意它只能理解数字
  */
-export const Track: FC<{
+export const Slider: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -137,4 +137,4 @@ export const Track: FC<{
   )
 }
 
-export default Track
+export default Slider
