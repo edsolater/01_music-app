@@ -1,4 +1,4 @@
-import { useStateBooleanUI } from './useStateBooleanUI'
+import { useStateBooleanUI } from './_useStateBooleanUI'
 
 type ComponentMasters = {
   'open-close': ReturnType<typeof useStateBooleanUI>

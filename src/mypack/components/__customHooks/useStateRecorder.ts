@@ -1,6 +1,6 @@
 import { StateBoolean } from 'mypack/class'
-import { useStateNumber } from './useStateNumber'
-import { useStateBoolean } from './useStateBoolean'
+import { useStateNumber } from './_useStateNumber'
+import { useStateBoolean } from './_useStateBoolean'
 
 type StateReporters = {
   'counter': ReturnType<typeof useStateNumber>

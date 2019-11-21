@@ -1,5 +1,5 @@
 import { useState} from 'react'
-import { StateNumber } from '../../class/StateNumber'
+import { StateNumber } from '../../class'
 
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象

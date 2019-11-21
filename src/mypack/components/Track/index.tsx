@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './index.css'
-import { useStateBoolean } from '../__customHooks'
+import { useStateRecorder } from '../__customHooks'
 import { constraint } from '../../utils'
 
 /**
@@ -56,7 +56,7 @@ export const Track: FC<{
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total || 0)
-  const inDragging = useStateBoolean(false)
+  const inDragging = useStateRecorder({type:'on-off-reporter'})
   const setPercentage = (percentage: number) => {
     if (value) return
     setStyleLeft(constraint(percentage, { range: [0, 1] }))
