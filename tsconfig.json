@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "target": "esnext",
+    "target": "es2019", //如果设定esnext会产生报错。因为webpack无法理解原生的optional chain语法
     "jsx": "react",
     "baseUrl": "./src", //typescript 根路径（绝对路径的根节点）
     "allowSyntheticDefaultImports": true,
@@ -9,7 +9,6 @@
     "strictNullChecks": true,
     "noImplicitAny": false,
     "noImplicitThis": true //this 在object literial中也会有上下文的智能判定
-    
   },
   "include": ["src", "node_modules/react", "node_modules/react-dom"]
   // "exclude": ["node_modules"]

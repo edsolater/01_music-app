@@ -6,8 +6,8 @@ import {
   useStateRecorder,
 } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
-import './PlayerBar.css'
 import { setClearableTimeout } from 'mypack/webToolkit'
+import './PlayerBar.css'
 
 export const PlayerBar: React.FC<{
   songTitle: string
@@ -31,7 +31,7 @@ export const PlayerBar: React.FC<{
   const songLength = state.soundtrack.totalSeconds
   //#endregion
 
-  const [audioPlayer, audioPlayerRef] = useCallbackRef(new Audio(), (el) => {
+  const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
       state.soundtrack.totalSeconds.set(el.duration)
     })
@@ -39,6 +39,7 @@ export const PlayerBar: React.FC<{
   const [volumePanel, volumnPanelRef] = useCallbackRef(document.createElement('div'))
   useEffect(() => {
     if (Number.isNaN(songLength.value)) {
+      //其实这个判断可以省去
       console.log("audio isn't ready")
     } else if (currentSecond.value <= songLength.value) {
       return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
@@ -49,12 +50,12 @@ export const PlayerBar: React.FC<{
   })
 
   const setVolume = (newVolume: number) => {
-    audioPlayer.volume = newVolume
+    audioPlayerHTML.volume = newVolume
     state.volume.set(newVolume)
   }
   return (
     <div className="player-bar">
-      <audio ref={audioPlayerRef} src={props.soundtrackUrl}></audio>
+      <audio ref={audioPlayerHTMLRef} src={props.soundtrackUrl}></audio>
       <Image className="album-face" src={props.albumUrl} />
       <ButtonGroup className="music-buttons">
         <Button className="last-song" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
@@ -63,7 +64,7 @@ export const PlayerBar: React.FC<{
             className="pause"
             Content="⏸"
             onClick={() => {
-              if (audioPlayer) audioPlayer.pause()
+              if (audioPlayerHTML) audioPlayerHTML.pause()
               isPlaying.turnOff()
             }}
           />
@@ -72,7 +73,7 @@ export const PlayerBar: React.FC<{
             className="play"
             Content="▶"
             onClick={() => {
-              if (audioPlayer) audioPlayer.play()
+              if (audioPlayerHTML) audioPlayerHTML.play()
               isPlaying.turnOn()
             }}
           />
@@ -92,7 +93,7 @@ export const PlayerBar: React.FC<{
           }}
           onChangeDone={(incomeCurrentSecond) => {
             currentSecond.set(incomeCurrentSecond)
-            audioPlayer.currentTime = incomeCurrentSecond
+            audioPlayerHTML.currentTime = incomeCurrentSecond
           }}
         />
       </div>
@@ -108,9 +109,9 @@ export const PlayerBar: React.FC<{
             },
             modeChange: (newMode) => {
               if (newMode === 'on') {
-                audioPlayer.loop = true
+                audioPlayerHTML.loop = true
               } else if (newMode === 'off') {
-                audioPlayer.loop = false
+                audioPlayerHTML.loop = false
               }
             },
           }}
@@ -126,10 +127,9 @@ export const PlayerBar: React.FC<{
             state.volumePanel.deferHide()
           }}
         />
-        <Popover
-          className="volume-panel"
-          showHideObject={state.volumePanel} /* volumnPanelRef={volumnPanelRef} */
-        ></Popover>
+        <Popover className="volume-panel" showHideObject={state.volumePanel}>
+          <Track />
+        </Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>
     </div>

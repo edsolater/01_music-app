@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useState, MouseEvent, ComponentProps } from 'react'
+import React, { FC, ReactNode, useState, MouseEvent } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import './index.css'
@@ -23,6 +23,7 @@ export const Button: FC<{
 } & JSX.IntrinsicElements['div']> = ({
   className,
   Content,
+  children,
   modes,
   initMode: _initMode,
   on,
@@ -47,7 +48,7 @@ export const Button: FC<{
       }}
       {...restProps}
     >
-      {Content && <div className="Text">{Content}</div>}
+      {(Content || children) && <div className="Content">{Content || children}</div>}
     </div>
   )
 }

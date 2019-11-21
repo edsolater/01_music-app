@@ -17,7 +17,7 @@ export const Track: FC<{
   /**
    * 总长度
    */
-  total: number
+  total?: number
   /**
    * 当前所在位置 (初始值)
    */
@@ -30,10 +30,10 @@ export const Track: FC<{
    * 上抛控制用函数
    */
   widgetHandler?: {
-    state: {
+    state?: {
       inDragging?: boolean
     }
-    action: {
+    action?: {
       setCurrent?: Function
     }
   }
@@ -45,9 +45,9 @@ export const Track: FC<{
    * 只在最后触发一次
    */
   onChangeDone?: (currentSecond: number) => any
-}> = ({
+} & Omit<JSX.IntrinsicElements['div'], 'onChange'>> = ({
   className,
-  total = 100,
+  total = 1,
   value,
   defaultValue,
   widgetHandler,
@@ -56,7 +56,7 @@ export const Track: FC<{
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total || 0)
-  const inDragging = useStateRecorder({type:'on-off-reporter'})
+  const inDragging = useStateRecorder({ type: 'on-off-reporter' })
   const setPercentage = (percentage: number) => {
     if (value) return
     setStyleLeft(constraint(percentage, { range: [0, 1] }))
@@ -68,14 +68,14 @@ export const Track: FC<{
         // 指示说父级想要看时能看到当前子组件的状态，但不能监听，数据的所属权在于子组件
         get inDragging() {
           return inDragging.value
-        }
+        },
       },
       action: {
         setCurrent: (current: number) => {
           if (inDragging) return
           else setPercentage(current / total)
-        }
-      }
+        },
+      },
     })
   /**
    * 移动 Trigger
@@ -91,7 +91,7 @@ export const Track: FC<{
   return (
     <div
       className={classnames(className, 'Track')}
-      onClick={e => {
+      onClick={(e) => {
         const track = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
@@ -100,20 +100,20 @@ export const Track: FC<{
     >
       <div
         className="Trigger"
-        onPointerDown={e => {
+        onPointerDown={(e) => {
           const track = (e.target as HTMLDivElement).parentElement!
           const { left: trackClientLeft, width: trackWidth } = track.getBoundingClientRect()
           /**
            * document 绑定拖拽事件
            */
-          const moveHandler = e => {
+          const moveHandler = (e) => {
             inDragging.turnOn()
             moveTrigger((e.clientX - trackClientLeft) / trackWidth)
           }
           /**
            * 清理 document 上述事件
            */
-          const moveHandlerDone = e => {
+          const moveHandlerDone = (e) => {
             inDragging.turnOff()
             moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
             document.removeEventListener('pointermove', moveHandler)
@@ -124,7 +124,7 @@ export const Track: FC<{
           document.addEventListener('pointerup', moveHandlerDone)
         }}
         style={{
-          left: `${(value ? value / total : styleLeft) * 100}%`
+          left: `${(value ? value / total : styleLeft) * 100}%`,
         }}
       />
       <div className="Trail">

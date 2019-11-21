@@ -7,25 +7,32 @@ export const Popover: FC<{
    * 接收classnames()能接收的各种参数
    */
   className?: ClassValue
-  showHideObject: StateBooleanUI
-} & JSX.IntrinsicElements['div']> = ({ className, showHideObject, ...restProps }) => (
+  showHideObject?: StateBooleanUI
+  Content?: ReactNode
+} & Omit<JSX.IntrinsicElements['div'], 'onChange'>> = ({
+  className,
+  showHideObject,
+  children,
+  Content,
+  ...restProps
+}) => (
   <div
     className={classnames(className, 'Popover')}
     // ref={props.volumnPanelRef}
     onClick={() => console.log(`I'm clicked sd`)}
     style={{
-      opacity: showHideObject.value ? 1 : 0,
-      pointerEvents: showHideObject.value ? 'unset' : 'none',
+      opacity: showHideObject?.value ? 1 : 0,
+      pointerEvents: showHideObject?.value ? 'unset' : 'none',
     }}
     onPointerEnter={() => {
-      showHideObject.dismissDeferHide()
+      showHideObject?.dismissDeferHide()
     }}
     onPointerLeave={() => {
-      showHideObject.deferHide()
+      showHideObject?.deferHide()
     }}
     {...restProps}
   >
-    hello
+    {(Content || children) && <div className="Content">{Content || children}</div>}
   </div>
 )
 export default Popover

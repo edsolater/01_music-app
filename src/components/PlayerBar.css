@@ -32,20 +32,20 @@
 .player-bar .music-buttons .Button:last-child {
   margin-right: 0;
 }
-.player-bar .music-buttons .Button.last-song .Text {
+.player-bar .music-buttons .Button.last-song .Content {
   padding-bottom: 3px;
   padding-right: 1.5px;
 }
-.player-bar .music-buttons .Button.play .Text {
+.player-bar .music-buttons .Button.play .Content {
   padding-bottom: 0.5px;
   padding-left: 2.5px;
   transform: scale(1.5);
 }
-.player-bar .music-buttons .Button.pause .Text {
+.player-bar .music-buttons .Button.pause .Content {
   padding-bottom: 3px;
   transform: scale(1.5);
 }
-.player-bar .music-buttons .Button.next-song .Text {
+.player-bar .music-buttons .Button.next-song .Content {
   padding-bottom: 3px;
   padding-left: 1.5px;
 }
