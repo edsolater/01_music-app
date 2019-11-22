@@ -8,9 +8,7 @@ body * {
   transition: 0.2s;
   box-sizing: border-box;
 }
-body div {
-  display: grid; /* 好像对性能完全没有影响 */
-}
+
 
 /* 业务样式 */
 .app-box {

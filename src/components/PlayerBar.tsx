@@ -25,27 +25,31 @@ export const PlayerBar: React.FC<{
     volume: useStateRecorder({ type: 'counter(percentage)', init: props.initVolume || 1 }),
     volumePanel: useComponentMaster({ type: 'open-close' }),
   }
-  // 以下是快捷方式，因为会平凡调用，所以把内存地址暂存在变量里
+  // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
   const isPlaying = state.soundtrack.isPlaying
-  const songLength = state.soundtrack.totalSeconds
+  const totalSeconds = state.soundtrack.totalSeconds.value
   //#endregion
 
   const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
-      state.soundtrack.totalSeconds.set(el.duration)
+      state.soundtrack.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
+    el.volume = props.initVolume || 1
   })
   const [volumePanel, volumnPanelRef] = useCallbackRef(document.createElement('div'))
+  // 播放器进度条
   useEffect(() => {
-    if (Number.isNaN(songLength.value)) {
-      //其实这个判断可以省去
-      console.log("audio isn't ready")
-    } else if (currentSecond.value <= songLength.value) {
+    if (Number.isNaN(totalSeconds)) {
+      // audio isn't ready yet
+    } else if (currentSecond.value === 0) {
+      // begin
+      return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
+    } else if (currentSecond.value < totalSeconds) {
+      // ongoing
       return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
     } else {
-      currentSecond.set(songLength.value)
-      console.log('end')
+      // end
     }
   })
 
@@ -84,11 +88,11 @@ export const PlayerBar: React.FC<{
         <div className="songTitle">{props.songTitle}</div>
         <div className="timestamp">{`${Time(currentSecond.value).print({
           format: 'MM:ss',
-        })} / ${Time(songLength.value).print({ format: 'MM:ss' })}`}</div>
+        })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</div>
         <Slider
           value={currentSecond.value}
-          total={songLength.value}
-          command={{
+          total={totalSeconds}
+          on={{
             moveTrigger: (incomeCurrentSecond) => {
               currentSecond.set(incomeCurrentSecond)
             },
@@ -130,7 +134,15 @@ export const PlayerBar: React.FC<{
           }}
         />
         <Popover className="volume-panel" showHideObject={state.volumePanel}>
-          <Slider />
+          <Slider
+          defaultValue={state.volume.value}
+            on={{
+              moveTriggerDone: (currentPercentage: number) => {
+                console.log('currentPercentage: ', currentPercentage)
+                setVolume(currentPercentage)
+              },
+            }}
+          />
         </Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>

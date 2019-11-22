@@ -1,13 +1,14 @@
 .Slider {
   display: grid;
   place-items: center;
-  height: 30px;
-  contain: layout;
+  width: 100px;
+  position: relative;
+  margin: 8px 0;
 }
 .Slider .Trigger {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   z-index: 3;
   background-color: white;
   border-radius: 1000px;
