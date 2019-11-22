@@ -114,13 +114,13 @@ export const Slider: FC<{
           const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
           trigger.style.transition = 'none'
           passedTrack.style.transition = 'none'
-          const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
+          const { left: sliderClientLeft, width: sliderWidth } = slider.getBoundingClientRect()
           /**
            * document 绑定拖拽事件
            */
           const moveHandler = (e) => {
             inDraggingTrigger.turnOn()
-            moveTrigger((e.clientX - trackClientLeft) / trackWidth)
+            moveTrigger((e.clientX - sliderClientLeft) / sliderWidth)
           }
           /**
            * 清理 document 上述事件
@@ -129,7 +129,7 @@ export const Slider: FC<{
             trigger.style.transition = ''
             passedTrack.style.transition = ''
             inDraggingTrigger.turnOff()
-            moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
+            moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
             document.removeEventListener('pointermove', moveHandler)
             document.removeEventListener('pointerup', handlerDone)
           }
