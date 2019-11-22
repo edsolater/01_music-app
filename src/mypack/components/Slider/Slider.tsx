@@ -37,28 +37,28 @@ export const Slider: FC<{
       setCurrent?: Function
     }
   }
-  /**
-   * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
-   */
-  onChange?: (currentSecond: number) => any
-  /**
-   * 只在最后触发一次
-   */
-  onChangeDone?: (currentSecond: number) => any
+  on?:{
+    /**
+     * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
+     */
+    moveTrigger?:(currentSecond: number) => any
+    /**
+     * 只在最后触发一次
+     */
+    moveTriggerDone?: (currentSecond: number) => any
+  }
 } & Omit<JSX.IntrinsicElements['div'], 'onChange'>> = ({
   className,
   total = 1,
   value,
   defaultValue,
   widgetHandler,
-  onChange,
-  onChangeDone,
+  on,
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total || 0)
   const inDragging = useStateRecorder({ type: 'on-off-reporter' })
   const setPercentage = (percentage: number) => {
-    if (value) return
     setStyleLeft(constraint(percentage, { range: [0, 1] }))
   }
   // 上抛控制权 widgetHandler
@@ -82,11 +82,11 @@ export const Slider: FC<{
    */
   const moveTrigger = (percentage: number) => {
     setPercentage(percentage)
-    if (onChange) onChange(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    on?.moveTrigger?.(Math.round(constraint(percentage, { range: [0, 1] }) * total))
   }
   const moveTriggerDone = (percentage: number) => {
     setPercentage(percentage)
-    if (onChangeDone) onChangeDone(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    on?.moveTriggerDone?.(Math.round(constraint(percentage, { range: [0, 1] }) * total))
   }
   return (
     <div
@@ -130,13 +130,13 @@ export const Slider: FC<{
           document.addEventListener('pointerup', handlerDone)
         }}
         style={{
-          left: `${(value ? value / total : styleLeft) * 100}%`,
+          left: `${(inDragging.value ? styleLeft : (value ?? 0) / total) * 100}%`,
         }}
       />
       <div className="Track">
         <div
           className="PassedTrack"
-          style={{ width: `${(value ? value / total : styleLeft) * 100}%` }}
+          style={{ width: `${(inDragging.value ? styleLeft : (value ?? 0) / total) * 100}%` }}
         />
       </div>
     </div>

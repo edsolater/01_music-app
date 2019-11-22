@@ -88,12 +88,14 @@ export const PlayerBar: React.FC<{
         <Slider
           value={currentSecond.value}
           total={songLength.value}
-          onChange={(incomeCurrentSecond) => {
-            currentSecond.set(incomeCurrentSecond)
-          }}
-          onChangeDone={(incomeCurrentSecond) => {
-            currentSecond.set(incomeCurrentSecond)
-            audioPlayerHTML.currentTime = incomeCurrentSecond
+          on={{
+            moveTrigger: (incomeCurrentSecond) => {
+              currentSecond.set(incomeCurrentSecond)
+            },
+            moveTriggerDone: (incomeCurrentSecond) => {
+              currentSecond.set(incomeCurrentSecond)
+              audioPlayerHTML.currentTime = incomeCurrentSecond
+            },
           }}
         />
       </div>
