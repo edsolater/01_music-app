@@ -88,7 +88,7 @@ export const PlayerBar: React.FC<{
         <Slider
           value={currentSecond.value}
           total={songLength.value}
-          on={{
+          command={{
             moveTrigger: (incomeCurrentSecond) => {
               currentSecond.set(incomeCurrentSecond)
             },

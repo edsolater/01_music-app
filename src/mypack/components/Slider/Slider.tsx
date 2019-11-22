@@ -5,6 +5,7 @@ import { ClassValue } from 'classnames/types'
 import './Slider.css'
 import { useStateRecorder } from '../__customHooks'
 import { constraint } from '../../utils'
+import { GetChildState, GetChildCommands } from '../types'
 
 /**
  * 注意它只能理解数字
@@ -27,21 +28,27 @@ export const Slider: FC<{
    */
   value?: number
   /**
-   * 上抛控制用函数
+   * 反应子组件的当前状态
    */
-  widgetHandler?: {
-    state?: {
-      inDragging?: boolean
-    }
-    action?: {
-      setCurrent?: Function
-    }
+  childState?: {
+    inDraggingTrigger?: boolean
   }
-  on?:{
+  /**
+   * 对子组件的命令（如果设置的相应状态依赖父组件的状态，则无效）
+   */
+  childCommands?: {
+    /**
+     * 如果依赖父组件的value，则无效。
+     * 如果处于正在拖拽的状态，则无效
+     */
+    setValue?: Function
+  }
+
+  command?: {
     /**
      * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
      */
-    moveTrigger?:(currentSecond: number) => any
+    moveTrigger?: (currentSecond: number) => any
     /**
      * 只在最后触发一次
      */
@@ -52,41 +59,42 @@ export const Slider: FC<{
   total = 1,
   value,
   defaultValue,
-  widgetHandler,
-  on,
+  childState,
+  childCommands,
+  command,
   ...restProps
 }) => {
   const [styleLeft, setStyleLeft] = useState((value || defaultValue || 0) / total || 0)
-  const inDragging = useStateRecorder({ type: 'on-off-reporter' })
+  const inDraggingTrigger = useStateRecorder({ type: 'on-off-reporter' })
   const setPercentage = (percentage: number) => {
     setStyleLeft(constraint(percentage, { range: [0, 1] }))
   }
-  // 上抛控制权 widgetHandler
-  if (widgetHandler)
-    Object.assign(widgetHandler, {
-      state: {
-        // 指示说父级想要看时能看到当前子组件的状态，但不能监听，数据的所属权在于子组件
-        get inDragging() {
-          return inDragging.value
-        },
+  //#region 上抛控制权
+  if (childState)
+    Object.assign(childState, {
+      get inDraggingTrigger() {
+        return inDraggingTrigger.value
       },
-      action: {
-        setCurrent: (current: number) => {
-          if (inDragging) return
-          else setPercentage(current / total)
-        },
+    } as GetChildState<typeof Slider>)
+  if (childCommands)
+    Object.assign(childCommands, {
+      setValue: (current: number) => {
+        if (value || inDraggingTrigger) return
+        else setPercentage(current / total)
       },
-    })
+    } as GetChildCommands<typeof Slider>)
+  //#endregion
+
   /**
    * 移动 Trigger
    */
   const moveTrigger = (percentage: number) => {
     setPercentage(percentage)
-    on?.moveTrigger?.(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    command?.moveTrigger?.(Math.round(constraint(percentage, { range: [0, 1] }) * total))
   }
   const moveTriggerDone = (percentage: number) => {
     setPercentage(percentage)
-    on?.moveTriggerDone?.(Math.round(constraint(percentage, { range: [0, 1] }) * total))
+    command?.moveTriggerDone?.(Math.round(constraint(percentage, { range: [0, 1] }) * total))
   }
   return (
     <div
@@ -111,7 +119,7 @@ export const Slider: FC<{
            * document 绑定拖拽事件
            */
           const moveHandler = (e) => {
-            inDragging.turnOn()
+            inDraggingTrigger.turnOn()
             moveTrigger((e.clientX - trackClientLeft) / trackWidth)
           }
           /**
@@ -120,7 +128,7 @@ export const Slider: FC<{
           const handlerDone = (e) => {
             trigger.style.transition = ''
             passedTrack.style.transition = ''
-            inDragging.turnOff()
+            inDraggingTrigger.turnOff()
             moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
             document.removeEventListener('pointermove', moveHandler)
             document.removeEventListener('pointerup', handlerDone)
@@ -130,13 +138,15 @@ export const Slider: FC<{
           document.addEventListener('pointerup', handlerDone)
         }}
         style={{
-          left: `${(inDragging.value ? styleLeft : (value ?? 0) / total) * 100}%`,
+          left: `${(inDraggingTrigger.value ? styleLeft : (value ?? 0) / total) * 100}%`,
         }}
       />
       <div className="Track">
         <div
           className="PassedTrack"
-          style={{ width: `${(inDragging.value ? styleLeft : (value ?? 0) / total) * 100}%` }}
+          style={{
+            width: `${(inDraggingTrigger.value ? styleLeft : (value ?? 0) / total) * 100}%`,
+          }}
         />
       </div>
     </div>
