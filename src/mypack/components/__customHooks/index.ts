@@ -1,3 +1,3 @@
-export * from './useCallbackRef'
-export * from './useComponentMaster'
-export * from './useStateRecorder'
+export { default as useCallbackRef } from './useCallbackRef'
+export { default as useComponentMaster } from './useComponentMaster'
+export { default as useStateRecorder } from './useStateRecorder'
