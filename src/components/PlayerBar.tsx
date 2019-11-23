@@ -131,7 +131,7 @@ export const PlayerBar: React.FC<{
         />
         <Popover
           className="volume-panel"
-          isOn={state.volumePanel.isOn}
+          isOpen={state.volumePanel.isOn}
           onPointerEnter={() => {
             state.volumePanel.dismissDeferHide()
           }}

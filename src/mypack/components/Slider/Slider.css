@@ -24,8 +24,10 @@
 .Slider .Track {
   width: 100%;
   height: 3px;
+  border-radius: 100px;
   background-color: rgb(202, 202, 202);
-  contain: layout;
+  position: relative;
+  overflow: hidden;
 }
 .Slider .Track .PassedTrack {
   position: absolute;

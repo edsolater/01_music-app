@@ -73,10 +73,7 @@
   height: 20px;
 }
 .player-bar .info-panel .Button {
-  margin-right: 8px;
-}
-.player-bar .info-panel .Button:last-child {
-  margin-right: 0;
+  margin-right: 24px;
 }
 .player-bar .info-panel .Button.play-mode.on {
   filter: brightness(0.8);
