@@ -8,11 +8,12 @@ const Popover: FC<{
    * 接收classnames()能接收的各种参数
    */
   className?: ClassValue
-  showHideObject?: StateBooleanUI
+  isOn?: boolean
+
   Content?: ReactNode
 } & Omit<JSX.IntrinsicElements['div'], 'onChange'>> = ({
   className,
-  showHideObject,
+  isOn,
   children,
   Content,
   ...restProps
@@ -22,14 +23,8 @@ const Popover: FC<{
     // ref={props.volumnPanelRef}
     onClick={() => console.log(`I'm clicked sd`)}
     style={{
-      opacity: (showHideObject?.value ?? true) ? 1 : 1,
-      pointerEvents: (showHideObject?.value ?? true) ? 'unset' : 'unset',
-    }}
-    onPointerEnter={() => {
-      showHideObject?.dismissDeferHide()
-    }}
-    onPointerLeave={() => {
-      showHideObject?.deferHide()
+      opacity: isOn ?  undefined:0,
+      pointerEvents: isOn ?   undefined : 'none',
     }}
     {...restProps}
   >

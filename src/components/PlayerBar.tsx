@@ -126,10 +126,19 @@ export const PlayerBar: React.FC<{
             state.volumePanel.dismissDeferHide()
           }}
           onPointerLeave={() => {
-            state.volumePanel.deferHide()
+            state.volumePanel.deferHide(1000)
           }}
         />
-        <Popover className="volume-panel" showHideObject={state.volumePanel}>
+        <Popover
+          className="volume-panel"
+          isOn={state.volumePanel.isOn}
+          onPointerEnter={() => {
+            state.volumePanel.dismissDeferHide()
+          }}
+          onPointerLeave={() => {
+            state.volumePanel.deferHide(1000)
+          }}
+        >
           <Slider
             defaultValue={state.volume.value}
             on={{

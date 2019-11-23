@@ -4,6 +4,12 @@ export default class StateBooleanUI extends StateBoolean {
   constructor(public value: boolean, protected setStateOfReact: any) {
     super(value, setStateOfReact)
   }
+  get isOn() {
+    return this.value
+  }
+  get isOff() {
+    return !this.value
+  }
   hide() {
     return super.close()
   }
