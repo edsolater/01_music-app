@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './Slider.css'
-import { useStateRecorder } from '../__customHooks'
+import { useRecorder } from '../__customHooks'
 import { constraint } from '../../utils'
 import { GetChildState, GetChildCommands } from '../types'
 
@@ -67,7 +67,7 @@ const Slider: FC<{
   const [temporaryStyleLeft, setTemporaryStyleLeft] = useState(
     (value || defaultValue || 0) / total || 0,
   )
-  const inDraggingTrigger = useStateRecorder({ type: 'on-off-reporter' })
+  const inDraggingTrigger = useRecorder({ type: 'on-off-reporter' })
   const styleLeft = value
     ? `${(inDraggingTrigger.value ? temporaryStyleLeft : (value ?? 0) / total) * 100}%`
     : `${temporaryStyleLeft * 100}%`

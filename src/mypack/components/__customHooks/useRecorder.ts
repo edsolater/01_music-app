@@ -1,4 +1,4 @@
-import { useState} from 'react'
+import { useState } from 'react'
 import { StateBoolean } from '../../class'
 import { StateNumber } from '../../class'
 
@@ -10,7 +10,6 @@ const useStateBoolean = (init: boolean) => {
   return new StateBoolean(state, setState)
 }
 
-
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
  */
@@ -19,8 +18,7 @@ const useStateNumber = (init: number) => {
   return new StateNumber(state, setState)
 }
 
-
-type StateReporters = {
+type Reporters = {
   'counter': ReturnType<typeof useStateNumber>
   /**
    * 只能0到1之间 //待实现
@@ -32,10 +30,7 @@ type StateReporters = {
 /**
  * 返回一个 “状态监工”， 它反应着component的状态
  */
-const useStateRecorder = <T extends keyof StateReporters>(config: {
-  type: T
-  init?: any
-}): StateReporters[T] => {
+const useRecorder = <T extends keyof Reporters>(config: { type: T; init?: any }): Reporters[T] => {
   // @ts-ignore
   if (config.type === 'counter') return useStateNumber(Number(config.init))
   // @ts-ignore
@@ -45,4 +40,4 @@ const useStateRecorder = <T extends keyof StateReporters>(config: {
   else throw Error()
 }
 
-export default useStateRecorder
+export default useRecorder
