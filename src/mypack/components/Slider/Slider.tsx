@@ -10,7 +10,7 @@ import { GetChildState, GetChildCommands } from '../types'
 /**
  * 注意它只能理解数字
  */
-export const Slider: FC<{
+const Slider: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -158,4 +158,4 @@ export const Slider: FC<{
   )
 }
 
-export default Slider
+export default React.memo(Slider)

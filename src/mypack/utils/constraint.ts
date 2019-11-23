@@ -1,4 +1,4 @@
-export const constraint = (
+const constraint = (
   num: number,
   config: {
     range?: [number, number]
@@ -9,3 +9,4 @@ export const constraint = (
   if (max !== undefined && num > max) num = max
   return num
 }
+export default constraint

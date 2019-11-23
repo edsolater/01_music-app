@@ -4,7 +4,7 @@ import { ClassValue } from 'classnames/types'
 
 import './ButtonGroup.css'
 
-export const ButtonGroup: FC<{
+const ButtonGroup: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -15,4 +15,4 @@ export const ButtonGroup: FC<{
     {...restProps}
   ></div>
 )
-export default ButtonGroup
+export default React.memo(ButtonGroup)

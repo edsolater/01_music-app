@@ -2,7 +2,7 @@ import React, { FC, ReactNode, useState, MouseEvent } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import './Button.css'
-export const Button: FC<{
+const Button: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -52,4 +52,4 @@ export const Button: FC<{
     </div>
   )
 }
-export default Button
+export default React.memo(Button)

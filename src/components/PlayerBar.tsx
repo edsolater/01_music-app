@@ -135,7 +135,7 @@ export const PlayerBar: React.FC<{
         />
         <Popover className="volume-panel" showHideObject={state.volumePanel}>
           <Slider
-          defaultValue={state.volume.value}
+            defaultValue={state.volume.value}
             on={{
               moveTriggerDone: (currentPercentage: number) => {
                 console.log('currentPercentage: ', currentPercentage)

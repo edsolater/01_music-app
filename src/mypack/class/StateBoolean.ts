@@ -1,4 +1,4 @@
-export class StateBoolean {
+export default class StateBoolean {
   constructor(public value: boolean, protected setStateOfReact: any) {
     //TODO: 这里能更generic一些
   }

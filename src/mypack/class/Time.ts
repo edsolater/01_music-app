@@ -41,5 +41,6 @@ class _Time {
     return Math.trunc(this.totalDays)
   }
 }
-export const Time = <T extends number>(inputSeconds: T) => new _Time(inputSeconds)
+const Time = <T extends number>(inputSeconds: T) => new _Time(inputSeconds)
 Time.prototype = _Time
+export default Time

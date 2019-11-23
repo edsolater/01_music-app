@@ -1,5 +1,5 @@
-import { StateBoolean } from './StateBoolean'
-export class StateBooleanUI extends StateBoolean {
+import StateBoolean from './StateBoolean'
+export default class StateBooleanUI extends StateBoolean {
   private _timeoutID: number
   constructor(public value: boolean, protected setStateOfReact: any) {
     super(value, setStateOfReact)
@@ -13,7 +13,7 @@ export class StateBooleanUI extends StateBoolean {
   deferHide(delay: number = 600) {
     const timeoutID = window.setTimeout(() => {
       this.hide.apply(this)
-    },delay)
+    }, delay)
     this._timeoutID = timeoutID
   }
   dismissDeferHide() {

@@ -8,7 +8,7 @@ import { FirstType, LastType, Tuple, Function } from './#package_type'
  *  (n) => console.log('n: ', n),
  *)
  */
-export const pipe: {
+const pipe: {
   // 就写1~10个参数，满足基本情况即可
   <Inputs extends any[], Return>(f1: (...arg1: Inputs) => Return): (...args: Inputs) => Return
   <Inputs extends any[], T1, Return>(f1: (...arg1: Inputs) => T1, f2: (arg2: T1) => Return): (
@@ -63,3 +63,4 @@ export const pipe: {
     ...args: Parameters<FirstType<T>>
   ) => ReturnType<LastType<T>>
 } = (...fns: Function[]) => (...args) => fns.reduce((chain, fn) => fn(chain(...args)))
+ export default pipe

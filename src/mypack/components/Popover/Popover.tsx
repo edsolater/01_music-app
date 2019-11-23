@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { StateBooleanUI } from 'mypack/class'
 import './Popover.css'
-export const Popover: FC<{
+const Popover: FC<{
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -36,4 +36,4 @@ export const Popover: FC<{
     {(Content || children) && <div className="Content">{Content || children}</div>}
   </div>
 )
-export default Popover
+export default React.memo(Popover)
