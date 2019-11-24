@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-import './Slider.css'
+import './Slider.less'
 import { useRecorder } from '../__customHooks'
 import { constraint } from '../../utils'
 import { GetChildState, GetChildCommands } from '../types'
@@ -108,6 +108,9 @@ const Slider: FC<{
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
+      }}
+      onWheel={(e) => {
+        console.log('e: ', {...e},e.shiftKey)
       }}
       {...restProps}
     >

@@ -10,7 +10,12 @@ export function SongCollections({ data }: { data: AppDatas }) {
       <TableView
         data={data}
         Template={(data) => (
-          <div className="item">
+          <div
+            className="item"
+            onClick={() => {
+              console.log(`click ${data.title}`)
+            }}
+          >
             <Image src={data.imageUrl} />
             <Label className="title">{data.title}</Label>
           </div>
