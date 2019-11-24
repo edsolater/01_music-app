@@ -64,16 +64,15 @@ const Slider: FC<{
   on,
   ...restProps
 }) => {
-  const [temporaryStyleLeft, setTemporaryStyleLeft] = useState(
-    (value || defaultValue || 0) / total || 0,
-  )
+  const [triggerLeft, setTriggerLeft] = useState((value || defaultValue || 0) / total || 0)
   const inDraggingTrigger = useRecorder({ type: 'on-off-reporter' })
   const styleLeft = value
-    ? `${(inDraggingTrigger.value ? temporaryStyleLeft : (value ?? 0) / total) * 100}%`
-    : `${temporaryStyleLeft * 100}%`
-  const setPercentage = (percentage: number) => {
-    setTemporaryStyleLeft(constraint(percentage, { range: [0, 1] }))
+    ? `${(inDraggingTrigger.value ? triggerLeft : (value ?? 0) / total) * 100}%`
+    : `${triggerLeft * 100}%`
+  const setLeft = (percentage: number) => {
+    setTriggerLeft(constraint(percentage, { range: [0, 1] }))
   }
+
   //#region 上抛控制权
   if (childState)
     Object.assign(childState, {
@@ -85,7 +84,7 @@ const Slider: FC<{
     Object.assign(childCommands, {
       setValue: (current: number) => {
         if (value || inDraggingTrigger) return
-        else setPercentage(current / total)
+        else setLeft(current / total)
       },
     } as GetChildCommands<typeof Slider>)
   //#endregion
@@ -94,12 +93,14 @@ const Slider: FC<{
    * 移动 Trigger
    */
   const moveTrigger = (percentage: number) => {
-    setPercentage(percentage)
-    on?.moveTrigger?.(constraint(percentage, { range: [0, 1] }) * total)
+    const validPercentage = constraint(percentage, { range: [0, 1] })
+    setLeft(validPercentage)
+    on?.moveTrigger?.(validPercentage * total)
   }
   const moveTriggerDone = (percentage: number) => {
-    setPercentage(percentage)
-    on?.moveTriggerDone?.(constraint(percentage, { range: [0, 1] }) * total)
+    const validPercentage = constraint(percentage, { range: [0, 1] })
+    setLeft(validPercentage)
+    on?.moveTriggerDone?.(validPercentage * total)
   }
   return (
     <div
@@ -110,7 +111,7 @@ const Slider: FC<{
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       onWheel={(e) => {
-        console.log('e: ', {...e},e.shiftKey)
+        moveTriggerDone(triggerLeft + Math.sign(e.deltaY) * 0.1)
       }}
       {...restProps}
     >

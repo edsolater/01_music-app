@@ -1,5 +1,5 @@
 .Popover {
-  padding: 8px;
+  padding: 4px;
   display: grid;
   place-content: center;
   overflow: hidden;
