@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-import './TableView.css'
+import './TableView.less'
 
 type Data = {
   id?: string | number

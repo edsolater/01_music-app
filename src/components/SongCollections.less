@@ -4,8 +4,13 @@
       display: grid;
       grid-template: 'image title' auto/ auto;
       .Image {
-        height: 80px;
+        grid-area: image;
+        height: 40px;
         width: $height;
+      }
+      .title {
+        grid-area: title;
+        color: #333;
       }
     }
   }

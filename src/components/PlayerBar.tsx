@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Image, Slider, Popover } from 'mypack/components'
 import { useCallbackRef, useMaster, useRecorder } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
-import './PlayerBar.css'
+import './PlayerBar.less'
 
 export const PlayerBar: React.FC<{
   songTitle: string
