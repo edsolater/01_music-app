@@ -7,7 +7,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const config = {
   mode: 'development',
   entry: {
-    main: './src/AppEntry.tsx'
+    main: './src/AppEntry.tsx',
   },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'cheap-module-eval-source-map',
@@ -15,7 +15,7 @@ const config = {
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ['.ts', '.tsx', '.js'],
-    modules: ['src', 'node_modules'] //typescript 识别根路径（绝对路径的根节点）
+    modules: ['src', 'node_modules'], //typescript 识别根路径（绝对路径的根节点）
   },
 
   module: {
@@ -26,25 +26,38 @@ const config = {
         use: {
           loader: 'ts-loader',
           options: {
-            transpileOnly: true // 大大提升 ts 文件的编译速度//但损失了 type-checking 编译报错（vscode飘红不变）（更好了！）//可以安装 fork-ts-checker-webpack-plugin 弥补
-          }
-        }
+            transpileOnly: true, // 大大提升 ts 文件的编译速度//但损失了 type-checking 编译报错（vscode飘红不变）（更好了！）//可以安装 fork-ts-checker-webpack-plugin 弥补
+          },
+        },
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader', options: { sourceMap: true } },
+          {
+            loader: 'less-loader',
+            options: {
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
         test: /\.(png|svg|jpg|gif|mp3)$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: 'pre',
         test: /\.js$/,
-        use: 'source-map-loader'
-      }
-    ]
+        use: 'source-map-loader',
+      },
+    ],
   },
   // plugins: [new BundleAnalyzerPlugin()], // 分析打包各部分所占大小
   // When importing a module whose path matches one of the following, just
@@ -52,9 +65,9 @@ const config = {
   // This is important because it allows us to avoid bundling all of our
   // dependencies, which allows browsers to cache those libraries between builds.
   externals: {
-    react: 'React',
-    'react-dom': 'ReactDOM'
-  }
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+  },
 }
 
 module.exports = config

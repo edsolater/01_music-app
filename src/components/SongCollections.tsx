@@ -1,6 +1,7 @@
 import React from 'react'
 import { TableView, Image } from '../mypack/components'
 import { AppDatas } from 'AppEntry'
+import './SongCollections.less'
 
 export function SongCollections({ data }: { data: AppDatas }) {
   return (
@@ -9,10 +10,10 @@ export function SongCollections({ data }: { data: AppDatas }) {
       <TableView
         data={data}
         Template={(data) => (
-          <div className="collection-item">
+          <>
             <Image src={data.imageUrl} />
             <span className="title">{data.title}</span>
-          </div>
+          </>
         )}
       />
     </div>
