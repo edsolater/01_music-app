@@ -9,7 +9,6 @@ body * {
   box-sizing: border-box;
 }
 
-
 /* 业务样式 */
 .app-box {
   /* 业务样式的包壳，迟早要替换掉 */
@@ -17,8 +16,20 @@ body * {
   width: 100vw;
   height: 100vh;
   display: grid;
-  grid-template: 'space' 1fr / auto;
+  grid-template:
+    'song-collections  song-details  ' 1fr
+    'player-bar        player-bar    ' auto
+    / 1fr 4fr;
 }
-.content-space {
-  grid-area: 'space';
+.song-collectioins {
+  grid-area: song-collectioins;
+  background-color: #eee;
+}
+.song-details {
+  grid-area: song-details;
+  background-color: #ddd;
+}
+.player-bar {
+  grid-area: player-bar;
+  background-color: #d8d8d8;
 }

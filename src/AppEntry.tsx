@@ -6,10 +6,13 @@ import './AppEntry.css'
 import albumUrl from './assets/头像.png'
 import soundtrackUrl from './assets/ezio Family.mp3'
 import { PlayerBar } from './components/PlayerBar'
+import { SongDetails } from './components/SongDetails'
+import { SongCollections } from './components/SongCollections'
 
-const App: React.FC<{}> = props => (
+const App: React.FC<{}> = (props) => (
   <div className="app-box">
-    <div className="content-space" />
+    <SongCollections></SongCollections>
+    <SongDetails></SongDetails>
     <PlayerBar
       {...{
         songTitle: 'words-Aimer',
