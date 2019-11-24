@@ -1,0 +1,7 @@
+.TableView {
+  color: var(--primary-text, #333)
+}
+.TableView .Image {
+  width: 100px;
+  height: 100px;
+}

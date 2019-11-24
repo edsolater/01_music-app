@@ -4,6 +4,9 @@ import { ClassValue } from 'classnames/types'
 
 import './ButtonGroup.css'
 
+/**
+ * 多半是没有必要的
+ */
 const ButtonGroup: FC<{
   /**
    * 接收classnames()能接收的各种参数
