@@ -6,3 +6,4 @@
 | [Slider](./Slider/Slider.tsx)                | leaf           |             | 轨道滑块                   |
 | [Popover](./Popover/Popover.tsx)             | leaf           |             | 弹出卡片（在某个元素附近） |
 | [TableView](./TableView/TableView.tsx)       | leaf           |             | 本质上是一个纵向的列表     |
+| [Label](./Label/Label.tsx)                   | leaf           |             | 方便文字垂直居中     |
