@@ -1,8 +1,22 @@
 .song-collections {
   .TableView {
     .Item {
+      border-bottom: 4px solid transparent; // 为了撑开高度
+      position: relative;
+      &::before {
+        content: '';
+        position: absolute;
+        height: 4px;
+        bottom: -4px;
+        left: 54px;
+        right: 0;
+        background-color: black;
+      }
+    }
+    .item {
       display: grid;
-      grid-template: 'image title' auto/ auto;
+      grid-template: 'image title' auto / 54px 1fr;
+      padding-block: 16px;
       .Image {
         grid-area: image;
         height: 40px;

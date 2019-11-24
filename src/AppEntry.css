@@ -21,8 +21,8 @@ body * {
     'player-bar        player-bar    ' auto
     / 1fr 4fr;
 }
-.song-collectioins {
-  grid-area: song-collectioins;
+.song-collections {
+  grid-area: song-collections;
   background-color: #eee;
 }
 .song-details {

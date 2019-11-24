@@ -10,10 +10,10 @@ export function SongCollections({ data }: { data: AppDatas }) {
       <TableView
         data={data}
         Template={(data) => (
-          <>
+          <div className="item">
             <Image src={data.imageUrl} />
             <span className="title">{data.title}</span>
-          </>
+          </div>
         )}
       />
     </div>

@@ -19,6 +19,9 @@ export declare type AppDatas = {
 const data: AppDatas = [
   { imageUrl: albumUrl, title: 'First title', subtitle: 'first subtitle', detail: 'hello' },
   { imageUrl: avatar2, title: 'Secondary title', subtitle: 'secondary subtitle', detail: 'world' },
+  { imageUrl: avatar2, title: 'Secondary title', subtitle: 'secondary subtitle', detail: 'world' },
+  { imageUrl: avatar2, title: 'Secondary title', subtitle: 'secondary subtitle', detail: 'world' },
+  { imageUrl: avatar2, title: 'Secondary title', subtitle: 'secondary subtitle', detail: 'world' },
 ]
 const App: React.FC<{}> = (props) => (
   <div className="app-box">
