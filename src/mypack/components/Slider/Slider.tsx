@@ -64,13 +64,16 @@ const Slider: FC<{
   on,
   ...restProps
 }) => {
-  const [triggerLeft, setTriggerLeft] = useState((value || defaultValue || 0) / total || 0)
+  const triggerLeft = useRecorder({
+    type: 'counter(percentage)',
+    init: (value || defaultValue || 0) / total || 0,
+  })
   const inDraggingTrigger = useRecorder({ type: 'on-off-reporter' })
   const styleLeft = value
-    ? `${(inDraggingTrigger.value ? triggerLeft : (value ?? 0) / total) * 100}%`
-    : `${triggerLeft * 100}%`
+    ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / total) * 100}%`
+    : `${triggerLeft.value * 100}%`
   const setLeft = (percentage: number) => {
-    setTriggerLeft(constraint(percentage, { range: [0, 1] }))
+    triggerLeft.set(percentage)
   }
 
   //#region 上抛控制权
@@ -84,7 +87,7 @@ const Slider: FC<{
     Object.assign(childCommands, {
       setValue: (current: number) => {
         if (value || inDraggingTrigger) return
-        else setLeft(current / total)
+        else setLeft(constraint(current / total, { range: [0, 1] }))
       },
     } as GetChildCommands<typeof Slider>)
   //#endregion
@@ -111,7 +114,7 @@ const Slider: FC<{
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       onWheel={(e) => {
-        moveTriggerDone(triggerLeft + Math.sign(e.deltaY) * 0.1)
+        moveTriggerDone(triggerLeft.value + Math.sign(e.deltaY) * 0.1)
       }}
       {...restProps}
     >

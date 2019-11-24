@@ -1,9 +1,18 @@
+import { constraint } from 'mypack/utils'
+
 export default class StateNumber {
-  constructor(public value: number, private setStateOfReact: any) {}
+  constructor(
+    public value: number,
+    private setStateOfReact: any,
+    protected config?: {
+      /**
+       * 设定限定范围
+       */
+      range?: [number, number]
+    },
+  ) {}
   add(addNumber: number) {
-    this.value = this.value + addNumber
-    this.setStateOfReact(this.value)
-    return this
+    return this.set(this.value + addNumber)
   }
   /**
    * @alias
@@ -15,6 +24,9 @@ export default class StateNumber {
     return this.add(addNumber)
   }
   set(setNumber: number) {
+    if (this.config?.range) {
+      setNumber = constraint(setNumber, { range: this.config.range })
+    }
     this.value = setNumber
     this.setStateOfReact(this.value)
     return this

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { StateBoolean } from '../../class'
 import { StateNumber } from '../../class'
+import { LastType } from '../../utils/#package_type'
 
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
@@ -13,9 +14,12 @@ const useStateBoolean = (init: boolean) => {
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
  */
-const useStateNumber = (init: number) => {
+const useStateNumber = (
+  init: number,
+  config: LastType<ConstructorParameters<typeof StateNumber>>,
+) => {
   const [state, setState] = useState(init)
-  return new StateNumber(state, setState)
+  return new StateNumber(state, setState, config)
 }
 
 type Reporters = {
@@ -34,7 +38,9 @@ const useRecorder = <T extends keyof Reporters>(config: { type: T; init?: any })
   // @ts-ignore
   if (config.type === 'counter') return useStateNumber(Number(config.init))
   // @ts-ignore
-  if (config.type === 'counter(percentage)') return useStateNumber(Number(config.init))
+  if (config.type === 'counter(percentage)')
+    // @ts-ignore
+    return useStateNumber(Number(config.init))
   // @ts-ignore
   if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
   else throw Error()
