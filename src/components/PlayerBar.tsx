@@ -19,7 +19,6 @@ export const PlayerBar: React.FC<{
       isPlaying: useRecorder({ type: 'on-off-reporter' }),
     },
     volume: useRecorder({ type: 'counter(percentage)', init: props.initVolume || 1 }),
-    volumePanel: useMaster({ type: 'open-close' }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.soundtrack.currentSecond
@@ -120,13 +119,6 @@ export const PlayerBar: React.FC<{
         />
         <Popover
           className="volume-panel"
-          isOpen={state.volumePanel.isOn}
-          onPointerEnter={() => {
-            state.volumePanel.dismissDeferHide()
-          }}
-          onPointerLeave={() => {
-            state.volumePanel.deferHide(1000)
-          }}
           Content={
             <Slider
               defaultValue={state.volume.value}
@@ -142,13 +134,6 @@ export const PlayerBar: React.FC<{
           <Button
             className="volume"
             Content="🔉"
-            onPointerEnter={() => {
-              state.volumePanel.show()
-              state.volumePanel.dismissDeferHide()
-            }}
-            onPointerLeave={() => {
-              state.volumePanel.deferHide(1000)
-            }}
           />
         </Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
