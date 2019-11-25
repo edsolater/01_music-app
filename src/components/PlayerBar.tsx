@@ -13,26 +13,23 @@ export const PlayerBar: React.FC<{
 }> = (props) => {
   //#region 维护播放器所含的状态信息
   const state = {
-    soundtrack: {
-      currentSecond: useRecorder({ type: 'counter', init: 0 }),
-      totalSeconds: useRecorder({ type: 'counter' }),
-      isPlaying: useRecorder({ type: 'on-off-reporter' }),
-    },
+    currentSecond: useRecorder({ type: 'counter', init: 0 }),
+    totalSeconds: useRecorder({ type: 'counter' }),
+    isPlaying: useRecorder({ type: 'on-off-reporter' }),
     volume: useRecorder({ type: 'counter(percentage)', init: props.initVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
-  const currentSecond = state.soundtrack.currentSecond
-  const isPlaying = state.soundtrack.isPlaying
-  const totalSeconds = state.soundtrack.totalSeconds.value
+  const currentSecond = state.currentSecond
+  const isPlaying = state.isPlaying
+  const totalSeconds = state.totalSeconds.value
   //#endregion
 
   const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
-      state.soundtrack.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
+      state.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
     el.volume = props.initVolume || 1
   })
-  const [volumePanel, volumnPanelRef] = useCallbackRef(document.createElement('div'))
   // 播放器进度条
   useEffect(() => {
     if (Number.isNaN(totalSeconds)) {
@@ -41,7 +38,7 @@ export const PlayerBar: React.FC<{
       // begin
       return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
     } else if (currentSecond.value < totalSeconds) {
-      // ongoing
+      // 播放正在进行中
       return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
     } else {
       // end
@@ -131,10 +128,7 @@ export const PlayerBar: React.FC<{
             />
           }
         >
-          <Button
-            className="volume"
-            Content="🔉"
-          />
+          <Button className="volume" Content="🔉" />
         </Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
       </ButtonGroup>

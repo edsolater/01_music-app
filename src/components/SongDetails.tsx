@@ -5,7 +5,7 @@ export const SongDetails = () => (
   <div className="song-details">
     <span className="plate-tital">"song-detail"</span>
     <Button>hhhh</Button>
-    <Popover isOn={true} Content={<div>hello</div>}>
+    <Popover Content={<div>hello</div>}>
       <Button>hhhh</Button>
     </Popover>
   </div>
