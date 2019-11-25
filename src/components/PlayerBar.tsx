@@ -118,17 +118,6 @@ export const PlayerBar: React.FC<{
             },
           }}
         />
-        <Button
-          className="volume"
-          Content="🔉"
-          onPointerEnter={() => {
-            state.volumePanel.show()
-            state.volumePanel.dismissDeferHide()
-          }}
-          onPointerLeave={() => {
-            state.volumePanel.deferHide(1000)
-          }}
-        />
         <Popover
           className="volume-panel"
           isOpen={state.volumePanel.isOn}
@@ -138,14 +127,27 @@ export const PlayerBar: React.FC<{
           onPointerLeave={() => {
             state.volumePanel.deferHide(1000)
           }}
+          Content={
+            <Slider
+              defaultValue={state.volume.value}
+              on={{
+                moveTriggerDone: (currentPercentage: number) => {
+                  console.log('currentPercentage: ', currentPercentage)
+                  setVolume(currentPercentage)
+                },
+              }}
+            />
+          }
         >
-          <Slider
-            defaultValue={state.volume.value}
-            on={{
-              moveTriggerDone: (currentPercentage: number) => {
-                console.log('currentPercentage: ', currentPercentage)
-                setVolume(currentPercentage)
-              },
+          <Button
+            className="volume"
+            Content="🔉"
+            onPointerEnter={() => {
+              state.volumePanel.show()
+              state.volumePanel.dismissDeferHide()
+            }}
+            onPointerLeave={() => {
+              state.volumePanel.deferHide(1000)
             }}
           />
         </Popover>
