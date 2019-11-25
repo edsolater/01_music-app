@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Button, ButtonGroup, Image, Slider, Popover } from 'mypack/components'
-import { useCallbackRef, useMaster, useRecorder } from 'mypack/components/__customHooks'
+import { Button, Group, Image, Slider, Popover } from 'mypack/components'
+import { useCallbackRef, useStateReporter } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
@@ -13,10 +13,10 @@ export const PlayerBar: React.FC<{
 }> = (props) => {
   //#region 维护播放器所含的状态信息
   const state = {
-    currentSecond: useRecorder({ type: 'counter', init: 0 }),
-    totalSeconds: useRecorder({ type: 'counter' }),
-    isPlaying: useRecorder({ type: 'on-off-reporter' }),
-    volume: useRecorder({ type: 'counter(percentage)', init: props.initVolume || 1 }),
+    currentSecond: useStateReporter({ type: 'counter', init: 0 }),
+    totalSeconds: useStateReporter({ type: 'counter' }),
+    isPlaying: useStateReporter({ type: 'on-off-reporter' }),
+    volume: useStateReporter({ type: 'counter(percentage)', init: props.initVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.currentSecond
@@ -53,7 +53,7 @@ export const PlayerBar: React.FC<{
     <div className="player-bar">
       <audio ref={audioPlayerHTMLRef} src={props.soundtrackUrl}></audio>
       <Image className="album-face" src={props.albumUrl} />
-      <ButtonGroup className="music-buttons">
+      <Group className="music-buttons">
         <Button className="last-song" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
         {isPlaying.isTrue ? (
           <Button
@@ -75,7 +75,7 @@ export const PlayerBar: React.FC<{
           />
         )}
         <Button className="next-song" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
-      </ButtonGroup>
+      </Group>
       <div className="timeline">
         <div className="songTitle">{props.songTitle}</div>
         <div className="timestamp">{`${Time(currentSecond.value).print({
@@ -95,7 +95,7 @@ export const PlayerBar: React.FC<{
           }}
         />
       </div>
-      <ButtonGroup className="info-panel">
+      <Group className="info-panel">
         <Button className="favorite" Content="❤" onClick={() => console.log(`I'm clicked a`)} />
         <Button //这个按钮应该控制App的行为 而不是播放器的
           className="play-mode"
@@ -131,7 +131,7 @@ export const PlayerBar: React.FC<{
           <Button className="volume" Content="🔉" />
         </Popover>
         <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
-      </ButtonGroup>
+      </Group>
     </div>
   )
 }

@@ -16,7 +16,7 @@ type ComponentMasters = {
 /**
  * 返回一个 “组件监工”，它操控component的行为
  */
-const useMaster = <T extends keyof ComponentMasters>(config: {
+const useUICommander = <T extends keyof ComponentMasters>(config: {
   type: T
   init?: any
 }): ComponentMasters[T] => {
@@ -25,4 +25,4 @@ const useMaster = <T extends keyof ComponentMasters>(config: {
   else throw Error()
 }
 
-export default useMaster
+export default useUICommander

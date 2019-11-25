@@ -1,16 +1,25 @@
-import React, { FC, useState } from 'react'
+import React from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './Slider.less'
-import { useRecorder } from '../__customHooks'
+import { useStateReporter } from '../__customHooks'
 import { constraint } from '../../utils'
 import { GetChildState, GetChildCommands } from '../types'
 
 /**
  * 注意它只能理解数字
  */
-const Slider: FC<{
+function Slider({
+  className,
+  total = 1,
+  value,
+  defaultValue,
+  childState,
+  childCommands,
+  on,
+  ...restProps
+}: {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -54,21 +63,12 @@ const Slider: FC<{
      */
     moveTriggerDone?: (currentSecond: number) => any
   }
-} & Omit<JSX.IntrinsicElements['div'], 'onChange'>> = ({
-  className,
-  total = 1,
-  value,
-  defaultValue,
-  childState,
-  childCommands,
-  on,
-  ...restProps
-}) => {
-  const triggerLeft = useRecorder({
+} & Omit<JSX.IntrinsicElements['div'], 'onChange'>) {
+  const triggerLeft = useStateReporter({
     type: 'counter(percentage)',
     init: (value || defaultValue || 0) / total || 0,
   })
-  const inDraggingTrigger = useRecorder({ type: 'on-off-reporter' })
+  const inDraggingTrigger = useStateReporter({ type: 'on-off-reporter' })
   const styleLeft = value
     ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / total) * 100}%`
     : `${triggerLeft.value * 100}%`
@@ -165,4 +165,4 @@ const Slider: FC<{
   )
 }
 
-export default React.memo(Slider)
+export default React.memo(Slider) as typeof Slider

@@ -1,9 +1,17 @@
-import React, { FC, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import './Popover.less'
-import { useMaster } from '../__customHooks'
-const Popover: FC<{
+import { useUICommander } from '../__customHooks'
+
+function Popover({
+  className,
+  isOn: _isOn,
+  delayTime,
+  Content,
+  children,
+  ...restProps
+}: {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -17,15 +25,8 @@ const Popover: FC<{
    */
   delayTime?: number
   Content?: ReactNode
-} & JSX.IntrinsicElements['div']> = ({
-  className,
-  isOn: _isOn,
-  delayTime,
-  Content,
-  children,
-  ...restProps
-}) => {
-  const controller = useMaster({ type: 'open-close' }).isImmutable(_isOn)
+} & JSX.IntrinsicElements['div']) {
+  const controller = useUICommander({ type: 'open-close' }).isImmutable(_isOn)
   return (
     <div
       className={classnames(className, 'Popover', 'Wrapper', { on: _isOn ?? controller.isOn })}
@@ -53,4 +54,4 @@ const Popover: FC<{
     </div>
   )
 }
-export default React.memo(Popover)
+export default React.memo(Popover) as typeof Popover

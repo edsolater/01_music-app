@@ -34,7 +34,7 @@ type Reporters = {
 /**
  * 返回一个 “状态监工”， 它反应着component的状态
  */
-const useRecorder = <T extends keyof Reporters>(config: { type: T; init?: any }): Reporters[T] => {
+const useStateReporter = <T extends keyof Reporters>(config: { type: T; init?: any }): Reporters[T] => {
   // @ts-ignore
   if (config.type === 'counter') return useStateNumber(Number(config.init))
   // @ts-ignore
@@ -46,4 +46,4 @@ const useRecorder = <T extends keyof Reporters>(config: { type: T; init?: any })
   else throw Error()
 }
 
-export default useRecorder
+export default useStateReporter

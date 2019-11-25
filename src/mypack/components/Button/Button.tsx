@@ -1,8 +1,18 @@
-import React, { FC, ReactNode, useState, MouseEvent } from 'react'
+import React, { ReactNode, useState, MouseEvent } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import './Button.css'
-const Button: FC<{
+import './Button.less'
+
+function Button({
+  className,
+  Content,
+  children,
+  modes,
+  initMode: _initMode,
+  on,
+  onClick,
+  ...restProps
+}: {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -20,16 +30,7 @@ const Button: FC<{
      */
     modeChange?: (newMode: string) => void //需要更generic
   }
-} & JSX.IntrinsicElements['div']> = ({
-  className,
-  Content,
-  children,
-  modes,
-  initMode: _initMode,
-  on,
-  onClick,
-  ...restProps
-}) => {
+} & JSX.IntrinsicElements['div']) {
   const [currentMode, changeMode] = modes ? useState(_initMode) : []
   return (
     <div
@@ -52,4 +53,4 @@ const Button: FC<{
     </div>
   )
 }
-export default React.memo(Button)
+export default React.memo(Button) as typeof Button
