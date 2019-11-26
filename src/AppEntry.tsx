@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './AppEntry.css'
@@ -18,14 +18,14 @@ export declare type Header = {
   subtitle: string
   detail: string
 }
-export declare type Songs = {
+export declare type Song = {
   songTitle: string
   albumUrl: string
   soundtrackUrl: string
-}[]
+}
 type AppDatas = {
   header: Header
-  songs: Songs
+  songs: Song[]
 }[]
 const dataPieces: AppDatas = [
   {
@@ -67,6 +67,14 @@ const dataPieces: AppDatas = [
 
 function App({ initIndex }: { initIndex?: number }) {
   const activeCollectionIndex = useUIState({ type: 'index-recorder', init: initIndex })
+  const activeSongInfo = useUIState({
+    type: 'collection(object)',
+    init: {
+      songTitle: 'words-Aimer',
+      albumUrl: avatar,
+      soundtrackUrl: soundtrackUrl,
+    },
+  })
   return (
     <div className="app-box">
       <CollectionHeader
@@ -76,13 +84,11 @@ function App({ initIndex }: { initIndex?: number }) {
           activeCollectionIndex.set(index)
         }}
       ></CollectionHeader>
-      <SongsList data={dataPieces[activeCollectionIndex.value].songs}></SongsList>
+      <SongsList songs={dataPieces[activeCollectionIndex.value].songs}></SongsList>
       <PlayerBar
-        {...{
-          songTitle: 'words-Aimer',
-          albumUrl: avatar,
-        }}
-        soundtrackUrl={soundtrackUrl}
+        songTitle={(activeSongInfo.value as Song).songTitle as string} //这里源于对typescript的不够熟悉，所以写得很冗余
+        albumUrl={(activeSongInfo.value as Song).albumUrl as string} //这里源于对typescript的不够熟悉，所以写得很冗余
+        soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl as string} //这里源于对typescript的不够熟悉，所以写得很冗余
       />
     </div>
   )

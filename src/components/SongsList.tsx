@@ -1,12 +1,14 @@
 import React from 'react'
 import { TableView, Popover, Button } from '../mypack/components'
-import { Songs } from 'AppEntry'
+import { Song } from 'AppEntry'
 
-export const SongsList = ({ data }: { data: Songs }) => (
+export const SongsList = ({ songs: data }: { songs: Song[] }) => (
   <div className="song-details">
     <span className="plate-tital">"song-detail"</span>
     {data.map(({ songTitle, soundtrackUrl, albumUrl }) => (
-      <div className="songTitle">{songTitle}</div>
+      <div className="songTitle" key={songTitle}>
+        {songTitle}
+      </div>
     ))}
   </div>
 )
