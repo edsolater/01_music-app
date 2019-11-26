@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, Group, Image, Slider, Popover } from 'mypack/components'
-import { useCallbackRef, useStateReporter } from 'mypack/components/__customHooks'
+import { useCallbackRef, useUIState } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
@@ -13,10 +13,10 @@ export const PlayerBar: React.FC<{
 }> = (props) => {
   //#region 维护播放器所含的状态信息
   const state = {
-    currentSecond: useStateReporter({ type: 'counter', init: 0 }),
-    totalSeconds: useStateReporter({ type: 'counter' }),
-    isPlaying: useStateReporter({ type: 'on-off-reporter' }),
-    volume: useStateReporter({ type: 'counter(percentage)', init: props.initVolume || 1 }),
+    currentSecond: useUIState({ type: 'counter', init: 0 }),
+    totalSeconds: useUIState({ type: 'counter' }),
+    isPlaying: useUIState({ type: 'on-off-reporter' }),
+    volume: useUIState({ type: 'counter(percentage)', init: props.initVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.currentSecond

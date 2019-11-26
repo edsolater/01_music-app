@@ -2,6 +2,9 @@ import { constraint } from 'mypack/utils'
 
 export default class StateNumber {
   constructor(
+    /**
+     * 吐出数据内容
+     */
     public value: number,
     private setStateOfReact: any,
     protected config?: {

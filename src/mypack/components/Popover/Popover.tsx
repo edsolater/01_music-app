@@ -3,10 +3,10 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import './Popover.less'
 import { useUICommander } from '../__customHooks'
-type Commander = {
+type UICommander = {
   showPopover(): void
 }
-type Reporter = {
+type UIState = {
   isOn: boolean
 }
 function Popover({
@@ -16,8 +16,8 @@ function Popover({
   Content,
 
   children,
-  commander,
-  reporter,
+  uiCommander,
+  uiState,
   ...restProps
 }: {
   /**
@@ -39,28 +39,28 @@ function Popover({
   /**
    * 暴露出Popover组件的控制命令
    */
-  commander?: Commander
+  uiCommander?: UICommander
   /**
    * 暴露出Popover组件的当前状态
    */
-  reporter?: Reporter
+  uiState?: UIState
 } & JSX.IntrinsicElements['div']) {
   const controller = useUICommander({ type: 'open-close' }).isImmutable(_isOn)
 
   //#region 上抛commander
-  if (commander) {
-    Object.assign(commander, {
+  if (uiCommander) {
+    Object.assign(uiCommander, {
       showPopover() {
         return controller.show()
       },
-    } as Commander)
+    } as UICommander)
   }
   //#endregion
-  //#region 上抛reporter
-  if (reporter) {
-    Object.assign(reporter, {
+  //#region 上抛 UIState
+  if (uiState) {
+    Object.assign(uiState, {
       isOn: _isOn ?? controller.isOn,
-    } as Reporter)
+    } as UIState)
   }
   //#endregion
   return (

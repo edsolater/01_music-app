@@ -23,6 +23,10 @@ const useStateNumber = (
 }
 
 type Reporters = {
+  /**
+   * 一般用于记录所选的index
+   */
+  'index-recorder': ReturnType<typeof useStateNumber>
   'counter': ReturnType<typeof useStateNumber>
   /**
    * 只能0到1之间 //待实现
@@ -34,7 +38,9 @@ type Reporters = {
 /**
  * 返回一个 “状态监工”， 它反应着component的状态
  */
-const useStateReporter = <T extends keyof Reporters>(config: { type: T; init?: any }): Reporters[T] => {
+const useUIState = <T extends keyof Reporters>(config: { type: T; init?: any }): Reporters[T] => {
+  // @ts-ignore
+  if (config.type === 'index-recorder') return useStateNumber(Number(config.init))
   // @ts-ignore
   if (config.type === 'counter') return useStateNumber(Number(config.init))
   // @ts-ignore
@@ -46,4 +52,4 @@ const useStateReporter = <T extends keyof Reporters>(config: { type: T; init?: a
   else throw Error()
 }
 
-export default useStateReporter
+export default useUIState
