@@ -19,6 +19,7 @@ type Data = {
 function TableView<D extends Data>({
   //为了使解析器识别generic的语法，不得不用function声明
   className,
+  initIndex,
   data,
   Template,
   on,
@@ -29,6 +30,10 @@ function TableView<D extends Data>({
    * 接收classnames()能接收的各种参数
    */
   className?: ClassValue
+  /**
+   * 初始化选择的index
+   */
+  initIndex?: number
   /**
    * TableView会使用的具体数据（Template定义渲染的样式）
    */
@@ -42,11 +47,11 @@ function TableView<D extends Data>({
   }
   uiState?: UIState
 } & JSX.IntrinsicElements['div']) {
-  const selectedItemIndex = useUIState({ type: 'index-recorder' })
+  const selectedItemIndex = useUIState({ type: 'index-recorder', init: initIndex })
   //#region 上抛 UIState
   if (uiState) {
     Object.assign(uiState, {
-      selectedItemIndex: selectedItemIndex.value
+      selectedItemIndex: selectedItemIndex.value,
     } as UIState)
   }
   //#endregion
