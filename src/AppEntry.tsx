@@ -86,9 +86,9 @@ function App({ initIndex }: { initIndex?: number }) {
       ></CollectionHeader>
       <SongsList songs={dataPieces[activeCollectionIndex.value].songs}></SongsList>
       <PlayerBar
-        songTitle={(activeSongInfo.value as Song).songTitle as string} //这里源于对typescript的不够熟悉，所以写得很冗余
-        albumUrl={(activeSongInfo.value as Song).albumUrl as string} //这里源于对typescript的不够熟悉，所以写得很冗余
-        soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl as string} //这里源于对typescript的不够熟悉，所以写得很冗余
+        songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
+        albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
+        soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
       />
     </div>
   )
