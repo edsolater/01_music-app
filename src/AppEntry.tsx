@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom'
 
 import './AppEntry.css'
 
-import albumUrl from './assets/头像.jpg'
-import avatar2 from './assets/whiteEye--small.png'
-import soundtrackUrl from './assets/ezio Family.mp3'
+import albumUrl from './assets/头像.jpg' // 这个信息应该靠后端传过来，现在只是占位
+import avatar2 from './assets/whiteEye--small.png' // 这个信息应该靠后端传过来，现在只是占位
+import soundtrackUrl from './assets/ezio Family.mp3' // 这个信息应该靠后端传过来，现在只是占位
 import { PlayerBar } from './components/PlayerBar'
 import { SongDetails } from './components/SongDetails'
 import { SongCollections } from './components/SongCollections'

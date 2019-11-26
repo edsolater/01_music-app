@@ -1,7 +1,43 @@
 .TableView {
   color: var(--primary-text, #333);
-  .Image {
-    width: 100px;
-    height: $width;
+  .Item {
+    border-bottom: var(--divider-height, 1px) solid transparent; // 为了撑开高度
+    position: relative;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    &::before {
+      content: '';
+      position: absolute;
+      height: var(--divider-height, 1px);
+      bottom: calc(-1 * var(--divider-height, 1px));
+      left: 54px;
+      right: 0;
+      background-color: #ddd;
+    }
+    &:last-child {
+      border-bottom: initial;
+      padding-bottom: unset;
+      &::before {
+        all: unset;
+      }
+    }
+    &:first-child {
+      padding-top: unset;
+    }
+    > * {
+      display: grid;
+      grid-template: 'image title' auto / auto 1fr;
+      .Image {
+        grid-area: image;
+        width: 100px;
+        height: 100px;
+        margin-right: 8px;
+        margin-left: 8px;
+      }
+      .title {
+        grid-area: title;
+        color: #333;
+      }
+    }
   }
 }

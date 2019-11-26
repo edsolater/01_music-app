@@ -11,7 +11,6 @@ export function SongCollections({ data }: { data: AppDatas }) {
         data={data}
         Template={(data) => (
           <div
-            className="item"
             onClick={() => {
               console.log(`click ${data.title}`)
             }}
