@@ -19,7 +19,7 @@ export declare type Header = {
   detail: string
 }
 export declare type Song = {
-  songTitle: string
+  songTitle: string 
   albumUrl: string
   soundtrackUrl: string
 }
@@ -33,6 +33,7 @@ const dataPieces: AppDatas = [
       imageUrl: avatar,
       title: 'First title',
       subtitle: 'first subtitle',
+      
       detail: 'hello',
     },
     songs: [
