@@ -49,7 +49,7 @@ type Reporters = {
 /**
  * 返回一个 “状态监工”， 它反应着component的状态
  */
-const useUIState = <T extends keyof Reporters, O>(config: { type: T; init: O }): Reporters[T] => {
+const useUIState = <T extends keyof Reporters, O>(config: { type: T; init?: O }): Reporters[T] => {
   // @ts-ignore
   if (config.type === 'index-recorder') return useStateNumber(Number(config.init))
   // @ts-ignore
