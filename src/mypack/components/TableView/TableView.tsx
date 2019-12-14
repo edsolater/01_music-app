@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './TableView.less'
-import { useUIState } from '../__customHooks'
+import { useUIMonitor } from '../__customHooks'
 type UIState = {
   selectedItemIndex: number
 }
@@ -22,7 +22,7 @@ function TableView<D extends Data>({
   initIndex,
   data,
   Template,
-  on,
+  when: on,
   uiState,
   ...restProps
 }: {
@@ -42,12 +42,12 @@ function TableView<D extends Data>({
    * TableView对每条数据的渲染界面（函数传入data中的数据）
    */
   Template: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
-  on?: {
+  when?: {
     clickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
   }
   uiState?: UIState
 } & JSX.IntrinsicElements['div']) {
-  const selectedItemIndex = useUIState({ type: 'index-recorder', init: initIndex })
+  const selectedItemIndex = useUIMonitor({ type: 'index-recorder', init: initIndex })
   //#region 上抛 UIState
   if (uiState) {
     Object.assign(uiState, {

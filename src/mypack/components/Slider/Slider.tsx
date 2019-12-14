@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './Slider.less'
-import { useUIState } from '../__customHooks'
+import { useUIMonitor } from '../__customHooks'
 import { constraint } from '../../utils'
 import { GetChildState, GetChildCommands } from '../types'
 
@@ -64,11 +64,11 @@ function Slider({
     moveTriggerDone?: (currentSecond: number) => any
   }
 } & Omit<JSX.IntrinsicElements['div'], 'onChange'>) {
-  const triggerLeft = useUIState({
+  const triggerLeft = useUIMonitor({
     type: 'counter(percentage)',
     init: (value || defaultValue || 0) / total || 0,
   })
-  const inDraggingTrigger = useUIState({ type: 'on-off-reporter' })
+  const inDraggingTrigger = useUIMonitor({ type: 'on-off-reporter' })
   const styleLeft = value
     ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / total) * 100}%`
     : `${triggerLeft.value * 100}%`

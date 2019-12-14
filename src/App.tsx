@@ -1,39 +1,37 @@
-import React, { useCallback, useState } from 'react'
+import React, { ComponentProps } from 'react'
 import * as ReactDOM from 'react-dom'
 
-import './AppEntry.css'
+import './App.less'
 
 import avatar from './assets/头像.jpg' // 这个信息应该靠后端传过来，现在只是占位
 import avatar2 from './assets/whiteEye--small.png' // 这个信息应该靠后端传过来，现在只是占位
 import soundtrackUrl from './assets/ezio Family.mp3' // 这个信息应该靠后端传过来，现在只是占位
 import soundtrackUrl2 from './assets/Aimer - STAND-ALONE.mp3' // 这个信息应该靠后端传过来，现在只是占位
-import { PlayerBar } from './components/PlayerBar'
-import { SongsList } from './components/SongsList'
-import { CollectionHeader } from './components/CollectionHeader'
-import { useUIState } from 'mypack/components/__customHooks'
 
-export declare type Header = {
+import { TableView, Label, ImageBox } from './mypack/components'
+import { useUIMonitor} from 'mypack/components/__customHooks'
+import { PlayerBar } from './components/PlayerBar'
+
+interface CollectionInfo {
   imageUrl: string
   title: string
   subtitle: string
   detail: string
 }
-export declare type Song = {
-  songTitle: string 
+interface Song {
+  songTitle: string
   albumUrl: string
   soundtrackUrl: string
 }
-type AppDatas = {
-  header: Header
+const dataPieces: {
+  header: CollectionInfo
   songs: Song[]
-}[]
-const dataPieces: AppDatas = [
+}[] = [
   {
     header: {
       imageUrl: avatar,
       title: 'First title',
       subtitle: 'first subtitle',
-      
       detail: 'hello',
     },
     songs: [
@@ -66,9 +64,56 @@ const dataPieces: AppDatas = [
   },
 ]
 
+function CollectionList({
+  data,
+  initIndex,
+  changeIndex,
+}: {
+  data: CollectionInfo[]
+  initIndex?: number
+  changeIndex?: Exclude<ComponentProps<typeof TableView>['when'], undefined>['clickItem']
+}) {
+  return (
+    <div className="collections-list">
+      <span className="plate-title">song-collection</span>
+      <TableView
+        data={data}
+        initIndex={initIndex}
+        when={{
+          clickItem: changeIndex,
+        }}
+        Template={(data) => (
+          <div
+            onClick={() => {
+              console.log(`click ${data.title}`)
+            }}
+          >
+            <ImageBox src={data.imageUrl} />
+            <Label className="title">{data.title}</Label>
+          </div>
+        )}
+      />
+    </div>
+  )
+}
+
+function SongsList({ songs: data }: { songs: Song[] }) {
+  return (
+    <div className="song-details">
+      <span className="plate-tital">"song-detail"</span>
+      <TableView
+        data={data}
+        Template={(data) => {
+          return <div className="songItem">{data.songTitle}</div>
+        }}
+      ></TableView>
+    </div>
+  )
+}
+
 function App({ initIndex }: { initIndex?: number }) {
-  const activeCollectionIndex = useUIState({ type: 'index-recorder', init: initIndex })
-  const activeSongInfo = useUIState({
+  const activeCollectionIndex = useUIMonitor({ type: 'index-recorder', init: initIndex })
+  const activeSongInfo = useUIMonitor({
     type: 'collection(object)',
     init: {
       songTitle: 'words-Aimer',
@@ -78,13 +123,13 @@ function App({ initIndex }: { initIndex?: number }) {
   })
   return (
     <div className="app-box">
-      <CollectionHeader
+      <CollectionList
         data={dataPieces.map((data) => data.header)}
         initIndex={initIndex}
         changeIndex={(_, index) => {
           activeCollectionIndex.set(index)
         }}
-      ></CollectionHeader>
+      ></CollectionList>
       <SongsList songs={dataPieces[activeCollectionIndex.value].songs}></SongsList>
       <PlayerBar
         songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余

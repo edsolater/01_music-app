@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Button, Group, Image, Slider, Popover } from 'mypack/components'
-import { useCallbackRef, useUIState } from 'mypack/components/__customHooks'
+import { Button, Group, ImageBox, Slider, Popover } from 'mypack/components'
+import { useCallbackRef, useUIMonitor } from 'mypack/components/__customHooks'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
@@ -13,10 +13,10 @@ export const PlayerBar: React.FC<{
 }> = (props) => {
   //#region 维护播放器所含的状态信息
   const state = {
-    currentSecond: useUIState({ type: 'counter', init: 0 }),
-    totalSeconds: useUIState({ type: 'counter' }),
-    isPlaying: useUIState({ type: 'on-off-reporter' }),
-    volume: useUIState({ type: 'counter(percentage)', init: props.initVolume || 1 }),
+    currentSecond: useUIMonitor({ type: 'counter', init: 0 }),
+    totalSeconds: useUIMonitor({ type: 'counter' }),
+    isPlaying: useUIMonitor({ type: 'on-off-reporter' }),
+    volume: useUIMonitor({ type: 'counter(percentage)', init: props.initVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.currentSecond
@@ -52,7 +52,7 @@ export const PlayerBar: React.FC<{
   return (
     <div className="player-bar">
       <audio ref={audioPlayerHTMLRef} src={props.soundtrackUrl}></audio>
-      <Image className="album-face" src={props.albumUrl} />
+      <ImageBox className="album-face" src={props.albumUrl} />
       <Group className="music-buttons">
         <Button className="last-song" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
         {isPlaying.isTrue ? (

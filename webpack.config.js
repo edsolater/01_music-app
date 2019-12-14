@@ -7,7 +7,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const config = {
   mode: 'development',
   entry: {
-    main: './src/AppEntry.tsx',
+    main: './src/App.tsx',
   },
   // Enable sourcemaps for debugging webpack's output.
   devtool: 'cheap-module-eval-source-map',

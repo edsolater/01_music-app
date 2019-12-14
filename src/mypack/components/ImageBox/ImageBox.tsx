@@ -1,7 +1,7 @@
 import React from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import './Image.less'
+import './ImageBox.less'
 
 function Image({
   className,
