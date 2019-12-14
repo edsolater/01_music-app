@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { StateBoolean, StateNumber, StateCollectionObject } from '../../class'
 import { LastType } from '../../utils/#package_type'
+import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
+
 
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
@@ -37,6 +38,9 @@ type Reporters = {
    * 一般用于记录所选的index
    */
   'index-recorder': ReturnType<typeof useStateNumber>
+  /**
+   * 用于处理 “开/关” 状态
+   */
   'counter': ReturnType<typeof useStateNumber>
   /**
    * 只能0到1之间 //待实现
@@ -58,8 +62,8 @@ const useUIState = <T extends keyof Reporters, O>(config: { type: T; init?: O })
   if (config.type === 'counter(percentage)')
     // @ts-ignore
     return useStateNumber(Number(config.init))
-  // @ts-ignore
-  if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
+    // @ts-ignore
+    if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
   // @ts-ignore
   if (config.type === 'collection(object)') return useStateCollectionObject(config.init)
   else throw Error()

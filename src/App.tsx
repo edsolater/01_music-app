@@ -1,16 +1,15 @@
 import React, { ComponentProps } from 'react'
 import * as ReactDOM from 'react-dom'
-import { TableView, ImageBox, Label, useUIMonitor } from 'mypack/components'
 
 import './App.less'
 
-import avatar from './assets/头像.jpg' // 这个信息应该靠后端传过来，现在只是占位
-import avatar2 from './assets/whiteEye--small.png' // 这个信息应该靠后端传过来，现在只是占位
-import soundtrackUrl from './assets/ezio Family.mp3' // 这个信息应该靠后端传过来，现在只是占位
-import soundtrackUrl2 from './assets/Aimer - STAND-ALONE.mp3' // 这个信息应该靠后端传过来，现在只是占位
+import avatar from 'assets/头像.jpg' // 这个信息应该靠后端传过来，现在只是占位
+import avatar2 from 'assets/whiteEye--small.png' // 这个信息应该靠后端传过来，现在只是占位
+import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息应该靠后端传过来，现在只是占位
+import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息应该靠后端传过来，现在只是占位
 
-import { PlayerBar } from './components/PlayerBar'
-
+import { TableView, ImageBox, Label, useUIMonitor } from 'mypack/components'
+import { PlayerBar } from 'components/PlayerBar'
 interface CollectionInfo {
   imageUrl: string
   title: string
@@ -66,11 +65,11 @@ const dataPieces: {
 function CollectionList({
   data,
   initIndex,
-  changeIndex,
+  onChangeIndex,
 }: {
   data: CollectionInfo[]
   initIndex?: number
-  changeIndex?: Exclude<ComponentProps<typeof TableView>['when'], undefined>['clickItem']
+  onChangeIndex?: (dataItem: CollectionInfo, index: number, array: CollectionInfo[]) => any
 }) {
   return (
     <div className="collections-list">
@@ -78,9 +77,7 @@ function CollectionList({
       <TableView
         data={data}
         initIndex={initIndex}
-        when={{
-          clickItem: changeIndex,
-        }}
+        onClickItem={onChangeIndex}
         Template={(data) => (
           <div
             onClick={() => {
@@ -125,7 +122,7 @@ function App({ initIndex }: { initIndex?: number }) {
       <CollectionList
         data={dataPieces.map((data) => data.header)}
         initIndex={initIndex}
-        changeIndex={(_, index) => {
+        onChangeIndex={(_, index) => {
           activeCollectionIndex.set(index)
         }}
       ></CollectionList>

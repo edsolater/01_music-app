@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import './Popover.less'
-import { useUICommander } from '../__customHooks'
+import { useUIMonitor } from '../__customHooks'
 type UICommander = {
   showPopover(): void
 }
@@ -45,7 +45,7 @@ function Popover({
    */
   uiState?: UIState
 } & JSX.IntrinsicElements['div']) {
-  const controller = useUICommander({ type: 'open-close' }).isImmutable(_isOn)
+  const controller = useUIMonitor({ type: 'on-off-reporter' }).isImmutable(_isOn)
 
   //#region 上抛commander
   if (uiCommander) {

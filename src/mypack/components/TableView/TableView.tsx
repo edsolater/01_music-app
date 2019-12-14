@@ -3,10 +3,8 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './TableView.less'
-import { useUIMonitor } from '../__customHooks'
-type UIState = {
-  selectedItemIndex: number
-}
+import { useUIMonitor } from 'mypack/components/__customHooks'
+
 type Data = {
   id?: string | number
   key?: string | number
@@ -22,10 +20,9 @@ function TableView<D extends Data>({
   initIndex,
   data,
   Template,
-  when: on,
-  uiState,
+  onClickItem,
   ...restProps
-}: {
+}: JSX.IntrinsicElements['div'] & {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -42,19 +39,9 @@ function TableView<D extends Data>({
    * TableView对每条数据的渲染界面（函数传入data中的数据）
    */
   Template: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
-  when?: {
-    clickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
-  }
-  uiState?: UIState
-} & JSX.IntrinsicElements['div']) {
+  onClickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
+} ) {
   const selectedItemIndex = useUIMonitor({ type: 'index-recorder', init: initIndex })
-  //#region 上抛 UIState
-  if (uiState) {
-    Object.assign(uiState, {
-      selectedItemIndex: selectedItemIndex.value,
-    } as UIState)
-  }
-  //#endregion
   return (
     <div className={classnames(className, 'TableView')} {...restProps}>
       {data.map((data, index, array) => (
@@ -63,7 +50,7 @@ function TableView<D extends Data>({
           key={data.key ?? data.id ?? index}
           onClick={() => {
             selectedItemIndex.set(index)
-            on?.clickItem?.(data, index, array)
+            onClickItem?.(data, index, array)
           }}
         >
           {Template(data, index, array)}
