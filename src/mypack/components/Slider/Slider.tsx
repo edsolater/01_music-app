@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './Slider.less'
-import { useUIMonitor } from '../__customHooks'
+import { useMaster } from '../__customHooks'
 import { constraint } from '../../utils'
 import { GetChildState, GetChildCommands } from '../types'
 
@@ -63,11 +63,11 @@ function Slider({
    */
   onMoveTriggerDone?: (currentSecond: number) => any
 }) {
-  const triggerLeft = useUIMonitor({
+  const triggerLeft = useMaster({
     type: 'counter(percentage)',
     init: (value || defaultValue || 0) / max || 0,
   })
-  const inDraggingTrigger = useUIMonitor({ type: 'on-off-reporter' })
+  const inDraggingTrigger = useMaster({ type: 'on-off-reporter' })
   const styleLeft = value
     ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / max) * 100}%`
     : `${triggerLeft.value * 100}%`

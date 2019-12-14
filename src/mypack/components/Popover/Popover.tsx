@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import { useUIMonitor } from 'mypack/components/__customHooks'
+import { useMaster } from 'mypack/components/__customHooks'
 import './Popover.less'
 
 function Popover({
@@ -29,7 +29,7 @@ function Popover({
    */
   Content?: ReactNode
 } & JSX.IntrinsicElements['div']) {
-  const controller = useUIMonitor({ type: 'on-off-reporter' }).isImmutable(open)
+  const controller = useMaster({ type: 'on-off-reporter' }).isImmutable(open)
   return (
     <div
       className={classnames(className, 'Popover', 'Wrapper', { on: open ?? controller.isOn })}

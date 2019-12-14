@@ -5,7 +5,7 @@ import {
   ImageBox,
   Slider,
   Popover,
-  useUIMonitor,
+  useMaster,
   useCallbackRef,
 } from 'mypack/components'
 import { Time } from 'mypack/class'
@@ -20,10 +20,10 @@ export const PlayerBar: React.FC<{
 }> = (props) => {
   //#region 维护播放器所含的状态信息
   const state = {
-    currentSecond: useUIMonitor({ type: 'counter', init: 0 }),
-    totalSeconds: useUIMonitor({ type: 'counter' }),
-    isPlaying: useUIMonitor({ type: 'on-off-reporter' }),
-    volume: useUIMonitor({ type: 'counter(percentage)', init: props.initVolume || 1 }),
+    currentSecond: useMaster({ type: 'counter', init: 0 }),
+    totalSeconds: useMaster({ type: 'counter' }),
+    isPlaying: useMaster({ type: 'on-off-reporter' }),
+    volume: useMaster({ type: 'counter(percentage)', init: props.initVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.currentSecond

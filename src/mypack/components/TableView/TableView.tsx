@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './TableView.less'
-import { useUIMonitor } from 'mypack/components/__customHooks'
+import { useMaster } from 'mypack/components/__customHooks'
 
 type Data = {
   id?: string | number
@@ -12,7 +12,7 @@ type Data = {
   imageUrl?: string
   subtitle?: string
   detail?: string
-  [any: string]: any
+  [titleName: string]: any
 }
 function TableView<D extends Data>({
   //为了使解析器识别generic的语法，不得不用function声明
@@ -41,7 +41,7 @@ function TableView<D extends Data>({
   Slot_Item: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
   onClickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
 } ) {
-  const selectedItemIndex = useUIMonitor({ type: 'index-recorder', init: initIndex })
+  const selectedItemIndex = useMaster({ type: 'index-recorder', init: initIndex })
   return (
     <div className={classnames(className, 'TableView')} {...restProps}>
       {data.map((data, index, array) => (

@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { LastType } from '../../utils/#package_type'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
+import { LastType } from 'mypack/utils/#package_type'
 
 
 /**
@@ -51,9 +51,9 @@ type Reporters = {
   'collection(object)': ReturnType<typeof useStateCollectionObject>
 }
 /**
- * 返回一个 “状态监工”， 它反应着component的状态
+ * 返回一个 “御主”（Fate型月世界中的概念，这里意为component的控制者）
  */
-const useUIState = <T extends keyof Reporters, O>(config: { type: T; init?: O }): Reporters[T] => {
+const useMaster = <T extends keyof Reporters, O>(config: { type: T; init?: O }): Reporters[T] => {
   // @ts-ignore
   if (config.type === 'index-recorder') return useStateNumber(Number(config.init))
   // @ts-ignore
@@ -69,4 +69,4 @@ const useUIState = <T extends keyof Reporters, O>(config: { type: T; init?: O })
   else throw Error()
 }
 
-export default useUIState
+export default useMaster
