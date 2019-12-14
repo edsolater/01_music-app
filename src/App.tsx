@@ -1,5 +1,6 @@
 import React, { ComponentProps } from 'react'
 import * as ReactDOM from 'react-dom'
+import { TableView, ImageBox, Label, useUIMonitor } from 'mypack/components'
 
 import './App.less'
 
@@ -8,8 +9,6 @@ import avatar2 from './assets/whiteEye--small.png' // 这个信息应该靠后�
 import soundtrackUrl from './assets/ezio Family.mp3' // 这个信息应该靠后端传过来，现在只是占位
 import soundtrackUrl2 from './assets/Aimer - STAND-ALONE.mp3' // 这个信息应该靠后端传过来，现在只是占位
 
-import { TableView, Label, ImageBox } from './mypack/components'
-import { useUIMonitor} from 'mypack/components/__customHooks'
 import { PlayerBar } from './components/PlayerBar'
 
 interface CollectionInfo {

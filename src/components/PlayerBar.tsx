@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { Button, Group, ImageBox, Slider, Popover } from 'mypack/components'
-import { useCallbackRef, useUIMonitor } from 'mypack/components/__customHooks'
+import { Button, Group, ImageBox, Slider, Popover, useUIMonitor, useCallbackRef } from 'mypack/components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
