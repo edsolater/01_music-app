@@ -19,7 +19,7 @@ function TableView<D extends Data>({
   className,
   initIndex,
   data,
-  Template,
+  Slot_Item,
   onClickItem,
   ...restProps
 }: JSX.IntrinsicElements['div'] & {
@@ -38,7 +38,7 @@ function TableView<D extends Data>({
   /**
    * TableView对每条数据的渲染界面（函数传入data中的数据）
    */
-  Template: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
+  Slot_Item: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
   onClickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
 } ) {
   const selectedItemIndex = useUIMonitor({ type: 'index-recorder', init: initIndex })
@@ -53,7 +53,7 @@ function TableView<D extends Data>({
             onClickItem?.(data, index, array)
           }}
         >
-          {Template(data, index, array)}
+          {Slot_Item(data, index, array)}
         </div>
       ))}
     </div>

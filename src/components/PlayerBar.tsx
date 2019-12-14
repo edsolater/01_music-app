@@ -1,5 +1,13 @@
 import React, { useEffect } from 'react'
-import { Button, Group, ImageBox, Slider, Popover, useUIMonitor, useCallbackRef } from 'mypack/components'
+import {
+  Button,
+  Group,
+  ImageBox,
+  Slider,
+  Popover,
+  useUIMonitor,
+  useCallbackRef,
+} from 'mypack/components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
@@ -49,15 +57,15 @@ export const PlayerBar: React.FC<{
     state.volume.set(newVolume)
   }
   return (
-    <div className="player-bar">
+    <div className='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={props.soundtrackUrl}></audio>
-      <ImageBox className="album-face" src={props.albumUrl} />
-      <Group className="music-buttons">
-        <Button className="last-song" Content="⏮" onClick={() => console.log(`I'm clicked 1`)} />
+      <ImageBox className='album-face' src={props.albumUrl} />
+      <Group className='music-buttons'>
+        <Button className='last-song' Content='⏮' onClick={() => console.log(`I'm clicked 1`)} />
         {isPlaying.isTrue ? (
           <Button
-            className="pause"
-            Content="⏸"
+            className='pause'
+            Content='⏸'
             onClick={() => {
               if (audioPlayerHTML) audioPlayerHTML.pause()
               isPlaying.turnOff()
@@ -65,40 +73,38 @@ export const PlayerBar: React.FC<{
           />
         ) : (
           <Button
-            className="play"
-            Content="▶"
+            className='play'
+            Content='▶'
             onClick={() => {
               if (audioPlayerHTML) audioPlayerHTML.play()
               isPlaying.turnOn()
             }}
           />
         )}
-        <Button className="next-song" Content="⏭" onClick={() => console.log(`I'm clicked 3`)} />
+        <Button className='next-song' Content='⏭' onClick={() => console.log(`I'm clicked 3`)} />
       </Group>
-      <div className="timeline">
-        <div className="songTitle">{props.songTitle}</div>
-        <div className="timestamp">{`${Time(currentSecond.value).print({
+      <div className='timeline'>
+        <div className='songTitle'>{props.songTitle}</div>
+        <div className='timestamp'>{`${Time(currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</div>
         <Slider
           value={currentSecond.value}
-          total={totalSeconds}
-          on={{
-            moveTrigger: (incomeCurrentSecond) => {
-              currentSecond.set(incomeCurrentSecond)
-            },
-            moveTriggerDone: (incomeCurrentSecond) => {
-              currentSecond.set(incomeCurrentSecond)
-              audioPlayerHTML.currentTime = incomeCurrentSecond
-            },
+          max={totalSeconds}
+          onMoveTrigger={(incomeCurrentSecond) => {
+            currentSecond.set(incomeCurrentSecond)
+          }}
+          onMoveTriggerDone={(incomeCurrentSecond) => {
+            currentSecond.set(incomeCurrentSecond)
+            audioPlayerHTML.currentTime = incomeCurrentSecond
           }}
         />
       </div>
-      <Group className="info-panel">
-        <Button className="favorite" Content="❤" onClick={() => console.log(`I'm clicked a`)} />
+      <Group className='info-panel'>
+        <Button className='favorite' Content='❤' onClick={() => console.log(`I'm clicked a`)} />
         <Button //这个按钮应该控制App的行为 而不是播放器的
-          className="play-mode"
-          Content="🔁"
+          className='play-mode'
+          Content='🔁'
           modes={['on', 'off']}
           on={{
             click: (_, switchToNextMode) => {
@@ -114,22 +120,20 @@ export const PlayerBar: React.FC<{
           }}
         />
         <Popover
-          className="volume-panel"
+          className='volume-panel'
           Content={
             <Slider
               defaultValue={state.volume.value}
-              on={{
-                moveTriggerDone: (currentPercentage: number) => {
-                  console.log('currentPercentage: ', currentPercentage)
-                  setVolume(currentPercentage)
-                },
+              onMoveTriggerDone={(currentPercentage: number) => {
+                console.log('currentPercentage: ', currentPercentage)
+                setVolume(currentPercentage)
               }}
             />
           }
         >
-          <Button className="volume" Content="🔉" />
+          <Button className='volume' Content='🔉' />
         </Popover>
-        <Button className="playlist" Content="📃" onClick={() => console.log(`I'm clicked d`)} />
+        <Button className='playlist' Content='📃' onClick={() => console.log(`I'm clicked d`)} />
       </Group>
     </div>
   )

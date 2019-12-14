@@ -1,5 +1,5 @@
 export default class StateBoolean {
-  private _timeoutID: number
+  private _timeoutID: any
   private mutable: boolean
   constructor(public value: boolean, protected setStateOfReact: any) {
     this.mutable = true
@@ -55,18 +55,20 @@ export default class StateBoolean {
     }
     return this
   }
+  // 宿主环境需要有setTimeout的能力
   deferHide(delay: number = 600) {
     if (this.mutable) {
-      const timeoutID = window.setTimeout(() => {
+      const timeoutID = globalThis.setTimeout(() => {
         this.hide.apply(this)
       }, delay)
       this._timeoutID = timeoutID
     }
     return this
   }
+  // 宿主环境需要有clearTimeout的能力
   dismissDeferHide() {
     if (this.mutable) {
-      window.clearTimeout(this._timeoutID)
+      globalThis.clearTimeout(this._timeoutID)
     }
     return this
   }

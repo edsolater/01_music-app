@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './App.less'
@@ -10,13 +10,13 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息应�
 
 import { TableView, ImageBox, Label, useUIMonitor } from 'mypack/components'
 import { PlayerBar } from 'components/PlayerBar'
-interface CollectionInfo {
+type CollectionInfo = {
   imageUrl: string
   title: string
   subtitle: string
   detail: string
 }
-interface Song {
+type Song = {
   songTitle: string
   albumUrl: string
   soundtrackUrl: string
@@ -72,20 +72,20 @@ function CollectionList({
   onChangeIndex?: (dataItem: CollectionInfo, index: number, array: CollectionInfo[]) => any
 }) {
   return (
-    <div className="collections-list">
-      <span className="plate-title">song-collection</span>
+    <div className='collections-list'>
+      <span className='plate-title'>song-collection</span>
       <TableView
         data={data}
         initIndex={initIndex}
         onClickItem={onChangeIndex}
-        Template={(data) => (
+        Slot_Item={(data) => (
           <div
             onClick={() => {
               console.log(`click ${data.title}`)
             }}
           >
             <ImageBox src={data.imageUrl} />
-            <Label className="title">{data.title}</Label>
+            <Label className='title'>{data.title}</Label>
           </div>
         )}
       />
@@ -95,12 +95,12 @@ function CollectionList({
 
 function SongsList({ songs: data }: { songs: Song[] }) {
   return (
-    <div className="song-details">
-      <span className="plate-tital">"song-detail"</span>
+    <div className='song-details'>
+      <span className='plate-tital'>"song-detail"</span>
       <TableView
         data={data}
-        Template={(data) => {
-          return <div className="songItem">{data.songTitle}</div>
+        Slot_Item={(data) => {
+          return <div className='songItem'>{data.songTitle}</div>
         }}
       ></TableView>
     </div>
@@ -118,7 +118,7 @@ function App({ initIndex }: { initIndex?: number }) {
     },
   })
   return (
-    <div className="app-box">
+    <div className='app-box'>
       <CollectionList
         data={dataPieces.map((data) => data.header)}
         initIndex={initIndex}

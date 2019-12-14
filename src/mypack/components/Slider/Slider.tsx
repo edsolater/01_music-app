@@ -12,14 +12,15 @@ import { GetChildState, GetChildCommands } from '../types'
  */
 function Slider({
   className,
-  total = 1,
+  max = 1,
   value,
   defaultValue,
   childState,
   childCommands,
-  on,
+  onMoveTrigger,
+  onMoveTriggerDone,
   ...restProps
-}: {
+}: JSX.IntrinsicElements['div'] & {
   /**
    * 接收classnames()能接收的各种参数
    */
@@ -27,7 +28,7 @@ function Slider({
   /**
    * 总长度
    */
-  total?: number
+  max?: number
   /**
    * 当前所在位置 (初始值)
    */
@@ -53,24 +54,22 @@ function Slider({
     setValue?: Function
   }
 
-  on?: {
-    /**
-     * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
-     */
-    moveTrigger?: (currentSecond: number) => any
-    /**
-     * 只在最后触发一次
-     */
-    moveTriggerDone?: (currentSecond: number) => any
-  }
-} & Omit<JSX.IntrinsicElements['div'], 'onChange'>) {
+  /**
+   * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
+   */
+  onMoveTrigger?: (currentSecond: number) => any
+  /**
+   * 只在最后触发一次
+   */
+  onMoveTriggerDone?: (currentSecond: number) => any
+}) {
   const triggerLeft = useUIMonitor({
     type: 'counter(percentage)',
-    init: (value || defaultValue || 0) / total || 0,
+    init: (value || defaultValue || 0) / max || 0,
   })
   const inDraggingTrigger = useUIMonitor({ type: 'on-off-reporter' })
   const styleLeft = value
-    ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / total) * 100}%`
+    ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / max) * 100}%`
     : `${triggerLeft.value * 100}%`
   const setLeft = (percentage: number) => {
     triggerLeft.set(percentage)
@@ -87,7 +86,7 @@ function Slider({
     Object.assign(childCommands, {
       setValue: (current: number) => {
         if (value || inDraggingTrigger) return
-        else setLeft(constraint(current / total, { range: [0, 1] }))
+        else setLeft(constraint(current / max, { range: [0, 1] }))
       },
     } as GetChildCommands<typeof Slider>)
   //#endregion
@@ -98,12 +97,12 @@ function Slider({
   const moveTrigger = (percentage: number) => {
     const validPercentage = constraint(percentage, { range: [0, 1] })
     setLeft(validPercentage)
-    on?.moveTrigger?.(validPercentage * total)
+    onMoveTrigger?.(validPercentage * max)
   }
   const moveTriggerDone = (percentage: number) => {
     const validPercentage = constraint(percentage, { range: [0, 1] })
     setLeft(validPercentage)
-    on?.moveTriggerDone?.(validPercentage * total)
+    onMoveTriggerDone?.(validPercentage * max)
   }
   return (
     <div
@@ -119,7 +118,7 @@ function Slider({
       {...restProps}
     >
       <div
-        className="Trigger"
+        className='Trigger'
         onPointerDown={(e) => {
           const slider = ((e.target as Element).parentElement as HTMLDivElement)!
           const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
@@ -153,9 +152,9 @@ function Slider({
           left: styleLeft,
         }}
       />
-      <div className="Track">
+      <div className='Track'>
         <div
-          className="PassedTrack"
+          className='PassedTrack'
           style={{
             width: styleLeft,
           }}
