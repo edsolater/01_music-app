@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import {
   Button,
   Group,
-  ImageBox,
+  Image,
   Slider,
   Popover,
   useMaster,
   useCallbackRef,
+  View,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
@@ -62,9 +63,9 @@ export function PlayerBar({
     state.volume.set(newVolume)
   }
   return (
-    <div className='player-bar'>
+    <View className='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
-      <ImageBox className='album-face' src={albumUrl} />
+      <Image className='album-face' src={albumUrl} />
       <Group className='music-buttons'>
         <Button
           className='last-song'
@@ -96,11 +97,11 @@ export function PlayerBar({
           onClick={() => console.log(`I'm clicked 3`)}
         />
       </Group>
-      <div className='timeline'>
-        <div className='songTitle'>{songTitle}</div>
-        <div className='timestamp'>{`${Time(currentSecond.value).print({
+      <View className='timeline'>
+        <View className='songTitle'>{songTitle}</View>
+        <View className='timestamp'>{`${Time(currentSecond.value).print({
           format: 'MM:ss',
-        })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</div>
+        })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
         <Slider
           value={currentSecond.value}
           max={totalSeconds}
@@ -112,7 +113,7 @@ export function PlayerBar({
             audioPlayerHTML.currentTime = incomeCurrentSecond
           }}
         />
-      </div>
+      </View>
       <Group className='info-panel'>
         <Button
           className='favorite'
@@ -136,7 +137,7 @@ export function PlayerBar({
         />
         <Popover
           className='volume-panel'
-          Content={
+          Slot_Content={
             <Slider
               defaultValue={state.volume.value}
               onMoveTriggerDone={(currentPercentage: number) => {
@@ -154,6 +155,6 @@ export function PlayerBar({
           onClick={() => console.log(`I'm clicked d`)}
         />
       </Group>
-    </div>
+    </View>
   )
 }

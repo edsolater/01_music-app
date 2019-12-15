@@ -1,23 +1,15 @@
 import React, { ReactNode, useState, MouseEvent } from 'react'
-import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
 import './Button.less'
-import { View } from '..'
+import { View, ComponentBox, SlotBox } from '..'
 
 function Button({
-  className,
   Slot_Content,
-  children,
   modes,
-  initMode: _initMode,
+  initMode,
   onClick,
   onModeChange,
   ...restProps
 }: Omit<React.ComponentProps<typeof View>, 'onClick'> & {
-  /**
-   * 接收classnames()能接收的各种参数
-   */
-  className?: ClassValue
   Slot_Content?: ReactNode
   modes?: string[]
   /**
@@ -30,10 +22,10 @@ function Button({
    */
   onModeChange?: (newMode: string) => any //需要更generic
 }) {
-  const [currentMode, changeMode] = modes ? useState(_initMode) : []
+  const [currentMode, changeMode] = modes ? useState(initMode) : []
   return (
-    <View
-      className={classnames(className, 'Button', currentMode)}
+    <ComponentBox
+      componentName={['Button', currentMode]}
       onClick={(e) => {
         const changeToNextMode =
           modes &&
@@ -48,8 +40,8 @@ function Button({
       }}
       {...restProps}
     >
-      {(Slot_Content ?? children) && <View className='Content'>{Slot_Content ?? children}</View>}
-    </View>
+      {<SlotBox className='Content'>{Slot_Content ?? restProps.children}</SlotBox>}
+    </ComponentBox>
   )
 }
 export default React.memo(Button) as typeof Button

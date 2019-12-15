@@ -1,22 +1,17 @@
 import React from 'react'
-import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
 
 import './Label.less'
+import { View, ComponentBox } from '..'
 
-function Label({
-  className,
+export default function Label({
   text,
-  children,
   ...restProps
-}: {
-  /**
-   * 接收classnames()能接收的各种参数
-   */
-  className?: ClassValue
+}: React.ComponentProps<typeof View> & {
   text?: string
-} & JSX.IntrinsicElements['div']) {
-return <div className={classnames(className, 'Label')} {...restProps}>{text ?? children}</div>
+}) {
+  return (
+    <ComponentBox componentName='Label' {...restProps}>
+      {text ?? restProps.children}
+    </ComponentBox>
+  )
 }
-
-export default React.memo(Label) as typeof Label //为了使组件不丧失generic的能力

@@ -1,30 +1,21 @@
 import React from 'react'
-import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
 
 import './Slider.less'
 import { useMaster } from '../__customHooks'
 import { constraint } from '../../utils'
-import { GetChildState, GetChildCommands } from '../types'
+import { ComponentBox, View } from '..'
 
 /**
  * 注意它只能理解数字
  */
 function Slider({
-  className,
   max = 1,
   value,
   defaultValue,
-  childState,
-  childCommands,
   onMoveTrigger,
   onMoveTriggerDone,
   ...restProps
 }: JSX.IntrinsicElements['div'] & {
-  /**
-   * 接收classnames()能接收的各种参数
-   */
-  className?: ClassValue
   /**
    * 总长度
    */
@@ -37,23 +28,6 @@ function Slider({
    * 当前所在位置
    */
   value?: number
-  /**
-   * 反应子组件的当前状态
-   */
-  childState?: {
-    inDraggingTrigger?: boolean
-  }
-  /**
-   * 对子组件的命令（如果设置的相应状态依赖父组件的状态，则无效）
-   */
-  childCommands?: {
-    /**
-     * 如果依赖父组件的value，则无效。
-     * 如果处于正在拖拽的状态，则无效
-     */
-    setValue?: Function
-  }
-
   /**
    * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
    */
@@ -75,22 +49,6 @@ function Slider({
     triggerLeft.set(percentage)
   }
 
-  //#region 上抛控制权
-  if (childState)
-    Object.assign(childState, {
-      get inDraggingTrigger() {
-        return inDraggingTrigger.value
-      },
-    } as GetChildState<typeof Slider>)
-  if (childCommands)
-    Object.assign(childCommands, {
-      setValue: (current: number) => {
-        if (value || inDraggingTrigger) return
-        else setLeft(constraint(current / max, { range: [0, 1] }))
-      },
-    } as GetChildCommands<typeof Slider>)
-  //#endregion
-
   /**
    * 移动 Trigger
    */
@@ -105,8 +63,8 @@ function Slider({
     onMoveTriggerDone?.(validPercentage * max)
   }
   return (
-    <div
-      className={classnames(className, 'Slider')}
+    <ComponentBox
+      componentName='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
@@ -117,7 +75,7 @@ function Slider({
       }}
       {...restProps}
     >
-      <div
+      <View
         className='Trigger'
         onPointerDown={(e) => {
           const slider = ((e.target as Element).parentElement as HTMLDivElement)!
@@ -152,15 +110,15 @@ function Slider({
           left: styleLeft,
         }}
       />
-      <div className='Track'>
-        <div
+      <View className='Track'>
+        <View
           className='PassedTrack'
           style={{
             width: styleLeft,
           }}
         />
-      </div>
-    </div>
+      </View>
+    </ComponentBox>
   )
 }
 
