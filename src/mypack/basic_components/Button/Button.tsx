@@ -2,7 +2,7 @@ import React, { ReactNode, useState, MouseEvent } from 'react'
 import './Button.less'
 import { View, ComponentBox, SlotBox } from '..'
 
-function Button({
+export default function Button({
   Slot_Content,
   modes,
   initMode,
@@ -44,4 +44,3 @@ function Button({
     </ComponentBox>
   )
 }
-export default React.memo(Button) as typeof Button
