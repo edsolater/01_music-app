@@ -21,10 +21,7 @@ type Song = {
   albumUrl: string
   soundtrackUrl: string
 }
-const dataPieces: {
-  header: CollectionInfo
-  songs: Song[]
-}[] = [
+const dataPieces = [
   {
     header: {
       imageUrl: avatar,
