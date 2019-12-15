@@ -64,11 +64,11 @@ const dataPieces: {
 
 function CollectionList({
   data,
-  initIndex,
+  initSelectedIndex = 0,
   onChangeIndex,
 }: {
   data: CollectionInfo[]
-  initIndex?: number
+  initSelectedIndex?: number
   onChangeIndex?: (dataItem: CollectionInfo, index: number, array: CollectionInfo[]) => any
 }) {
   return (
@@ -76,9 +76,9 @@ function CollectionList({
       <span className='plate-title'>song-collection</span>
       <TableView
         data={data}
-        initIndex={initIndex}
+        initIndex={initSelectedIndex}
         onClickItem={onChangeIndex}
-        Slot_Item={(data) => (
+        SlotItem={(data) => (
           <div
             onClick={() => {
               console.log(`click ${data.title}`)
@@ -99,7 +99,7 @@ function SongsList({ songs: data }: { songs: Song[] }) {
       <span className='plate-tital'>"song-detail"</span>
       <TableView
         data={data}
-        Slot_Item={(data) => {
+        SlotItem={(data) => {
           return <div className='songItem'>{data.songTitle}</div>
         }}
       ></TableView>
@@ -121,7 +121,7 @@ function App({ initIndex }: { initIndex?: number }) {
     <div className='app-box'>
       <CollectionList
         data={dataPieces.map((data) => data.header)}
-        initIndex={initIndex}
+        initSelectedIndex={initIndex}
         onChangeIndex={(_, index) => {
           activeCollectionIndex.set(index)
         }}

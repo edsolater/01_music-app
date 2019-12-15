@@ -19,7 +19,7 @@ function TableView<D extends Data>({
   className,
   initIndex,
   data,
-  Slot_Item,
+  SlotItem,
   onClickItem,
   ...restProps
 }: JSX.IntrinsicElements['div'] & {
@@ -38,22 +38,27 @@ function TableView<D extends Data>({
   /**
    * TableView对每条数据的渲染界面（函数传入data中的数据）
    */
-  Slot_Item: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
+  SlotItem: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
   onClickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
-} ) {
-  const selectedItemIndex = useMaster({ type: 'index-recorder', init: initIndex })
+}) {
+  const selectedItemIndex = useMaster({
+    type: 'index-recorder',
+    init: initIndex,
+  })
   return (
     <div className={classnames(className, 'TableView')} {...restProps}>
       {data.map((data, index, array) => (
         <div
-          className={classnames('Item', { selected: index === selectedItemIndex.value })}
+          className={classnames('Item', {
+            selected: index === selectedItemIndex.value,
+          })}
           key={data.key ?? data.id ?? index}
           onClick={() => {
             selectedItemIndex.set(index)
             onClickItem?.(data, index, array)
           }}
         >
-          {Slot_Item(data, index, array)}
+          {SlotItem(data, index, array)}
         </div>
       ))}
     </div>
