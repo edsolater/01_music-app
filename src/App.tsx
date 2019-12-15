@@ -75,7 +75,7 @@ function CollectionList({
         data={data}
         initIndex={initSelectedIndex}
         onClickItem={onChangeIndex}
-        SlotItem={(data) => (
+        Slot_Item={(data) => (
           <View
             onClick={() => {
               console.log(`click ${data.title}`)
@@ -96,7 +96,7 @@ function SongsList({ songs: data }: { songs: Song[] }) {
       <Text className='plate-tital'>"song-detail"</Text>
       <TableView
         data={data}
-        SlotItem={(data) => {
+        Slot_Item={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
       ></TableView>

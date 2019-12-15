@@ -1,20 +1,22 @@
 import React from 'react'
-import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
+import { ComponentBox } from '..'
 import './Image.less'
 
 function Image({
-  className,
-  componentClassName,
+  src,
+  alt,
+  srcSet,
   ...restProps
-}: Omit<JSX.IntrinsicElements['img'], 'className'> & {
-  className?: ClassValue
-  /**
-   * 用于各个组件定义组件的名字更方便
-   */
-  componentClassName?: ClassValue
+}: React.ComponentProps<typeof ComponentBox> & {
+  src?: string
+  alt?: string
+  srcSet?: string
 }) {
-  return <img className={classnames(className, componentClassName, 'Image')} {...restProps} />
+  return (
+    <ComponentBox componentClassName='Image' {...restProps}>
+      <img src={src} alt={alt} srcSet={srcSet} />
+    </ComponentBox>
+  )
 }
 
 export default React.memo(Image) as typeof Image

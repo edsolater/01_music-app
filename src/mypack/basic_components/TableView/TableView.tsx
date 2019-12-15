@@ -19,7 +19,7 @@ function TableView<D extends Data>({
   className,
   initIndex,
   data,
-  SlotItem,
+  Slot_Item,
   onClickItem,
   ...restProps
 }: JSX.IntrinsicElements['div'] & {
@@ -38,7 +38,7 @@ function TableView<D extends Data>({
   /**
    * TableView对每条数据的渲染界面（函数传入data中的数据）
    */
-  SlotItem: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
+  Slot_Item: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
   onClickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
 }) {
   const selectedItemIndex = useMaster({
@@ -58,7 +58,7 @@ function TableView<D extends Data>({
             onClickItem?.(data, index, array)
           }}
         >
-          {SlotItem(data, index, array)}
+          {Slot_Item(data, index, array)}
         </div>
       ))}
     </div>

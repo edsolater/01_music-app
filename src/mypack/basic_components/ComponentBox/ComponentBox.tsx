@@ -1,5 +1,5 @@
 import React from 'react'
-import View from '../View/View'
+import { View } from '..'
 import { ClassValue } from 'classnames/types'
 
 function ComponentBox({
