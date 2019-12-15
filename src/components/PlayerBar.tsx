@@ -12,18 +12,23 @@ import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
 
-export const PlayerBar: React.FC<{
+export function PlayerBar({
+  defaultVolume,
+  soundtrackUrl,
+  albumUrl,
+  songTitle,
+}: {
   songTitle: string
   albumUrl: string
   soundtrackUrl: string
-  initVolume?: number
-}> = (props) => {
+  defaultVolume?: number
+}) {
   //#region 维护播放器所含的状态信息
   const state = {
     currentSecond: useMaster({ type: 'counter', init: 0 }),
     totalSeconds: useMaster({ type: 'counter' }),
     isPlaying: useMaster({ type: 'on-off-reporter' }),
-    volume: useMaster({ type: 'counter(percentage)', init: props.initVolume || 1 }),
+    volume: useMaster({ type: 'counter(percentage)', init: defaultVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.currentSecond
@@ -35,7 +40,7 @@ export const PlayerBar: React.FC<{
     el.addEventListener('canplaythrough', () => {
       state.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
-    el.volume = props.initVolume || 1
+    el.volume = defaultVolume || 1
   })
   // 播放器进度条
   useEffect(() => {
@@ -58,14 +63,18 @@ export const PlayerBar: React.FC<{
   }
   return (
     <div className='player-bar'>
-      <audio ref={audioPlayerHTMLRef} src={props.soundtrackUrl}></audio>
-      <ImageBox className='album-face' src={props.albumUrl} />
+      <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
+      <ImageBox className='album-face' src={albumUrl} />
       <Group className='music-buttons'>
-        <Button className='last-song' Content='⏮' onClick={() => console.log(`I'm clicked 1`)} />
+        <Button
+          className='last-song'
+          Slot_Content='⏮'
+          onClick={() => console.log(`I'm clicked 1`)}
+        />
         {isPlaying.isTrue ? (
           <Button
             className='pause'
-            Content='⏸'
+            Slot_Content='⏸'
             onClick={() => {
               if (audioPlayerHTML) audioPlayerHTML.pause()
               isPlaying.turnOff()
@@ -74,17 +83,21 @@ export const PlayerBar: React.FC<{
         ) : (
           <Button
             className='play'
-            Content='▶'
+            Slot_Content='▶'
             onClick={() => {
               if (audioPlayerHTML) audioPlayerHTML.play()
               isPlaying.turnOn()
             }}
           />
         )}
-        <Button className='next-song' Content='⏭' onClick={() => console.log(`I'm clicked 3`)} />
+        <Button
+          className='next-song'
+          Slot_Content='⏭'
+          onClick={() => console.log(`I'm clicked 3`)}
+        />
       </Group>
       <div className='timeline'>
-        <div className='songTitle'>{props.songTitle}</div>
+        <div className='songTitle'>{songTitle}</div>
         <div className='timestamp'>{`${Time(currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</div>
@@ -101,22 +114,24 @@ export const PlayerBar: React.FC<{
         />
       </div>
       <Group className='info-panel'>
-        <Button className='favorite' Content='❤' onClick={() => console.log(`I'm clicked a`)} />
+        <Button
+          className='favorite'
+          Slot_Content='❤'
+          onClick={() => console.log(`I'm clicked a`)}
+        />
         <Button //这个按钮应该控制App的行为 而不是播放器的
           className='play-mode'
-          Content='🔁'
+          Slot_Content='🔁'
           modes={['on', 'off']}
-          on={{
-            click: (_, switchToNextMode) => {
-              switchToNextMode!()
-            },
-            modeChange: (newMode) => {
-              if (newMode === 'on') {
-                audioPlayerHTML.loop = true
-              } else if (newMode === 'off') {
-                audioPlayerHTML.loop = false
-              }
-            },
+          onClick={(_, switchToNextMode) => {
+            switchToNextMode!()
+          }}
+          onModeChange={(newMode) => {
+            if (newMode === 'on') {
+              audioPlayerHTML.loop = true
+            } else if (newMode === 'off') {
+              audioPlayerHTML.loop = false
+            }
           }}
         />
         <Popover
@@ -131,9 +146,13 @@ export const PlayerBar: React.FC<{
             />
           }
         >
-          <Button className='volume' Content='🔉' />
+          <Button className='volume' Slot_Content='🔉' />
         </Popover>
-        <Button className='playlist' Content='📃' onClick={() => console.log(`I'm clicked d`)} />
+        <Button
+          className='playlist'
+          Slot_Content='📃'
+          onClick={() => console.log(`I'm clicked d`)}
+        />
       </Group>
     </div>
   )
