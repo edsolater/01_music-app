@@ -8,7 +8,7 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息应该靠后端�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息应该靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息应该靠后端传过来，现在只是占位
 
-import { TableView, ImageBox, Label, useMaster } from 'mypack/components'
+import { TableView, ImageBox, Label, useMaster } from 'mypack/basic_components'
 import { PlayerBar } from 'components/PlayerBar'
 type CollectionInfo = {
   imageUrl: string

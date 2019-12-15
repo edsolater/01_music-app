@@ -7,7 +7,7 @@ import {
   Popover,
   useMaster,
   useCallbackRef,
-} from 'mypack/components'
+} from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'

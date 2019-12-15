@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import { useMaster } from 'mypack/components/__customHooks'
+import { useMaster } from 'mypack/basic_components/__customHooks'
 import './Popover.less'
 
 function Popover({
