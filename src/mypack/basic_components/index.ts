@@ -1,5 +1,6 @@
 // 为了能够使用 autoImport 能力
 export { default as View } from './View/View'
+export { default as Text } from './Text/Text'
 export { default as Image } from './Image/Image'
 
 export { default as ComponentBox } from './ComponentBox/ComponentBox'

@@ -4,13 +4,13 @@ import { ClassValue } from 'classnames/types'
 
 function ComponentBox({
   className,
-  componentName: componentClassName,
+  componentClassName,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
    * 用于各个组件定义组件的名字更方便
    */
-  componentName?: ClassValue
+  componentClassName?: ClassValue
 }) {
   return <View className={[className, componentClassName]} {...restProps} />
 }
