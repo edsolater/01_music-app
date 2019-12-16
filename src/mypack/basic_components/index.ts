@@ -7,6 +7,7 @@ export { default as ComponentBox } from './ComponentBox/ComponentBox'
 export { default as SlotBox } from './SlotBox/SlotBox'
 
 export { default as Button } from './Button/Button'
+export { default as Switch } from './Switch/Switch'
 export { default as Group } from './Group/Group'
 export { default as Slider } from './Slider/Slider'
 export { default as Popover } from './Popover/Popover'

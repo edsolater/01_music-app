@@ -25,7 +25,7 @@ export default function Button({
   const [currentMode, changeMode] = modes ? useState(initMode) : []
   return (
     <ComponentBox
-      componentClassName={['Button', currentMode]}
+      componetName={['Button', currentMode]}
       onClick={(e) => {
         const changeToNextMode =
           modes &&

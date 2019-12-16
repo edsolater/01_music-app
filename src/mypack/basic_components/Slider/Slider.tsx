@@ -64,7 +64,7 @@ function Slider({
   }
   return (
     <ComponentBox
-      componentClassName='Slider'
+      componetName='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()

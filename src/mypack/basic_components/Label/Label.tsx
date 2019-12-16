@@ -10,7 +10,7 @@ export default function Label({
   text?: string
 }) {
   return (
-    <ComponentBox componentClassName='Label' {...restProps}>
+    <ComponentBox componetName='Label' {...restProps}>
       {text ?? restProps.children}
     </ComponentBox>
   )

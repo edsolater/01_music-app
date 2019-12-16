@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
 import { LastType } from 'mypack/utils/#package_type'
 
-
 /**
  * 输入初始状态（boolean），返回一个能控制开关状态的对象
  */
@@ -62,8 +61,8 @@ const useMaster = <T extends keyof Reporters, O>(config: { type: T; init?: O }):
   if (config.type === 'counter(percentage)')
     // @ts-ignore
     return useStateNumber(Number(config.init))
-    // @ts-ignore
-    if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
+  // @ts-ignore
+  if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
   // @ts-ignore
   if (config.type === 'collection(object)') return useStateCollectionObject(config.init)
   else throw Error()
