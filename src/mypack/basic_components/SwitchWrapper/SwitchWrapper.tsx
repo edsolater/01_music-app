@@ -29,7 +29,7 @@ function SwitchWrapper<ON extends string, OFF extends string>({
   }
   return (
     <ComponentBox
-      componetName={`Switch ${currentState === name_on ? `on ${name_on}` : `off ${name_off}`}`}
+      componetName={`SwitchWrapper ${currentState === name_on ? `on ${name_on}` : `off ${name_off}`}`}
       {...restProps}
       {...createObjectByMultiProps({
         properties: toggleBy,
