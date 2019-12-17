@@ -123,16 +123,12 @@ export function PlayerBar({
         />
         <SwitchWrapper
           onToggle={(newStatus) => {
-            console.log('newStatus: ', newStatus)
             if (newStatus === 'dd') {
               audioPlayerHTML.loop = true
             } else if (newStatus === 'cc') {
               audioPlayerHTML.loop = false
             }
           }}
-          classNameForOn='dd'
-          classNameForOff='cc'
-          initState="cc"
         >
           <Button //这个按钮应该控制App的行为 而不是播放器的
             className='play-mode'

@@ -12,7 +12,8 @@ class 种类：
 - **functionUtil** 函数包裹器(函数工厂) —— 用于创造新函数的函数
 - **judger** 判断子 —— 返回布尔值的函数，通常用于鉴定
 
-| tested | utilName                      | class     | target\<Tar extends any\> | output   | 说明                                                  |
-| :----: | ----------------------------- | --------- | ------------------------- | -------- | ----------------------------------------------------- |
-|   ×    | [constraint](./constraint.ts) | unaryUtil | number                    | number   | 将 number 限制在指定的范围内，超出范围就取最大/最小值 |
-|        | [pipe](./pipe.ts)             | unaryUtil | function[]                | function | 函数式编程的基本工具，将多个函数连接起来              |
+| tested | utilName                                                  | class       | target\<Tar extends any\> | output   | 说明                                                  |
+| :----: | --------------------------------------------------------- | ----------- | ------------------------- | -------- | ----------------------------------------------------- |
+|   ×    | [constraint](./constraint.ts)                             | unaryUtil   | number                    | number   | 将 number 限制在指定的范围内，超出范围就取最大/最小值 |
+|        | [pipe](./pipe.ts)                                         | unaryUtil   | function[]                | function | 函数式编程的基本工具，将多个函数连接起来              |
+|   ×    | [createObjectByMultiProps](./createObjectByMultiProps.ts) | createThing | configObj                 | object   | 需要动态地创建多个对象属性时使用                      |
