@@ -8,7 +8,7 @@ import {
   useMaster,
   useCallbackRef,
   View,
-  Switch,
+  SwitchWrapper,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
@@ -121,22 +121,24 @@ export function PlayerBar({
           Slot_Content='❤'
           onClick={() => console.log(`I'm clicked a`)}
         />
-        <Switch
-          onAfterChangeStatus={(newStatus) => {
+        <SwitchWrapper
+          onToggle={(newStatus) => {
             console.log('newStatus: ', newStatus)
-            if (newStatus === 'on') {
+            if (newStatus === 'dd') {
               audioPlayerHTML.loop = true
-            } else if (newStatus === 'off') {
+            } else if (newStatus === 'cc') {
               audioPlayerHTML.loop = false
             }
           }}
-          initState='on'
+          classNameForOn='dd'
+          classNameForOff='cc'
+          initState="cc"
         >
           <Button //这个按钮应该控制App的行为 而不是播放器的
             className='play-mode'
             Slot_Content='🔁'
           />
-        </Switch>
+        </SwitchWrapper>
         <Popover
           className='volume-panel'
           Slot_Content={

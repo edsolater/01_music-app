@@ -7,5 +7,4 @@ function Group({
 }: Omit<React.ComponentProps<typeof ComponentBox>, 'componentClassName'>) {
   return <ComponentBox componetName='Group' {...restProps} />
 }
-
 export default React.memo(Group) as typeof Group
