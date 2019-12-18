@@ -69,7 +69,7 @@ function CollectionList({
   onChangeIndex?: (dataItem: CollectionInfo, index: number, array: CollectionInfo[]) => any
 }) {
   return (
-    <View className='collections-list'>
+    <View slotName='collections-list'>
       <Text className='plate-title'>song-collection</Text>
       <TableView
         data={data}
@@ -82,7 +82,7 @@ function CollectionList({
             }}
           >
             <Image src={data.imageUrl} />
-            <Label className='title'>{data.title}</Label>
+            <Label slotName='title'>{data.title}</Label>
           </View>
         )}
       />
@@ -92,12 +92,12 @@ function CollectionList({
 
 function SongsList({ songs: data }: { songs: Song[] }) {
   return (
-    <View className='song-details'>
+    <View slotName='song-details'>
       <Text className='plate-tital'>"song-detail"</Text>
       <TableView
         data={data}
         Slot_Item={(data) => {
-          return <View className='songItem'>{data.songTitle}</View>
+          return <View slotName='songItem'>{data.songTitle}</View>
         }}
       ></TableView>
     </View>
@@ -115,7 +115,7 @@ function App({ initIndex }: { initIndex?: number }) {
     },
   })
   return (
-    <View className='app-box'>
+    <View slotName='app-box'>
       <CollectionList
         data={dataPieces.map((data) => data.header)}
         initSelectedIndex={initIndex}

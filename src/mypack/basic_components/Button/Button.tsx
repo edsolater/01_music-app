@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, MouseEvent } from 'react'
 import './Button.less'
-import { View, SlotName, Can_tap } from '..'
+import { View, SlotName, __CanTap } from '..'
 
 function Button({
   Slot_Content,
@@ -24,7 +24,7 @@ function Button({
 }) {
   const [currentMode, changeMode] = modes ? useState(initMode) : []
   return (
-    <Can_tap
+    <__CanTap
       displayComponentName={['Button', currentMode]}
       onClick={(e) => {
         const changeToNextMode =
@@ -40,8 +40,8 @@ function Button({
       }}
       {...restProps}
     >
-      {<SlotName className='Content'>{Slot_Content ?? restProps.children}</SlotName>}
-    </Can_tap>
+      {<SlotName slotName='Content'>{Slot_Content ?? restProps.children}</SlotName>}
+    </__CanTap>
   )
 }
 
