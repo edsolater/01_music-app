@@ -13,7 +13,7 @@ function Image({
   srcSet?: string
 }) {
   return (
-    <ComponentName displayName='Image' {...restProps}>
+    <ComponentName displayComponentName='Image' {...restProps}>
       <img src={src} alt={alt} srcSet={srcSet} />
     </ComponentName>
   )

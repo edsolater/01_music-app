@@ -6,6 +6,8 @@ export { default as Image } from './Image/Image'
 export { default as ComponentName } from './ComponentName/ComponentName'
 export { default as SlotName } from './SlotName/SlotName'
 
+export { default as Can_tap } from './Can_tap/Can_tap' // "can" 开头表示一种能力 //只是个语义化包装
+
 export { default as Button } from './Button/Button'
 export { default as CrustSwitcher } from './CrustSwitcher/CrustSwitcher'
 export { default as Group } from './Group/Group'

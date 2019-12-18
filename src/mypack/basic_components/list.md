@@ -1,8 +1,8 @@
 | component                                          | type          | composed by | 说明                                                  |
 | -------------------------------------------------- | ------------- | :---------: | ----------------------------------------------------- |
 | [View](./View/View.tsx)                            | basic         |             | div，为了使开发独立于平台                             |
-| [ComponentName](./ComponentName/ComponentName.tsx)    | basic         |             | div，增加源码可读性，制造组件时的根节点               |
-| [SlotName](./SlotName/SlotName.tsx)                   | basic         |             | div，增加源码可读性，制造组件时的 Slot 节点           |
+| [ComponentName](./ComponentName/ComponentName.tsx) | basic         |             | div，增加源码可读性，制造组件时的根节点               |
+| [SlotName](./SlotName/SlotName.tsx)                | basic         |             | div，增加源码可读性，制造组件时的 Slot 节点           |
 | [Image](./Image/Image.tsx)                         | basic         |             | img，为了使开发独立于平台                             |
 | [Text](./Text/Text.tsx)                            | basic         |             | div，为了使开发独立于平台                             |
 | [Audio](./Audio/Audio.tsx)                         | basic         |             | audio(元素不可见)，为了使开发独立于平台               |

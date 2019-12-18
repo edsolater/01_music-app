@@ -27,7 +27,7 @@ function Popover({
   const controller = useMaster({ type: 'on-off-reporter' }).isImmutable(open)
   return (
     <ComponentName
-      displayName={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
+      displayComponentName={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
       onPointerEnter={() => {
         controller.show()
         controller.dismissDeferHide()

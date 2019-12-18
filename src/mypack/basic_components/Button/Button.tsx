@@ -1,8 +1,8 @@
 import React, { ReactNode, useState, MouseEvent } from 'react'
 import './Button.less'
-import { View, ComponentName, SlotName } from '..'
+import { View, SlotName, Can_tap } from '..'
 
-export default function Button({
+function Button({
   Slot_Content,
   modes,
   initMode,
@@ -24,8 +24,8 @@ export default function Button({
 }) {
   const [currentMode, changeMode] = modes ? useState(initMode) : []
   return (
-    <ComponentName
-      displayName={['Button', currentMode]}
+    <Can_tap
+      displayComponentName={['Button', currentMode]}
       onClick={(e) => {
         const changeToNextMode =
           modes &&
@@ -41,6 +41,8 @@ export default function Button({
       {...restProps}
     >
       {<SlotName className='Content'>{Slot_Content ?? restProps.children}</SlotName>}
-    </ComponentName>
+    </Can_tap>
   )
 }
+
+export default React.memo(Button) as typeof Button

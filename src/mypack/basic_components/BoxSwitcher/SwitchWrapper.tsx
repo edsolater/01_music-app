@@ -33,7 +33,7 @@ function CrustSwitcher<ON extends string, OFF extends string>({
   useDebugValue('helloooooo')
   return (
     <ComponentName
-      displayName={componentStatusMessage.trim()}
+      displayComponentName={componentStatusMessage.trim()}
       {...restProps}
       {...createObjectByMultiProps({ // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑
         properties: toggleBy,
