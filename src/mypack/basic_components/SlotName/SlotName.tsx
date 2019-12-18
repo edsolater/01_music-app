@@ -2,7 +2,7 @@ import React from 'react'
 import View from '../View/View'
 import { ClassValue } from 'classnames/types'
 
-function SlotBox({
+function SlotName({
   className,
   slotName,
   ...restProps
@@ -15,4 +15,4 @@ function SlotBox({
   return <View className={[className, slotName]} {...restProps} />
 }
 
-export default React.memo(SlotBox) as typeof SlotBox
+export default React.memo(SlotName) as typeof SlotName

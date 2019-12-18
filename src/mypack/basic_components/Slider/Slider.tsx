@@ -3,7 +3,7 @@ import React from 'react'
 import './Slider.less'
 import { useMaster } from '../__customHooks'
 import { constraint } from '../../utils'
-import { ComponentBox, View } from '..'
+import { ComponentName, View } from '..'
 
 /**
  * 注意它只能理解数字
@@ -63,8 +63,8 @@ function Slider({
     onMoveTriggerDone?.(validPercentage * max)
   }
   return (
-    <ComponentBox
-      componetName='Slider'
+    <ComponentName
+      displayName='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
@@ -118,7 +118,7 @@ function Slider({
           }}
         />
       </View>
-    </ComponentBox>
+    </ComponentName>
   )
 }
 

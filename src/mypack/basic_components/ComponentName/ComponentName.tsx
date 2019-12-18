@@ -2,17 +2,17 @@ import React from 'react'
 import { View } from '..'
 import { ClassValue } from 'classnames/types'
 
-function ComponentBox({
+function ComponentName({
   className,
-  componetName: componentClassName,
+  displayName: componentClassName,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
    * 用于各个组件定义组件的名字更方便
    */
-  componetName?: ClassValue
+  displayName?: ClassValue
 }) {
   return <View className={[className, componentClassName]} {...restProps} />
 }
 
-export default React.memo(ComponentBox) as typeof ComponentBox
+export default React.memo(ComponentName) as typeof ComponentName

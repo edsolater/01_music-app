@@ -8,7 +8,7 @@ import {
   useMaster,
   useCallbackRef,
   View,
-  SwitchWrapper,
+  CrustSwitcher,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
@@ -121,7 +121,7 @@ export function PlayerBar({
           Slot_Content='❤'
           onClick={() => console.log(`I'm clicked a`)}
         />
-        <SwitchWrapper
+        <CrustSwitcher
           onToggle={(newStatus) => {
             if (newStatus === 'dd') {
               audioPlayerHTML.loop = true
@@ -134,7 +134,7 @@ export function PlayerBar({
             className='play-mode'
             Slot_Content='🔁'
           />
-        </SwitchWrapper>
+        </CrustSwitcher>
         <Popover
           className='volume-panel'
           Slot_Content={
