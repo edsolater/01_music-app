@@ -50,7 +50,7 @@ type Reporters = {
   'collection(object)': ReturnType<typeof useStateCollectionObject>
 }
 /**
- * 返回一个 “御主”（Fate型月世界中的概念，这里意为component的控制者）
+ * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
 const useMaster = <T extends keyof Reporters, O>(config: { type: T; init?: O }): Reporters[T] => {
   // @ts-ignore

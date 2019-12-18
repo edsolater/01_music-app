@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useDebugValue } from 'react'
 import { ComponentBox } from '..'
 import { createObjectByMultiProps } from 'mypack/utils'
 
@@ -19,9 +19,13 @@ function SwitchWrapper<ON extends string, OFF extends string>({
   handleManually?: boolean
   onToggle?: (value: string) => void
 }) {
+  useDebugValue('helloooooo')
   const name_on = classNameForOn ?? 'on'
   const name_off = classNameForOff ?? 'off'
   const [currentState, changeCurrentState] = useState(classNameForInitState ?? name_off) // 最后别忘把典型switch逻辑了合并到useMaster中
+  const componentStatusMessage = `SwitchWrapper ${
+    currentState === name_on ? `on ${name_on ?? ''}` : `off ${name_off ?? ''}`
+  }`
   const toggleCurrentState = () => {
     const switchTo = currentState === name_on ? name_off : name_on
     changeCurrentState(switchTo) // UI逻辑
@@ -29,9 +33,9 @@ function SwitchWrapper<ON extends string, OFF extends string>({
   }
   return (
     <ComponentBox
-      componetName={`SwitchWrapper ${currentState === name_on ? `on ${name_on}` : `off ${name_off}`}`}
+      componetName={componentStatusMessage}
       {...restProps}
-      {...createObjectByMultiProps({
+      {...createObjectByMultiProps({ // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑
         properties: toggleBy,
         value: (toggleType) => (e) => {
           restProps[toggleType]?.(e)
