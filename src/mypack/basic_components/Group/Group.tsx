@@ -5,6 +5,6 @@ import './Group.less'
 function Group({
   ...restProps
 }: Omit<React.ComponentProps<typeof ComponentName>, 'displayComponentName'>) {
-  return <ComponentName displayComponentName='Group' {...restProps} />
+  return <ComponentName componentName='Group' {...restProps} />
 }
 export default React.memo(Group) as typeof Group

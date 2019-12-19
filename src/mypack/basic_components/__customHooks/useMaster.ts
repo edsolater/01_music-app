@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useDebugValue } from 'react'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
 import { LastType } from 'mypack/utils/#package_type'
 

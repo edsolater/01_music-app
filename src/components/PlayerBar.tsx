@@ -8,7 +8,7 @@ import {
   useMaster,
   useCallbackRef,
   View,
-  __Switcher__,
+  CanSwitchStatus,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
@@ -121,7 +121,7 @@ export function PlayerBar({
           Slot_Content='❤'
           onClick={() => console.log(`I'm clicked a`)}
         />
-        <__Switcher__
+        <CanSwitchStatus
           onToggle={(newStatus) => {
             if (newStatus === 'dd') {
               audioPlayerHTML.loop = true
@@ -134,7 +134,7 @@ export function PlayerBar({
             slotName='play-mode'
             Slot_Content='🔁'
           />
-        </__Switcher__>
+        </CanSwitchStatus>
         <Popover
           slotName='volume-panel'
           Slot_Content={
