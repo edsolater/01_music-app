@@ -7,7 +7,7 @@ export { default as ComponentName } from './ComponentName/ComponentName'
 export { default as SlotName } from './SlotName/SlotName'
 
 export { default as Button } from './Button/Button'
-export { default as CrustSwitcher } from './CrustSwitcher/CrustSwitcher'
+export { default as __Switcher__ } from './__Switcher__/__Switcher__'
 export { default as Group } from './Group/Group'
 export { default as Slider } from './Slider/Slider'
 export { default as Popover } from './Popover/Popover'

@@ -1,9 +1,23 @@
-import React, { useState, useDebugValue } from 'react'
+import React, { useState } from 'react'
 import { ComponentName } from '..'
 import { createObjectByMultiProps } from 'mypack/utils'
 
 type ToggleType = 'onClick' | 'onPointerEnter' | 'onPointerLeave'
-function CrustSwitcher<ON extends string, OFF extends string>({
+function mergeObjects(...objs) {
+  return objs.reduce((acc, obj) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      if (Array.isArray(acc[key])) {
+        acc[key].push(value)
+      } else if (key in acc) {
+        acc[key] = [acc[key], value].flat()
+      } else {
+        acc[key] = value
+      }
+    })
+    return acc
+  }, {})
+}
+function __Switcher__<ON extends string, OFF extends string>({
   classNameForOn,
   classNameForOff,
   classNameForInitState,
@@ -22,7 +36,7 @@ function CrustSwitcher<ON extends string, OFF extends string>({
   const name_on = classNameForOn ?? 'on'
   const name_off = classNameForOff ?? 'off'
   const [currentState, changeCurrentState] = useState(classNameForInitState ?? name_off) // 最后别忘把典型switch逻辑了合并到useMaster中
-  const componentStatusMessage = `CrustSwitcher ${
+  const componentStatusMessage = `__Switcher__ ${
     currentState === name_on ? `on ${name_on ?? ''}` : `off ${name_off ?? ''}`
   }`
   const toggleCurrentState = () => {
@@ -30,12 +44,12 @@ function CrustSwitcher<ON extends string, OFF extends string>({
     changeCurrentState(switchTo) // UI逻辑
     onToggle?.(switchTo) // 数据逻辑
   }
-  useDebugValue('helloooooo')
   return (
     <ComponentName
       displayName={componentStatusMessage.trim()}
       {...restProps}
-      {...createObjectByMultiProps({ // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑
+      {...createObjectByMultiProps({
+        // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑
         properties: toggleBy,
         value: (toggleType) => (e) => {
           restProps[toggleType]?.(e)
@@ -46,4 +60,4 @@ function CrustSwitcher<ON extends string, OFF extends string>({
   )
 }
 
-export default React.memo(CrustSwitcher) as typeof CrustSwitcher
+export default React.memo(__Switcher__) as typeof __Switcher__
