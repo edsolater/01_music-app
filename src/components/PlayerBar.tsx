@@ -13,6 +13,7 @@ import {
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
+import Switcher from 'mypack/basic_components/Switcher/Switcher'
 
 export function PlayerBar({
   defaultVolume,
@@ -64,96 +65,94 @@ export function PlayerBar({
     state.volume.set(newVolume)
   }
   return (
-    <View slotName='player-bar'>
-      <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
-      <Image slotName='album-face' src={albumUrl} />
-      <Group slotName='music-buttons'>
-        <Button
-          slotName='last-song'
-          Slot_Content='⏮'
-          onClick={() => console.log(`I'm clicked 1`)}
-        />
-        {isPlaying.isTrue ? (
-          <Button
-            slotName='pause'
-            Slot_Content='⏸'
-            onClick={() => {
-              if (audioPlayerHTML) audioPlayerHTML.pause()
-              isPlaying.turnOff()
-            }}
-          />
-        ) : (
-          <Button
-            slotName='play'
-            Slot_Content='▶'
-            onClick={() => {
-              if (audioPlayerHTML) audioPlayerHTML.play()
-              isPlaying.turnOn()
-            }}
-          />
-        )}
-        <Button
-          slotName='next-song'
-          Slot_Content='⏭'
-          onClick={() => console.log(`I'm clicked 3`)}
-        />
-      </Group>
-      <View slotName='timeline'>
-        <View slotName='songTitle'>{songTitle}</View>
-        <View slotName='timestamp'>{`${Time(currentSecond.value).print({
-          format: 'MM:ss',
-        })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
-        <Slider
-          value={currentSecond.value}
-          max={totalSeconds}
-          onMoveTrigger={(incomeCurrentSecond) => {
-            currentSecond.set(incomeCurrentSecond)
-          }}
-          onMoveTriggerDone={(incomeCurrentSecond) => {
-            currentSecond.set(incomeCurrentSecond)
-            audioPlayerHTML.currentTime = incomeCurrentSecond
-          }}
-        />
-      </View>
-      <Group slotName='info-panel'>
-        <Button
-          slotName='favorite'
-          Slot_Content='❤'
-        />
-        <CanSwitchStatus
-          onToggle={(newStatus) => {
-            if (newStatus === 'on') {
-              audioPlayerHTML.loop = true
-            } else if (newStatus === 'off') {
-              audioPlayerHTML.loop = false
-            }
-          }}
-        >
-          <Button //这个按钮应该控制App的行为 而不是播放器的
-            slotName='play-mode'
-            Slot_Content='🔁'
-          />
-        </CanSwitchStatus>
-        <Popover
-          slotName='volume-panel'
-          Slot_Content={
-            <Slider
-              defaultValue={state.volume.value}
-              onMoveTriggerDone={(currentPercentage: number) => {
-                console.log('currentPercentage: ', currentPercentage)
-                setVolume(currentPercentage)
-              }}
-            />
-          }
-        >
-          <Button slotName='volume' Slot_Content='🔉' />
-        </Popover>
-        <Button
-          slotName='playlist'
-          Slot_Content='📃'
-          onClick={() => console.log(`I'm clicked d`)}
-        />
-      </Group>
-    </View>
+    // <View className='player-bar'>
+    //   <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
+    //   <Image className='album-face' src={albumUrl} />
+    //   <Group className='music-buttons'>
+    //     <Button
+    //       className='last-song'
+    //       Slot_Content='⏮'
+    //       onClick={() => console.log(`I'm clicked 1`)}
+    //     />
+    //     {isPlaying.isTrue ? (
+    //       <Button
+    //         className='pause'
+    //         Slot_Content='⏸'
+    //         onClick={() => {
+    //           if (audioPlayerHTML) audioPlayerHTML.pause()
+    //           isPlaying.turnOff()
+    //         }}
+    //       />
+    //     ) : (
+    //       <Button
+    //         className='play'
+    //         Slot_Content='▶'
+    //         onClick={() => {
+    //           if (audioPlayerHTML) audioPlayerHTML.play()
+    //           isPlaying.turnOn()
+    //         }}
+    //       />
+    //     )}
+    //     <Button
+    //       className='next-song'
+    //       Slot_Content='⏭'
+    //       onClick={() => console.log(`I'm clicked 3`)}
+    //     />
+    //   </Group>
+    //   <View className='timeline'>
+    //     <View className='songTitle'>{songTitle}</View>
+    //     <View className='timestamp'>{`${Time(currentSecond.value).print({
+    //       format: 'MM:ss',
+    //     })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
+    //     <Slider
+    //       value={currentSecond.value}
+    //       max={totalSeconds}
+    //       onMoveTrigger={(incomeCurrentSecond) => {
+    //         currentSecond.set(incomeCurrentSecond)
+    //       }}
+    //       onMoveTriggerDone={(incomeCurrentSecond) => {
+    //         currentSecond.set(incomeCurrentSecond)
+    //         audioPlayerHTML.currentTime = incomeCurrentSecond
+    //       }}
+    //     />
+    //   </View>
+    //   <Group className='info-panel'>
+    //     <Button className='favorite' Slot_Content='❤' />
+    //     <CanSwitchStatus
+    //       onToggle={(newStatus) => {
+    //         if (newStatus === 'on') {
+    //           audioPlayerHTML.loop = true
+    //         } else if (newStatus === 'off') {
+    //           audioPlayerHTML.loop = false
+    //         }
+    //       }}
+    //     >
+    //       <Button //这个按钮应该控制App的行为 而不是播放器的
+    //         className='play-mode'
+    //         Slot_Content='🔁'
+    //       />
+    //     </CanSwitchStatus>
+    //     <Popover
+    //       className='volume-panel'
+    //       Slot_Content={
+    //         <Slider
+    //           defaultValue={state.volume.value}
+    //           onMoveTriggerDone={(currentPercentage: number) => {
+    //             console.log('currentPercentage: ', currentPercentage)
+    //             setVolume(currentPercentage)
+    //           }}
+    //         />
+    //       }
+    //     >
+    //       <Button className='volume' Slot_Content='🔉' />
+    //     </Popover>
+    //     <Button
+    //       className='playlist'
+    //       Slot_Content='📃'
+    //       onClick={() => console.log(`I'm clicked d`)}
+    //     />
+    //   </Group>
+    // </View>
+    <Switcher />
   )
 }

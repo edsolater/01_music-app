@@ -4,7 +4,7 @@ import './Popover.less'
 import { View, ComponentName } from '..'
 
 function Popover({
-  slotName: className,
+  className: className,
   open,
   delayTime,
   Slot_Content,
@@ -37,7 +37,7 @@ function Popover({
       }}
     >
       <View
-        slotName={[className, 'Content', { on: open ?? controller.isOn }]}
+        className={[className, 'Content', { on: open ?? controller.isOn }]}
         onPointerEnter={() => {
           controller.dismissDeferHide()
         }}

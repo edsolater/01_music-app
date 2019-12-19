@@ -3,10 +3,10 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 function View({
-  slotName: className,
+  className,
   ...restProps
 }: Omit<JSX.IntrinsicElements['div'], 'className'> & {
-  slotName?: ClassValue
+  className?: ClassValue
 }) {
   return <div className={classnames(className)} {...restProps} />
 }

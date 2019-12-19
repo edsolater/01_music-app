@@ -3,7 +3,7 @@ import { View } from '..'
 import { ClassValue } from 'classnames/types'
 
 function ComponentName({
-  slotName,
+  className: slotName,
   componentName,
   ...restProps
 }: React.ComponentProps<typeof View> & {
@@ -12,7 +12,7 @@ function ComponentName({
    */
   componentName?: ClassValue
 }) {
-  return <View slotName={[slotName, componentName]} {...restProps} />
+  return <View className={[slotName, componentName]} {...restProps} />
 }
 
 export default React.memo(ComponentName) as typeof ComponentName

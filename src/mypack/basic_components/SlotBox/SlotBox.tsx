@@ -3,8 +3,8 @@ import View from '../View/View'
 import { ClassValue } from 'classnames/types'
 
 function SlotBox({
-  slotName: className,
-  slotName,
+  className: className,
+  className: slotName,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
@@ -12,7 +12,7 @@ function SlotBox({
    */
   slotName?: ClassValue
 }) {
-  return <View slotName={[className, slotName]} {...restProps} />
+  return <View className={[className, slotName]} {...restProps} />
 }
 
 export default React.memo(SlotBox) as typeof SlotBox

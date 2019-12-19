@@ -76,7 +76,7 @@ function Slider({
       {...restProps}
     >
       <View
-        slotName='Trigger'
+        className='Trigger'
         onPointerDown={(e) => {
           const slider = ((e.target as Element).parentElement as HTMLDivElement)!
           const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
@@ -110,9 +110,9 @@ function Slider({
           left: styleLeft,
         }}
       />
-      <View slotName='Track'>
+      <View className='Track'>
         <View
-          slotName='PassedTrack'
+          className='PassedTrack'
           style={{
             width: styleLeft,
           }}

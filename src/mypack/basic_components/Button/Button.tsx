@@ -40,7 +40,7 @@ function Button({
       }}
       {...restProps}
     >
-      {<SlotName slotName='Content'>{Slot_Content ?? restProps.children}</SlotName>}
+      {<SlotName className='Content'>{Slot_Content ?? restProps.children}</SlotName>}
     </__ComponentCanTap>
   )
 }

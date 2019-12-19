@@ -1,0 +1,24 @@
+.Switcher {
+  .slot {
+    width: 50px;
+    height: 20px;
+    border-radius: 20px;
+    border: 2px solid rgb(119, 119, 119);
+    background-color: var(--primary, dodgerblue);
+    position: relative;
+  }
+  .trigger {
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 0;
+    border-radius: 18px;
+    background-color: white;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  &.on .trigger {
+    left: 100%;
+    transform: translateX(-100%);
+  }
+}
