@@ -10,7 +10,6 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最�
 
 import { TableView, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
 import { PlayerBar } from 'components/PlayerBar'
-import { DodgeballGame } from 'components/DodgeballGame'
 type CollectionInfo = {
   imageUrl: string
   title: string
@@ -117,7 +116,7 @@ function App({ initIndex }: { initIndex?: number }) {
   })
   return (
     <View className='app-box'>
-      {/* <CollectionList
+      <CollectionList
         data={dataPieces.map((data) => data.header)}
         initSelectedIndex={initIndex}
         onChangeIndex={(_, index) => {
@@ -129,8 +128,7 @@ function App({ initIndex }: { initIndex?: number }) {
         songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
         albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
         soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
-      /> */}
-      <DodgeballGame />
+      />
     </View>
   )
 }
