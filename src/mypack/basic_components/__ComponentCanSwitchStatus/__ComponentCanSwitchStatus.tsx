@@ -17,16 +17,17 @@ function mergeObjects(...objs) {
     return acc
   }, {})
 }
-function __Switcher__<ON extends string, OFF extends string>({
+function __ComponentCanSwitchStatus<ON extends string, OFF extends string>({
+  componentName,
   classNameForOn,
   classNameForOff,
-  classNameForInitState,
+  classNameForInit,
   toggleBy = 'onClick',
   handleManually = false,
   onToggle,
   ...restProps
 }: React.ComponentProps<typeof ComponentName> & {
-  classNameForInitState?: ON | OFF
+  classNameForInit?: ON | OFF
   classNameForOn?: ON
   classNameForOff?: OFF
   toggleBy?: ToggleType | ToggleType[]
@@ -35,10 +36,8 @@ function __Switcher__<ON extends string, OFF extends string>({
 }) {
   const name_on = classNameForOn ?? 'on'
   const name_off = classNameForOff ?? 'off'
-  const [currentState, changeCurrentState] = useState(classNameForInitState ?? name_off) // 最后别忘把典型switch逻辑了合并到useMaster中
-  const componentStatusMessage = `__Switcher__ ${
-    currentState === name_on ? `on ${name_on ?? ''}` : `off ${name_off ?? ''}`
-  }`
+  const [currentState, changeCurrentState] = useState(classNameForInit ?? name_off) // 最后别忘把典型switch逻辑了合并到useMaster中
+  const componentStatusMessage = currentState === name_on ? name_on : name_off
   const toggleCurrentState = () => {
     const switchTo = currentState === name_on ? name_off : name_on
     changeCurrentState(switchTo) // UI逻辑
@@ -46,7 +45,7 @@ function __Switcher__<ON extends string, OFF extends string>({
   }
   return (
     <ComponentName
-      componentName={componentStatusMessage.trim()}
+      componentName={[componentName, componentStatusMessage.trim()]}
       {...restProps}
       {...createObjectByMultiProps({
         // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑
@@ -60,4 +59,4 @@ function __Switcher__<ON extends string, OFF extends string>({
   )
 }
 
-export default React.memo(__Switcher__) as typeof __Switcher__
+export default React.memo(__ComponentCanSwitchStatus) as typeof __ComponentCanSwitchStatus

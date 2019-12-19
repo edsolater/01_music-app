@@ -119,13 +119,12 @@ export function PlayerBar({
         <Button
           slotName='favorite'
           Slot_Content='❤'
-          onClick={() => console.log(`I'm clicked a`)}
         />
         <CanSwitchStatus
           onToggle={(newStatus) => {
-            if (newStatus === 'dd') {
+            if (newStatus === 'on') {
               audioPlayerHTML.loop = true
-            } else if (newStatus === 'cc') {
+            } else if (newStatus === 'off') {
               audioPlayerHTML.loop = false
             }
           }}
