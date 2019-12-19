@@ -6,7 +6,10 @@ export { default as Image } from './Image/Image'
 export { default as ComponentName } from './ComponentName/ComponentName'
 export { default as SlotName } from './SlotName/SlotName'
 
-export { default as Button } from './Button/Button'
+export { default as __CanTap } from './__CanTap/__CanTap' // "can" 开头表示一种能力 //只是个语义化包装
+export { default as CanTap } from './CanTap/CanTap' // __CanTap的 “显式版”（"__"前缀的需在devTool中隐藏）
+export { default as Button } from './Button/Button' // __CanTap的典型应用
+
 export { default as __Switcher__ } from './__Switcher__/__Switcher__'
 export { default as Group } from './Group/Group'
 export { default as Slider } from './Slider/Slider'

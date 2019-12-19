@@ -4,7 +4,7 @@ import './Popover.less'
 import { View, ComponentName } from '..'
 
 function Popover({
-  className,
+  slotName: className,
   open,
   delayTime,
   Slot_Content,
@@ -27,7 +27,7 @@ function Popover({
   const controller = useMaster({ type: 'on-off-reporter' }).isImmutable(open)
   return (
     <ComponentName
-      displayName={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
+      displayComponentName={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
       onPointerEnter={() => {
         controller.show()
         controller.dismissDeferHide()
@@ -37,7 +37,7 @@ function Popover({
       }}
     >
       <View
-        className={[className, 'Content', { on: open ?? controller.isOn }]}
+        slotName={[className, 'Content', { on: open ?? controller.isOn }]}
         onPointerEnter={() => {
           controller.dismissDeferHide()
         }}

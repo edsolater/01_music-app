@@ -46,7 +46,7 @@ function __Switcher__<ON extends string, OFF extends string>({
   }
   return (
     <ComponentName
-      displayName={componentStatusMessage.trim()}
+      displayComponentName={componentStatusMessage.trim()}
       {...restProps}
       {...createObjectByMultiProps({
         // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑

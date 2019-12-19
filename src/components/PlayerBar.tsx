@@ -64,18 +64,18 @@ export function PlayerBar({
     state.volume.set(newVolume)
   }
   return (
-    <View className='player-bar'>
+    <View slotName='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
-      <Image className='album-face' src={albumUrl} />
-      <Group className='music-buttons'>
+      <Image slotName='album-face' src={albumUrl} />
+      <Group slotName='music-buttons'>
         <Button
-          className='last-song'
+          slotName='last-song'
           Slot_Content='⏮'
           onClick={() => console.log(`I'm clicked 1`)}
         />
         {isPlaying.isTrue ? (
           <Button
-            className='pause'
+            slotName='pause'
             Slot_Content='⏸'
             onClick={() => {
               if (audioPlayerHTML) audioPlayerHTML.pause()
@@ -84,7 +84,7 @@ export function PlayerBar({
           />
         ) : (
           <Button
-            className='play'
+            slotName='play'
             Slot_Content='▶'
             onClick={() => {
               if (audioPlayerHTML) audioPlayerHTML.play()
@@ -93,14 +93,14 @@ export function PlayerBar({
           />
         )}
         <Button
-          className='next-song'
+          slotName='next-song'
           Slot_Content='⏭'
           onClick={() => console.log(`I'm clicked 3`)}
         />
       </Group>
-      <View className='timeline'>
-        <View className='songTitle'>{songTitle}</View>
-        <View className='timestamp'>{`${Time(currentSecond.value).print({
+      <View slotName='timeline'>
+        <View slotName='songTitle'>{songTitle}</View>
+        <View slotName='timestamp'>{`${Time(currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
         <Slider
@@ -115,9 +115,9 @@ export function PlayerBar({
           }}
         />
       </View>
-      <Group className='info-panel'>
+      <Group slotName='info-panel'>
         <Button
-          className='favorite'
+          slotName='favorite'
           Slot_Content='❤'
           onClick={() => console.log(`I'm clicked a`)}
         />
@@ -131,12 +131,12 @@ export function PlayerBar({
           }}
         >
           <Button //这个按钮应该控制App的行为 而不是播放器的
-            className='play-mode'
+            slotName='play-mode'
             Slot_Content='🔁'
           />
         </__Switcher__>
         <Popover
-          className='volume-panel'
+          slotName='volume-panel'
           Slot_Content={
             <Slider
               defaultValue={state.volume.value}
@@ -147,10 +147,10 @@ export function PlayerBar({
             />
           }
         >
-          <Button className='volume' Slot_Content='🔉' />
+          <Button slotName='volume' Slot_Content='🔉' />
         </Popover>
         <Button
-          className='playlist'
+          slotName='playlist'
           Slot_Content='📃'
           onClick={() => console.log(`I'm clicked d`)}
         />
