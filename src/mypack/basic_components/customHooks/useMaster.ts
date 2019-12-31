@@ -46,7 +46,7 @@ type Reporters = {
    * // vscode 没有智能提示
    */
   'counter(percentage)': ReturnType<typeof useStateNumber>
-  'on-off-reporter': ReturnType<typeof useStateBoolean>
+  'on-off': ReturnType<typeof useStateBoolean>
   'collection(object)': ReturnType<typeof useStateCollectionObject>
 }
 /**
@@ -62,7 +62,7 @@ const useMaster = <T extends keyof Reporters, O>(config: { type: T; init?: O }):
     // @ts-ignore
     return useStateNumber(Number(config.init))
   // @ts-ignore
-  if (config.type === 'on-off-reporter') return useStateBoolean(Boolean(config.init))
+  if (config.type === 'on-off') return useStateBoolean(Boolean(config.init))
   // @ts-ignore
   if (config.type === 'collection(object)') return useStateCollectionObject(config.init)
   else throw Error()

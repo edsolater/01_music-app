@@ -29,7 +29,7 @@ export function PlayerBar({
   const state = {
     currentSecond: useMaster({ type: 'counter', init: 0 }),
     totalSeconds: useMaster({ type: 'counter' }),
-    isPlaying: useMaster({ type: 'on-off-reporter' }),
+    isPlaying: useMaster({ type: 'on-off' }),
     volume: useMaster({ type: 'counter(percentage)', init: defaultVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里

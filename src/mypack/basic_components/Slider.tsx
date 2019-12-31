@@ -41,7 +41,7 @@ function Slider({
     type: 'counter(percentage)',
     init: (value || defaultValue || 0) / max || 0,
   })
-  const inDraggingTrigger = useMaster({ type: 'on-off-reporter' })
+  const inDraggingTrigger = useMaster({ type: 'on-off' })
   const styleLeft = value
     ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / max) * 100}%`
     : `${triggerLeft.value * 100}%`

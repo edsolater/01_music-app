@@ -24,7 +24,7 @@ function Popover({
    */
   Slot_Content?: ReactNode
 }) {
-  const controller = useMaster({ type: 'on-off-reporter' }).isImmutable(open)
+  const controller = useMaster({ type: 'on-off' }).isImmutable(open)
   return (
     <ComponentName
       componentName={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
