@@ -1,5 +1,5 @@
 // 为了能够使用 autoImport 能力
-export { default as View } from '../View'
+export { default as View } from './View'
 export { default as Text } from './Text'
 export { default as Image } from './Image'
 
@@ -18,4 +18,4 @@ export { default as Slider } from './Slider'
 export { default as Popover } from './Popover'
 export { default as TableView } from './TableView'
 export { default as Label } from './Label'
-export * from './__customHooks'
+export * from './customHooks'

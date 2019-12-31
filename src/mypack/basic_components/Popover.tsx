@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { useMaster } from 'mypack/basic_components/__customHooks'
+import { useMaster } from 'mypack/basic_components/customHooks'
 import './Popover.less'
 import { View, ComponentName } from '.'
 

@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
 import './TableView.less'
-import { useMaster } from 'mypack/basic_components/__customHooks'
+import { useMaster } from 'mypack/basic_components/customHooks'
 
 type Data = {
   id?: string | number

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Slider.less'
-import { useMaster } from './__customHooks'
+import { useMaster } from './customHooks'
 import { constraint } from '../utils'
 import { ComponentName, View } from '.'
 

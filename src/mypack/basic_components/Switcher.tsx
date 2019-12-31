@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Switcher.less'
-import { useMaster } from './__customHooks'
+import { useMaster } from './customHooks'
 import { __ComponentCanSwitchStatus, View } from '.'
 
 function Switcher({
