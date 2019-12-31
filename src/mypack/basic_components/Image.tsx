@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentName } from '..'
+import { ComponentName } from '.'
 import './Image.less'
 
 function Image({

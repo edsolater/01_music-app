@@ -1,6 +1,6 @@
 import React from 'react'
-import ComponentName from '../ComponentName/ComponentName'
 import './Group.less'
+import { ComponentName } from '.'
 
 function Group({
   ...restProps

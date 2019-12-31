@@ -1,5 +1,5 @@
 import React from 'react'
-import { __ComponentCanSwitchStatus } from '..'
+import { __ComponentCanSwitchStatus } from '.'
 
 function CanSwitchStatus({
   ...restProps

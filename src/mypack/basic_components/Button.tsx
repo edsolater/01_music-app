@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, MouseEvent } from 'react'
 import './Button.less'
-import { View, SlotName, __ComponentCanTap } from '..'
+import { View, SlotName, __ComponentCanTap } from '.'
 
 function Button({
   Slot_Content,

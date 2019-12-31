@@ -1,9 +1,9 @@
 import React from 'react'
 
 import './Slider.less'
-import { useMaster } from '../__customHooks'
-import { constraint } from '../../utils'
-import { ComponentName, View } from '..'
+import { useMaster } from './__customHooks'
+import { constraint } from '../utils'
+import { ComponentName, View } from '.'
 
 /**
  * 注意它只能理解数字

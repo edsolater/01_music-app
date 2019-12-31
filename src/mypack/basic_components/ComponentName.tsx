@@ -1,6 +1,6 @@
 import React from 'react'
-import { View } from '..'
 import { ClassValue } from 'classnames/types'
+import { View } from '.'
 
 function ComponentName({
   className: slotName,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ComponentName } from '..'
+import { ComponentName } from '.'
 import { createObjectByMultiProps } from 'mypack/utils'
 
 type ToggleType = 'onClick' | 'onPointerEnter' | 'onPointerLeave'

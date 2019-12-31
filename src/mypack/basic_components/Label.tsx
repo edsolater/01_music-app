@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Label.less'
-import { View, ComponentName } from '..'
+import { View, ComponentName } from '.'
 
 export default function Label({
   text,

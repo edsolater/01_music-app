@@ -1,8 +1,8 @@
 import React from 'react'
 
 import './Switcher.less'
-import { useMaster } from '../__customHooks'
-import { __ComponentCanSwitchStatus, View } from '..'
+import { useMaster } from './__customHooks'
+import { __ComponentCanSwitchStatus, View } from '.'
 
 function Switcher({
   max = 1,

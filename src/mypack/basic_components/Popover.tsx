@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { useMaster } from 'mypack/basic_components/__customHooks'
 import './Popover.less'
-import { View, ComponentName } from '..'
+import { View, ComponentName } from '.'
 
 function Popover({
   className: className,
