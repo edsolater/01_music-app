@@ -1,7 +1,6 @@
 import React from 'react'
 
 import './Switcher.less'
-import { useMaster } from './customHooks'
 import { __ComponentCanSwitchStatus, View } from '.'
 
 function Switcher({
@@ -34,7 +33,7 @@ function Switcher({
   onMoveTriggerDone?: (currentSecond: number) => any
 }) {
   return (
-    <__ComponentCanSwitchStatus componentName='Switcher' {...restProps}>
+    <__ComponentCanSwitchStatus extraClassName='Switcher' {...restProps}>
       <View className="slot">
         <View className='trigger' />
       </View>

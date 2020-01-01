@@ -3,8 +3,8 @@ import { __ComponentCanSwitchStatus } from '.'
 
 function CanSwitchStatus({
   ...restProps
-}: Omit<React.ComponentProps<typeof __ComponentCanSwitchStatus>, 'componentName'>) {
-  return <__ComponentCanSwitchStatus componentName='CanSwitchStatus' {...restProps} />
+}: Omit<React.ComponentProps<typeof __ComponentCanSwitchStatus>, 'extraClassName'>) {
+  return <__ComponentCanSwitchStatus extraClassName='CanSwitchStatus' {...restProps} />
 }
 
 export default React.memo(CanSwitchStatus) as typeof CanSwitchStatus

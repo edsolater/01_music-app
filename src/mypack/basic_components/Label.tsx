@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Label.less'
-import { View, ComponentName } from '.'
+import { View } from '.'
 
 export default function Label({
   text,
@@ -10,8 +10,8 @@ export default function Label({
   text?: string
 }) {
   return (
-    <ComponentName componentName='Label' {...restProps}>
+    <View extraClassName='Label' {...restProps}>
       {text ?? restProps.children}
-    </ComponentName>
+    </View>
   )
 }

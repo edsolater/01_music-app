@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ComponentName } from '.'
+import { View } from '.'
 import { createObjectByMultiProps } from 'mypack/utils'
 
 type ToggleType = 'onClick' | 'onPointerEnter' | 'onPointerLeave'
@@ -18,7 +18,7 @@ function mergeObjects(...objs) {
   }, {})
 }
 function __ComponentCanSwitchStatus<ON extends string, OFF extends string>({
-  componentName,
+  extraClassName,
   classNameForOn,
   classNameForOff,
   classNameForInit,
@@ -26,7 +26,7 @@ function __ComponentCanSwitchStatus<ON extends string, OFF extends string>({
   handleManually = false,
   onToggle,
   ...restProps
-}: React.ComponentProps<typeof ComponentName> & {
+}: React.ComponentProps<typeof View> & {
   classNameForInit?: ON | OFF
   classNameForOn?: ON
   classNameForOff?: OFF
@@ -44,8 +44,8 @@ function __ComponentCanSwitchStatus<ON extends string, OFF extends string>({
     onToggle?.(switchTo) // 数据逻辑
   }
   return (
-    <ComponentName
-      componentName={[componentName, componentStatusMessage.trim()]}
+    <View
+      extraClassName={[extraClassName, componentStatusMessage.trim()]}
       {...restProps}
       {...createObjectByMultiProps({
         // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑

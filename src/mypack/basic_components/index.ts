@@ -3,7 +3,6 @@ export { default as View } from './View'
 export { default as Text } from './Text'
 export { default as Image } from './Image'
 
-export { default as ComponentName } from './ComponentName'
 export { default as SlotName } from './SlotName'
 
 export { default as __ComponentCanTap } from './__ComponentCanTap' // "__ComponentCan"/"can" 开头表示一种能力 //只是个语义化包装
@@ -18,4 +17,7 @@ export { default as Slider } from './Slider'
 export { default as Popover } from './Popover'
 export { default as TableView } from './TableView'
 export { default as Label } from './Label'
+
+
 export * from './customHooks'
+export * from './Wrapper'

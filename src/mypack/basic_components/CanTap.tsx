@@ -1,8 +1,8 @@
 import React from 'react'
-import { __ComponentCanTap, View, __ComponentCanSwitchStatus } from '.'
+import { View,  __ComponentCanSwitchStatus } from '.'
 
-function CanTap({ ...restProps }: Omit<React.ComponentProps<typeof __ComponentCanTap>, 'componentName'>) {
-  return <__ComponentCanTap componentName='CanTap' {...restProps} />
+function CanTap({ ...restProps }: Omit<React.ComponentProps<typeof View>, 'extraClassName'>) {
+  return <View extraClassName='CanTap' {...restProps} />
 }
 
 export default React.memo(CanTap) as typeof CanTap

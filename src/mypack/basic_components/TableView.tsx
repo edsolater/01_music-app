@@ -4,6 +4,7 @@ import { ClassValue } from 'classnames/types'
 
 import './TableView.less'
 import { useMaster } from 'mypack/basic_components/customHooks'
+import { View } from '.'
 
 type Data = {
   id?: string | number
@@ -46,9 +47,9 @@ function TableView<D extends Data>({
     init: initIndex,
   })
   return (
-    <div className={classnames(className, 'TableView')} {...restProps}>
+    <View className={classnames(className, 'TableView')} {...restProps}>
       {data.map((data, index, array) => (
-        <div
+        <View
           className={classnames('Item', {
             selected: index === selectedItemIndex.value,
           })}
@@ -59,9 +60,9 @@ function TableView<D extends Data>({
           }}
         >
           {Slot_Item(data, index, array)}
-        </div>
+        </View>
       ))}
-    </div>
+    </View>
   )
 }
 
