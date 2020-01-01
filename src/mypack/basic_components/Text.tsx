@@ -1,14 +1,8 @@
 import React from 'react'
-import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
+import { ComponentName } from '.'
 
-function Text({
-  className,
-  ...restProps
-}: Omit<JSX.IntrinsicElements['div'], 'className'> & {
-  className?: ClassValue
-}) {
-  return <div className={classnames(className)} {...restProps} />
+function Text({ ...restProps }: React.ComponentProps<typeof ComponentName> & {}) {
+  return <ComponentName name='Text' {...restProps} />
 }
 
 export default React.memo(Text) as typeof Text

@@ -3,6 +3,8 @@ export { default as View } from './View'
 export { default as Text } from './Text'
 export { default as Image } from './Image'
 
+// View 的语义变体
+export { default as ComponentName } from './ComponentName'
 export { default as SlotName } from './SlotName'
 
 export { default as __ComponentCanTap } from './__ComponentCanTap' // "__ComponentCan"/"can" 开头表示一种能力 //只是个语义化包装

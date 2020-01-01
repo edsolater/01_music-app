@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from '.'
+import { ComponentName } from '.'
 import './Image.less'
 
 function Image({
@@ -7,15 +7,15 @@ function Image({
   alt,
   srcSet,
   ...restProps
-}: React.ComponentProps<typeof View> & {
+}: React.ComponentProps<typeof ComponentName> & {
   src?: string
   alt?: string
   srcSet?: string
 }) {
   return (
-    <View extraClassName='Image' {...restProps}>
+    <ComponentName name='Image' {...restProps}>
       <img src={src} alt={alt} srcSet={srcSet} />
-    </View>
+    </ComponentName>
   )
 }
 

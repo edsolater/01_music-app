@@ -1,10 +1,10 @@
 import React, { ReactNode } from 'react'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import './Popover.less'
-import { View} from '.'
+import { View, ComponentName} from '.'
 
 function Popover({
-  className: className,
+  className,
   open,
   delayTime,
   Slot_Content,
@@ -26,8 +26,8 @@ function Popover({
 }) {
   const controller = useMaster({ type: 'on-off' }).isImmutable(open)
   return (
-    <View
-      extraClassName={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
+    <ComponentName
+      name={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
       onPointerEnter={() => {
         controller.show()
         controller.dismissDeferHide()
@@ -49,7 +49,7 @@ function Popover({
         {Slot_Content}
       </View>
       {children}
-    </View>
+    </ComponentName>
   )
 }
 export default React.memo(Popover) as typeof Popover

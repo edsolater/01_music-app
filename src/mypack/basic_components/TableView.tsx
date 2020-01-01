@@ -1,10 +1,9 @@
 import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
 
 import './TableView.less'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { View } from '.'
+import { View, ComponentName } from '.'
 
 type Data = {
   id?: string | number
@@ -17,17 +16,12 @@ type Data = {
 }
 function TableView<D extends Data>({
   //为了使解析器识别generic的语法，不得不用function声明
-  className,
   initIndex,
   data,
   Slot_Item,
   onClickItem,
   ...restProps
-}: JSX.IntrinsicElements['div'] & {
-  /**
-   * 接收classnames()能接收的各种参数
-   */
-  className?: ClassValue
+}: React.ComponentProps<typeof ComponentName> & {
   /**
    * 初始化选择的index
    */
@@ -47,7 +41,7 @@ function TableView<D extends Data>({
     init: initIndex,
   })
   return (
-    <View className={classnames(className, 'TableView')} {...restProps}>
+    <ComponentName name='TableView' {...restProps}>
       {data.map((data, index, array) => (
         <View
           className={classnames('Item', {
@@ -62,7 +56,7 @@ function TableView<D extends Data>({
           {Slot_Item(data, index, array)}
         </View>
       ))}
-    </View>
+    </ComponentName>
   )
 }
 

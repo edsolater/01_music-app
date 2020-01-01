@@ -1,6 +1,6 @@
 import React, { ReactNode, useState, MouseEvent } from 'react'
 import './Button.less'
-import { View, SlotName } from '.'
+import { SlotName, ComponentName } from '.'
 
 function Button({
   Slot_Content,
@@ -9,7 +9,7 @@ function Button({
   onClick,
   onModeChange,
   ...restProps
-}: Omit<React.ComponentProps<typeof View>, 'onClick'> & {
+}: Omit<React.ComponentProps<typeof ComponentName>, 'onClick'> & {
   Slot_Content?: ReactNode
   modes?: string[]
   /**
@@ -24,9 +24,10 @@ function Button({
 }) {
   const [currentMode, changeMode] = modes ? useState(initMode) : []
   return (
-    <View
-      extraClassName={['Button', currentMode]}
+    <ComponentName
+      name={['Button', currentMode]}
       onClick={(e) => {
+        /* TODO: 阻碍了想象，要删掉 */
         const changeToNextMode =
           modes &&
           (() => {
@@ -40,8 +41,8 @@ function Button({
       }}
       {...restProps}
     >
-      {<SlotName className='Content'>{Slot_Content ?? restProps.children}</SlotName>}
-    </View>
+      {<SlotName name='Content'>{Slot_Content ?? restProps.children}</SlotName>}
+    </ComponentName>
   )
 }
 

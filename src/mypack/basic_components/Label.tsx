@@ -1,17 +1,17 @@
 import React from 'react'
 
 import './Label.less'
-import { View } from '.'
+import { ComponentName } from '.'
 
 export default function Label({
   text,
   ...restProps
-}: React.ComponentProps<typeof View> & {
+}: React.ComponentProps<typeof ComponentName> & {
   text?: string
 }) {
   return (
-    <View extraClassName='Label' {...restProps}>
+    <ComponentName name='Label' {...restProps}>
       {text ?? restProps.children}
-    </View>
+    </ComponentName>
   )
 }
