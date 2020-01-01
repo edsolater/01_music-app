@@ -1,8 +1,8 @@
 import React from 'react'
-import { ComponentName, __ComponentCanSwitchStatus } from '.'
+import { ComponentRoot, __ComponentCanSwitchStatus } from '.'
 
-function CanTap({ ...restProps }: React.ComponentProps<typeof ComponentName>) {
-  return <ComponentName name='CanTap' {...restProps} />
+function CanTap({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
+  return <ComponentRoot name='CanTap' {...restProps} />
 }
 
 export default React.memo(CanTap) as typeof CanTap

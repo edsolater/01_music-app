@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Switcher.less'
-import { ComponentName, View } from '.'
+import { ComponentRoot, View } from '.'
 
 function Switcher({
   max = 1,
@@ -10,7 +10,7 @@ function Switcher({
   onMoveTrigger,
   onMoveTriggerDone,
   ...restProps
-}: React.ComponentProps<typeof ComponentName> & {
+}: React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 总长度
    */
@@ -33,11 +33,11 @@ function Switcher({
   onMoveTriggerDone?: (currentSecond: number) => any
 }) {
   return (
-    <ComponentName name='Switcher' {...restProps}>
+    <ComponentRoot name='Switcher' {...restProps}>
       <View className='slot'>
         <View className='trigger' />
       </View>
-    </ComponentName>
+    </ComponentRoot>
   )
 }
 

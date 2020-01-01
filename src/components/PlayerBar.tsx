@@ -133,7 +133,7 @@ export function PlayerBar({
         </CanSwitchStatus>
         <Popover
           className='volume-panel'
-          Slot_Content={
+          Content={
             <Slider
               defaultValue={state.volume.value}
               onMoveTriggerDone={(currentPercentage: number) => {

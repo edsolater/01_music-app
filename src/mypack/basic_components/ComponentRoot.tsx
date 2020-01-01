@@ -2,7 +2,7 @@ import React from 'react'
 import View from './View'
 import { ClassValue } from 'classnames/types'
 
-function SlotName({
+function ComponentRoot({
   name,
   className,
   ...restProps
@@ -15,4 +15,4 @@ function SlotName({
   return <View className={[className, name]} {...restProps} />
 }
 
-export default React.memo(SlotName) as typeof SlotName
+export default React.memo(ComponentRoot) as typeof ComponentRoot

@@ -3,7 +3,7 @@ import React from 'react'
 import './Slider.less'
 import { useMaster } from './customHooks'
 import { constraint } from '../utils'
-import { View, ComponentName } from '.'
+import { View, ComponentRoot } from '.'
 
 /**
  * 注意它只能理解数字
@@ -15,7 +15,7 @@ function Slider({
   onMoveTrigger,
   onMoveTriggerDone,
   ...restProps
-}:  React.ComponentProps<typeof ComponentName> & {
+}:  React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 总长度
    */
@@ -63,7 +63,7 @@ function Slider({
     onMoveTriggerDone?.(validPercentage * max)
   }
   return (
-    <ComponentName
+    <ComponentRoot
       name='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!
@@ -118,7 +118,7 @@ function Slider({
           }}
         />
       </View>
-    </ComponentName>
+    </ComponentRoot>
   )
 }
 

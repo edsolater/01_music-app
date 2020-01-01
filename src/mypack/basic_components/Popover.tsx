@@ -1,13 +1,13 @@
 import React, { ReactNode } from 'react'
-import { useMaster } from 'mypack/basic_components/customHooks'
+import { useMasterOnOff } from 'mypack/basic_components/customHooks'
 import './Popover.less'
-import { View, ComponentName} from '.'
+import { View, ComponentRoot, Slot } from '.'
+import { ClassValue } from 'classnames/types'
 
 function Popover({
-  className,
   open,
   delayTime,
-  Slot_Content,
+  Content,
   children,
   ...restProps
 }: React.ComponentProps<typeof View> & {
@@ -22,11 +22,11 @@ function Popover({
   /**
    * Popover 的content的内容
    */
-  Slot_Content?: ReactNode
+  Content?: ReactNode
 }) {
-  const controller = useMaster({ type: 'on-off' }).isImmutable(open)
+  const controller = useMasterOnOff(false)
   return (
-    <ComponentName
+    <ComponentRoot
       name={['Popover', 'Wrapper', { on: open ?? controller.isOn }]}
       onPointerEnter={() => {
         controller.show()
@@ -36,8 +36,8 @@ function Popover({
         controller.deferHide(delayTime)
       }}
     >
-      <View
-        className={[className, 'Content', { on: open ?? controller.isOn }]}
+      <Slot
+        name={['Popover', 'Content', { on: open ?? controller.isOn }]}
         onPointerEnter={() => {
           controller.dismissDeferHide()
         }}
@@ -46,10 +46,24 @@ function Popover({
         }}
         {...restProps}
       >
-        {Slot_Content}
-      </View>
+        {Content}
+      </Slot>
+      {/* TODO */}
+      <View className='TriggerArea' />
       {children}
-    </ComponentName>
+    </ComponentRoot>
   )
+}
+function TriggerArea({
+  name,
+  className,
+  ...restProps
+}: React.ComponentProps<typeof View> & {
+  /**
+   * 用于各个组件定义组件的名字更方便
+   */
+  name?: ClassValue
+}) {
+  return <View className={[className, name]} {...restProps} />
 }
 export default React.memo(Popover) as typeof Popover

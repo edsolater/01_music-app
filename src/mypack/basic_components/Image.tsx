@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentName } from '.'
+import { ComponentRoot } from '.'
 import './Image.less'
 
 function Image({
@@ -7,15 +7,15 @@ function Image({
   alt,
   srcSet,
   ...restProps
-}: React.ComponentProps<typeof ComponentName> & {
+}: React.ComponentProps<typeof ComponentRoot> & {
   src?: string
   alt?: string
   srcSet?: string
 }) {
   return (
-    <ComponentName name='Image' {...restProps}>
+    <ComponentRoot name='Image' {...restProps}>
       <img src={src} alt={alt} srcSet={srcSet} />
-    </ComponentName>
+    </ComponentRoot>
   )
 }
 

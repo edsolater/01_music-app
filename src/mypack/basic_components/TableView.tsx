@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 
 import './TableView.less'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { View, ComponentName } from '.'
+import { View, ComponentRoot } from '.'
 
 type Data = {
   id?: string | number
@@ -21,7 +21,7 @@ function TableView<D extends Data>({
   Slot_Item,
   onClickItem,
   ...restProps
-}: React.ComponentProps<typeof ComponentName> & {
+}: React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 初始化选择的index
    */
@@ -41,7 +41,7 @@ function TableView<D extends Data>({
     init: initIndex,
   })
   return (
-    <ComponentName name='TableView' {...restProps}>
+    <ComponentRoot name='TableView' {...restProps}>
       {data.map((data, index, array) => (
         <View
           className={classnames('Item', {
@@ -56,7 +56,7 @@ function TableView<D extends Data>({
           {Slot_Item(data, index, array)}
         </View>
       ))}
-    </ComponentName>
+    </ComponentRoot>
   )
 }
 

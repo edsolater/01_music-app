@@ -1,9 +1,6 @@
 export default class StateBoolean {
   private _timeoutID: any
-  private mutable: boolean
-  constructor(public value: boolean, protected setStateOfReact: any) {
-    this.mutable = true
-  }
+  constructor(public value: boolean, protected setStateOfReact: any) {}
   get isOn() {
     return this.value
   }
@@ -15,11 +12,6 @@ export default class StateBoolean {
   }
   get isOff() {
     return !this.isOn
-  }
-
-  isImmutable(flag?: boolean) {
-    this.mutable = !flag
-    return this
   }
 
   toggle() {
@@ -44,32 +36,24 @@ export default class StateBoolean {
     return this.close()
   }
   show() {
-    if (this.mutable) {
-      this.open()
-    }
+    this.open()
     return this
   }
   hide() {
-    if (this.mutable) {
-      this.close()
-    }
+    this.close()
     return this
   }
   // 宿主环境需要有setTimeout的能力
   deferHide(delay: number = 600) {
-    if (this.mutable) {
-      const timeoutID = globalThis.setTimeout(() => {
-        this.hide.apply(this)
-      }, delay)
-      this._timeoutID = timeoutID
-    }
+    const timeoutID = globalThis.setTimeout(() => {
+      this.hide.apply(this)
+    }, delay)
+    this._timeoutID = timeoutID
     return this
   }
   // 宿主环境需要有clearTimeout的能力
   dismissDeferHide() {
-    if (this.mutable) {
-      globalThis.clearTimeout(this._timeoutID)
-    }
+    globalThis.clearTimeout(this._timeoutID)
     return this
   }
 }

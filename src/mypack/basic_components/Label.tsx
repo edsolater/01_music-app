@@ -1,17 +1,17 @@
 import React from 'react'
 
 import './Label.less'
-import { ComponentName } from '.'
+import { ComponentRoot } from '.'
 
 export default function Label({
   text,
   ...restProps
-}: React.ComponentProps<typeof ComponentName> & {
+}: React.ComponentProps<typeof ComponentRoot> & {
   text?: string
 }) {
   return (
-    <ComponentName name='Label' {...restProps}>
+    <ComponentRoot name='Label' {...restProps}>
       {text ?? restProps.children}
-    </ComponentName>
+    </ComponentRoot>
   )
 }
