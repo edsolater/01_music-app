@@ -132,7 +132,6 @@ export function PlayerBar({
           />
         </CanSwitchStatus>
         <Popover
-          className='volume-panel'
           Content={
             <Slider
               defaultValue={state.volume.value}
