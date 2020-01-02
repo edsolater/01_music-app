@@ -5,6 +5,9 @@ import { View, ComponentRoot, Slot } from '.'
 import { ClassValue } from 'classnames/types'
 
 function Popover({
+  onPointerEnter,
+  onPointerLeave,
+
   open,
   delayTime,
   Content,
@@ -20,18 +23,31 @@ function Popover({
    */
   delayTime?: number
   /**
-   * Slot
+   * #Slot#
    *
    * Popover 的content的内容
    */
   Content?: ReactNode
 }) {
   const controller = useMasterOnOff(false)
+  // 子元素绝对定位是受限制的，要绝对定位的话必须连Popover一起绝对定位
   return (
-    <ComponentRoot name={['Popover', { on: open ?? controller.isOn }]} {...restProps}>
+    <ComponentRoot
+      name={['Popover', 'wrapper-box', { on: open ?? controller.isOn }]}
+      onPointerEnter={(event) => {
+        onPointerEnter?.(event)
+        controller.show()
+        controller.dismissDeferHide()
+      }}
+      onPointerLeave={(event) => {
+        onPointerLeave?.(event)
+        controller.deferHide(delayTime)
+      }}
+      {...restProps}
+    >
       <View //content不一定是card形式，Card单独提成一个组件
-        className={['Content', { on: open ?? controller.isOn }]}
-        onPointerEnter={() => {
+        className={['Popover', 'content-box', { on: open ?? controller.isOn }]}
+        onPointerEnter={(e) => {
           controller.dismissDeferHide()
         }}
         onPointerLeave={() => {
@@ -40,18 +56,7 @@ function Popover({
       >
         {Content} {/* slot */}
       </View>
-      <View //TODO: 暂且这样，但如果子内容需要绝对定位怎么办？
-        className='TriggerArea'
-        onPointerEnter={() => {
-          controller.show()
-          controller.dismissDeferHide()
-        }}
-        onPointerLeave={() => {
-          controller.deferHide(delayTime)
-        }}
-      >
-        {children} {/* slot */}
-      </View>
+      {children} {/* slot */}
     </ComponentRoot>
   )
 }
