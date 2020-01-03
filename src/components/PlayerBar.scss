@@ -50,7 +50,7 @@
     display: grid;
     grid-template:
       'songTitle  timestamp ' auto
-      'Slider      Slider   ' 1fr ~'/' 1fr 1fr;
+      'Slider      Slider   ' 1fr / 1fr 1fr;
     .songTitle {
       grid-area: songTitle;
       justify-self: left;

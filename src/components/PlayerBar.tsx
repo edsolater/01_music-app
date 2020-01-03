@@ -12,7 +12,7 @@ import {
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
-import './PlayerBar.less'
+import './PlayerBar.scss'
 
 export default function PlayerBar({
   defaultVolume,
