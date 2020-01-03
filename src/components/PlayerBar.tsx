@@ -14,7 +14,7 @@ import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
 import './PlayerBar.less'
 
-export function PlayerBar({
+export default function PlayerBar({
   defaultVolume,
   soundtrackUrl,
   albumUrl,

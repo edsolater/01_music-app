@@ -9,7 +9,8 @@ import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠�
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
 import { TableView, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
-import { PlayerBar } from 'components/PlayerBar'
+import PlayerBar from 'components/PlayerBar'
+import AsideMenu from 'components/AsideMenu'
 type CollectionInfo = {
   imageUrl: string
   title: string
@@ -115,21 +116,24 @@ function App({ initIndex }: { initIndex?: number }) {
     },
   })
   return (
-    <View className='app-box'>
-      <CollectionList
-        data={dataPieces.map((data) => data.header)}
-        initSelectedIndex={initIndex}
-        onChangeIndex={(_, index) => {
-          activeCollectionIndex.set(index)
-        }}
-      ></CollectionList>
-      <SongsList songs={dataPieces[activeCollectionIndex.value].songs}></SongsList>
-      <PlayerBar
-        songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
-        albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
-        soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
-      />
-    </View>
+    <>
+      <View className='app-box'>
+        <CollectionList
+          data={dataPieces.map((data) => data.header)}
+          initSelectedIndex={initIndex}
+          onChangeIndex={(_, index) => {
+            activeCollectionIndex.set(index)
+          }}
+        ></CollectionList>
+        <SongsList songs={dataPieces[activeCollectionIndex.value].songs}></SongsList>
+        <PlayerBar
+          songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
+          albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
+          soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
+        />
+      </View>
+      <AsideMenu></AsideMenu>
+    </>
   )
 }
 
