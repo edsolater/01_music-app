@@ -33,20 +33,8 @@ const useStateCollectionObject = <O>(
 }
 
 type Reporters = {
-  /**
-   * 一般用于记录所选的index
-   */
-  'index-recorder': ReturnType<typeof useStateNumber>
-  /**
-   * 用于处理 “开/关” 状态
-   */
-  'counter': ReturnType<typeof useStateNumber>
-  /**
-   * 只能0到1之间 //待实现
-   * // vscode 没有智能提示
-   */
-  'counter(percentage)': ReturnType<typeof useStateNumber>
-  'on-off': ReturnType<typeof useStateBoolean>
+  'number': ReturnType<typeof useStateNumber>
+  'boolean': ReturnType<typeof useStateBoolean>
   'collection(object)': ReturnType<typeof useStateCollectionObject>
 }
 /**
@@ -54,15 +42,9 @@ type Reporters = {
  */
 const useMaster = <T extends keyof Reporters, O>(config: { type: T; init?: O }): Reporters[T] => {
   // @ts-ignore
-  if (config.type === 'index-recorder') return useStateNumber(Number(config.init))
+  if (config.type === 'number') return useStateNumber(Number(config.init))
   // @ts-ignore
-  if (config.type === 'counter') return useStateNumber(Number(config.init))
-  // @ts-ignore
-  if (config.type === 'counter(percentage)')
-    // @ts-ignore
-    return useStateNumber(Number(config.init))
-  // @ts-ignore
-  if (config.type === 'on-off') return useStateBoolean(Boolean(config.init))
+  if (config.type === 'boolean') return useStateBoolean(Boolean(config.init))
   // @ts-ignore
   if (config.type === 'collection(object)') return useStateCollectionObject(config.init)
   else throw Error()

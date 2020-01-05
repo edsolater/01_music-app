@@ -38,10 +38,10 @@ function Slider({
   onMoveTriggerDone?: (currentSecond: number) => any
 }) {
   const triggerLeft = useMaster({
-    type: 'counter(percentage)',
+    type: 'number',
     init: (value || defaultValue || 0) / max || 0,
   })
-  const inDraggingTrigger = useMaster({ type: 'on-off' })
+  const inDraggingTrigger = useMaster({ type: 'boolean' })
   const styleLeft = value
     ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / max) * 100}%`
     : `${triggerLeft.value * 100}%`

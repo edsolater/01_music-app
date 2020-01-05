@@ -5,7 +5,7 @@ import './MenuList.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { View, ComponentRoot } from '.'
 
-type Data = {
+type ItemData = {
   id?: string | number
   key?: string | number
   title?: string
@@ -14,7 +14,7 @@ type Data = {
   detail?: string
   [titleName: string]: any
 }
-function MenuList<D extends Data>({
+function MenuList<D extends ItemData>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
@@ -33,11 +33,11 @@ function MenuList<D extends Data>({
   /**
    * MenuList对每条数据的渲染界面（函数传入data中的数据）
    */
-  ItemsTemplate: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
+  ItemsTemplate: (dataItem: D, index: number, array: D[]) => ReactNode
   onSelectNewIndex?: (itemIndex: number) => any
 }) {
   const selectedItemIndex = useMaster({
-    type: 'index-recorder',
+    type: 'number',
     init: initIndex,
   })
   return (

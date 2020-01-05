@@ -27,10 +27,10 @@ export default function PlayerBar({
 }) {
   //#region 维护播放器所含的状态信息
   const state = {
-    currentSecond: useMaster({ type: 'counter', init: 0 }),
-    totalSeconds: useMaster({ type: 'counter' }),
-    isPlaying: useMaster({ type: 'on-off' }),
-    volume: useMaster({ type: 'counter(percentage)', init: defaultVolume || 1 }),
+    currentSecond: useMaster({ type: 'number', init: 0 }),
+    totalSeconds: useMaster({ type: 'number' }),
+    isPlaying: useMaster({ type: 'boolean' }),
+    volume: useMaster({ type: 'number', init: defaultVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const currentSecond = state.currentSecond

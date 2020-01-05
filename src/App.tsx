@@ -70,7 +70,7 @@ function InfoDetail({ songs: data }: { songs: Song[] }) {
 }
 
 function App({ initIndex }: { initIndex?: number }) {
-  const activeCollectionIndex = useMaster({ type: 'index-recorder', init: initIndex })
+  const activeCollectionIndex = useMaster({ type: 'number', init: initIndex })
   const activeSongInfo = useMaster({
     type: 'collection(object)',
     init: {

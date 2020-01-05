@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { useMasterOnOff } from 'mypack/basic_components/customHooks'
+import { useMasterBoolean } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
 import { View, ComponentRoot } from '.'
 
@@ -8,6 +8,7 @@ function Popover({
   onPointerLeave,
 
   open,
+  defaultOpen,
   delayTime,
   Content,
   children,
@@ -17,6 +18,10 @@ function Popover({
    * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
    */
   open?: boolean
+  /**
+   * 是否默认开启
+   */
+  defaultOpen?: boolean
   /**
    * 延迟关闭的延迟时间。(只有当交互行为由组件内部自行控制控时生效)
    */
@@ -28,7 +33,7 @@ function Popover({
    */
   Content?: ReactNode
 }) {
-  const onOffController = useMasterOnOff(false)
+  const onOffController = useMasterBoolean(Boolean(defaultOpen))
   const triggerCallback = {
     on: () => onOffController.show(),
     off: () => onOffController.deferHide(delayTime),
