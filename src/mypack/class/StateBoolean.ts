@@ -22,6 +22,7 @@ export default class StateBoolean {
   open() {
     this.value = true
     this.setStateOfReact(this.value)
+    this.dismissDeferHide()
     return this
   }
   close() {
@@ -52,7 +53,7 @@ export default class StateBoolean {
     return this
   }
   // 宿主环境需要有clearTimeout的能力
-  dismissDeferHide() {
+  private dismissDeferHide() {
     globalThis.clearTimeout(this._timeoutID)
     return this
   }

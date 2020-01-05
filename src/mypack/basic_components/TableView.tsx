@@ -18,8 +18,8 @@ function TableView<D extends Data>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
-  Slot_Item,
-  onClickItem,
+  ItemsTemplate,
+  onSelectNewIndex,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
   /**
@@ -33,8 +33,8 @@ function TableView<D extends Data>({
   /**
    * TableView对每条数据的渲染界面（函数传入data中的数据）
    */
-  Slot_Item: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
-  onClickItem?: (dataItem: D, index: number, array: typeof dataItem[]) => any
+  ItemsTemplate: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
+  onSelectNewIndex?: (itemIndex: number) => any
 }) {
   const selectedItemIndex = useMaster({
     type: 'index-recorder',
@@ -50,10 +50,10 @@ function TableView<D extends Data>({
           key={data.key ?? data.id ?? index}
           onClick={() => {
             selectedItemIndex.set(index)
-            onClickItem?.(data, index, array)
+            onSelectNewIndex?.(index)
           }}
         >
-          {Slot_Item(data, index, array)}
+          {ItemsTemplate(data, index, array)}
         </View>
       ))}
     </ComponentRoot>

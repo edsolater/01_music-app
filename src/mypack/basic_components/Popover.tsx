@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react'
 import { useMasterOnOff } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
-import { View, ComponentRoot, Slot } from '.'
-import { ClassValue } from 'classnames/types'
+import { View, ComponentRoot } from '.'
 
 function Popover({
   onPointerEnter,
@@ -29,47 +28,33 @@ function Popover({
    */
   Content?: ReactNode
 }) {
-  const controller = useMasterOnOff(false)
-  // 子元素绝对定位是受限制的，要绝对定位的话必须连Popover一起绝对定位
+  const onOffController = useMasterOnOff(false)
+  const triggerCallback = {
+    on: () => onOffController.show(),
+    off: () => onOffController.deferHide(delayTime),
+  }
   return (
     <ComponentRoot
-      name={['Popover', 'wrapper-box', { on: open ?? controller.isOn }]}
+      name={['Popover', 'wrapper-part', { on: open ?? onOffController.isOn }]}
       onPointerEnter={(event) => {
         onPointerEnter?.(event)
-        controller.show()
-        controller.dismissDeferHide()
+        triggerCallback.on()
       }}
       onPointerLeave={(event) => {
         onPointerLeave?.(event)
-        controller.deferHide(delayTime)
+        triggerCallback.off()
       }}
       {...restProps}
     >
-      <View //content不一定是card形式，Card单独提成一个组件
-        className={['Popover', 'content-box', { on: open ?? controller.isOn }]}
-        onPointerEnter={(e) => {
-          controller.dismissDeferHide()
-        }}
-        onPointerLeave={() => {
-          controller.deferHide(delayTime)
-        }}
+      <View //content不一定得是card形式，Card单独提成一个组件
+        className={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
+        onPointerEnter={() => triggerCallback.on()}
+        onPointerLeave={() => triggerCallback.off()}
       >
         {Content} {/* slot */}
       </View>
       {children} {/* slot */}
     </ComponentRoot>
   )
-}
-function TriggerArea({
-  name,
-  className,
-  ...restProps
-}: React.ComponentProps<typeof View> & {
-  /**
-   * 用于各个组件定义组件的名字更方便
-   */
-  name?: ClassValue
-}) {
-  return <View className={[className, name]} {...restProps} />
 }
 export default React.memo(Popover) as typeof Popover

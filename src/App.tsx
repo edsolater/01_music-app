@@ -1,7 +1,7 @@
 import React from 'react'
 import * as ReactDOM from 'react-dom'
 
-import './App.less'
+import './App.scss'
 
 import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
 import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
@@ -11,12 +11,6 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最�
 import { TableView, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
 import PlayerBar from 'components/PlayerBar'
 import AsideMenu from 'components/AsideMenu'
-type CollectionInfo = {
-  imageUrl: string
-  title: string
-  subtitle: string
-  detail: string
-}
 type Song = {
   songTitle: string
   albumUrl: string
@@ -60,44 +54,14 @@ const dataPieces = [
   },
 ]
 
-function CollectionList({
-  data,
-  initSelectedIndex = 0,
-  onChangeIndex,
-}: {
-  data: CollectionInfo[]
-  initSelectedIndex?: number
-  onChangeIndex?: (dataItem: CollectionInfo, index: number, array: CollectionInfo[]) => any
-}) {
-  return (
-    <View className='collections-list'>
-      <Text className='plate-title'>song-collection</Text>
-      <TableView
-        data={data}
-        initIndex={initSelectedIndex}
-        onClickItem={onChangeIndex}
-        Slot_Item={(data) => (
-          <View
-            onClick={() => {
-              console.log(`click ${data.title}`)
-            }}
-          >
-            <Image src={data.imageUrl} />
-            <Label className='title'>{data.title}</Label>
-          </View>
-        )}
-      />
-    </View>
-  )
-}
 
-function SongsList({ songs: data }: { songs: Song[] }) {
+function InfoDetail({ songs: data }: { songs: Song[] }) {
   return (
     <View className='song-details'>
       <Text className='plate-tital'>"song-detail"</Text>
       <TableView
         data={data}
-        Slot_Item={(data) => {
+        ItemsTemplate={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
       ></TableView>
@@ -118,21 +82,20 @@ function App({ initIndex }: { initIndex?: number }) {
   return (
     <>
       <View className='app-box'>
-        <CollectionList
+        <AsideMenu
           data={dataPieces.map((data) => data.header)}
           initSelectedIndex={initIndex}
-          onChangeIndex={(_, index) => {
-            activeCollectionIndex.set(index)
+          onChangeIndex={(newIndex) => {
+            activeCollectionIndex.set(newIndex)
           }}
-        ></CollectionList>
-        <SongsList songs={dataPieces[activeCollectionIndex.value].songs}></SongsList>
+        ></AsideMenu>
+        <InfoDetail songs={dataPieces[activeCollectionIndex.value].songs}></InfoDetail>
         <PlayerBar
           songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
           albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
           soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
         />
       </View>
-      <AsideMenu></AsideMenu>
     </>
   )
 }

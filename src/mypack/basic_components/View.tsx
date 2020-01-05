@@ -11,11 +11,11 @@ function View({
 }: Omit<JSX.IntrinsicElements['div'], 'className'> & {
   className?: ClassValue
   /**
-   * 额外的 className（一般用于组件）
+   * 额外的 className
    */
   extraClassName?: ClassValue
   /**
-   * 额外的 style （一般用于组件）
+   * 额外的 style 
    */
   extraStyle?: CSSProperties
 }) {
