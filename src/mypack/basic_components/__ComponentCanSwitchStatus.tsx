@@ -18,7 +18,7 @@ function mergeObjects(...objs) {
   }, {})
 }
 function __ComponentCanSwitchStatus<ON extends string, OFF extends string>({
-  extraClassName,
+  className,
   classNameForOn,
   classNameForOff,
   classNameForInit,
@@ -45,7 +45,7 @@ function __ComponentCanSwitchStatus<ON extends string, OFF extends string>({
   }
   return (
     <View
-      extraClassName={[extraClassName, componentStatusMessage.trim()]}
+      className={[className, componentStatusMessage.trim()]}
       {...restProps}
       {...createObjectByMultiProps({
         // TODO: 新增util: ObjectMerge、ObjectMergeCover。以替代现有的逻辑

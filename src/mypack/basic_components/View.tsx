@@ -4,25 +4,13 @@ import { ClassValue } from 'classnames/types'
 
 function View({
   className,
-  style,
-  extraStyle,
-  extraClassName,
   ...restProps
 }: Omit<JSX.IntrinsicElements['div'], 'className'> & {
   className?: ClassValue
-  /**
-   * 额外的 className
-   */
-  extraClassName?: ClassValue
-  /**
-   * 额外的 style 
-   */
-  extraStyle?: CSSProperties
 }) {
   return (
     <div
-      style={{ ...style, ...extraStyle }}
-      className={classnames(className, extraClassName)}
+      className={classnames(className)}
       {...restProps}
     />
   )
