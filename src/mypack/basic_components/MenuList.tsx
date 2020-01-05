@@ -1,9 +1,8 @@
 import React, { ReactNode } from 'react'
-import * as classnames from 'classnames'
 
 import './MenuList.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { View, ComponentRoot } from '.'
+import { ComponentRoot, SlotScope } from '.'
 
 type ItemData = {
   id?: string | number
@@ -14,11 +13,12 @@ type ItemData = {
   detail?: string
   [titleName: string]: any
 }
+
 function MenuList<D extends ItemData>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
-  ItemsTemplate,
+  ItemsScope,
   onSelectNewIndex,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
@@ -33,7 +33,7 @@ function MenuList<D extends ItemData>({
   /**
    * MenuList对每条数据的渲染界面（函数传入data中的数据）
    */
-  ItemsTemplate: (dataItem: D, index: number, array: D[]) => ReactNode
+  ItemsScope: (dataItem: D, index: number, array: D[]) => ReactNode
   onSelectNewIndex?: (itemIndex: number) => any
 }) {
   const selectedItemIndex = useMaster({
@@ -43,18 +43,21 @@ function MenuList<D extends ItemData>({
   return (
     <ComponentRoot name='MenuList' {...restProps}>
       {data.map((data, index, array) => (
-        <View
-          className={classnames('Item', {
-            selected: index === selectedItemIndex.value,
-          })}
+        <SlotScope
+          name={[
+            'Item',
+            {
+              selected: index === selectedItemIndex.value,
+            },
+          ]}
           key={data.key ?? data.id ?? index}
           onClick={() => {
             selectedItemIndex.set(index)
             onSelectNewIndex?.(index)
           }}
         >
-          {ItemsTemplate(data, index, array)}
-        </View>
+          {ItemsScope(data, index, array)}
+        </SlotScope>
       ))}
     </ComponentRoot>
   )

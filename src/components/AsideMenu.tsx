@@ -17,7 +17,7 @@ export default function AsideMenu({
         data={data}
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
-        ItemsTemplate={(data) => (
+        ItemsScope={(data) => (
           <View
             onClick={() => {
               console.log(`click ${data.title}`)

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import { useMasterBoolean } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
-import { View, ComponentRoot } from '.'
+import { View, ComponentRoot, Slot } from '.'
 
 function Popover({
   onPointerEnter,
@@ -51,13 +51,13 @@ function Popover({
       }}
       {...restProps}
     >
-      <View //content不一定得是card形式，Card单独提成一个组件
-        className={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
+      <Slot //content不一定得是card形式，Card单独提成一个组件
+        name={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
         onPointerEnter={() => triggerCallback.on()}
         onPointerLeave={() => triggerCallback.off()}
       >
         {Content} {/* slot */}
-      </View>
+      </Slot>
       {children} {/* slot */}
     </ComponentRoot>
   )

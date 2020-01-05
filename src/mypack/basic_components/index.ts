@@ -3,9 +3,10 @@ export { default as View } from './View'
 export { default as Text } from './Text'
 export { default as Image } from './Image'
 
-// View 的语义变体，都有一个name的props，指定名称用的
+// View 的语义变体，都有一个name的props，以指定名称
 export { default as ComponentRoot } from './ComponentRoot'
 export { default as Slot } from './Slot'
+export { default as SlotScope } from './SlotScope'
 
 export { default as __ComponentCanTap } from './__ComponentCanTap' // "__ComponentCan"/"can" 开头表示一种能力 //只是个语义化包装
 export { default as CanTap } from './CanTap' // __ComponentCanTap的 “显式版”（"__"前缀的需在devTool中隐藏）

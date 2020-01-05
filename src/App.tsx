@@ -61,7 +61,7 @@ function InfoDetail({ songs: data }: { songs: Song[] }) {
       <Text className='plate-tital'>"song-detail"</Text>
       <MenuList
         data={data}
-        ItemsTemplate={(data) => {
+        ItemsScope={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
       ></MenuList>
