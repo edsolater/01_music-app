@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 
-import './TableView.less'
+import './TableView.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { View, ComponentRoot } from '.'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './Label.less'
+import './Label.scss'
 import { ComponentRoot } from '.'
 
 export default function Label({

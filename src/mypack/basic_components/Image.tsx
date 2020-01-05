@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentRoot } from '.'
-import './Image.less'
+import './Image.scss'
 
 function Image({
   src,

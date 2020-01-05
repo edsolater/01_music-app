@@ -1,5 +1,5 @@
 import React, { ReactNode, useState, MouseEvent } from 'react'
-import './Button.less'
+import './Button.scss'
 import { Slot, ComponentRoot } from '.'
 
 function Button({

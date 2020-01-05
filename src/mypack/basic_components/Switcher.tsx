@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './Switcher.less'
+import './Switcher.scss'
 import { ComponentRoot, View } from '.'
 
 function Switcher({

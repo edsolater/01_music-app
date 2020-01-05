@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import { useMasterOnOff } from 'mypack/basic_components/customHooks'
-import './Popover.less'
+import './Popover.scss'
 import { View, ComponentRoot, Slot } from '.'
 import { ClassValue } from 'classnames/types'
 

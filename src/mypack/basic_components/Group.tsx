@@ -1,5 +1,5 @@
 import React from 'react'
-import './Group.less'
+import './Group.scss'
 import { ComponentRoot } from '.'
 
 function Group({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
