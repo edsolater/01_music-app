@@ -1,6 +1,6 @@
 import React from 'react'
 import './AsideMenu.scss'
-import { View, TableView, Label, Image, Text } from 'mypack/basic_components'
+import { View, MenuList, Label, Image, Text } from 'mypack/basic_components'
 export default function AsideMenu({
   data,
   initSelectedIndex = 0,
@@ -13,7 +13,7 @@ export default function AsideMenu({
   return (
     <View className='collections-list'>
       <Text className='plate-title'>song-collection</Text>
-      <TableView
+      <MenuList
         data={data}
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}

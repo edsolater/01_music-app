@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import * as classnames from 'classnames'
 
-import './TableView.scss'
+import './MenuList.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { View, ComponentRoot } from '.'
 
@@ -14,7 +14,7 @@ type Data = {
   detail?: string
   [titleName: string]: any
 }
-function TableView<D extends Data>({
+function MenuList<D extends Data>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
@@ -27,11 +27,11 @@ function TableView<D extends Data>({
    */
   initIndex?: number
   /**
-   * TableView会使用的具体数据（Template定义渲染的样式）
+   * MenuList会使用的具体数据（Template定义渲染的样式）
    */
   data: D[]
   /**
-   * TableView对每条数据的渲染界面（函数传入data中的数据）
+   * MenuList对每条数据的渲染界面（函数传入data中的数据）
    */
   ItemsTemplate: (dataItem: D, index: number, array: typeof dataItem[]) => ReactNode
   onSelectNewIndex?: (itemIndex: number) => any
@@ -41,7 +41,7 @@ function TableView<D extends Data>({
     init: initIndex,
   })
   return (
-    <ComponentRoot name='TableView' {...restProps}>
+    <ComponentRoot name='MenuList' {...restProps}>
       {data.map((data, index, array) => (
         <View
           className={classnames('Item', {
@@ -60,4 +60,4 @@ function TableView<D extends Data>({
   )
 }
 
-export default React.memo(TableView) as typeof TableView //为了使组件不丧失generic的能力
+export default React.memo(MenuList) as typeof MenuList //为了使组件不丧失generic的能力

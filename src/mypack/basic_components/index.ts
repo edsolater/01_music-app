@@ -15,7 +15,7 @@ export { default as __ComponentCanSwitchStatus } from './__ComponentCanSwitchSta
 export { default as CanSwitchStatus } from './CanSwitchStatus' // __ComponentCanSwitchStatus “显式版”（"__"前缀的需在devTool中隐藏）
 
 export { default as Slider } from './Slider'
-export { default as TableView } from './TableView'
+export { default as MenuList } from './MenuList'
 export { default as Label } from './Label'
 
 //Wrapper 系列，写组件时可随意添加，现存页面无感
