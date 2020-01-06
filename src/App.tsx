@@ -8,7 +8,7 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
-import { MenuList, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
+import { List, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
 import PlayerBar from 'components/PlayerBar'
 import AsideMenu from 'components/AsideMenu'
 type Song = {
@@ -59,12 +59,12 @@ function InfoDetail({ songs: data }: { songs: Song[] }) {
   return (
     <View className='song-details'>
       <Text className='plate-tital'>"song-detail"</Text>
-      <MenuList
+      <List
         data={data}
         ItemsScope={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
-      ></MenuList>
+      ></List>
     </View>
   )
 }

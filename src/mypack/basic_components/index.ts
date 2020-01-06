@@ -17,7 +17,7 @@ export { default as CanSwitchStatus } from './CanSwitchStatus' // __ComponentCan
 
 // 普通组件
 export { default as Slider } from './Slider'
-export { default as MenuList } from './MenuList'
+export { default as List } from './List'
 export { default as Label } from './Label'
 export { default as ImageFalls } from './ImageFalls'
 
