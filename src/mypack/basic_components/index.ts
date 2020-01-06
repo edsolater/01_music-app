@@ -15,9 +15,11 @@ export { default as Button } from './Button' // __ComponentCanTap的典型应用
 export { default as __ComponentCanSwitchStatus } from './__ComponentCanSwitchStatus'
 export { default as CanSwitchStatus } from './CanSwitchStatus' // __ComponentCanSwitchStatus “显式版”（"__"前缀的需在devTool中隐藏）
 
+// 普通组件
 export { default as Slider } from './Slider'
 export { default as MenuList } from './MenuList'
 export { default as Label } from './Label'
+export { default as ImageFalls } from './ImageFalls'
 
 //Wrapper 系列，写组件时可随意添加，现存页面无感
 export { default as Popover } from './Popover'
