@@ -8,7 +8,7 @@
     "strictNullChecks": true,
     "noImplicitAny": false,
     "noImplicitThis": true, //this 在object literial中也会有上下文的智能判定
-    "baseUrl": "./src", //typescript 根路径（绝对路径的根节点）
+    "baseUrl": "./src" //typescript 根路径（绝对路径的根节点）
   },
   "include": ["src", "node_modules/react", "node_modules/react-dom"]
   // "exclude": ["node_modules"]
