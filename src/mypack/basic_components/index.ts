@@ -7,13 +7,9 @@ export { default as Image } from './Image'
 export { default as ComponentRoot } from './ComponentRoot'
 export { default as Slot } from './Slot'
 export { default as SlotScope } from './SlotScope'
-
-export { default as __ComponentCanTap } from './__ComponentCanTap' // "__ComponentCan"/"can" 开头表示一种能力 //只是个语义化包装
-export { default as CanTap } from './CanTap' // __ComponentCanTap的 “显式版”（"__"前缀的需在devTool中隐藏）
-export { default as Button } from './Button' // __ComponentCanTap的典型应用
-
-export { default as __ComponentCanSwitchStatus } from './__ComponentCanSwitchStatus'
-export { default as CanSwitchStatus } from './CanSwitchStatus' // __ComponentCanSwitchStatus “显式版”（"__"前缀的需在devTool中隐藏）
+//TODO: Header
+//TODO: Footer
+//TODO: Section
 
 // 普通组件
 export { default as Slider } from './Slider'
@@ -22,6 +18,7 @@ export { default as Label } from './Label'
 export { default as ImageFalls } from './ImageFalls'
 
 //Wrapper 系列，写组件时可随意添加，现存页面无感
+export { default as Button } from './Button' 
 export { default as Popover } from './Popover'
 export { default as Group } from './Group'
 

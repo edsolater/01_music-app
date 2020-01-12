@@ -9,8 +9,8 @@ import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠�
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
 import { List, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
-import PlayerBar from 'components/PlayerBar'
-import AsideMenu from 'components/AsideMenu'
+import AudioPlayer from 'components/AudioPlayer'
+import AlbumMenu from 'components/AlbumMenu'
 type Song = {
   songTitle: string
   albumUrl: string
@@ -82,15 +82,15 @@ function App({ initIndex }: { initIndex?: number }) {
   return (
     <>
       <View className='app-box'>
-        <AsideMenu
+        <AlbumMenu
           data={dataPieces.map((data) => data.header)}
           initSelectedIndex={initIndex}
           onChangeIndex={(newIndex) => {
             activeCollectionIndex.set(newIndex)
           }}
-        ></AsideMenu>
+        ></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex.value].songs}></InfoDetail>
-        <PlayerBar
+        <AudioPlayer
           songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
           albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
           soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余

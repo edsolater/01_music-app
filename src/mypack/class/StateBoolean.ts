@@ -4,14 +4,17 @@ export default class StateBoolean {
   get isOn() {
     return this.value
   }
-  get isOpen() {
-    return this.value
-  }
-  get isTrue() {
-    return this.value
-  }
   get isOff() {
     return !this.isOn
+  }
+  get isTrue() {
+    return this.isOn
+  }
+  get isFalse() {
+    return this.isOff
+  }
+  get isOpen() {
+    return this.isOn
   }
 
   toggle() {

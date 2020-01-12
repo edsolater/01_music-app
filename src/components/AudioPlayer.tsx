@@ -8,13 +8,12 @@ import {
   useMaster,
   useCallbackRef,
   View,
-  CanSwitchStatus,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import { setClearableTimeout } from 'mypack/webToolkit'
-import './PlayerBar.scss'
+import './AudioPlayer.scss'
 
-export default function PlayerBar({
+export default function AudioPlayer({
   defaultVolume,
   soundtrackUrl,
   albumUrl,
@@ -30,6 +29,7 @@ export default function PlayerBar({
     currentSecond: useMaster({ type: 'number', init: 0 }),
     totalSeconds: useMaster({ type: 'number' }),
     isPlaying: useMaster({ type: 'boolean' }),
+    inLoopMode: useMaster({ type: 'boolean' }),
     volume: useMaster({ type: 'number', init: defaultVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
@@ -68,35 +68,25 @@ export default function PlayerBar({
       <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
       <Image className='album-face' src={albumUrl} />
       <Group className='music-buttons'>
+        <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
+          ⏮
+        </Button>
         <Button
-          className='last-song'
-          Slot_Content='⏮'
-          onClick={() => console.log(`I'm clicked 1`)}
-        />
-        {isPlaying.isTrue ? (
-          <Button
-            className='pause'
-            Slot_Content='⏸'
-            onClick={() => {
-              if (audioPlayerHTML) audioPlayerHTML.pause()
-              isPlaying.turnOff()
-            }}
-          />
-        ) : (
-          <Button
-            className='play'
-            Slot_Content='▶'
-            onClick={() => {
-              if (audioPlayerHTML) audioPlayerHTML.play()
-              isPlaying.turnOn()
-            }}
-          />
-        )}
-        <Button
-          className='next-song'
-          Slot_Content='⏭'
-          onClick={() => console.log(`I'm clicked 3`)}
-        />
+          className={isPlaying.isTrue ? 'pause' : 'play'}
+          onClick={() => {
+            if (audioPlayerHTML && isPlaying.isTrue) {
+              audioPlayerHTML.pause()
+            } else if (audioPlayerHTML && isPlaying.isFalse) {
+              audioPlayerHTML.play()
+            }
+            isPlaying.toggle()
+          }}
+        >
+          {isPlaying.isTrue ? '⏸' : '▶'}
+        </Button>
+        <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
+          ⏭
+        </Button>
       </Group>
       <View className='timeline'>
         <View className='songTitle'>{songTitle}</View>
@@ -116,21 +106,20 @@ export default function PlayerBar({
         />
       </View>
       <Group className='info-panel'>
-        <Button className='favorite' Slot_Content='❤' />
-        <CanSwitchStatus
-          onToggle={(newStatus) => {
-            if (newStatus === 'on') {
-              audioPlayerHTML.loop = true
-            } else if (newStatus === 'off') {
+        <Button className='favorite'>❤</Button>
+        <Button
+          className={['play-mode', { on: state.inLoopMode.isOn, off: state.inLoopMode.isOff }]}
+          onClick={() => {
+            state.inLoopMode.toggle()
+            if (state.inLoopMode) {
               audioPlayerHTML.loop = false
+            } else {
+              audioPlayerHTML.loop = true
             }
           }}
         >
-          <Button //这个按钮应该控制App的行为 而不是播放器的
-            className='play-mode'
-            Slot_Content='🔁'
-          />
-        </CanSwitchStatus>
+          🔁
+        </Button>
         <Popover
           Content={
             <Slider
@@ -142,13 +131,11 @@ export default function PlayerBar({
             />
           }
         >
-          <Button className='volume' Slot_Content='🔉' />
+          <Button className='volume'>🔉</Button>
         </Popover>
-        <Button
-          className='playlist'
-          Slot_Content='📃'
-          onClick={() => console.log(`I'm clicked d`)}
-        />
+        <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
+          📃
+        </Button>
       </Group>
     </View>
   )

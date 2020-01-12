@@ -1,49 +1,24 @@
-import React, { ReactNode, useState, MouseEvent } from 'react'
+import React, { MouseEvent } from 'react'
 import './Button.scss'
-import { Slot, ComponentRoot } from '.'
+import { ComponentRoot } from '.'
 
 function Button({
-  Slot_Content,
-  modes,
-  initMode,
-  onClick,
-  onModeChange,
+  isOn,
+  isOff,
   ...restProps
 }: Omit<React.ComponentProps<typeof ComponentRoot>, 'onClick'> & {
-  Slot_Content?: ReactNode
-  modes?: string[]
   /**
-   * 生效前提：mode
+   * 按钮关闭
    */
-  initMode?: string
+  isOn?: boolean
+  /**
+   * 按钮打开
+   */
+  isOff?: boolean
   onClick?: (event: MouseEvent, changeToNextMode?: () => any) => any
-  /**
-   * 生效前提： onClick
-   */
-  onModeChange?: (newMode: string) => any //需要更generic
 }) {
-  const [currentMode, changeMode] = modes ? useState(initMode) : []
-  return (
-    <ComponentRoot
-      name={['Button', currentMode]}
-      onClick={(e) => {
-        /* TODO: 阻碍了想象，要删掉 */
-        const changeToNextMode =
-          modes &&
-          (() => {
-            const prevIndex = modes.findIndex((modeString) => currentMode === modeString)
-            const newIndex = (prevIndex + 1) % modes.length
-            if (changeMode) changeMode(modes[newIndex])
-            onModeChange?.(modes[newIndex])
-          })
-        onClick?.(e, changeToNextMode)
-        if (onClick) onClick(e)
-      }}
-      {...restProps}
-    >
-      {<Slot name='Content'>{Slot_Content ?? restProps.children}</Slot>}
-    </ComponentRoot>
-  )
+  return <ComponentRoot name={['Button', { on: isOn, off: isOff }]} {...restProps}></ComponentRoot>
 }
 
 export default React.memo(Button) as typeof Button
+

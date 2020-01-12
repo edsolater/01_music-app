@@ -72,9 +72,9 @@
   }
 
   .info-panel {
-    > * {
+    .Button {
       margin-right: 24px;
-      &.on .Button.play-mode {
+      &.off {
         filter: brightness(0.5);
       }
     }

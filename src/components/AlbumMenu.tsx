@@ -1,7 +1,7 @@
 import React from 'react'
-import './AsideMenu.scss'
+import './AlbumMenu.scss'
 import { View, List, Label, Image, Text } from 'mypack/basic_components'
-export default function AsideMenu({
+export default function AlbumMenu({
   data,
   initSelectedIndex = 0,
   onChangeIndex,
@@ -11,7 +11,7 @@ export default function AsideMenu({
   onChangeIndex?: (newIndex: number) => any
 }) {
   return (
-    <View className='collections-list'>
+    <View className='album-menu'>
       <Text className='plate-title'>song-collection</Text>
       <List
         data={data}
