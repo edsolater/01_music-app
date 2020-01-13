@@ -13,12 +13,14 @@ type ItemData = {
   detail?: string
   [titleName: string]: any
 }
-
+// TODO：需要添加group的逻辑
 function Menu<D extends ItemData>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
   __MenuItem__,
+  __MenuGroup__,
+  noGroup = false,
   onSelectNewIndex,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
@@ -31,9 +33,17 @@ function Menu<D extends ItemData>({
    */
   data: D[]
   /**
-   * MenuList对每条数据的渲染界面（函数传入data中的数据）
+   * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem__: (dataItem: D, index: number, array: D[]) => ReactNode
+  __MenuItem__: (dataItem: D, index: number) => ReactNode
+  /**
+   * Menu对编组的渲染
+   */
+  __MenuGroup__?: (group) => ReactNode
+  /**
+   * 不需要分组
+   */
+  noGroup?: boolean
   onSelectNewIndex?: (itemIndex: number) => any
 }) {
   const selectedItemIndex = useMaster({
@@ -42,7 +52,7 @@ function Menu<D extends ItemData>({
   })
   return (
     <ComponentRoot name='Menu' {...restProps}>
-      {data.map((data, index, array) => (
+      {data.map((data, index) => (
         <SlotScope
           name={[
             '__MenuItem__',
@@ -56,7 +66,7 @@ function Menu<D extends ItemData>({
             onSelectNewIndex?.(index)
           }}
         >
-          {__MenuItem__(data, index, array)}
+          {__MenuItem__(data, index)}
         </SlotScope>
       ))}
     </ComponentRoot>

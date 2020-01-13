@@ -1,25 +1,22 @@
 // 为了能够使用 autoImport 能力
 export { default as Image } from './Image'
 /**
- * 写组件时更表意
+ * View的小封装，使写组件更表意
  */
 export { default as ComponentRoot } from './ComponentRoot' // 有一个 name 的 prop ，用于指定组件名称
 export { default as Slot } from './Slot'
 export { default as SlotScope } from './SlotScope'
 
 /*
- * View 及其浅层包装（用途专有）
+ * 基本HTML及其包装（用途专有）
  */
-export { default as View } from './View'
+export { default as View } from './View' // 使用 <div>
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
-export { default as Section } from './Section'
 export { default as Item } from './Item'
+export { default as Section } from './Section' // 使用 <section>
 
-/*
- * Text 及其浅层包装（用途专有）
- */
-export { default as Text } from './Text'
+export { default as Text } from './Text' //使用 <div>
 export { default as Title } from './Title'
 
 /**

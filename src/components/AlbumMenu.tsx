@@ -1,33 +1,34 @@
 import React from 'react'
 import './AlbumMenu.scss'
-import { View, Menu, Title, Image, Text, Item } from 'mypack/basic_components'
+import { Menu, Title, Image, Item, Section } from 'mypack/basic_components'
 export default function AlbumMenu({
   data,
   initSelectedIndex = 0,
   onChangeIndex,
 }: {
-  data: CollectionInfo[]
+  data: CollectionItemInfo[]
   initSelectedIndex?: number
   onChangeIndex?: (newIndex: number) => any
 }) {
   return (
-    <View className='album-menu'>
-      <Text className='plate-title'>song-collection</Text>
+    <Section className='album-menu'>
+      <Title>song-collection</Title>
       <Menu
         data={data}
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
-        __MenuItem__={(dataItem) => (
+        __MenuGroup__={(group: CollectionGroupInfo) => <Title>{group.title}</Title>}
+        __MenuItem__={(item: CollectionItemInfo) => (
           <Item
             onClick={() => {
-              console.log(`click ${dataItem.title}`)
+              console.log(`click ${item.title}`)
             }}
           >
-            <Image src={dataItem.imageUrl} />
-            <Title>{dataItem.title}</Title>
+            <Image src={item.imageUrl} />
+            <Title>{item.title}</Title>
           </Item>
         )}
       />
-    </View>
+    </Section>
   )
 }

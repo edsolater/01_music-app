@@ -1,8 +1,13 @@
 import React from 'react'
-import { ComponentRoot } from '.'
+import * as classnames from 'classnames'
+import { ClassValue } from 'classnames/types'
 
-function Section({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
-  return <ComponentRoot name='Section' {...restProps} />
+function Section({
+  className,
+  ...restProps
+}: Omit<JSX.IntrinsicElements['section'], 'className'> & {
+  className?: ClassValue
+}) {
+  return <section className={classnames(className)} {...restProps} />
 }
-
 export default React.memo(Section) as typeof Section
