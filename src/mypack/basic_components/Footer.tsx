@@ -1,8 +1,8 @@
 import React from 'react'
-import { ComponentRoot } from '.'
+import { View } from '.'
 
-function Footer({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
-  return <ComponentRoot name='Footer' {...restProps} />
+function Footer({ className, ...restProps }: React.ComponentProps<typeof View>) {
+  return <View className={[className, 'Footer']} {...restProps} />
 }
 
 export default React.memo(Footer) as typeof Footer

@@ -8,14 +8,9 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
-import { Menu, Image, Label, View, useMaster, Text } from 'mypack/basic_components'
+import { Menu, View, useMaster, Text } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
-type Song = {
-  songTitle: string
-  albumUrl: string
-  soundtrackUrl: string
-}
 const dataPieces = [
   {
     header: {
@@ -53,8 +48,16 @@ const dataPieces = [
     ],
   },
 ]
+const menuItemData: { [groupName: string]: AlbumMenuItem[] } = {
+  我的音乐: [{ title: '本地音乐' }, { title: '下载管理' }, { title: '最近播放' }],
+  创建的歌单: [{ title: '我喜欢的音乐' }],
+}
+const menuItemActions: { [itemTitle: string]: ActionType } = {
+  本地音乐: 'show-downloaded-music',
+}
 
-function InfoDetail({ songs: data }: { songs: Song[] }) {
+// TEMP
+function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
   return (
     <View className='song-details'>
       <Text className='plate-tital'>"song-detail"</Text>
@@ -90,9 +93,9 @@ function App({ initIndex }: { initIndex?: number }) {
         ></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex.value].songs}></InfoDetail>
         <AudioPlayer
-          songTitle={(activeSongInfo.value as Song).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
-          albumUrl={(activeSongInfo.value as Song).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
-          soundtrackUrl={(activeSongInfo.value as Song).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
+          songTitle={(activeSongInfo.value as MusicInfo).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
+          albumUrl={(activeSongInfo.value as MusicInfo).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
+          soundtrackUrl={(activeSongInfo.value as MusicInfo).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
         />
       </View>
     </>

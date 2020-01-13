@@ -1,5 +1,4 @@
 // 为了能够使用 autoImport 能力
-export { default as Image } from './Image'
 /**
  * View的小封装，使写组件更表意
  */
@@ -14,10 +13,13 @@ export { default as View } from './View' // 使用 <div>
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
 export { default as Item } from './Item'
+
 export { default as Section } from './Section' // 使用 <section>
 
-export { default as Text } from './Text' //使用 <div>
+export { default as Text } from './Text' // 使用 <div>
 export { default as Title } from './Title'
+
+export { default as Image } from './Image' // 使用 <img>
 
 /**
  * 普通组件
@@ -28,7 +30,7 @@ export { default as Label } from './Label'
 export { default as ImageFalls } from './ImageFalls'
 
 /**
- * Wrapper 系列，写组件时可随意添加，现存页面无感
+ * Wrapper 系列，写组件时可随意添加，类似于装饰器的概念
  */
 export { default as Button } from './Button'
 export { default as Popover } from './Popover'

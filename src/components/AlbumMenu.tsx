@@ -6,7 +6,7 @@ export default function AlbumMenu({
   initSelectedIndex = 0,
   onChangeIndex,
 }: {
-  data: CollectionItemInfo[]
+  data: AlbumMenuItem[]
   initSelectedIndex?: number
   onChangeIndex?: (newIndex: number) => any
 }) {
@@ -17,8 +17,8 @@ export default function AlbumMenu({
         data={data}
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
-        __MenuGroup__={(group: CollectionGroupInfo) => <Title>{group.title}</Title>}
-        __MenuItem__={(item: CollectionItemInfo) => (
+        __MenuGroup__={(group: AlbumMenuGroup) => <Title>{group.title}</Title>}
+        __MenuItem__={(item: AlbumMenuItem) => (
           <Item
             onClick={() => {
               console.log(`click ${item.title}`)

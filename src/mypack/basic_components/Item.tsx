@@ -1,8 +1,11 @@
 import React from 'react'
-import { ComponentRoot } from '.'
+import { View } from '.'
 
-function Item({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
-  return <ComponentRoot name='Item' {...restProps} />
+/**
+ * 用于横向布局
+ */
+function Item({ className, ...restProps }: React.ComponentProps<typeof View>) {
+  return <View className={[className, 'Item']} {...restProps} />
 }
 
 export default React.memo(Item) as typeof Item
