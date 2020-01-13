@@ -18,7 +18,7 @@ function Menu<D extends ItemData>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
-  ItemsScope,
+  __MenuItem__,
   onSelectNewIndex,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
@@ -33,7 +33,7 @@ function Menu<D extends ItemData>({
   /**
    * MenuList对每条数据的渲染界面（函数传入data中的数据）
    */
-  ItemsScope: (dataItem: D, index: number, array: D[]) => ReactNode
+  __MenuItem__: (dataItem: D, index: number, array: D[]) => ReactNode
   onSelectNewIndex?: (itemIndex: number) => any
 }) {
   const selectedItemIndex = useMaster({
@@ -56,7 +56,7 @@ function Menu<D extends ItemData>({
             onSelectNewIndex?.(index)
           }}
         >
-          {ItemsScope(data, index, array)}
+          {__MenuItem__(data, index, array)}
         </SlotScope>
       ))}
     </ComponentRoot>

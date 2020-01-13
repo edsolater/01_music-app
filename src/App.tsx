@@ -54,14 +54,13 @@ const dataPieces = [
   },
 ]
 
-
 function InfoDetail({ songs: data }: { songs: Song[] }) {
   return (
     <View className='song-details'>
       <Text className='plate-tital'>"song-detail"</Text>
       <Menu
         data={data}
-        ItemsScope={(data) => {
+        __MenuItem__={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
       ></Menu>
