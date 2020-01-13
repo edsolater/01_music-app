@@ -28,20 +28,20 @@
     &:last-child {
       margin-right: 0;
     }
-    &.last-song .Content {
+    &.last-song .Text {
       padding-bottom: 3px;
       padding-right: 1.5px;
     }
-    &.play .Content {
+    &.play .Text {
       padding-bottom: 0.5px;
       padding-left: 2.5px;
       transform: scale(1.5);
     }
-    &.pause .Content {
+    &.pause .Text {
       padding-bottom: 3px;
       transform: scale(1.5);
     }
-    &.next-song .Content {
+    &.next-song .Text {
       padding-bottom: 3px;
       padding-left: 1.5px;
     }

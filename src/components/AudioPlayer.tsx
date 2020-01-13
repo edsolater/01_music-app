@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import {
+  Text,
   Button,
   Group,
   Image,
@@ -25,35 +26,35 @@ export default function AudioPlayer({
   defaultVolume?: number
 }) {
   //#region 维护播放器所含的状态信息
-  const state = {
+  const masters = {
     currentSecond: useMaster({ type: 'number', init: 0 }),
     totalSeconds: useMaster({ type: 'number' }),
-    isPlaying: useMaster({ type: 'boolean' }),
+    AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
     volume: useMaster({ type: 'number', init: defaultVolume || 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
-  const currentSecond = state.currentSecond
-  const isPlaying = state.isPlaying
-  const totalSeconds = state.totalSeconds.value
+  const isPlaying = masters.AudioPlaying.isOn
+  const totalSeconds = masters.totalSeconds.value
   //#endregion
 
   const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
-      state.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
+      masters.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
     el.volume = defaultVolume || 1
   })
+
   // 播放器进度条
   useEffect(() => {
     if (Number.isNaN(totalSeconds)) {
-      // audio isn't ready yet
-    } else if (currentSecond.value === 0) {
-      // begin
-      return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
-    } else if (currentSecond.value < totalSeconds) {
-      // 播放正在进行中
-      return setClearableTimeout(() => isPlaying.isOpen && currentSecond.add(1), 1000)
+      return
+    } else if (masters.currentSecond.value === 0) {
+      const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
+      return () => globalThis.clearTimeout(timeoutId)
+    } else if (masters.currentSecond.value < totalSeconds) {
+      const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
+      return () => globalThis.clearTimeout(timeoutId)
     } else {
       // end
     }
@@ -61,7 +62,7 @@ export default function AudioPlayer({
 
   const setVolume = (newVolume: number) => {
     audioPlayerHTML.volume = newVolume
-    state.volume.set(newVolume)
+    masters.volume.set(newVolume)
   }
   return (
     <View className='player-bar'>
@@ -69,61 +70,63 @@ export default function AudioPlayer({
       <Image className='album-face' src={albumUrl} />
       <Group className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
-          ⏮
+          <Text>⏮</Text>
         </Button>
         <Button
-          className={isPlaying.isTrue ? 'pause' : 'play'}
+          className={isPlaying ? 'pause' : 'play'}
           onClick={() => {
-            if (audioPlayerHTML && isPlaying.isTrue) {
+            if (audioPlayerHTML && isPlaying) {
               audioPlayerHTML.pause()
-            } else if (audioPlayerHTML && isPlaying.isFalse) {
+            } else if (audioPlayerHTML && !isPlaying) {
               audioPlayerHTML.play()
             }
-            isPlaying.toggle()
+            masters.AudioPlaying.toggle()
           }}
         >
-          {isPlaying.isTrue ? '⏸' : '▶'}
+          <Text>{isPlaying ? '⏸' : '▶'}</Text>
         </Button>
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
-          ⏭
+          <Text>⏭</Text>
         </Button>
       </Group>
       <View className='timeline'>
         <View className='songTitle'>{songTitle}</View>
-        <View className='timestamp'>{`${Time(currentSecond.value).print({
+        <View className='timestamp'>{`${Time(masters.currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
         <Slider
-          value={currentSecond.value}
+          value={masters.currentSecond.value}
           max={totalSeconds}
           onMoveTrigger={(incomeCurrentSecond) => {
-            currentSecond.set(incomeCurrentSecond)
+            masters.currentSecond.set(incomeCurrentSecond)
           }}
           onMoveTriggerDone={(incomeCurrentSecond) => {
-            currentSecond.set(incomeCurrentSecond)
+            masters.currentSecond.set(incomeCurrentSecond)
             audioPlayerHTML.currentTime = incomeCurrentSecond
           }}
         />
       </View>
       <Group className='info-panel'>
-        <Button className='favorite'>❤</Button>
+        <Button className='favorite'>
+          <Text>❤</Text>
+        </Button>
         <Button
-          className={['play-mode', { on: state.inLoopMode.isOn, off: state.inLoopMode.isOff }]}
+          className={['play-mode', { on: masters.inLoopMode.isOn, off: masters.inLoopMode.isOff }]}
           onClick={() => {
-            state.inLoopMode.toggle()
-            if (state.inLoopMode) {
+            masters.inLoopMode.toggle()
+            if (masters.inLoopMode) {
               audioPlayerHTML.loop = false
             } else {
               audioPlayerHTML.loop = true
             }
           }}
         >
-          🔁
+          <Text>🔁</Text>
         </Button>
         <Popover
           Content={
             <Slider
-              defaultValue={state.volume.value}
+              defaultValue={masters.volume.value}
               onMoveTriggerDone={(currentPercentage: number) => {
                 console.log('currentPercentage: ', currentPercentage)
                 setVolume(currentPercentage)
@@ -131,10 +134,12 @@ export default function AudioPlayer({
             />
           }
         >
-          <Button className='volume'>🔉</Button>
+          <Button className='volume'>
+            <Text>🔉</Text>
+          </Button>
         </Popover>
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
-          📃
+          <Text>📃</Text>
         </Button>
       </Group>
     </View>
