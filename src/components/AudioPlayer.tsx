@@ -11,7 +11,6 @@ import {
   View,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
-import { setClearableTimeout } from 'mypack/webToolkit'
 import './AudioPlayer.scss'
 
 export default function AudioPlayer({
@@ -47,9 +46,7 @@ export default function AudioPlayer({
 
   // 播放器进度条
   useEffect(() => {
-    if (Number.isNaN(totalSeconds)) {
-      return
-    } else if (masters.currentSecond.value === 0) {
+    if (masters.currentSecond.value === 0) {
       const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
       return () => globalThis.clearTimeout(timeoutId)
     } else if (masters.currentSecond.value < totalSeconds) {
@@ -64,6 +61,7 @@ export default function AudioPlayer({
     audioPlayerHTML.volume = newVolume
     masters.volume.set(newVolume)
   }
+  
   return (
     <View className='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>

@@ -7,9 +7,10 @@ export { default as Image } from './Image'
 export { default as ComponentRoot } from './ComponentRoot'
 export { default as Slot } from './Slot'
 export { default as SlotScope } from './SlotScope'
-//TODO: Header
-//TODO: Footer
-//TODO: Section
+export { default as Header } from './Header'
+export { default as Footer } from './Footer'
+export { default as Section } from './Section'
+
 
 // 普通组件
 export { default as Slider } from './Slider'
@@ -18,7 +19,7 @@ export { default as Label } from './Label'
 export { default as ImageFalls } from './ImageFalls'
 
 //Wrapper 系列，写组件时可随意添加，现存页面无感
-export { default as Button } from './Button' 
+export { default as Button } from './Button'
 export { default as Popover } from './Popover'
 export { default as Group } from './Group'
 
