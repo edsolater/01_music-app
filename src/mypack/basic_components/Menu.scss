@@ -1,9 +1,9 @@
-.List {
+.Menu {
   color: var(--primary-text, #333);
   --divider-height: 1px;
   --divider-color: rgba(0, 0, 0, 0.1);
   --divider-left: 0px;
-  .Item {
+  .__MenuItem__ {
     border-bottom: var(--divider-height) solid transparent; // 为了撑开高度
     position: relative;
     padding-top: 8px;
@@ -26,6 +26,7 @@
     &.selected {
       border-left: 4px solid var(--primary, dodgerblue);
     }
+    /* divider style */
     &::after {
       content: '';
       position: absolute;

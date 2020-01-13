@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 
-import './List.scss'
+import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, SlotScope } from '.'
 
@@ -14,7 +14,7 @@ type ItemData = {
   [titleName: string]: any
 }
 
-function List<D extends ItemData>({
+function Menu<D extends ItemData>({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
@@ -41,11 +41,11 @@ function List<D extends ItemData>({
     init: initIndex,
   })
   return (
-    <ComponentRoot name='List' {...restProps}>
+    <ComponentRoot name='Menu' {...restProps}>
       {data.map((data, index, array) => (
         <SlotScope
           name={[
-            'Item',
+            '__MenuItem__',
             {
               selected: index === selectedItemIndex.value,
             },
@@ -63,4 +63,4 @@ function List<D extends ItemData>({
   )
 }
 
-export default React.memo(List) as typeof List //为了使组件不丧失generic的能力
+export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力

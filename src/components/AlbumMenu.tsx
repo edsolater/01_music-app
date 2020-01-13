@@ -1,6 +1,6 @@
 import React from 'react'
 import './AlbumMenu.scss'
-import { View, List, Label, Image, Text } from 'mypack/basic_components'
+import { View, Menu, Label, Image, Text } from 'mypack/basic_components'
 export default function AlbumMenu({
   data,
   initSelectedIndex = 0,
@@ -13,7 +13,7 @@ export default function AlbumMenu({
   return (
     <View className='album-menu'>
       <Text className='plate-title'>song-collection</Text>
-      <List
+      <Menu
         data={data}
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}

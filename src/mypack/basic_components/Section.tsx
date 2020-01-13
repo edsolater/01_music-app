@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentRoot } from '.'
 
-function Section({ ...restProps }: React.ComponentProps<typeof ComponentRoot> & {}) {
+function Section({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
   return <ComponentRoot name='Section' {...restProps} />
 }
 
