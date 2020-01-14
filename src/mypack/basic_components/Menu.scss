@@ -3,7 +3,14 @@
   --divider-height: 1px;
   --divider-color: rgba(0, 0, 0, 0.1);
   --divider-left: 0px;
-  .__MenuItem__ {
+  .__MenuGroup {
+    &.selected {
+      > .Title {
+        background-color: aliceblue;
+      }
+    }
+  }
+  .__MenuItem {
     border-bottom: var(--divider-height) solid transparent; // 为了撑开高度
     position: relative;
     padding-top: 8px;

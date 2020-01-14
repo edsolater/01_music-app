@@ -10,10 +10,11 @@ function Menu<NoGroup extends boolean | undefined = false>({
   initItemIndex = 0,
   initGroupIndex = 0,
   data,
-  __MenuItem__,
-  __MenuGroup__,
+  __MenuItem,
+  __MenuGroup,
   noGroup = false,
-  onSelectNewIndex,
+  onSelectNewItem,
+  onSelectNewGroup,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
   /**
@@ -35,49 +36,94 @@ function Menu<NoGroup extends boolean | undefined = false>({
   /**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem__: (dataItem: AlbumMenuItem, itemIndex: number, groupIndex?: number) => ReactNode
+  __MenuItem: (dataItem: AlbumMenuItem, itemIndex: number, groupIndex?: number) => ReactNode
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup__?: (groupName: string, groupIndex: number, items: AlbumMenuItem[]) => ReactNode
+  __MenuGroup?: (groupName: string, groupIndex: number, items: AlbumMenuItem[]) => ReactNode
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectNewIndex?: (itemIndex: number) => void
+  onSelectNewItem?: ({
+    itemIndex,
+    item,
+    groupIndex,
+    group,
+  }: {
+    itemIndex: number
+    item: AlbumMenuItem
+    groupIndex?: number
+    group?: string
+    hasChangeGroup?: boolean
+  }) => void
+  //  TEMP
+  onSelectNewGroup?: ({
+    itemIndex,
+    item,
+    groupIndex,
+    group,
+  }: {
+    itemIndex: number
+    item: AlbumMenuItem
+    groupIndex?: number
+    group?: string
+    hasChangeGroup?: boolean
+  }) => void
 }) {
-  const selectedItemIndex = useMaster({ type: 'number', init: initItemIndex })
-  const selectedIndexPath = useMaster({
-    type: 'string',
-    init: `${initItemIndex}.${initGroupIndex}`,
-  })
+  const masters = {
+    selectedGroupIndex: useMaster({ type: 'number', init: initGroupIndex }),
+    selectedItemIndex: useMaster({ type: 'number', init: initItemIndex }),
+  }
   return (
     <ComponentRoot name='Menu' {...restProps}>
-      {noGroup
+      {noGroup === true
         ? (data as AlbumMenuItem[]).map((menuItem, itemIndex) => (
             <SlotScope
-              name={['__MenuItem__', { selected: itemIndex === selectedItemIndex.value }]}
+              name={['__MenuItem', { selected: itemIndex === masters.selectedItemIndex.value }]}
               key={menuItem.key ?? menuItem.id ?? itemIndex}
               onClick={() => {
-                selectedItemIndex.set(itemIndex)
-                onSelectNewIndex?.(itemIndex)
+                masters.selectedItemIndex.set(itemIndex)
+                onSelectNewItem?.({ itemIndex, item: menuItem })
               }}
             >
-              {__MenuItem__(menuItem, itemIndex)}
+              {__MenuItem(menuItem, itemIndex)}
             </SlotScope>
           )) //TODO: 想想分组的情况和不分组的情况怎么合并起来？
         : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => (
-            <SlotScope name='__MenuGroup__' key={groupName}>
-              {__MenuGroup__?.(groupName, groupIndex, items)}
-              {items.map((menuItem, itemIndex /* TODO:目前行为怪异 */) => (
+            <SlotScope
+              name={['__MenuGroup', { selected: groupIndex === masters.selectedGroupIndex.value }]}
+              key={groupName}
+            >
+              {__MenuGroup?.(groupName, groupIndex, items)}
+              {items.map((menuItem, itemIndex) => (
                 <SlotScope
-                  name={['__MenuItem__', { selected: itemIndex === selectedItemIndex.value }]}
+                  name={[
+                    '__MenuItem',
+                    {
+                      selected:
+                        itemIndex === masters.selectedItemIndex.value &&
+                        groupIndex === masters.selectedGroupIndex.value,
+                    },
+                  ]}
                   key={menuItem.key ?? menuItem.id ?? itemIndex}
                   onClick={() => {
-                    selectedItemIndex.set(itemIndex)
-                    onSelectNewIndex?.(itemIndex)
+                    masters.selectedItemIndex.set(itemIndex)
+                    masters.selectedGroupIndex.set(groupIndex)
+                    onSelectNewItem?.({
+                      itemIndex,
+                      item: menuItem,
+                      groupIndex: groupIndex,
+                      group: groupName,
+                    })
+                    onSelectNewGroup?.({
+                      itemIndex,
+                      item: menuItem,
+                      groupIndex: groupIndex,
+                      group: groupName,
+                    })
                   }}
                 >
-                  {__MenuItem__(menuItem, itemIndex, groupIndex)}
+                  {__MenuItem(menuItem, itemIndex, groupIndex)}
                 </SlotScope>
               ))}
             </SlotScope>

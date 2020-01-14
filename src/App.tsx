@@ -86,7 +86,7 @@ function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
       <Text className='plate-tital'>"song-detail"</Text>
       {/* <Menu
         data={data}
-        __MenuItem__={(data) => {
+        __MenuItem={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
       ></Menu> */}
@@ -110,8 +110,8 @@ function App({ initIndex }: { initIndex?: number }) {
         <AlbumMenu
           data={dataPieces.map((data) => data.header)}
           initSelectedIndex={initIndex}
-          onChangeIndex={(newIndex) => {
-            activeCollectionIndex.set(newIndex)
+          onSelectNewItem={({itemIndex}) => {
+            activeCollectionIndex.set(itemIndex)
           }}
         ></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex.value].songs}></InfoDetail>
