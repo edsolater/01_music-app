@@ -3,7 +3,7 @@ import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
 import { LastType } from 'mypack/utils/#package_type'
 
 /**
- * 输入初始状态（boolean），返回一个能控制开关状态的对象
+ * 输入初始状态（boolean），返回一个包含布尔值的对象
  */
 const useStateBoolean = (init: boolean) => {
   const [state, setState] = useState(init)
@@ -11,7 +11,7 @@ const useStateBoolean = (init: boolean) => {
 }
 
 /**
- * 输入初始状态（number），返回一个能控制开关状态的对象
+ * 输入初始状态（number），返回一个包含数字的对象
  */
 const useStateNumber = (
   init: number,
@@ -21,8 +21,25 @@ const useStateNumber = (
   return new StateNumber(state, setState, config)
 }
 
+class StateString {
+
+  value: string
+  private _setStateOfReact: any
+
+  constructor(initValue: string, config?: object) {
+    const [state, setState] = useState(initValue)
+    this.value = state
+    this._setStateOfReact = setState
+  }
+  changeString(newString:string){
+    this.value = newString
+    this._setStateOfReact(newString)
+    return this
+  }
+}
+
 /**
- * 输入初始状态（number），返回一个能控制开关状态的对象
+ * 输入初始状态（number），返回一个包含简单对象的对象
  */
 const useStateCollectionObject = <O>(
   init: O,
@@ -32,22 +49,38 @@ const useStateCollectionObject = <O>(
   return new StateCollectionObject<O>(state, setState, config)
 }
 
-type Reporters = {
-  'number': ReturnType<typeof useStateNumber>
-  'boolean': ReturnType<typeof useStateBoolean>
-  'collection(object)': ReturnType<typeof useStateCollectionObject>
-}
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
-const useMaster = <T extends keyof Reporters, O>(config: { type: T; init?: O }): Reporters[T] => {
-  // @ts-ignore
-  if (config.type === 'number') return useStateNumber(Number(config.init))
-  // @ts-ignore
-  if (config.type === 'boolean') return useStateBoolean(Boolean(config.init))
-  // @ts-ignore
-  if (config.type === 'collection(object)') return useStateCollectionObject(config.init)
-  else throw Error()
+const useMaster = <T extends 'number' | 'boolean' | 'collection(object)', O>(config: {
+  type: T
+  init?: O
+}): T extends 'number'
+  ? ReturnType<typeof useStateNumber>
+  : T extends 'boolean'
+  ? ReturnType<typeof useStateBoolean>
+  : T extends 'string'
+  ? StateString
+  : T extends 'collection(object)'
+  ? ReturnType<typeof useStateCollectionObject>
+  : any => {
+  switch (config.type) {
+    case 'number':
+      // @ts-ignore
+      return useStateNumber(Number(config.init))
+    case 'boolean':
+      // @ts-ignore
+      return useStateBoolean(Boolean(config.init))
+    case 'string':
+      // @ts-ignore
+      return new StateString(String(config.init))
+    case 'collection(object)':
+      // @ts-ignore
+      return useStateCollectionObject(config.init)
+    default:
+      // @ts-ignore
+      return
+  }
 }
 
 export default useMaster

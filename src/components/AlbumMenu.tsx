@@ -1,6 +1,6 @@
 import React from 'react'
 import './AlbumMenu.scss'
-import { Menu, Title, Image, Item, Section } from 'mypack/basic_components'
+import { Menu, Title, Item, Section } from 'mypack/basic_components'
 export default function AlbumMenu({
   data,
   initSelectedIndex = 0,
@@ -18,14 +18,12 @@ export default function AlbumMenu({
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
         __MenuGroup__={(groupName) => (
-          <Title style={{ fontSize: 14, color: 'gray' }}>{groupName}</Title>
+          <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
+            {groupName}
+          </Title>
         )}
         __MenuItem__={(menuItem) => (
-          <Item
-            onClick={() => {
-              console.log(`click ${menuItem.title}`)
-            }}
-          >
+          <Item>
             <Title>{menuItem.title}</Title>
           </Item>
         )}
