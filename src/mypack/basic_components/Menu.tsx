@@ -34,16 +34,13 @@ function Menu<NoGroup extends boolean | undefined = false>({
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup__?: (groupName: string) => ReactNode
+  __MenuGroup__?: (groupName: string, groupIndex: number, items: AlbumMenuItem[]) => ReactNode
   /**
    * 选择某个菜单项时发起的回调
    */
   onSelectNewIndex?: (itemIndex: number) => void
 }) {
-  const selectedItemIndex = useMaster({
-    type: 'number',
-    init: initIndex,
-  })
+  const selectedItemIndex = useMaster({ type: 'number', init: initIndex })
   return (
     <ComponentRoot name='Menu' {...restProps}>
       {noGroup
@@ -58,10 +55,10 @@ function Menu<NoGroup extends boolean | undefined = false>({
             >
               {__MenuItem__(menuItem, itemIndex)}
             </SlotScope>
-          ))//TODO: 想想分组的情况和不分组的情况怎么合并起来？
+          )) //TODO: 想想分组的情况和不分组的情况怎么合并起来？
         : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => (
             <SlotScope name='__MenuGroup__' key={groupName}>
-              {__MenuGroup__?.(groupName)}
+              {__MenuGroup__?.(groupName, groupIndex, items)}
               {items.map((menuItem, itemIndex) => (
                 <SlotScope
                   name={['__MenuItem__', { selected: itemIndex === selectedItemIndex.value }]}

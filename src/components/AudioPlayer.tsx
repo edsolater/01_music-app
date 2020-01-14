@@ -61,7 +61,7 @@ export default function AudioPlayer({
     audioPlayerHTML.volume = newVolume
     masters.volume.set(newVolume)
   }
-  
+
   return (
     <View className='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
