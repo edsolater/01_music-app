@@ -47,26 +47,49 @@ const dataPieces = [
       },
     ],
   },
+  {
+    header: {
+      imageUrl: avatar2,
+      title: 'Secondary title',
+      subtitle: 'secondary subtitle',
+      detail: 'world',
+    },
+    songs: [
+      {
+        songTitle: `Aimer - STAND-ALONE.mp3`,
+        albumUrl: avatar2,
+        soundtrackUrl: soundtrackUrl2,
+      },
+    ],
+  },
+  {
+    header: {
+      imageUrl: avatar2,
+      title: 'Secondary title',
+      subtitle: 'secondary subtitle',
+      detail: 'world',
+    },
+    songs: [
+      {
+        songTitle: `Aimer - STAND-ALONE.mp3`,
+        albumUrl: avatar2,
+        soundtrackUrl: soundtrackUrl2,
+      },
+    ],
+  },
 ]
-const menuItemData: { [groupName: string]: AlbumMenuItem[] } = {
-  我的音乐: [{ title: '本地音乐' }, { title: '下载管理' }, { title: '最近播放' }],
-  创建的歌单: [{ title: '我喜欢的音乐' }],
-}
-const menuItemActions: { [itemTitle: string]: ActionType } = {
-  本地音乐: 'show-downloaded-music',
-}
 
 // TEMP
 function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
   return (
     <View className='song-details'>
       <Text className='plate-tital'>"song-detail"</Text>
-      <Menu
+      {/* <Menu
         data={data}
         __MenuItem__={(data) => {
           return <View className='songItem'>{data.songTitle}</View>
         }}
-      ></Menu>
+      ></Menu> */}
     </View>
   )
 }

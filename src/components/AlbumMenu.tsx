@@ -14,21 +14,31 @@ export default function AlbumMenu({
     <Section className='album-menu'>
       <Title>song-collection</Title>
       <Menu
-        data={data}
+        data={menuItemData} //TEMP
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
-        __MenuGroup__={(group: AlbumMenuGroup) => <Title>{group.title}</Title>}
-        __MenuItem__={(item: AlbumMenuItem) => (
+        __MenuGroup__={(group) => (
+          <Title style={{ fontSize: 14, color: 'gray' }}>{group}</Title>
+        )}
+        __MenuItem__={(item) => (
           <Item
             onClick={() => {
               console.log(`click ${item.title}`)
             }}
           >
-            <Image src={item.imageUrl} />
             <Title>{item.title}</Title>
           </Item>
         )}
       />
     </Section>
   )
+}
+
+const menuItemData: MenuGroupData = {
+  我的音乐: [
+    { title: '本地音乐', action: 'show-local-music' },
+    { title: '下载管理' },
+    { title: '最近播放' },
+  ],
+  创建的歌单: [{ title: '我喜欢的音乐' }],
 }

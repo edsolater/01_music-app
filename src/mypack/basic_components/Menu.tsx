@@ -4,17 +4,8 @@ import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, SlotScope } from '.'
 
-type ItemData = {
-  id?: string | number
-  key?: string | number
-  title?: string
-  imageUrl?: string
-  subtitle?: string
-  detail?: string
-  [titleName: string]: any
-}
 // TODO：需要添加group的逻辑
-function Menu<D extends ItemData>({
+function Menu({
   //为了使解析器识别generic的语法，不得不用function声明
   initIndex,
   data,
@@ -31,19 +22,22 @@ function Menu<D extends ItemData>({
   /**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
-  data: D[]
+  data: MenuGroupData
   /**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem__: (dataItem: D, index: number) => ReactNode
+  __MenuItem__: (dataItem: AlbumMenuItem, itemIndex: number, groupIndex: number) => ReactNode
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup__?: (group) => ReactNode
+  __MenuGroup__?: (groupName:string) => ReactNode
   /**
    * 不需要分组
    */
   noGroup?: boolean
+  /**
+   * 选择某个菜单项时发起的回调
+   */
   onSelectNewIndex?: (itemIndex: number) => any
 }) {
   const selectedItemIndex = useMaster({
@@ -52,21 +46,21 @@ function Menu<D extends ItemData>({
   })
   return (
     <ComponentRoot name='Menu' {...restProps}>
-      {data.map((data, index) => (
-        <SlotScope
-          name={[
-            '__MenuItem__',
-            {
-              selected: index === selectedItemIndex.value,
-            },
-          ]}
-          key={data.key ?? data.id ?? index}
-          onClick={() => {
-            selectedItemIndex.set(index)
-            onSelectNewIndex?.(index)
-          }}
-        >
-          {__MenuItem__(data, index)}
+      {Object.entries(data).map(([groupName, items], groupIndex) => (
+        <SlotScope name='__MenuGroup__' key={groupName}>
+          {__MenuGroup__?.(groupName)}
+          {items.map((menuItem, itemIndex) => (
+            <SlotScope
+              name={['__MenuItem__', { selected: itemIndex === selectedItemIndex.value }]}
+              key={menuItem.key ?? menuItem.id ?? itemIndex}
+              onClick={() => {
+                selectedItemIndex.set(itemIndex)
+                onSelectNewIndex?.(itemIndex)
+              }}
+            >
+              {__MenuItem__(menuItem, itemIndex, groupIndex)}
+            </SlotScope>
+          ))}
         </SlotScope>
       ))}
     </ComponentRoot>
