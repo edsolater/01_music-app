@@ -17,16 +17,16 @@ export default function AlbumMenu({
         data={menuItemData} //TEMP
         initIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
-        __MenuGroup__={(group) => (
-          <Title style={{ fontSize: 14, color: 'gray' }}>{group}</Title>
+        __MenuGroup__={(groupName) => (
+          <Title style={{ fontSize: 14, color: 'gray' }}>{groupName}</Title>
         )}
-        __MenuItem__={(item) => (
+        __MenuItem__={(menuItem) => (
           <Item
             onClick={() => {
-              console.log(`click ${item.title}`)
+              console.log(`click ${menuItem.title}`)
             }}
           >
-            <Title>{item.title}</Title>
+            <Title>{menuItem.title}</Title>
           </Item>
         )}
       />

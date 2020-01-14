@@ -5,14 +5,19 @@ import { ClassValue } from 'classnames/types'
 function SlotScope({
   name,
   className,
+  invisiable = true,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
    * 用于各个组件定义组件的名字更方便
    */
   name?: ClassValue
+  /**
+   * 这个组件是否是不可见的
+   */
+  invisiable?: boolean
 }) {
-  return <View className={[className, name]} {...restProps} />
+  return invisiable ? <View className={[className, name]} {...restProps} /> : null
 }
 
 export default React.memo(SlotScope) as typeof SlotScope
