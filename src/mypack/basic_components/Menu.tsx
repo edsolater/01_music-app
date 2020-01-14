@@ -59,7 +59,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
         : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => (
             <SlotScope name='__MenuGroup__' key={groupName}>
               {__MenuGroup__?.(groupName, groupIndex, items)}
-              {items.map((menuItem, itemIndex) => (
+              {items.map((menuItem, itemIndex/* TODO:目前行为怪异 */) => (
                 <SlotScope
                   name={['__MenuItem__', { selected: itemIndex === selectedItemIndex.value }]}
                   key={menuItem.key ?? menuItem.id ?? itemIndex}
