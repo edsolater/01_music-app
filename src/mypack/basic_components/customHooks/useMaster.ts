@@ -22,7 +22,6 @@ const useStateNumber = (
 }
 
 class StateString {
-
   value: string
   private _setStateOfReact: any
 
@@ -31,7 +30,7 @@ class StateString {
     this.value = state
     this._setStateOfReact = setState
   }
-  changeString(newString:string){
+  changeString(newString: string) {
     this.value = newString
     this._setStateOfReact(newString)
     return this
@@ -52,7 +51,7 @@ const useStateCollectionObject = <O>(
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
-const useMaster = <T extends 'number' | 'boolean' | 'collection(object)', O>(config: {
+const useMaster = <T extends 'number' | 'boolean' | 'string' | 'collection(object)', O>(config: {
   type: T
   init?: O
 }): T extends 'number'

@@ -15,7 +15,7 @@ export default function AlbumMenu({
       <Title>song-collection</Title>
       <Menu
         data={menuItemData} //TEMP
-        initIndex={initSelectedIndex}
+        initItemIndex={initSelectedIndex}
         onSelectNewIndex={onChangeIndex}
         __MenuGroup__={(groupName) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>

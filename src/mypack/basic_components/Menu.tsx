@@ -7,7 +7,8 @@ import { ComponentRoot, SlotScope } from '.'
 // TODO：需要添加group的逻辑
 function Menu<NoGroup extends boolean | undefined = false>({
   //为了使解析器识别generic的语法，不得不用function声明
-  initIndex = 0,
+  initItemIndex = 0,
+  initGroupIndex = 0,
   data,
   __MenuItem__,
   __MenuGroup__,
@@ -16,9 +17,13 @@ function Menu<NoGroup extends boolean | undefined = false>({
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
   /**
-   * 初始化选择的index
+   * 初始化菜单项的index
    */
-  initIndex?: number
+  initItemIndex?: number
+  /**
+   * 初始化菜单组的index
+   */
+  initGroupIndex?: number
   /**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
@@ -40,7 +45,11 @@ function Menu<NoGroup extends boolean | undefined = false>({
    */
   onSelectNewIndex?: (itemIndex: number) => void
 }) {
-  const selectedItemIndex = useMaster({ type: 'number', init: initIndex })
+  const selectedItemIndex = useMaster({ type: 'number', init: initItemIndex })
+  const selectedIndexPath = useMaster({
+    type: 'string',
+    init: `${initItemIndex}.${initGroupIndex}`,
+  })
   return (
     <ComponentRoot name='Menu' {...restProps}>
       {noGroup
@@ -59,7 +68,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
         : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => (
             <SlotScope name='__MenuGroup__' key={groupName}>
               {__MenuGroup__?.(groupName, groupIndex, items)}
-              {items.map((menuItem, itemIndex/* TODO:目前行为怪异 */) => (
+              {items.map((menuItem, itemIndex /* TODO:目前行为怪异 */) => (
                 <SlotScope
                   name={['__MenuItem__', { selected: itemIndex === selectedItemIndex.value }]}
                   key={menuItem.key ?? menuItem.id ?? itemIndex}
