@@ -1,6 +1,9 @@
 export default class StateCollectionObject<O> {
-  _state: { [propName: string]: any } = {} //TOFIX: 这里的类型定义对智能提示不友好
-  _reactSetState: React.Dispatch<React.SetStateAction<object>>
+  private _state: { [propName: string]: any } = {} //TOFIX: 这里的类型定义对智能提示不友好
+  private _reactSetState: React.Dispatch<React.SetStateAction<object>>
+  private _callbacks: {
+    [updateMethod in keyof StateCollectionObject<O>]?: ((...anys: any[]) => any)[]
+  } = {}
   constructor(
     protected config: {
       /**
@@ -15,22 +18,32 @@ export default class StateCollectionObject<O> {
     this._reactSetState = setState
   }
   add(newPiece: object) {
-    return this.setState(newPiece)
+    this._callbacks.add?.forEach((callback) => callback())
+    return this.set(newPiece)
   }
   clear() {
-    return this.clearState()
+    this._callbacks.clear?.forEach((callback) => callback())
+    this._state = {}
+    this._reactSetState({})
+    return this
   }
-  getState() {
+  getTotalObject() {
+    //TEMP：要合并
+    this._callbacks.getTotalObject?.forEach((callback) => callback())
     return { ...this._state }
   }
-  private setState(newPiece: object) {
+  getProp(propName: string) {
+    //TEMP：要合并
+    return this._state[propName]
+  }
+  set(newPiece: object) {
     Object.assign(this._state, newPiece)
     this._reactSetState({ ...this._state })
     return this
   }
-  private clearState() {
-    this._state = {}
-    this._reactSetState({})
+  // 注册回调
+  on(eventName: keyof StateCollectionObject<O>, fn: (...anys: any[]) => any) {
+    this._callbacks[eventName]?.push(fn)
     return this
   }
 }

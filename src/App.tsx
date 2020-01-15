@@ -96,7 +96,6 @@ function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
 
 function App({ initIndex }: { initIndex?: number }) {
   const activeCollectionIndex = useMaster({ type: 'number', init: initIndex })
-  console.log('activeCollectionIndex: ', activeCollectionIndex)
   const activeSongInfo = useMaster({
     type: 'collection(object)',
     init: {
@@ -115,7 +114,7 @@ function App({ initIndex }: { initIndex?: number }) {
             activeCollectionIndex.set(itemIndex)
           }}
         ></AlbumMenu>
-        <InfoDetail songs={dataPieces[activeCollectionIndex._state].songs}></InfoDetail>
+        <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
         <AudioPlayer
           songTitle={activeSongInfo.getState().songTitle as string} //TODO
           albumUrl={activeSongInfo.getState().albumUrl as string} //TODO

@@ -3,8 +3,9 @@
  * @example '0/3' 'src/try'
  */
 type Path = string //TODO: 想出更能描述路径写法的字符串使用原则
-type Configuration = {}
+type Configuration = {} // TODO：类型定义
 
+// TODO： 需要给出更多接口，以后需求到了再说
 /**
  * 设定初始状态，并返回一个包含字符串路径的对象
  */
@@ -30,9 +31,9 @@ export default class StateStringPath {
   }
 
   // 强行改变内涵值
-  forceSet(newPath: Path, hasCallback: boolean = true) {
+  set(newPath: Path, hasCallback: boolean = true) {
     //触发设定值的回调
-    if (hasCallback) this._callbacks.forceSet?.forEach((callback) => callback(newPath))
+    if (hasCallback) this._callbacks.set?.forEach((callback) => callback(newPath))
     // 更新JavaScript的对象的值
     this._value = newPath
     // 通知react以更新UI

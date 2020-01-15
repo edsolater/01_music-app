@@ -43,8 +43,8 @@ function Slider({
   })
   const inDraggingTrigger = useMaster({ type: 'boolean' })
   const styleLeft = value
-    ? `${(inDraggingTrigger.getState() ? triggerLeft._state : (value ?? 0) / max) * 100}%`
-    : `${triggerLeft._state * 100}%`
+    ? `${(inDraggingTrigger.getValue() ? triggerLeft.getValue() : (value ?? 0) / max) * 100}%`
+    : `${triggerLeft.getValue() * 100}%`
   const setLeft = (percentage: number) => {
     triggerLeft.set(percentage)
   }
@@ -71,7 +71,7 @@ function Slider({
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       onWheel={(e) => {
-        moveTriggerDone(triggerLeft._state + Math.sign(e.deltaY) * 0.1)
+        moveTriggerDone(triggerLeft.getValue() + Math.sign(e.deltaY) * 0.1)
       }}
       {...restProps}
     >

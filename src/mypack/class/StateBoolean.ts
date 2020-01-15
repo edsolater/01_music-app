@@ -8,7 +8,7 @@ export default class StateBoolean {
   private _callbacks: {
     [updateMethod in keyof StateBoolean]?: ((...anys: any[]) => any)[]
   } = {}
-  private _state: boolean
+  private _value: boolean
   private _reactSetState: React.Dispatch<React.SetStateAction<boolean>>
 
   constructor(
@@ -22,11 +22,11 @@ export default class StateBoolean {
     setState: any
   ) {
     console.log('StateBoolean 重新初始化')
-    this._state = Boolean(state)
+    this._value = Boolean(state)
     this._reactSetState = setState
   }
   get isOn() {
-    return this.getState()
+    return this.getValue()
   }
   get isOff() {
     return !this.isOn
@@ -42,13 +42,13 @@ export default class StateBoolean {
   }
 
   toggle() {
-    return this.setState(!this.getState())
+    return this.set(!this.getValue())
   }
   open() {
-    return this.setState(true)
+    return this.set(true)
   }
   close() {
-    return this.setState(false)
+    return this.set(false)
   }
   turnOn() {
     return this.open()
@@ -71,20 +71,20 @@ export default class StateBoolean {
     return this
   }
 
-  setState(newBoolean: boolean) {
+  set(newBoolean: boolean) {
     //触发设定值的回调
-    this._callbacks.setState?.forEach((callback) => callback(newBoolean))
-    this._state = newBoolean
+    this._callbacks.set?.forEach((callback) => callback(newBoolean))
+    this._value = newBoolean
     this._reactSetState(newBoolean)
     return this
   }
 
-  getState() {
-    return this._state
+  getValue() {
+    return this._value
   }
 
   // 额外：宿主环境需要有clearTimeout的能力
-  private dismissDeferHide() {
+  dismissDeferHide() {
     globalThis.clearTimeout(this._timeoutID)
     return this
   }

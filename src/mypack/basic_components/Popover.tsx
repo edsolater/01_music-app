@@ -35,7 +35,9 @@ function Popover({
 }) {
   const onOffController = useMasterBoolean(Boolean(defaultOpen))
   const triggerCallback = {
-    on: () => onOffController.show(),
+    on: () => {
+      onOffController.show().dismissDeferHide()
+    },
     off: () => onOffController.deferHide(delayTime),
   }
   return (

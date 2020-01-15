@@ -30,26 +30,26 @@ export default function AudioPlayer({
     totalSeconds: useMaster({ type: 'number' }),
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
-    volume: useMaster({ type: 'number', init: defaultVolume || 1 }),
+    volume: useMaster({ type: 'number', init: defaultVolume ?? 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
-  const totalSeconds = masters.totalSeconds._state
+  const totalSeconds = masters.totalSeconds.getValue()
   //#endregion
 
   const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), (el) => {
     el.addEventListener('canplaythrough', () => {
       masters.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
-    el.volume = defaultVolume || 1
+    el.volume = defaultVolume ?? 1
   })
 
   // 播放器进度条
   useEffect(() => {
-    if (masters.currentSecond._state === 0) {
+    if (masters.currentSecond.getValue() === 0) {
       const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
       return () => globalThis.clearTimeout(timeoutId)
-    } else if (masters.currentSecond._state < totalSeconds) {
+    } else if (masters.currentSecond.getValue() < totalSeconds) {
       const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
       return () => globalThis.clearTimeout(timeoutId)
     } else {
@@ -89,11 +89,11 @@ export default function AudioPlayer({
       </Group>
       <View className='timeline'>
         <View className='songTitle'>{songTitle}</View>
-        <View className='timestamp'>{`${Time(masters.currentSecond._state).print({
+        <View className='timestamp'>{`${Time(masters.currentSecond.getValue()).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
         <Slider
-          value={masters.currentSecond._state}
+          value={masters.currentSecond.getValue()}
           max={totalSeconds}
           onMoveTrigger={(incomeCurrentSecond) => {
             masters.currentSecond.set(incomeCurrentSecond)
@@ -124,7 +124,7 @@ export default function AudioPlayer({
         <Popover
           Content={
             <Slider
-              defaultValue={masters.volume._state}
+              defaultValue={masters.volume.getValue()}
               onMoveTriggerDone={(currentPercentage: number) => {
                 console.log('currentPercentage: ', currentPercentage)
                 setVolume(currentPercentage)

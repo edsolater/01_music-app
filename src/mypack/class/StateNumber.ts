@@ -7,7 +7,7 @@ export default class StateNumber {
   private _callbacks: {
     [updateMethod in keyof StateNumber]?: ((...anys: any[]) => any)[]
   } = {}
-  _state: number // TODO：要装饰上private
+  private _value: number
   private _reactSetState: React.Dispatch<React.SetStateAction<number | undefined>>
 
   constructor(
@@ -24,11 +24,15 @@ export default class StateNumber {
     state: any,
     setState: any,
   ) {
-    this._state = Number(state)
+    this._value = Number(state)
     this._reactSetState = setState
   }
+  /**
+   * @alias
+   */
   add(addNumber: number) {
-    return this.set(this._state + addNumber)
+    this._callbacks.add?.forEach((callback) => callback())
+    return this.set(this._value + addNumber)
   }
   /**
    * @alias
@@ -36,6 +40,9 @@ export default class StateNumber {
   increase(addNumber: number) {
     return this.add(addNumber)
   }
+  /**
+   * @alias
+   */
   plus(addNumber: number) {
     return this.add(addNumber)
   }
@@ -45,24 +52,19 @@ export default class StateNumber {
     }
     //触发设定值的回调
     this._callbacks.set?.forEach((callback) => callback(setNumber))
-    return this.setState(setNumber)
-  }
-
-  getNumber() {
-    this._callbacks.getNumber?.forEach((callback) => callback())
-    return this._state
-  }
-
-  setState(newNumber: number) {
-    //触发设定值的回调
-    this._callbacks.setState?.forEach((callback) => callback(newNumber))
     // 更新JavaScript的对象的值
-    this._state = newNumber
+    this._value = setNumber
     // 通知react以更新UI
-    this._reactSetState(this._state)
+    this._reactSetState(this._value)
     // 链式调用
     return this
   }
+
+  getValue() {
+    this._callbacks.getValue?.forEach((callback) => callback())
+    return this._value
+  }
+
   // 注册回调
   on(eventName: keyof StateNumber, fn: (...anys: any[]) => any) {
     this._callbacks[eventName]?.push(fn)
