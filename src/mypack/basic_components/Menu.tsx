@@ -43,14 +43,10 @@ function Menu<NoGroup extends boolean | undefined = false>({
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectMenuItem?: ({
-    itemIndex,
-    item,
-    groupIndex,
-    group,
-  }: {
+  onSelectMenuItem?: (event: {
     itemIndex: number
     item: AlbumMenuItem
+    path?: string
     groupIndex?: number
     group?: string
     hasChangeGroup?: boolean
@@ -65,7 +61,10 @@ function Menu<NoGroup extends boolean | undefined = false>({
       {noGroup === true
         ? (data as AlbumMenuItem[]).map((menuItem, itemIndex) => (
             <SlotScope
-              name={['__MenuItem', { selected: String(itemIndex) === masters.selectedPath.getPath(-1) }]}
+              name={[
+                '__MenuItem',
+                { selected: String(itemIndex) === masters.selectedPath.getPath(-1) },
+              ]}
               key={menuItem.key ?? menuItem.id ?? itemIndex}
               onClick={() => {
                 masters.selectedPath.set(itemIndex)
@@ -80,7 +79,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
               key={groupName}
               name={[
                 '__MenuGroup',
-                { selected: `${groupIndex}` === masters.selectedPath.getPath(-1) },
+                { selected: `${groupIndex}` === masters.selectedPath.getPath(-2) },
               ]}
             >
               {__MenuGroup?.(groupName, groupIndex, items)}
@@ -94,6 +93,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
                   onClick={() => {
                     masters.selectedPath.set(`${groupIndex}/${itemIndex}`)
                     onSelectMenuItem?.({
+                      path:masters.selectedPath.getPath(),
                       itemIndex,
                       item: menuItem,
                       groupIndex: groupIndex,

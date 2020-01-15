@@ -1,6 +1,7 @@
 import React, { ComponentProps } from 'react'
-import './AlbumMenu.scss'
 import { Menu, Title, Item, Section } from 'mypack/basic_components'
+import './AlbumMenu.scss'
+
 export default function AlbumMenu({
   data,
   initSelectedIndex = 0,

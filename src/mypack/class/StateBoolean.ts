@@ -21,7 +21,6 @@ export default class StateBoolean {
     state: any,
     setState: any
   ) {
-    console.log('StateBoolean 重新初始化')
     this._value = Boolean(state)
     this._reactSetState = setState
   }
