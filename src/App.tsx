@@ -116,9 +116,9 @@ function App({ initIndex }: { initIndex?: number }) {
         ></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
         <AudioPlayer
-          songTitle={activeSongInfo.getState().songTitle as string} //TODO
-          albumUrl={activeSongInfo.getState().albumUrl as string} //TODO
-          soundtrackUrl={activeSongInfo.getState().soundtrackUrl as string} //TODO
+          songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO
+          albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO
+          soundtrackUrl={activeSongInfo.getTotalObject().soundtrackUrl as string} //TODO
         />
       </View>
     </>

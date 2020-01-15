@@ -106,7 +106,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
                     { selected: `${groupIndex}/${itemIndex}` === masters.selectedPath.getPath() },
                   ]}
                   onClick={() => {
-                    masters.selectedPath.forceSet(`${groupIndex}/${itemIndex}`)
+                    masters.selectedPath.set(`${groupIndex}/${itemIndex}`)
                     onSelectNewItem?.({
                       itemIndex,
                       item: menuItem,
