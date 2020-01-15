@@ -1,4 +1,3 @@
-import { useState } from 'react'
 /**
  * 以字符串形式描述路径
  * @example '0/3' 'src/try'
@@ -16,9 +15,17 @@ export default class StateStringPath {
   private _value: Path
   private _reactSetState: React.Dispatch<React.SetStateAction<string>>
 
-  constructor(initPath: Path, protected config?: Configuration) {
-    const [state, setState] = useState(initPath)
-    this._value = state
+  constructor(
+    protected config: {
+      /**
+       * 初始值
+       */
+      init?: Path
+    },
+    state: any,
+    setState: any,
+  ) {
+    this._value = String(state) as Path
     this._reactSetState = setState
   }
 

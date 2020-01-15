@@ -1,23 +1,11 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
-import { LastType } from 'mypack/utils/#package_type'
 import StateStringPath from 'mypack/class/StateStringPath'
-
-/**
- * 输入初始状态（number），返回一个包含简单对象的对象
- */
-const useStateCollectionObject = <O>(
-  init: O,
-  config?: LastType<ConstructorParameters<typeof StateCollectionObject>>,
-) => {
-  const [state, setState] = useState(init)
-  return new StateCollectionObject<O>(state, setState, config)
-}
 
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
-const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(object)'>(config: {
+export default <T extends 'number' | 'boolean' | 'stringPath' | 'collection(object)', O>(config: {
   type: T
   init?: T extends 'number'
     ? number
@@ -25,7 +13,7 @@ const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(o
     ? boolean
     : T extends 'stringPath'
     ? string
-    : object
+    : O
   [configProp: string]: any
 }): T extends 'number'
   ? StateNumber
@@ -34,7 +22,7 @@ const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(o
   : T extends 'stringPath'
   ? StateStringPath
   : T extends 'collection(object)'
-  ? ReturnType<typeof useStateCollectionObject>
+  ? StateCollectionObject<O>
   : void => {
   //记录着这个数据的实际内容
   const [state, setState] = useState(config.init)
@@ -48,10 +36,10 @@ const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(o
         return new StateBoolean(config, state, setState)
       case 'stringPath':
         // @ts-ignore
-        return new StateStringPath(String(config.init))
+        return new StateStringPath(config, state, setState)
       case 'collection(object)':
         // @ts-ignore
-        return useStateCollectionObject(config.init)
+        return new StateCollectionObject(config, state, setState)
       default:
         // @ts-ignore
         return null
@@ -59,5 +47,3 @@ const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(o
   }, [])
   return result
 }
-
-export default useMaster

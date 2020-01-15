@@ -8,7 +8,7 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
-import { Menu, View, useMaster, Text } from 'mypack/basic_components'
+import { View, useMaster, Text } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
 const dataPieces = [
@@ -111,15 +111,15 @@ function App({ initIndex }: { initIndex?: number }) {
         <AlbumMenu
           data={dataPieces.map((data) => data.header)}
           initSelectedIndex={initIndex}
-          onSelectNewItem={({itemIndex}) => {
+          onSelectNewItem={({ itemIndex }) => {
             activeCollectionIndex.set(itemIndex)
           }}
         ></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex._state].songs}></InfoDetail>
         <AudioPlayer
-          songTitle={(activeSongInfo.value as MusicInfo).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
-          albumUrl={(activeSongInfo.value as MusicInfo).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
-          soundtrackUrl={(activeSongInfo.value as MusicInfo).soundtrackUrl} //这里源于对typescript的不够熟悉，所以写得很冗余
+          songTitle={activeSongInfo.getState().songTitle as string} //TODO
+          albumUrl={activeSongInfo.getState().albumUrl as string} //TODO
+          soundtrackUrl={activeSongInfo.getState().soundtrackUrl as string} //TODO
         />
       </View>
     </>

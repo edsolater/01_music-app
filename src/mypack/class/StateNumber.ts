@@ -1,5 +1,4 @@
 import { constraint } from 'mypack/utils'
-import { useState } from 'react'
 
 /**
  * 输入初始状态（number），返回一个包含数字的对象
@@ -48,10 +47,12 @@ export default class StateNumber {
     this._callbacks.set?.forEach((callback) => callback(setNumber))
     return this.setState(setNumber)
   }
-  getState() {
-    this._callbacks.getState?.forEach((callback) => callback())
+
+  getNumber() {
+    this._callbacks.getNumber?.forEach((callback) => callback())
     return this._state
   }
+
   setState(newNumber: number) {
     //触发设定值的回调
     this._callbacks.setState?.forEach((callback) => callback(newNumber))
