@@ -79,10 +79,10 @@ function Menu<NoGroup extends boolean | undefined = false>({
       {noGroup === true
         ? (data as AlbumMenuItem[]).map((menuItem, itemIndex) => (
             <SlotScope
-              name={['__MenuItem', { selected: itemIndex === masters.selectedItemIndex.getValue() }]}
+              name={['__MenuItem', { selected: String(itemIndex) === masters.selectedPath.getPath(-1) }]}
               key={menuItem.key ?? menuItem.id ?? itemIndex}
               onClick={() => {
-                masters.selectedItemIndex.set(itemIndex)
+                masters.selectedPath.set(itemIndex)
                 onSelectNewItem?.({ itemIndex, item: menuItem })
               }}
             >

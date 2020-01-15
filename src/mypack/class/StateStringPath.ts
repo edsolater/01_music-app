@@ -16,26 +16,17 @@ export default class StateStringPath {
   private _value: Path
   private _reactSetState: React.Dispatch<React.SetStateAction<string>>
 
-  constructor(
-    protected config: {
-      /**
-       * 初始值
-       */
-      init?: Path
-    },
-    state: any,
-    setState: any,
-  ) {
+  constructor(protected config: { [otherConfigs: string]: any }, state: any, setState: any) {
     this._value = String(state) as Path
     this._reactSetState = setState
   }
 
   // 强行改变内涵值
-  set(newPath: Path, hasCallback: boolean = true) {
+  set(newPath: string | number, hasCallback: boolean = true) {
     //触发设定值的回调
     if (hasCallback) this._callbacks.set?.forEach((callback) => callback(newPath))
     // 更新JavaScript的对象的值
-    this._value = newPath
+    this._value = String(newPath)
     // 通知react以更新UI
     this._reactSetState(this._value)
     // 链式调用
