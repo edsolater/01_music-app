@@ -5,9 +5,7 @@ import { useState } from 'react'
  */
 type Path = string //TODO: 想出更能描述路径写法的字符串使用原则
 type Methods = 'forceSet'
-type Configuration = {
-  
-}
+type Configuration = {}
 
 /**
  * 设定初始状态，并返回一个包含字符串路径的对象
@@ -19,10 +17,7 @@ export default class StateStringPath {
   value: Path
   private _reactSetState: React.Dispatch<React.SetStateAction<string>>
 
-  constructor(
-    initPath: Path,
-    protected config?:Configuration,
-  ) {
+  constructor(initPath: Path, protected config?: Configuration) {
     this._callbacks = {
       forceSet: [],
     } //TEMP
@@ -42,6 +37,10 @@ export default class StateStringPath {
     this._reactSetState(this.value)
     // 链式调用
     return this
+  }
+  getPathPartFromRight(order = 0) {
+    const allParts = this.value.split('/')
+    return allParts[allParts.length - (order + 1)] // 默认取最后一项
   }
   // 注册回调
   on(eventName: Methods, fn: (...anys: any[]) => any) {

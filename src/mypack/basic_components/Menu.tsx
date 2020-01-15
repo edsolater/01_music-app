@@ -73,6 +73,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
   const masters = {
     selectedGroupIndex: useMaster({ type: 'number', init: initGroupIndex }),
     selectedItemIndex: useMaster({ type: 'number', init: initItemIndex }),
+    selectedPath: useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` }),
   }
   return (
     <ComponentRoot name='Menu' {...restProps}>
@@ -91,7 +92,10 @@ function Menu<NoGroup extends boolean | undefined = false>({
           )) //TODO: 想想分组的情况和不分组的情况怎么合并起来？
         : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => (
             <SlotScope
-              name={['__MenuGroup', { selected: groupIndex === masters.selectedGroupIndex.value }]}
+              name={[
+                '__MenuGroup',
+                { selected: `${groupIndex}` === masters.selectedPath.getPathPartFromRight(1) },
+              ]}
               key={groupName}
             >
               {__MenuGroup?.(groupName, groupIndex, items)}
@@ -100,15 +104,16 @@ function Menu<NoGroup extends boolean | undefined = false>({
                   name={[
                     '__MenuItem',
                     {
-                      selected:
-                        itemIndex === masters.selectedItemIndex.value &&
-                        groupIndex === masters.selectedGroupIndex.value,
+                      selected: `${groupIndex}/${itemIndex}` === masters.selectedPath.value,
+                      // itemIndex === masters.selectedItemIndex.value &&
+                      // groupIndex === masters.selectedGroupIndex.value,
                     },
                   ]}
                   key={menuItem.key ?? menuItem.id ?? itemIndex}
                   onClick={() => {
-                    masters.selectedItemIndex.set(itemIndex)
-                    masters.selectedGroupIndex.set(groupIndex)
+                    // masters.selectedItemIndex.set(itemIndex)
+                    // masters.selectedGroupIndex.set(groupIndex)
+                    masters.selectedPath.forceSet(`${groupIndex}/${itemIndex}`)
                     onSelectNewItem?.({
                       itemIndex,
                       item: menuItem,
