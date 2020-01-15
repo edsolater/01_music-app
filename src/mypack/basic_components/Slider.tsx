@@ -15,7 +15,7 @@ function Slider({
   onMoveTrigger,
   onMoveTriggerDone,
   ...restProps
-}:  React.ComponentProps<typeof ComponentRoot> & {
+}: React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 总长度
    */
@@ -43,8 +43,8 @@ function Slider({
   })
   const inDraggingTrigger = useMaster({ type: 'boolean' })
   const styleLeft = value
-    ? `${(inDraggingTrigger.value ? triggerLeft.value : (value ?? 0) / max) * 100}%`
-    : `${triggerLeft.value * 100}%`
+    ? `${(inDraggingTrigger.getState() ? triggerLeft._state : (value ?? 0) / max) * 100}%`
+    : `${triggerLeft._state * 100}%`
   const setLeft = (percentage: number) => {
     triggerLeft.set(percentage)
   }
@@ -71,7 +71,7 @@ function Slider({
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       onWheel={(e) => {
-        moveTriggerDone(triggerLeft.value + Math.sign(e.deltaY) * 0.1)
+        moveTriggerDone(triggerLeft._state + Math.sign(e.deltaY) * 0.1)
       }}
       {...restProps}
     >
@@ -87,14 +87,14 @@ function Slider({
           /**
            * document 绑定拖拽事件
            */
-          const moveHandler = (e) => {
+          const moveHandler = (e: PointerEvent) => {
             inDraggingTrigger.turnOn()
             moveTrigger((e.clientX - sliderClientLeft) / sliderWidth)
           }
           /**
            * 清理 document 上述事件
            */
-          const handlerDone = (e) => {
+          const handlerDone = (e: PointerEvent) => {
             trigger.style.transition = ''
             passedTrack.style.transition = ''
             inDraggingTrigger.turnOff()

@@ -114,7 +114,7 @@ function App({ initIndex }: { initIndex?: number }) {
             activeCollectionIndex.set(itemIndex)
           }}
         ></AlbumMenu>
-        <InfoDetail songs={dataPieces[activeCollectionIndex.value].songs}></InfoDetail>
+        <InfoDetail songs={dataPieces[activeCollectionIndex._state].songs}></InfoDetail>
         <AudioPlayer
           songTitle={(activeSongInfo.value as MusicInfo).songTitle} //这里源于对typescript的不够熟悉，所以写得很冗余
           albumUrl={(activeSongInfo.value as MusicInfo).albumUrl} //这里源于对typescript的不够熟悉，所以写得很冗余

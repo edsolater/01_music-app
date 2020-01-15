@@ -1,8 +1,28 @@
+/**
+ * 输入初始状态（boolean），返回一个包含布尔值的对象
+ */
 export default class StateBoolean {
   private _timeoutID: any
-  constructor(public value: boolean, protected setStateOfReact: any) {}
+  private _callbacks: {
+    [updateMethod in keyof StateBoolean]?: ((...anys: any[]) => any)[]
+  } = {}
+  private _state: boolean 
+  private _reactSetState:  React.Dispatch<React.SetStateAction<boolean>> 
+
+  constructor( protected config: {
+    /**
+     * 初始值
+     */
+    init?: boolean
+  },
+  state:any,
+  setState:any
+) {
+  this._state = Boolean(state)
+  this._reactSetState = setState
+}
   get isOn() {
-    return this.value
+    return this.getState()
   }
   get isOff() {
     return !this.isOn
@@ -18,20 +38,13 @@ export default class StateBoolean {
   }
 
   toggle() {
-    this.value = !this.value
-    this.setStateOfReact(this.value)
-    return this
+    return this.setState(!this.getState())
   }
   open() {
-    this.value = true
-    this.setStateOfReact(this.value)
-    this.dismissDeferHide()
-    return this
+    return this.setState(true)
   }
   close() {
-    this.value = false
-    this.setStateOfReact(this.value)
-    return this
+    return this.setState(false)
   }
   turnOn() {
     return this.open()
@@ -40,12 +53,10 @@ export default class StateBoolean {
     return this.close()
   }
   show() {
-    this.open()
-    return this
+    return this.open()
   }
   hide() {
-    this.close()
-    return this
+    return this.close()
   }
   // 宿主环境需要有setTimeout的能力
   deferHide(delay: number = 600) {
@@ -55,9 +66,29 @@ export default class StateBoolean {
     this._timeoutID = timeoutID
     return this
   }
-  // 宿主环境需要有clearTimeout的能力
+
+  setState(newBoolean: boolean) {
+    //触发设定值的回调
+    this._callbacks.setState?.forEach((callback) => callback(newBoolean))
+    this._state = newBoolean
+    this._reactSetState(newBoolean)
+    return this
+  }
+
+  getState() {
+    return this._state
+  }
+
+
+  // 额外：宿主环境需要有clearTimeout的能力
   private dismissDeferHide() {
     globalThis.clearTimeout(this._timeoutID)
+    return this
+  }
+
+  // 注册回调
+  on(eventName: keyof StateBoolean, fn: (...anys: any[]) => any) {
+    this._callbacks[eventName]?.push(fn)
     return this
   }
 }

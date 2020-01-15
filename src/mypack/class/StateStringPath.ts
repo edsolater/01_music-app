@@ -4,7 +4,6 @@ import { useState } from 'react'
  * @example '0/3' 'src/try'
  */
 type Path = string //TODO: 想出更能描述路径写法的字符串使用原则
-type Methods = 'forceSet'
 type Configuration = {}
 
 /**
@@ -12,39 +11,45 @@ type Configuration = {}
  */
 export default class StateStringPath {
   private _callbacks: {
-    [updateMethod in Methods]: ((...anys: any[]) => any)[]
-  }
-  value: Path
+    [updateMethod in keyof StateStringPath]?: ((...anys: any[]) => any)[]
+  } = {}
+  private _value: Path
   private _reactSetState: React.Dispatch<React.SetStateAction<string>>
 
   constructor(initPath: Path, protected config?: Configuration) {
-    this._callbacks = {
-      forceSet: [],
-    } //TEMP
-
     const [state, setState] = useState(initPath)
-    this.value = state
+    this._value = state
     this._reactSetState = setState
   }
+
   // 强行改变内涵值
   forceSet(newPath: Path, hasCallback: boolean = true) {
-    console.log('newPath: ', newPath)
     //触发设定值的回调
-    if (hasCallback) this._callbacks?.forceSet.forEach((callback) => callback(newPath))
+    if (hasCallback) this._callbacks.forceSet?.forEach((callback) => callback(newPath))
     // 更新JavaScript的对象的值
-    this.value = newPath
+    this._value = newPath
     // 通知react以更新UI
-    this._reactSetState(this.value)
+    this._reactSetState(this._value)
     // 链式调用
     return this
   }
-  getPathPartFromRight(order = 0) {
-    const allParts = this.value.split('/')
-    return allParts[allParts.length - (order + 1)] // 默认取最后一项
+
+  // （按顺序）获取路径的值
+  getPath(order?: number, hasCallback: boolean = true) {
+    //触发设定值的回调
+    if (hasCallback) this._callbacks.getPath?.forEach((callback) => callback(order))
+
+    if (order !== undefined) {
+      const allParts = this._value.split('/')
+      return allParts[order > 0 ? order : allParts.length + order] // 默认取最后一项
+    } else {
+      return this._value
+    }
   }
+
   // 注册回调
-  on(eventName: Methods, fn: (...anys: any[]) => any) {
-    this._callbacks[eventName].push(fn)
+  on(eventName: keyof StateStringPath, fn: (...anys: any[]) => any) {
+    this._callbacks[eventName]?.push(fn)
     return this
   }
 }
