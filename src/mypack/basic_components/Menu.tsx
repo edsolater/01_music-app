@@ -13,8 +13,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
   __MenuItem,
   __MenuGroup,
   noGroup = false,
-  onSelectNewItem,
-  onSelectNewGroup,
+  onSelectMenuItem,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
   /**
@@ -44,20 +43,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectNewItem?: ({
-    itemIndex,
-    item,
-    groupIndex,
-    group,
-  }: {
-    itemIndex: number
-    item: AlbumMenuItem
-    groupIndex?: number
-    group?: string
-    hasChangeGroup?: boolean
-  }) => void
-  //  TEMP
-  onSelectNewGroup?: ({
+  onSelectMenuItem?: ({
     itemIndex,
     item,
     groupIndex,
@@ -83,7 +69,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
               key={menuItem.key ?? menuItem.id ?? itemIndex}
               onClick={() => {
                 masters.selectedPath.set(itemIndex)
-                onSelectNewItem?.({ itemIndex, item: menuItem })
+                onSelectMenuItem?.({ itemIndex, item: menuItem })
               }}
             >
               {__MenuItem(menuItem, itemIndex)}
@@ -107,13 +93,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
                   ]}
                   onClick={() => {
                     masters.selectedPath.set(`${groupIndex}/${itemIndex}`)
-                    onSelectNewItem?.({
-                      itemIndex,
-                      item: menuItem,
-                      groupIndex: groupIndex,
-                      group: groupName,
-                    })
-                    onSelectNewGroup?.({
+                    onSelectMenuItem?.({
                       itemIndex,
                       item: menuItem,
                       groupIndex: groupIndex,

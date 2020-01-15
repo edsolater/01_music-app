@@ -4,13 +4,11 @@ import { Menu, Title, Item, Section } from 'mypack/basic_components'
 export default function AlbumMenu({
   data,
   initSelectedIndex = 0,
-  onSelectNewItem,
-  onSelectNewGroup,
+  onSelectMenuItem,
 }: {
   data: AlbumMenuItem[]
   initSelectedIndex?: number
-  onSelectNewItem?: ComponentProps<typeof Menu>['onSelectNewItem']
-  onSelectNewGroup?: ComponentProps<typeof Menu>['onSelectNewGroup']
+  onSelectMenuItem?: ComponentProps<typeof Menu>['onSelectMenuItem']
 }) {
   return (
     <Section className='album-menu'>
@@ -18,8 +16,7 @@ export default function AlbumMenu({
       <Menu
         data={menuItemData} //TEMP
         initItemIndex={initSelectedIndex}
-        onSelectNewItem={onSelectNewItem}
-        onSelectNewGroup={onSelectNewGroup} //TEMP： 两个回调，冗余，应合并成一个
+        onSelectMenuItem={onSelectMenuItem}
         __MenuGroup={(groupName) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {groupName}

@@ -110,7 +110,7 @@ function App({ initIndex }: { initIndex?: number }) {
         <AlbumMenu
           data={dataPieces.map((data) => data.header)}
           initSelectedIndex={initIndex}
-          onSelectNewItem={({ itemIndex }) => {
+          onSelectMenuItem={({ itemIndex }) => {
             activeCollectionIndex.set(itemIndex)
           }}
         ></AlbumMenu>
