@@ -1,15 +1,19 @@
 import { constraint } from 'mypack/utils'
+import { useState } from 'react'
 
+type AvaliableMethods = 'set'
+
+/**
+ * 输入初始状态（number），返回一个包含数字的对象
+ */
 export default class StateNumber {
-  callbacks: {
-    set: any[]
+  private _callbacks: {
+    [updateMethod in AvaliableMethods]: ((...anys: any[]) => any)[]
   }
+  value: number
+  private _reactSetState: React.Dispatch<React.SetStateAction<number>>
   constructor(
-    /**
-     * 吐出数据内容
-     */
-    public value: number,
-    private setStateOfReact: any,
+    initNumber: number,
     protected config?: {
       /**
        * 设定限定范围
@@ -17,12 +21,16 @@ export default class StateNumber {
       range?: [number, number]
     },
   ) {
-    this.callbacks = {
+    this._callbacks = {
       set: [],
-    }
+    } //TEMP
+
+    const [state, setState] = useState(initNumber)
+    this.value = state
+    this._reactSetState = setState
   }
   add(addNumber: number) {
-    return this.set(this.value + addNumber)
+    return this.set(this.value + addNumber, false)
   }
   /**
    * @alias
@@ -33,19 +41,24 @@ export default class StateNumber {
   plus(addNumber: number) {
     return this.add(addNumber)
   }
-  set(setNumber: number) {
+
+  set(setNumber: number, hasCallback: boolean = true) {
     if (this.config?.range) {
       setNumber = constraint(setNumber, { range: this.config.range })
     }
-    //触发回调
-    this.callbacks.set.forEach((callback) => callback(setNumber))
+
+    //触发设定值的回调
+    if (hasCallback) this._callbacks?.set.forEach((callback) => callback(setNumber))
+    // 更新JavaScript的对象的值
     this.value = setNumber
-    this.setStateOfReact(this.value)
+    // 通知react以更新UI
+    this._reactSetState(this.value)
+    // 链式调用
     return this
   }
   // 注册回调
-  on(eventName: 'set', fn:(...anys:any[])=>any) {
-    this.callbacks[eventName].push(fn)
+  on(eventName: 'set', fn: (...anys: any[]) => any) {
+    this._callbacks[eventName].push(fn)
     return this
   }
 }

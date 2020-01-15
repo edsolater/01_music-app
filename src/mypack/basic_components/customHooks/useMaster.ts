@@ -1,4 +1,4 @@
-import { useState, useDebugValue } from 'react'
+import { useState } from 'react'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
 import { LastType } from 'mypack/utils/#package_type'
 
@@ -8,17 +8,6 @@ import { LastType } from 'mypack/utils/#package_type'
 const useStateBoolean = (init: boolean) => {
   const [state, setState] = useState(init)
   return new StateBoolean(state, setState)
-}
-
-/**
- * 输入初始状态（number），返回一个包含数字的对象
- */
-const useStateNumber = (
-  init: number,
-  config?: LastType<ConstructorParameters<typeof StateNumber>>,
-) => {
-  const [state, setState] = useState(init)
-  return new StateNumber(state, setState, config)
 }
 
 class StateString {
@@ -55,18 +44,18 @@ const useMaster = <T extends 'number' | 'boolean' | 'string' | 'collection(objec
   type: T
   init?: O
 }): T extends 'number'
-  ? ReturnType<typeof useStateNumber>
+  ? StateNumber
   : T extends 'boolean'
   ? ReturnType<typeof useStateBoolean>
   : T extends 'string'
   ? StateString
   : T extends 'collection(object)'
   ? ReturnType<typeof useStateCollectionObject>
-  : any => {
+  : void => {
   switch (config.type) {
     case 'number':
       // @ts-ignore
-      return useStateNumber(Number(config.init))
+      return new StateNumber(Number(config.init), config)
     case 'boolean':
       // @ts-ignore
       return useStateBoolean(Boolean(config.init))
