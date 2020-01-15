@@ -23,7 +23,7 @@ export default function AlbumMenu({
             {groupName}
           </Title>
         )}
-        __MenuItem={(menuItem) => (
+        __MenuItem={({item: menuItem}) => (
           <Item>
             <Title>{menuItem.title}</Title>
           </Item>

@@ -4,6 +4,15 @@ import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, SlotScope } from '.'
 
+type ItemInfo = {
+  itemIndex: number
+  item: AlbumMenuItem
+  path?: string
+  groupIndex?: number
+  group?: string
+  hasChangeGroup?: boolean
+}
+
 // TODO：需要添加group的逻辑
 function Menu<NoGroup extends boolean | undefined = false>({
   //为了使解析器识别generic的语法，不得不用function声明
@@ -35,7 +44,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
   /**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem: (dataItem: AlbumMenuItem, itemIndex: number, groupIndex?: number) => ReactNode
+  __MenuItem: (itemInfo: ItemInfo) => ReactNode
   /**
    * Menu对编组的渲染
    */
@@ -43,14 +52,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectMenuItem?: (event: {
-    itemIndex: number
-    item: AlbumMenuItem
-    path?: string
-    groupIndex?: number
-    group?: string
-    hasChangeGroup?: boolean
-  }) => void
+  onSelectMenuItem?: (event: ItemInfo) => void
 }) {
   const masters = {
     selectedItemIndex: useMaster({ type: 'number', init: initItemIndex }),
@@ -71,7 +73,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
                 onSelectMenuItem?.({ itemIndex, item: menuItem })
               }}
             >
-              {__MenuItem(menuItem, itemIndex)}
+              {__MenuItem({ item: menuItem, itemIndex })}
             </SlotScope>
           )) //TODO: 想想分组的情况和不分组的情况怎么合并起来？
         : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => (
@@ -93,7 +95,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
                   onClick={() => {
                     masters.selectedPath.set(`${groupIndex}/${itemIndex}`)
                     onSelectMenuItem?.({
-                      path:masters.selectedPath.getPath(),
+                      path: masters.selectedPath.getPath(),
                       itemIndex,
                       item: menuItem,
                       groupIndex: groupIndex,
@@ -101,7 +103,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
                     })
                   }}
                 >
-                  {__MenuItem(menuItem, itemIndex, groupIndex)}
+                  {__MenuItem({ item: menuItem, itemIndex, group: groupName, groupIndex })}
                 </SlotScope>
               ))}
             </SlotScope>
@@ -109,5 +111,24 @@ function Menu<NoGroup extends boolean | undefined = false>({
     </ComponentRoot>
   )
 }
-
+function MenuItem({
+  selected,
+  template,
+  ...restProps
+}: {
+  /**
+   * 渲染模板
+   */
+  template: React.ComponentProps<typeof Menu>['__MenuItem']
+  /**
+   * 当前是否为选中状态
+   */
+  selected?: boolean
+}) {
+  return (
+    <SlotScope name={['__MenuItem', { selected }]} {...restProps}>
+      {}
+    </SlotScope>
+  )
+}
 export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力

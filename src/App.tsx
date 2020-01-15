@@ -111,7 +111,6 @@ function App({ initIndex }: { initIndex?: number }) {
           data={dataPieces.map((data) => data.header)}
           initSelectedIndex={initIndex}
           onSelectMenuItem={(event) => {
-            console.log('event: ', event)
             activeCollectionIndex.set(event.itemIndex)
           }}
         ></AlbumMenu>
