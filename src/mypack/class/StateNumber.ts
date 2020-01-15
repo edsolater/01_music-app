@@ -57,7 +57,7 @@ export default class StateNumber {
     return this
   }
   // 注册回调
-  on(eventName: 'set', fn: (...anys: any[]) => any) {
+  on(eventName: AvaliableMethods, fn: (...anys: any[]) => any) {
     this._callbacks[eventName].push(fn)
     return this
   }

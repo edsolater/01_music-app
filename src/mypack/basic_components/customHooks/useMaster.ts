@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
 import { LastType } from 'mypack/utils/#package_type'
+import StateStringPath from 'mypack/class/StateStringPath'
 
 /**
  * 输入初始状态（boolean），返回一个包含布尔值的对象
@@ -40,15 +41,15 @@ const useStateCollectionObject = <O>(
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
-const useMaster = <T extends 'number' | 'boolean' | 'string' | 'collection(object)', O>(config: {
+const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(object)', O>(config: {
   type: T
   init?: O
 }): T extends 'number'
   ? StateNumber
   : T extends 'boolean'
   ? ReturnType<typeof useStateBoolean>
-  : T extends 'string'
-  ? StateString
+  : T extends 'stringPath'
+  ? StateStringPath
   : T extends 'collection(object)'
   ? ReturnType<typeof useStateCollectionObject>
   : void => {
@@ -59,9 +60,9 @@ const useMaster = <T extends 'number' | 'boolean' | 'string' | 'collection(objec
     case 'boolean':
       // @ts-ignore
       return useStateBoolean(Boolean(config.init))
-    case 'string':
+    case 'stringPath':
       // @ts-ignore
-      return new StateString(String(config.init))
+      return new StateStringPath(String(config.init))
     case 'collection(object)':
       // @ts-ignore
       return useStateCollectionObject(config.init)
