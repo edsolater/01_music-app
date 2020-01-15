@@ -1,4 +1,5 @@
 import { constraint } from 'mypack/utils'
+import { useState } from 'react'
 
 /**
  * 输入初始状态（number），返回一个包含数字的对象
@@ -8,7 +9,7 @@ export default class StateNumber {
     [updateMethod in keyof StateNumber]?: ((...anys: any[]) => any)[]
   } = {}
   _state: number // TODO：要装饰上private
-  private _reactSetState: React.Dispatch<React.SetStateAction<number>>
+  private _reactSetState: React.Dispatch<React.SetStateAction<number | undefined>>
 
   constructor(
     protected config: {
@@ -21,12 +22,11 @@ export default class StateNumber {
        */
       init?: number
     },
-    state:any,
-    setState:any
+    state: any,
+    setState: any,
   ) {
     this._state = Number(state)
     this._reactSetState = setState
-    console.log('33: ', 33) //TOFIX: 竟然会被调用多次，不符合直觉
   }
   add(addNumber: number) {
     return this.set(this._state + addNumber)

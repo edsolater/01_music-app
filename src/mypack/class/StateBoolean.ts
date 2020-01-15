@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 /**
  * 输入初始状态（boolean），返回一个包含布尔值的对象
  */
@@ -6,21 +8,23 @@ export default class StateBoolean {
   private _callbacks: {
     [updateMethod in keyof StateBoolean]?: ((...anys: any[]) => any)[]
   } = {}
-  private _state: boolean 
-  private _reactSetState:  React.Dispatch<React.SetStateAction<boolean>> 
+  private _state: boolean
+  private _reactSetState: React.Dispatch<React.SetStateAction<boolean>>
 
-  constructor( protected config: {
-    /**
-     * 初始值
-     */
-    init?: boolean
-  },
-  state:any,
-  setState:any
-) {
-  this._state = Boolean(state)
-  this._reactSetState = setState
-}
+  constructor(
+    protected config: {
+      /**
+       * 初始值
+       */
+      init?: boolean
+    },
+    state: any,
+    setState: any
+  ) {
+    console.log('StateBoolean 重新初始化')
+    this._state = Boolean(state)
+    this._reactSetState = setState
+  }
   get isOn() {
     return this.getState()
   }
@@ -78,7 +82,6 @@ export default class StateBoolean {
   getState() {
     return this._state
   }
-
 
   // 额外：宿主环境需要有clearTimeout的能力
   private dismissDeferHide() {

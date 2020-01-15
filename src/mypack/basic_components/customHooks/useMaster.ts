@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
 import { LastType } from 'mypack/utils/#package_type'
 import StateStringPath from 'mypack/class/StateStringPath'
@@ -36,26 +36,28 @@ const useMaster = <T extends 'number' | 'boolean' | 'stringPath' | 'collection(o
   : T extends 'collection(object)'
   ? ReturnType<typeof useStateCollectionObject>
   : void => {
+  //记录着这个数据的实际内容
   const [state, setState] = useState(config.init)
-  console.log('重新渲染了')
-  //TOFIX： 这里不应该重新渲染
-  switch (config.type) {
-    case 'number':
-      // @ts-ignore
-      return new StateNumber(config, state, setState)
-    case 'boolean':
-      // @ts-ignore
-      return new StateBoolean(config, state, setState)
-    case 'stringPath':
-      // @ts-ignore
-      return new StateStringPath(String(config.init))
-    case 'collection(object)':
-      // @ts-ignore
-      return useStateCollectionObject(config.init)
-    default:
-      // @ts-ignore
-      return
-  }
+  const result = useMemo(() => {
+    switch (config.type) {
+      case 'number':
+        // @ts-ignore
+        return new StateNumber(config, state, setState)
+      case 'boolean':
+        // @ts-ignore
+        return new StateBoolean(config, state, setState)
+      case 'stringPath':
+        // @ts-ignore
+        return new StateStringPath(String(config.init))
+      case 'collection(object)':
+        // @ts-ignore
+        return useStateCollectionObject(config.init)
+      default:
+        // @ts-ignore
+        return null
+    }
+  }, [])
+  return result
 }
 
 export default useMaster

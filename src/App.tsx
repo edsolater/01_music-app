@@ -96,6 +96,7 @@ function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
 
 function App({ initIndex }: { initIndex?: number }) {
   const activeCollectionIndex = useMaster({ type: 'number', init: initIndex })
+  console.log('activeCollectionIndex: ', activeCollectionIndex)
   const activeSongInfo = useMaster({
     type: 'collection(object)',
     init: {
