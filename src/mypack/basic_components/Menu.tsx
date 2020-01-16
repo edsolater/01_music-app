@@ -128,11 +128,13 @@ function Menu<NoGroup extends boolean | undefined = false>({
   __MenuGroup,
   noGroup = false,
   onSelectMenuItem,
+  children,
   ...restProps
 }: Props__Menu<NoGroup>) {
   const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
   return (
     <ComponentRoot name='Menu' {...restProps}>
+      {children}
       {noGroup ? (
         <MenuItems
           currentPath={selectedPath.getPath()}

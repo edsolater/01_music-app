@@ -18,6 +18,9 @@ export default function AlbumMenu({
         data={menuItemData} //TEMP
         initItemIndex={initSelectedIndex}
         onSelectMenuItem={onSelectMenuItem}
+        __Header={
+          <Title>Header hear!</Title>
+        }
         __MenuGroup={({ group: menuGroup }) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {menuGroup.title}
@@ -28,7 +31,10 @@ export default function AlbumMenu({
             <Title>{menuItem.title}</Title>
           </Item>
         )}
-      />
+        __Footer={
+          <Title>I'm Footer</Title>
+        }
+      ></Menu>
     </Section>
   )
 }
