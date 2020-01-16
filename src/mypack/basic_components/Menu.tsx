@@ -7,7 +7,8 @@ import { ComponentRoot, SlotScope } from '.'
 type MenuItemInfo = {
   itemIndex: number
   item: AlbumMenuItem
-  path?: string
+  sameGroupItems: AlbumMenuItem[]
+  currentMenuPath: string
   groupIndex?: number
   group?: string
   hasChangeGroup?: boolean
@@ -18,29 +19,45 @@ type MenuGroupInfo = {
   itemsInThisGroup: AlbumMenuItem[]
 }
 
-function MenuItem({
-  selected,
-  template,
-  infoObj,
-  ...restProps
-}: React.ComponentProps<typeof SlotScope> & {
-  /**
-   * 渲染模板
-   */
-  template: React.ComponentProps<typeof Menu>['__MenuItem']
-  /**
-   * 当前是否为选中状态
-   */
-  selected?: boolean
-  /**
-   * 由父组件传入的信息体
-   */
-  infoObj: MenuItemInfo
+function MenuItems({
+  currentPath,
+  items,
+  group,
+  onSelect,
+  renderTemplate,
+}: {
+  currentPath: string //TEMP
+  items: AlbumMenuItem[]
+  group?: MenuGroupInfo
+  renderTemplate: React.ComponentProps<typeof Menu>['__MenuItem']
+  onSelect?: (itemInfo: MenuItemInfo) => any
 }) {
   return (
-    <SlotScope name={['__MenuItem', { selected }]} {...restProps}>
-      {template(infoObj)}
-    </SlotScope>
+    <>
+      {items.map((menuItem, itemIndex) => {
+        const itemInfo: MenuItemInfo = {
+          ...group,
+          ...{
+            currentMenuPath: currentPath,
+            itemIndex,
+            item: menuItem,
+            sameGroupItems: items,
+          },
+        }
+        return (
+          <SlotScope
+            key={itemInfo.item.title}
+            name={[
+              '__MenuItem',
+              { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
+            ]}
+            onClick={() => onSelect?.(itemInfo)}
+          >
+            {renderTemplate(itemInfo)}
+          </SlotScope>
+        )
+      })}
+    </>
   )
 }
 
@@ -112,67 +129,47 @@ function Menu<NoGroup extends boolean | undefined = false>({
    */
   onSelectMenuItem?: (event: MenuItemInfo) => void
 }) {
-  const masters = {
-    selectedItemIndex: useMaster({ type: 'number', init: initItemIndex }),
-    selectedPath: useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` }),
-  }
+  const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
   return (
     <ComponentRoot name='Menu' {...restProps}>
-      {noGroup === true
-        ? (data as AlbumMenuItem[]).map((menuItem, itemIndex) => (
-          //TOFIX
-            <SlotScope
-              name={[
-                '__MenuItem',
-                { selected: String(itemIndex) === masters.selectedPath.getPath(-1) },
-              ]}
-              key={menuItem.key ?? menuItem.id ?? itemIndex}
-              onClick={() => {
-                masters.selectedPath.set(itemIndex)
-                onSelectMenuItem?.({ itemIndex, item: menuItem })
-              }}
+      {noGroup === true ? (
+        <MenuItems
+          currentPath={selectedPath.getPath()}
+          items={data as AlbumMenuItem[]}
+          renderTemplate={__MenuItem}
+          onSelect={(itemInfo) => {
+            selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
+            onSelectMenuItem?.(itemInfo)
+          }}
+        />
+      ) : (
+        Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => {
+          const menuGroupObj: MenuGroupInfo = {
+            group: groupName,
+            groupIndex: groupIndex,
+            itemsInThisGroup: items,
+          }
+          return (
+            <MenuGroup
+              key={groupName}
+              selected={`${groupIndex}` === selectedPath.getPath(-2)}
+              template={__MenuGroup}
+              infoObj={menuGroupObj}
             >
-              {__MenuItem({ item: menuItem, itemIndex })}
-            </SlotScope>
-          )) //TODO: 想想分组的情况和不分组的情况怎么合并起来？
-        : Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => {
-            const menuGroupObj: MenuGroupInfo = {
-              group: groupName,
-              groupIndex: groupIndex,
-              itemsInThisGroup: items,
-            }
-            return (
-              <MenuGroup
-                key={groupName}
-                selected={`${groupIndex}` === masters.selectedPath.getPath(-2)}
-                template={__MenuGroup}
-                infoObj={menuGroupObj}
-              >
-                {items.map((menuItem, itemIndex) => {
-                  const menuItemObj: MenuItemInfo = {
-                    ...menuGroupObj,
-                    ...{
-                      path: masters.selectedPath.getPath(),
-                      itemIndex,
-                      item: menuItem,
-                    },
-                  }
-                  return (
-                    <MenuItem
-                      key={`${groupIndex}/${itemIndex}`}
-                      template={__MenuItem}
-                      selected={`${groupIndex}/${itemIndex}` === masters.selectedPath.getPath()}
-                      infoObj={menuItemObj}
-                      onClick={() => {
-                        masters.selectedPath.set(`${groupIndex}/${itemIndex}`)
-                        onSelectMenuItem?.(menuItemObj)
-                      }}
-                    />
-                  )
-                })}
-              </MenuGroup>
-            )
-          })}
+              <MenuItems
+                currentPath={selectedPath.getPath()}
+                items={items}
+                group={menuGroupObj}
+                renderTemplate={__MenuItem}
+                onSelect={(itemInfo) => {
+                  selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
+                  onSelectMenuItem?.(itemInfo)
+                }}
+              />
+            </MenuGroup>
+          )
+        })
+      )}
     </ComponentRoot>
   )
 }
