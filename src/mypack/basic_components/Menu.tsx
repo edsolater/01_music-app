@@ -19,6 +19,7 @@ type MenuGroupInfo = {
   itemsInThisGroup: AlbumMenuItem[]
 }
 
+type PathPiece = string //Temp
 function MenuItems({
   currentPath,
   items,
@@ -26,7 +27,7 @@ function MenuItems({
   onSelect,
   renderTemplate,
 }: {
-  currentPath: string //TEMP
+  currentPath: PathPiece //TEMP
   items: AlbumMenuItem[]
   group?: MenuGroupInfo
   renderTemplate: React.ComponentProps<typeof Menu>['__MenuItem']
@@ -62,29 +63,35 @@ function MenuItems({
 }
 
 function MenuGroup({
-  selected,
-  template,
-  infoObj,
-  ...restProps
-}: React.ComponentProps<typeof SlotScope> & {
-  /**
-   * 渲染模板
-   */
-  template: React.ComponentProps<typeof Menu>['__MenuGroup']
-  /**
-   * 当前是否为选中状态
-   */
-  selected?: boolean
-  /**
-   * 由父组件传入的信息体
-   */
-  infoObj: MenuGroupInfo
+  allData,
+  currentGroupPath,
+  renderTemplate,
+  children,
+}: {
+  allData: MenuGroupData
+  currentGroupPath: PathPiece //Temp
+  renderTemplate: React.ComponentProps<typeof Menu>['__MenuGroup']
+  children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
 }) {
   return (
-    <SlotScope name={['__MenuGroup', { selected }]} {...restProps}>
-      {template?.(infoObj)}
-      {restProps.children}
-    </SlotScope>
+    <>
+      {Object.entries(allData).map(([groupName, items], groupIndex) => {
+        const groupInfo: MenuGroupInfo = {
+          group: { title: groupName },
+          groupIndex: groupIndex,
+          itemsInThisGroup: items,
+        }
+        return (
+          <SlotScope
+            key={groupInfo.group.title}
+            name={['__MenuGroup', { selected: `${groupIndex}` === currentGroupPath }]}
+          >
+            {renderTemplate?.(groupInfo)}
+            {children(items, groupInfo)}
+          </SlotScope>
+        )
+      })}
+    </>
   )
 }
 
@@ -132,7 +139,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
   const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
   return (
     <ComponentRoot name='Menu' {...restProps}>
-      {noGroup === true ? (
+      {noGroup ? (
         <MenuItems
           currentPath={selectedPath.getPath()}
           items={data as AlbumMenuItem[]}
@@ -143,32 +150,24 @@ function Menu<NoGroup extends boolean | undefined = false>({
           }}
         />
       ) : (
-        Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => {
-          const menuGroupObj: MenuGroupInfo = {
-            group: { title: groupName },
-            groupIndex: groupIndex,
-            itemsInThisGroup: items,
-          }
-          return (
-            <MenuGroup
-              key={groupName}
-              selected={`${groupIndex}` === selectedPath.getPath(-2)}
-              template={__MenuGroup}
-              infoObj={menuGroupObj}
-            >
-              <MenuItems
-                currentPath={selectedPath.getPath()}
-                items={items}
-                group={menuGroupObj}
-                renderTemplate={__MenuItem}
-                onSelect={(itemInfo) => {
-                  selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
-                  onSelectMenuItem?.(itemInfo)
-                }}
-              />
-            </MenuGroup>
-          )
-        })
+        <MenuGroup
+          allData={data as MenuGroupData}
+          currentGroupPath={selectedPath.getPath(-2)}
+          renderTemplate={__MenuGroup}
+        >
+          {(items, menuGroupObj) => (
+            <MenuItems
+              currentPath={selectedPath.getPath()}
+              items={items}
+              group={menuGroupObj}
+              renderTemplate={__MenuItem}
+              onSelect={(itemInfo) => {
+                selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
+                onSelectMenuItem?.(itemInfo)
+              }}
+            />
+          )}
+        </MenuGroup>
       )}
     </ComponentRoot>
   )
