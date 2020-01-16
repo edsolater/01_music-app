@@ -18,18 +18,18 @@ export default function AlbumMenu({
         data={menuItemData} //TEMP
         initItemIndex={initSelectedIndex}
         onSelectMenuItem={onSelectMenuItem}
-        __Header={<Title>Header hear!</Title>}
-        __MenuGroup_Node={({ group: menuGroup }) => (
+        __Header_node={<Title>Header hear!</Title>}
+        __MenuGroup_node={({ group: menuGroup }) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {menuGroup.title}
           </Title>
         )}
-        __MenuItem_Node={({ item: menuItem }) => (
+        __MenuItems_node={({ item: menuItem }) => (
           <Item>
             <Title>{menuItem.title}</Title>
           </Item>
         )}
-        __Footer={<Title>I'm Footer</Title>}
+        __Footer_node={<Title>I'm Footer</Title>}
       ></Menu>
     </Section>
   )
