@@ -7,7 +7,7 @@ import { ComponentRoot, SlotScope } from '.'
 type MenuItemInfo = {
   itemIndex: number
   item: AlbumMenuItem
-  sameGroupItems: AlbumMenuItem[]
+  itemsInGroup: AlbumMenuItem[]
   currentMenuPath: string
   groupIndex?: number
   group?: string
@@ -41,7 +41,7 @@ function MenuItems({
             currentMenuPath: currentPath,
             itemIndex,
             item: menuItem,
-            sameGroupItems: items,
+            itemsInGroup: items,
           },
         }
         return (
