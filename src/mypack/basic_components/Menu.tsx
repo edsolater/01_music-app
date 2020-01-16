@@ -18,95 +18,13 @@ type MenuGroupInfo = {
   groupIndex: number
   itemsInThisGroup: AlbumMenuItem[]
 }
-
 type PathPiece = string //Temp
-function MenuItems({
-  currentPath,
-  items,
-  group,
-  onSelect,
-  renderTemplate,
-}: {
-  currentPath: PathPiece //TEMP
-  items: AlbumMenuItem[]
-  group?: MenuGroupInfo
-  renderTemplate: React.ComponentProps<typeof Menu>['__MenuItem']
-  onSelect?: (itemInfo: MenuItemInfo) => any
-}) {
-  return (
-    <>
-      {items.map((menuItem, itemIndex) => {
-        const itemInfo: MenuItemInfo = {
-          ...group,
-          ...{
-            currentMenuPath: currentPath,
-            itemIndex,
-            item: menuItem,
-            itemsInGroup: items,
-          },
-        }
-        return (
-          <SlotScope
-            key={itemInfo.item.title}
-            name={[
-              '__MenuItem',
-              { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
-            ]}
-            onClick={() => onSelect?.(itemInfo)}
-          >
-            {renderTemplate(itemInfo)}
-          </SlotScope>
-        )
-      })}
-    </>
-  )
-}
-
-function MenuGroup({
-  allData,
-  currentGroupPath,
-  renderTemplate,
-  children,
-}: {
-  allData: MenuGroupData
-  currentGroupPath: PathPiece //Temp
-  renderTemplate: React.ComponentProps<typeof Menu>['__MenuGroup']
-  children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
-}) {
-  return (
-    <>
-      {Object.entries(allData).map(([groupName, items], groupIndex) => {
-        const groupInfo: MenuGroupInfo = {
-          group: { title: groupName },
-          groupIndex: groupIndex,
-          itemsInThisGroup: items,
-        }
-        return (
-          <SlotScope
-            key={groupInfo.group.title}
-            name={['__MenuGroup', { selected: `${groupIndex}` === currentGroupPath }]}
-          >
-            {renderTemplate?.(groupInfo)}
-            {children(items, groupInfo)}
-          </SlotScope>
-        )
-      })}
-    </>
-  )
-}
-
-// TODO：需要添加group的逻辑
-function Menu<NoGroup extends boolean | undefined = false>({
-  //为了使解析器识别generic的语法，不得不用function声明
-  initItemIndex = 0,
-  initGroupIndex = 0,
-  data,
-  __MenuItem,
-  __MenuGroup,
-  noGroup = false,
-  onSelectMenuItem,
-  ...restProps
-}: React.ComponentProps<typeof ComponentRoot> & {
+/**
+ * TODO：这样的类型形式还是有点冗余，应该declare function 的
+ */
+type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentProps<
+  typeof ComponentRoot
+> & {
   /**
    * 初始化菜单项的index
    */
@@ -135,7 +53,83 @@ function Menu<NoGroup extends boolean | undefined = false>({
    * 选择某个菜单项时发起的回调
    */
   onSelectMenuItem?: (event: MenuItemInfo) => void
-}) {
+}
+type Props__MenuItems = {
+  currentPath: PathPiece
+  items: AlbumMenuItem[]
+  group?: MenuGroupInfo
+  renderTemplate: React.ComponentProps<typeof Menu>['__MenuItem']
+  onSelect?: (itemInfo: MenuItemInfo) => any
+}
+type Props__MenuGroup = {
+  allData: MenuGroupData
+  currentGroupPath: PathPiece
+  renderTemplate: React.ComponentProps<typeof Menu>['__MenuGroup']
+  children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
+}
+
+function MenuItems({ currentPath, items, group, onSelect, renderTemplate }: Props__MenuItems) {
+  return (
+    <>
+      {items.map((menuItem, itemIndex) => {
+        const itemInfo: MenuItemInfo = {
+          ...group,
+          ...{
+            currentMenuPath: currentPath,
+            itemIndex,
+            item: menuItem,
+            itemsInGroup: items,
+          },
+        }
+        return (
+          <SlotScope
+            key={itemInfo.item.title}
+            name={[
+              '__MenuItem',
+              { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
+            ]}
+            onClick={() => onSelect?.(itemInfo)}
+          >
+            {renderTemplate(itemInfo)}
+          </SlotScope>
+        )
+      })}
+    </>
+  )
+}
+function MenuGroup({ allData, currentGroupPath, renderTemplate, children }: Props__MenuGroup) {
+  return (
+    <>
+      {Object.entries(allData).map(([groupName, items], groupIndex) => {
+        const groupInfo: MenuGroupInfo = {
+          group: { title: groupName },
+          groupIndex: groupIndex,
+          itemsInThisGroup: items,
+        }
+        return (
+          <SlotScope
+            key={groupInfo.group.title}
+            name={['__MenuGroup', { selected: `${groupIndex}` === currentGroupPath }]}
+          >
+            {renderTemplate?.(groupInfo)}
+            {children(items, groupInfo)}
+          </SlotScope>
+        )
+      })}
+    </>
+  )
+}
+// TODO：需要添加group的逻辑
+function Menu<NoGroup extends boolean | undefined = false>({
+  initItemIndex = 0,
+  initGroupIndex = 0,
+  data,
+  __MenuItem,
+  __MenuGroup,
+  noGroup = false,
+  onSelectMenuItem,
+  ...restProps
+}: Props__Menu<NoGroup>) {
   const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
   return (
     <ComponentRoot name='Menu' {...restProps}>
