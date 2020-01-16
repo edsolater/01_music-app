@@ -19,12 +19,12 @@ export default function AlbumMenu({
         initItemIndex={initSelectedIndex}
         onSelectMenuItem={onSelectMenuItem}
         __Header={<Title>Header hear!</Title>}
-        __MenuGroup={({ group: menuGroup }) => (
+        __MenuGroup_Node={({ group: menuGroup }) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {menuGroup.title}
           </Title>
         )}
-        __MenuItem={({ item: menuItem }) => (
+        __MenuItem_Node={({ item: menuItem }) => (
           <Item>
             <Title>{menuItem.title}</Title>
           </Item>
