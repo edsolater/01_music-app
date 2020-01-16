@@ -10,11 +10,11 @@ type MenuItemInfo = {
   itemsInGroup: AlbumMenuItem[]
   currentMenuPath: string
   groupIndex?: number
-  group?: string
+  group?: AlbumMenuGroup
   hasChangeGroup?: boolean
 }
 type MenuGroupInfo = {
-  group: string
+  group: AlbumMenuGroup
   groupIndex: number
   itemsInThisGroup: AlbumMenuItem[]
 }
@@ -145,7 +145,7 @@ function Menu<NoGroup extends boolean | undefined = false>({
       ) : (
         Object.entries(data as MenuGroupData).map(([groupName, items], groupIndex) => {
           const menuGroupObj: MenuGroupInfo = {
-            group: groupName,
+            group: { title: groupName },
             groupIndex: groupIndex,
             itemsInThisGroup: items,
           }
