@@ -2,11 +2,11 @@ import React from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-function View({
+function View<T extends keyof JSX.IntrinsicElements>({
   className,
-  use = 'div',
+  use,
   ...restProps
-}: Omit<JSX.IntrinsicElements['div'], 'className'> & {
+}: Omit<JSX.IntrinsicElements[T], 'className'> & {
   /**
    * 覆盖原生的className
    */
@@ -14,9 +14,9 @@ function View({
   /**
    * 表示渲染所使用的标签，默认使用DIV
    */
-  use?: keyof JSX.IntrinsicElements
+  use?: T
 }): JSX.Element {
-  return React.createElement(use, {
+  return React.createElement(use ?? 'div', {
     className: classnames(className),
     ...restProps,
   })
