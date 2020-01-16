@@ -25,6 +25,7 @@ export { default as ImageBox } from './ImageBox'
 export { default as Slider } from './Slider'
 export { default as Menu } from './Menu'
 export { default as Label } from './Label'
+export { default as Card } from './Card'
 export { default as ImageFalls } from './ImageFalls'
 
 /**

@@ -1,8 +1,8 @@
 import React from 'react'
-import { View } from '.'
+import { ComponentRoot } from '.'
 
-function Header({ className, ...restProps }: React.ComponentProps<typeof View>) {
-  return <View className={[className, 'Header']} {...restProps} />
+function Header({ style, ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
+  return <ComponentRoot name='__Header' {...restProps} />
 }
 
 export default React.memo(Header) as typeof Header
