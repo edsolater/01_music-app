@@ -18,12 +18,12 @@ export default function AlbumMenu({
         data={menuItemData} //TEMP
         initItemIndex={initSelectedIndex}
         onSelectMenuItem={onSelectMenuItem}
-        __MenuGroup={(groupName) => (
+        __MenuGroup={({ group: groupName }) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {groupName}
           </Title>
         )}
-        __MenuItem={({item: menuItem}) => (
+        __MenuItem={({ item: menuItem }) => (
           <Item>
             <Title>{menuItem.title}</Title>
           </Item>
