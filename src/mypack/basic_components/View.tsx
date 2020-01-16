@@ -14,7 +14,7 @@ function View({
   /**
    * 表示渲染所使用的标签，默认使用DIV
    */
-  use?: 'div' | 'section'
+  use?: keyof JSX.IntrinsicElements
 }): JSX.Element {
   return React.createElement(use, {
     className: classnames(className),

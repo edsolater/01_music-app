@@ -9,17 +9,15 @@ export { default as SlotScope } from './SlotScope'
 /*
  * 基本HTML及其包装（用途专有）
  */
-export { default as View } from './View' // 使用 <div>
+export { default as View } from './View' // 通过View，使用 <div>
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
 export { default as Item } from './Item'
-
-export { default as Section } from './Section' // 使用 <section>
-
-export { default as Text } from './Text' // 使用 <div>
+export { default as Section } from './Section' // 通过View，使用 <section>
+export { default as Text } from './Text' // 通过View，使用 <div>
 export { default as Title } from './Title'
-
-export { default as Image } from './Image' // 使用 <img>
+export { default as Image } from './Image' // 通过View，使用 <img>
+export { default as ImageBox } from './ImageBox'
 
 /**
  * 普通组件

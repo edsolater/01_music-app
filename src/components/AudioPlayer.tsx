@@ -3,7 +3,7 @@ import {
   Text,
   Button,
   Group,
-  Image,
+  ImageBox,
   Slider,
   Popover,
   useMaster,
@@ -65,7 +65,7 @@ export default function AudioPlayer({
   return (
     <View className='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
-      <Image className='album-face' src={albumUrl} />
+      <ImageBox className='album-face' src={albumUrl} />
       <Group className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Text>⏮</Text>

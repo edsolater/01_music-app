@@ -1,13 +1,9 @@
 import React from 'react'
-import * as classnames from 'classnames'
-import { ClassValue } from 'classnames/types'
+import { View } from '.'
 
 function Section({
-  className,
   ...restProps
-}: Omit<JSX.IntrinsicElements['section'], 'className'> & {
-  className?: ClassValue
-}) {
-  return <section className={classnames(className)} {...restProps} />
+}: JSX.IntrinsicElements['section'] & React.ComponentProps<typeof View>) {
+  return <View use='section' {...restProps}></View>
 }
 export default React.memo(Section) as typeof Section
