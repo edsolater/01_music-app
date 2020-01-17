@@ -11,6 +11,6 @@
     "strict": true,
     "baseUrl": "./src" //typescript 根路径（绝对路径的根节点）
   },
-  "include": ["src", "node_modules/react", "node_modules/react-dom"]
+  "include": ["src", "node_modules/@types"]
   // "exclude": ["node_modules"]
 }

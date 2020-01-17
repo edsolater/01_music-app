@@ -1,5 +1,6 @@
 .Menu {
   color: var(--primary-text, #333);
+  position: relative;
   --divider-height: 1px;
   --divider-color: rgba(0, 0, 0, 0.1);
   --divider-left: 0px;
@@ -8,6 +9,10 @@
       > .Title {
         background-color: aliceblue;
       }
+    }
+    margin-bottom: 32px;
+    &:last-of-type {
+      margin-bottom: 0;
     }
   }
   .__MenuItem {

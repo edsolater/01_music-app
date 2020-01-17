@@ -13,7 +13,6 @@ export default function AlbumMenu({
 }) {
   return (
     <Section className='album-menu'>
-      <Title>song-collection</Title>
       <Menu
         data={data} //TEMP
         initItemIndex={initSelectedIndex}
@@ -29,8 +28,9 @@ export default function AlbumMenu({
         }
         __Header_props={{
           style: {
-            position: 'relative',
+            position: 'sticky',
             zIndex: 1,
+            top: 0,
           },
         }}
         __MenuGroup_node={({ group: menuGroup }) => (
@@ -54,13 +54,12 @@ export default function AlbumMenu({
         }
         __Footer_props={{
           style: {
-            position: 'absolute',
+            position: 'sticky',
             zIndex: 1,
             bottom: 0,
-            width: '100%',
           },
         }}
-      ></Menu>
+      />
     </Section>
   )
 }

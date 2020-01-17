@@ -97,6 +97,16 @@ const menuData : React.ComponentProps<typeof Menu>['data']={
     { title: '下载管理' },
     { title: '最近播放' },
   ],
+  '我的音乐-复制3': [
+    { title: '本地音乐', selectAction: 'show-local-music' },
+    { title: '下载管理' },
+    { title: '最近播放' },
+  ],
+  '我的音乐-复制4': [
+    { title: '本地音乐', selectAction: 'show-local-music' },
+    { title: '下载管理' },
+    { title: '最近播放' },
+  ],
   创建的歌单: [{ title: '我喜欢的音乐' }],
 }
 // TEMP

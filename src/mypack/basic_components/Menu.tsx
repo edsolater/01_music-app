@@ -118,12 +118,8 @@ function MenuItems({
     </>
   )
 }
-function MenuGroup({
-  allData,
-  currentGroupPath,
-  __MenuGroup_node,
-  children,
-}: Props__MenuGroup) {
+function MenuGroup({ allData, currentGroupPath, __MenuGroup_node, children }: Props__MenuGroup) {
+  const amount = Object.entries(allData).length
   return (
     <>
       {Object.entries(allData).map(([groupName, items], groupIndex) => {
@@ -135,7 +131,10 @@ function MenuGroup({
         return (
           <SlotScope
             key={groupInfo.group.title}
-            name={['__MenuGroup', { selected: `${groupIndex}` === currentGroupPath }]}
+            name={[
+              '__MenuGroup',
+              { selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
+            ]}
           >
             {__MenuGroup_node?.(groupInfo)}
             {children(items, groupInfo)}
@@ -166,7 +165,7 @@ function Menu({
       {noGroup ? (
         <MenuItems
           currentPath={selectedPath.getPath()}
-          items={data as unknown as AlbumMenuItem[]}
+          items={(data as unknown) as AlbumMenuItem[]}
           __MenuItems_node={__MenuItems_node}
           __MenuItems_props={__MenuItems_props}
           onSelectMenuItem={(itemInfo) => {
@@ -176,7 +175,7 @@ function Menu({
         />
       ) : (
         <MenuGroup
-          allData={data as unknown as MenuGroupData}
+          allData={(data as unknown) as MenuGroupData}
           currentGroupPath={selectedPath.getPath(-2)}
           __MenuGroup_node={__MenuGroup_node}
           __MenuGroup_props={__MenuGroup_props}
