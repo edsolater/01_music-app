@@ -7,7 +7,7 @@ export default function AlbumMenu({
   initSelectedIndex = 0,
   onSelectMenuItem,
 }: {
-  data: AlbumMenuItem[]
+  data: ComponentProps<typeof Menu>['data']
   initSelectedIndex?: number
   onSelectMenuItem?: ComponentProps<typeof Menu>['onSelectMenuItem']
 }) {
@@ -15,7 +15,7 @@ export default function AlbumMenu({
     <Section className='album-menu'>
       <Title>song-collection</Title>
       <Menu
-        data={menuItemData} //TEMP
+        data={data} //TEMP
         initItemIndex={initSelectedIndex}
         onSelectMenuItem={onSelectMenuItem}
         __Header_node={
@@ -63,13 +63,4 @@ export default function AlbumMenu({
       ></Menu>
     </Section>
   )
-}
-
-const menuItemData: MenuGroupData = {
-  我的音乐: [
-    { title: '本地音乐', action: 'show-local-music' },
-    { title: '下载管理' },
-    { title: '最近播放' },
-  ],
-  创建的歌单: [{ title: '我喜欢的音乐' }],
 }

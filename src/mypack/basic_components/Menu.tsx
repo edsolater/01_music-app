@@ -54,11 +54,11 @@ type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentP
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup_node?: (groupInfo: MenuGroupInfo) => ReactNode
+  __MenuGroup_node: NoGroup extends true ? undefined : (groupInfo: MenuGroupInfo) => ReactNode
   /**
    * 额外的props
    */
-  __MenuGroup_props?:  React.ComponentProps<typeof MenuGroup>
+  __MenuGroup_props?: React.ComponentProps<typeof MenuGroup>
   /**
    * 选择某个菜单项时发起的回调
    */
@@ -70,7 +70,7 @@ type Props__MenuItems = {
   group?: MenuGroupInfo
   __MenuItems_node: React.ComponentProps<typeof Menu>['__MenuItems_node']
   __MenuItems_props?: React.ComponentProps<typeof Menu>['__MenuItems_props']
-  /** 
+  /**
    * 回调：选择另一个菜单项
    */
   onSelectMenuItem?: (itemInfo: MenuItemInfo) => any
@@ -83,7 +83,13 @@ type Props__MenuGroup = {
   children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
 } & React.ComponentProps<typeof SlotScope>
 
-function MenuItems({ currentPath, items, group, onSelectMenuItem: onSelect, __MenuItems_node: renderTemplate }: Props__MenuItems) {
+function MenuItems({
+  currentPath,
+  items,
+  group,
+  onSelectMenuItem,
+  __MenuItems_node,
+}: Props__MenuItems) {
   return (
     <>
       {items.map((menuItem, itemIndex) => {
@@ -103,16 +109,21 @@ function MenuItems({ currentPath, items, group, onSelectMenuItem: onSelect, __Me
               '__MenuItem',
               { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
             ]}
-            onClick={() => onSelect?.(itemInfo)}
+            onClick={() => onSelectMenuItem?.(itemInfo)}
           >
-            {renderTemplate(itemInfo)}
+            {__MenuItems_node(itemInfo)}
           </SlotScope>
         )
       })}
     </>
   )
 }
-function MenuGroup({ allData, currentGroupPath, __MenuGroup_node: renderTemplate, children }: Props__MenuGroup) {
+function MenuGroup({
+  allData,
+  currentGroupPath,
+  __MenuGroup_node,
+  children,
+}: Props__MenuGroup) {
   return (
     <>
       {Object.entries(allData).map(([groupName, items], groupIndex) => {
@@ -126,7 +137,7 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup_node: renderTemplate
             key={groupInfo.group.title}
             name={['__MenuGroup', { selected: `${groupIndex}` === currentGroupPath }]}
           >
-            {renderTemplate?.(groupInfo)}
+            {__MenuGroup_node?.(groupInfo)}
             {children(items, groupInfo)}
           </SlotScope>
         )
@@ -135,19 +146,19 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup_node: renderTemplate
   )
 }
 // TODO：需要添加group的逻辑
-function Menu<NoGroup extends boolean | undefined = false>({
+function Menu({
   initItemIndex = 0,
   initGroupIndex = 0,
   data,
-  __MenuItems_node: __MenuItem_node,
-  __MenuItems_props: __MenuItem_props,
+  __MenuItems_node,
+  __MenuItems_props,
   __MenuGroup_node,
   __MenuGroup_props,
   noGroup = false,
   onSelectMenuItem,
   children,
   ...restProps
-}: Props__Menu<NoGroup>) {
+}: Props__Menu) {
   const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
   return (
     <ComponentRoot name='Menu' {...restProps}>
@@ -155,29 +166,29 @@ function Menu<NoGroup extends boolean | undefined = false>({
       {noGroup ? (
         <MenuItems
           currentPath={selectedPath.getPath()}
-          items={data as AlbumMenuItem[]}
-          __MenuItems_node={__MenuItem_node}
-          __MenuItems_props={__MenuItem_props}
+          items={data as unknown as AlbumMenuItem[]}
+          __MenuItems_node={__MenuItems_node}
+          __MenuItems_props={__MenuItems_props}
           onSelectMenuItem={(itemInfo) => {
             selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
             onSelectMenuItem?.(itemInfo)
           }}
-          />
-          ) : (
-            <MenuGroup
-            allData={data as MenuGroupData}
-            currentGroupPath={selectedPath.getPath(-2)}
-            __MenuGroup_node={__MenuGroup_node}
-            __MenuGroup_props={__MenuGroup_props}
-            >
+        />
+      ) : (
+        <MenuGroup
+          allData={data as unknown as MenuGroupData}
+          currentGroupPath={selectedPath.getPath(-2)}
+          __MenuGroup_node={__MenuGroup_node}
+          __MenuGroup_props={__MenuGroup_props}
+        >
           {(items, menuGroupObj) => (
             <MenuItems
-            currentPath={selectedPath.getPath()}
-            items={items}
-            group={menuGroupObj}
-            __MenuItems_node={__MenuItem_node}
-            __MenuItems_props={__MenuItem_props}
-            onSelectMenuItem={(itemInfo) => {
+              currentPath={selectedPath.getPath()}
+              items={items}
+              group={menuGroupObj}
+              __MenuItems_node={__MenuItems_node}
+              __MenuItems_props={__MenuItems_props}
+              onSelectMenuItem={(itemInfo) => {
                 selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
                 onSelectMenuItem?.(itemInfo)
               }}
