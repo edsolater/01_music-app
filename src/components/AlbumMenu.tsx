@@ -19,10 +19,20 @@ export default function AlbumMenu({
         initItemIndex={initSelectedIndex}
         onSelectMenuItem={onSelectMenuItem}
         __Header_node={
-          <Card>
+          <Card
+            style={{
+              height: 40,
+            }}
+          >
             <Title>Header hear!</Title>
           </Card>
         }
+        __Header_props={{
+          style: {
+            position: 'relative',
+            zIndex: 1,
+          },
+        }}
         __MenuGroup_node={({ group: menuGroup }) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {menuGroup.title}
@@ -33,7 +43,23 @@ export default function AlbumMenu({
             <Title>{menuItem.title}</Title>
           </Item>
         )}
-        __Footer_node={<Title>I'm Footer</Title>}
+        __Footer_node={
+          <Card
+            style={{
+              height: 80,
+            }}
+          >
+            <Title>I'm Footer</Title>
+          </Card>
+        }
+        __Footer_props={{
+          style: {
+            position: 'absolute',
+            zIndex: 1,
+            bottom: 0,
+            width: '100%',
+          },
+        }}
       ></Menu>
     </Section>
   )

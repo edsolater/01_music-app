@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentRoot } from '.'
 
-function Header({ style, ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
+function Header({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) {
   return <ComponentRoot name='__Header' {...restProps} />
 }
 

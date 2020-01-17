@@ -1,9 +1,9 @@
 .Menu {
-  .__Header {
-    z-index: 1;
-    position: relative;
+  height: 100%;
+  .__Header,
+  .__Footer {
     .Card {
-      height: 80px;
+      background-color: white;
     }
   }
 }

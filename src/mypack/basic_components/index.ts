@@ -13,6 +13,7 @@ export { default as View } from './View' // 通过View，使用 <div>
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
 export { default as Item } from './Item'
+export { default as Card } from './Card'
 export { default as Section } from './Section' // 通过View，使用 <section>
 export { default as Text } from './Text' // 通过View，使用 <div>
 export { default as Title } from './Title'
@@ -25,7 +26,6 @@ export { default as ImageBox } from './ImageBox'
 export { default as Slider } from './Slider'
 export { default as Menu } from './Menu'
 export { default as Label } from './Label'
-export { default as Card } from './Card'
 export { default as ImageFalls } from './ImageFalls'
 
 /**
