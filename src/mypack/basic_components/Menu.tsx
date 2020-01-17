@@ -136,7 +136,8 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup_node, children }: Pr
               { selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
             ]}
           >
-            {__MenuGroup_node?.(groupInfo)}
+            {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ &&
+              __MenuGroup_node?.(groupInfo)}
             {children(items, groupInfo)}
           </SlotScope>
         )
