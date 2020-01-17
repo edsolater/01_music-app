@@ -5,9 +5,11 @@ import { ClassValue } from 'classnames/types'
 function ComponentRoot({
   name,
   className,
-  __Header,
+  __Header_node,
+  __Header_props,
   children,
-  __Footer,
+  __Footer_node,
+  __Footer_props,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
@@ -15,19 +17,21 @@ function ComponentRoot({
    */
   name?: ClassValue
   /**
-   * 每个以ComponentRoot为根组件的组件都可以拥有
+   * 每个以ComponentRoot为根组件的组件都可以拥有，类似::before
    */
-  __Header?: ReactNode
+  __Header_node?: ReactNode
+  __Header_props?: React.ComponentProps<typeof Header>
   /**
-   * 每个以ComponentRoot为根组件的组件都可以拥有
+   * 每个以ComponentRoot为根组件的组件都可以拥有，类似::after
    */
-  __Footer?: ReactNode
+  __Footer_node?: ReactNode
+  __Footer_props?: React.ComponentProps<typeof Footer>
 }) {
   return (
     <View className={[className, name]} {...restProps}>
-      {__Header && <Header>{__Header}</Header>}
+      {__Header_node && <Header {...__Header_props}>{__Header_node}</Header>}
       {children}
-      {__Footer && <Footer>{__Footer}</Footer>}
+      {__Footer_node && <Footer {...__Footer_props}>{__Footer_node}</Footer>}
     </View>
   )
 }
