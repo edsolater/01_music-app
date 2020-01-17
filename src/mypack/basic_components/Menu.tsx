@@ -21,6 +21,7 @@ type MenuGroupInfo = {
 type PathPiece = string //Temp
 /**
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
+ * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
  */
 type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentProps<
   typeof ComponentRoot
@@ -83,69 +84,6 @@ type Props__MenuGroup = {
   children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
 } & React.ComponentProps<typeof SlotScope>
 
-function MenuItems({
-  currentPath,
-  items,
-  group,
-  onSelectMenuItem,
-  __MenuItems_node,
-}: Props__MenuItems) {
-  return (
-    <>
-      {items.map((menuItem, itemIndex) => {
-        const itemInfo: MenuItemInfo = {
-          ...group,
-          ...{
-            currentMenuPath: currentPath,
-            itemIndex,
-            item: menuItem,
-            itemsInGroup: items,
-          },
-        }
-        return (
-          <SlotScope
-            key={itemInfo.item.title}
-            name={[
-              '__MenuItem',
-              { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
-            ]}
-            onClick={() => onSelectMenuItem?.(itemInfo)}
-          >
-            {__MenuItems_node(itemInfo)}
-          </SlotScope>
-        )
-      })}
-    </>
-  )
-}
-function MenuGroup({ allData, currentGroupPath, __MenuGroup_node, children }: Props__MenuGroup) {
-  const amount = Object.entries(allData).length
-  return (
-    <>
-      {Object.entries(allData).map(([groupName, items], groupIndex) => {
-        const groupInfo: MenuGroupInfo = {
-          group: { title: groupName },
-          groupIndex: groupIndex,
-          itemsInThisGroup: items,
-        }
-        return (
-          <SlotScope
-            key={groupInfo.group.title}
-            name={[
-              '__MenuGroup',
-              { selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
-            ]}
-          >
-            {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ &&
-              __MenuGroup_node?.(groupInfo)}
-            {children(items, groupInfo)}
-          </SlotScope>
-        )
-      })}
-    </>
-  )
-}
-// TODO：需要添加group的逻辑
 function Menu({
   initItemIndex = 0,
   initGroupIndex = 0,
@@ -197,6 +135,68 @@ function Menu({
         </MenuGroup>
       )}
     </ComponentRoot>
+  )
+}
+function MenuGroup({ allData, currentGroupPath, __MenuGroup_node, children }: Props__MenuGroup) {
+  const amount = Object.entries(allData).length
+  return (
+    <>
+      {Object.entries(allData).map(([groupName, items], groupIndex) => {
+        const groupInfo: MenuGroupInfo = {
+          group: { title: groupName },
+          groupIndex: groupIndex,
+          itemsInThisGroup: items,
+        }
+        return (
+          <SlotScope
+            key={groupInfo.group.title}
+            name={[
+              '__MenuGroup',
+              { selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
+            ]}
+          >
+            {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ &&
+              __MenuGroup_node?.(groupInfo)}
+            {children(items, groupInfo)}
+          </SlotScope>
+        )
+      })}
+    </>
+  )
+}
+function MenuItems({
+  currentPath,
+  items,
+  group,
+  onSelectMenuItem,
+  __MenuItems_node,
+}: Props__MenuItems) {
+  return (
+    <>
+      {items.map((menuItem, itemIndex) => {
+        const itemInfo: MenuItemInfo = {
+          ...group,
+          ...{
+            currentMenuPath: currentPath,
+            itemIndex,
+            item: menuItem,
+            itemsInGroup: items,
+          },
+        }
+        return (
+          <SlotScope
+            key={itemInfo.item.title}
+            name={[
+              '__MenuItem',
+              { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
+            ]}
+            onClick={() => onSelectMenuItem?.(itemInfo)}
+          >
+            {__MenuItems_node(itemInfo)}
+          </SlotScope>
+        )
+      })}
+    </>
   )
 }
 
