@@ -12,7 +12,25 @@ export default function AlbumMenu({
   onSelectMenuItem?: ComponentProps<typeof Menu>['onSelectMenuItem']
 }) {
   return (
-    <Section className='album-menu'>
+    <Section
+      className='album-menu'
+      __Footer_node={
+        <Card
+          style={{
+            height: 80,
+          }}
+        >
+          <Title>I'm Footer</Title>
+        </Card>
+      }
+      __Footer_props={{
+        style: {
+          position: 'sticky',
+          zIndex: 1,
+          bottom: 0,
+        },
+      }}
+    >
       <Menu
         data={data} //TEMP
         initItemIndex={initSelectedIndex}
@@ -43,22 +61,6 @@ export default function AlbumMenu({
             <Title>{menuItem.title}</Title>
           </Item>
         )}
-        __Footer_node={
-          <Card
-            style={{
-              height: 80,
-            }}
-          >
-            <Title>I'm Footer</Title>
-          </Card>
-        }
-        __Footer_props={{
-          style: {
-            position: 'sticky',
-            zIndex: 1,
-            bottom: 0,
-          },
-        }}
       />
     </Section>
   )

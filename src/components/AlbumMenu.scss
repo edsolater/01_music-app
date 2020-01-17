@@ -1,7 +1,15 @@
-.Menu {
-  height: 100%;
-  overflow: auto;
-  .__Header,
+.Section {
+  display: flex;
+  flex-direction: column;
+  .Menu {
+    flex: 1;
+    overflow: auto;
+    .__Header {
+      .Card {
+        background-color: white;
+      }
+    }
+  }
   .__Footer {
     .Card {
       background-color: white;

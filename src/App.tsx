@@ -8,7 +8,7 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
-import { View, useMaster, Text ,Menu} from 'mypack/basic_components'
+import { View, useMaster, Text, Menu } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
 
@@ -80,34 +80,35 @@ const dataPieces = [
   },
 ]
 
-const menuData : React.ComponentProps<typeof Menu>['data']={
-  'null': [{title: '搜索'},{title: '发现音乐'}],
+const menuData: React.ComponentProps<typeof Menu>['data'] = {
+  null: [{ title: '搜索' }, { title: '发现音乐' }],
   我的音乐: [
     { title: '本地音乐', selectAction: 'show-local-music' },
     { title: '下载管理' },
     { title: '最近播放' },
   ],
-  '我的音乐-复制': [
-    { title: '本地音乐', selectAction: 'show-local-music' },
-    { title: '下载管理' },
-    { title: '最近播放' },
-  ],
-  '我的音乐-复制2': [
-    { title: '本地音乐', selectAction: 'show-local-music' },
-    { title: '下载管理' },
-    { title: '最近播放' },
-  ],
-  '我的音乐-复制3': [
-    { title: '本地音乐', selectAction: 'show-local-music' },
-    { title: '下载管理' },
-    { title: '最近播放' },
-  ],
-  '我的音乐-复制4': [
-    { title: '本地音乐', selectAction: 'show-local-music' },
-    { title: '下载管理' },
-    { title: '最近播放' },
-  ],
-  创建的歌单: [{ title: '我喜欢的音乐' }],
+  // '我的音乐-复制': [
+  //   { title: '本地音乐', selectAction: 'show-local-music' },
+  //   { title: '下载管理' },
+  //   { title: '最近播放' },
+  // ],
+  // '我的音乐-复制2': [
+  //   { title: '本地音乐', selectAction: 'show-local-music' },
+  //   { title: '下载管理' },
+  //   { title: '最近播放' },
+  // ],
+  // '我的音乐-复制3': [
+  //   { title: '本地音乐', selectAction: 'show-local-music' },
+  //   { title: '下载管理' },
+  //   { title: '最近播放' },
+  // ],
+  // '我的音乐-复制4': [
+  //   { title: '本地音乐', selectAction: 'show-local-music' },
+  //   { title: '下载管理' },
+  //   { title: '最近播放' },
+  // ],
+  创建的歌单: [{ title: '我喜欢的音乐' }, { title: '鬼畜' }],
+  收藏的歌单: [{ title: '神级燃曲 · 百首顶级日漫激昂配乐' }],
 }
 // TEMP
 function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
