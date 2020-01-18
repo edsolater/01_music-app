@@ -11,9 +11,12 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最�
 import { View, useMaster, Text, Menu } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
-import { spawnCommunicationSystem } from './TubeSystem'
+import { spawnCommunicationSystem, ControllerSideType } from './tubeSystem'
 
-const {ControllerSide, ChildSide} = spawnCommunicationSystem()
+const { ControllerSide, ChildSide } = spawnCommunicationSystem()
+export const ChildTubeContext = React.createContext(ChildSide)
+ChildTubeContext.displayName = 'Tube' // 对Debug友好些
+
 const dataPieces = [
   {
     header: {
@@ -127,12 +130,11 @@ function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
   )
 }
 
-const appSideTube = new ControllerSide('App', (payload) => console.log('payload: ', payload))
-export const ChildSideTube = React.createContext(ChildSide)
-ChildSideTube.displayName = 'Tube' // 对Debug友好些
+let tube: ControllerSideType
 
 function App({ initIndex }: { initIndex?: number }) {
   const activeCollectionIndex = useMaster({ type: 'number', init: initIndex })
+  //TODO: 这个要能智能提示啊
   const activeSongInfo = useMaster({
     type: 'collection(object)',
     init: {
@@ -141,28 +143,36 @@ function App({ initIndex }: { initIndex?: number }) {
       soundtrackUrl: soundtrackUrl,
     },
   })
+
   useEffect(() => {
+    const tubeRecorder = (payload) => {
+      switch (payload.type) {
+        case 'change-menuItem':
+          // 这里需要申明payload的类型信息
+
+          activeCollectionIndex.set(payload.newIndex)
+          console.log('hello: ', payload)
+          break
+        default:
+          break
+      }
+    }
+    tube = new ControllerSide('App', tubeRecorder)
     setTimeout(() => {
-      appSideTube.emitDown('AlbumMenu', { message: 'nothing' })
+      tube.emitDown('AlbumMenu', { message: 'nothing' })
     }, 300)
   }, [])
   return (
     <View className='app-box'>
-      <ChildSideTube.Provider value={ChildSide}>
-        <AlbumMenu
-          data={menuData}
-          initSelectedIndex={initIndex}
-          onSelectMenuItem={(event) => {
-            activeCollectionIndex.set(event.itemIndex)
-          }}
-        ></AlbumMenu>
+      <ChildTubeContext.Provider value={ChildSide}>
+        <AlbumMenu data={menuData} initSelectedIndex={initIndex}></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
         <AudioPlayer
           songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO
           albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO
           soundtrackUrl={activeSongInfo.getTotalObject().soundtrackUrl as string} //TODO
         />
-      </ChildSideTube.Provider>
+      </ChildTubeContext.Provider>
     </View>
   )
 }

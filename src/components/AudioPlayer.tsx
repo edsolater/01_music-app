@@ -12,14 +12,14 @@ import {
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { ChildSideTube } from 'App'
-import { ChildSide } from 'TubeSystem'
+import { ChildTubeContext } from 'App'
+import { ChildSideType } from 'tubeSystem'
 
 /**
  * 组件的与app通信的子设备
  * TODO：想想怎么能自动推断呢？手写类型很烦的
  */
-let tube: ChildSide
+let tube: ChildSideType
 
 export default function AudioPlayer({
   defaultVolume,
@@ -32,7 +32,7 @@ export default function AudioPlayer({
   soundtrackUrl: string
   defaultVolume?: number
 }) {
-  const Tube = useContext(ChildSideTube)
+  const Tube = useContext(ChildTubeContext)
   useEffect(() => {
     tube = new Tube(AudioPlayer.name, (payload) => console.log('listen from AudioPlayer: ', payload))
   }, [])
