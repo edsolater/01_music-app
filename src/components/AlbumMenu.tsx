@@ -1,6 +1,7 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, useEffect, useContext } from 'react'
 import { Menu, Title, Item, Section, Card } from 'mypack/basic_components'
 import './AlbumMenu.scss'
+import { AppBoardcast } from 'App'
 
 export default function AlbumMenu({
   data,
@@ -11,6 +12,13 @@ export default function AlbumMenu({
   initSelectedIndex?: number
   onSelectMenuItem?: ComponentProps<typeof Menu>['onSelectMenuItem']
 }) {
+  const appBoardcast = useContext(AppBoardcast)
+  useEffect(() => {
+    appBoardcast.register({
+      componentName: 'AlbumMenu',
+      eventCallback: (payload) => console.log('payload: ', payload),
+    })
+  }, [])
   return (
     <Section
       className='album-menu'

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './App.scss'
@@ -11,6 +11,7 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最�
 import { View, useMaster, Text, Menu } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
+import appBoardcast from './appBroadcast'
 
 const dataPieces = [
   {
@@ -125,6 +126,9 @@ function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
   )
 }
 
+export const AppBoardcast = React.createContext(appBoardcast)
+AppBoardcast.displayName = 'appBoardcast' // 对Debug友好些
+
 function App({ initIndex }: { initIndex?: number }) {
   const activeCollectionIndex = useMaster({ type: 'number', init: initIndex })
   const activeSongInfo = useMaster({
@@ -135,9 +139,21 @@ function App({ initIndex }: { initIndex?: number }) {
       soundtrackUrl: soundtrackUrl,
     },
   })
+  useEffect(() => {
+    appBoardcast.register({
+      componentName:'App',
+      eventCallback:(payload) => {console.log('to App: ', payload)}
+    })
+    setTimeout(() => {
+      appBoardcast.emit({
+        componentName: 'AlbumMenu',
+        eventPayload: { message: 'nothing' },
+      })
+    }, 300)
+  }, [])
   return (
-    <>
-      <View className='app-box'>
+    <View className='app-box'>
+      <AppBoardcast.Provider /* 对Debug友好些 */ value={appBoardcast}> 
         <AlbumMenu
           data={menuData}
           initSelectedIndex={initIndex}
@@ -151,8 +167,8 @@ function App({ initIndex }: { initIndex?: number }) {
           albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO
           soundtrackUrl={activeSongInfo.getTotalObject().soundtrackUrl as string} //TODO
         />
-      </View>
-    </>
+      </AppBoardcast.Provider> 
+    </View>
   )
 }
 

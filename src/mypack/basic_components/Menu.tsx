@@ -137,7 +137,13 @@ function Menu({
     </ComponentRoot>
   )
 }
-function MenuGroup({ allData, currentGroupPath, __MenuGroup_node, children }: Props__MenuGroup) {
+function MenuGroup({
+  allData,
+  currentGroupPath,
+  __MenuGroup_node,
+  __MenuGroup_props,
+  children,
+}: Props__MenuGroup) {
   const amount = Object.entries(allData).length
   return (
     <>
@@ -154,6 +160,7 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup_node, children }: Pr
               '__MenuGroup',
               { selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
             ]}
+            {...__MenuGroup_props}
           >
             {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ &&
               __MenuGroup_node?.(groupInfo)}
@@ -170,6 +177,7 @@ function MenuItems({
   group,
   onSelectMenuItem,
   __MenuItems_node,
+  __MenuItems_props
 }: Props__MenuItems) {
   return (
     <>
@@ -191,6 +199,7 @@ function MenuItems({
               { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
             ]}
             onClick={() => onSelectMenuItem?.(itemInfo)}
+            {...__MenuItems_props}
           >
             {__MenuItems_node(itemInfo)}
           </SlotScope>
