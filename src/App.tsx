@@ -11,8 +11,9 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最�
 import { View, useMaster, Text, Menu } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
-import appBoardcast from './appBroadcast'
+import { spawnCommunicationSystem } from './TubeSystem'
 
+const {ControllerSide, ChildSide} = spawnCommunicationSystem()
 const dataPieces = [
   {
     header: {
@@ -126,8 +127,9 @@ function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
   )
 }
 
-export const AppBoardcast = React.createContext(appBoardcast)
-AppBoardcast.displayName = 'appBoardcast' // 对Debug友好些
+const appSideTube = new ControllerSide('App', (payload) => console.log('payload: ', payload))
+export const ChildSideTube = React.createContext(ChildSide)
+ChildSideTube.displayName = 'Tube' // 对Debug友好些
 
 function App({ initIndex }: { initIndex?: number }) {
   const activeCollectionIndex = useMaster({ type: 'number', init: initIndex })
@@ -140,20 +142,13 @@ function App({ initIndex }: { initIndex?: number }) {
     },
   })
   useEffect(() => {
-    appBoardcast.register({
-      componentName:'App',
-      eventCallback:(payload) => {console.log('to App: ', payload)}
-    })
     setTimeout(() => {
-      appBoardcast.emit({
-        componentName: 'AlbumMenu',
-        eventPayload: { message: 'nothing' },
-      })
+      appSideTube.emitDown('AlbumMenu', { message: 'nothing' })
     }, 300)
   }, [])
   return (
     <View className='app-box'>
-      <AppBoardcast.Provider /* 对Debug友好些 */ value={appBoardcast}> 
+      <ChildSideTube.Provider value={ChildSide}>
         <AlbumMenu
           data={menuData}
           initSelectedIndex={initIndex}
@@ -167,7 +162,7 @@ function App({ initIndex }: { initIndex?: number }) {
           albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO
           soundtrackUrl={activeSongInfo.getTotalObject().soundtrackUrl as string} //TODO
         />
-      </AppBoardcast.Provider> 
+      </ChildSideTube.Provider>
     </View>
   )
 }
