@@ -6,6 +6,8 @@ import { ChildSide } from 'TubeSystem'
 
 /**
  * 组件的与app通信的子设备
+ * TODO：想想怎么能自动推断呢？手写类型很烦的
+ * TODO: 这相当于是一个配件，需要一个容纳配件的 “配件库” 
  */
 let tube: ChildSide
 
@@ -20,9 +22,7 @@ export default function AlbumMenu({
 }) {
   const Tube = useContext(ChildSideTube)
   useEffect(() => {
-    // 注册
-    tube = new Tube('AlbumMenu', (payload) => console.log('payload2: ', payload))
-    tube.emitUp({ hello: 'world' })
+    tube = new Tube('AlbumMenu', (payload) => console.log('listen from AlbumMenu: ', payload))
   }, [])
   return (
     <Section
