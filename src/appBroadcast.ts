@@ -8,7 +8,7 @@ export default new (class AppBroadcast {
   }
 
   // 动词与名词要拆开
-  emit(message: { componentName: string; eventName: string; eventPayload: any }) {
+  emit(message: { componentName: string; eventPayload: any }) {
     this.broadcastChannal[message.componentName]?.(message.eventPayload)
   }
 })()
