@@ -29,9 +29,17 @@ function ComponentRoot({
 }) {
   return (
     <View className={[className, name]} {...restProps}>
-      {__Header_node && <Header {...__Header_props}>{__Header_node}</Header>}
+      {__Header_node && (
+        <Header {...__Header_props} isPseudo>
+          {__Header_node}
+        </Header>
+      )}
       {children}
-      {__Footer_node && <Footer {...__Footer_props}>{__Footer_node}</Footer>}
+      {__Footer_node && (
+        <Footer {...__Footer_props} isPseudo>
+          {__Footer_node}
+        </Footer>
+      )}
     </View>
   )
 }

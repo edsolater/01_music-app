@@ -1,5 +1,5 @@
 import React, { ComponentProps, useEffect, useContext } from 'react'
-import { Menu, Title, Item, Section, Card } from 'mypack/basic_components'
+import { Menu, Title, Item, Section, Card, Footer } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
@@ -23,25 +23,7 @@ export default function AlbumMenu({
     tube = new Tube('AlbumMenu', (payload) => console.log('listen from AlbumMenu: ', payload))
   }, [])
   return (
-    <Section
-      className='album-menu'
-      __Footer_node={
-        <Card
-          style={{
-            height: 80,
-          }}
-        >
-          <Title>I'm Footer</Title>
-        </Card>
-      }
-      __Footer_props={{
-        style: {
-          position: 'sticky',
-          zIndex: 1,
-          bottom: 0,
-        },
-      }}
-    >
+    <Section className='album-menu'>
       <Menu
         data={data} //TEMP
         initItemIndex={initSelectedIndex}
@@ -76,6 +58,21 @@ export default function AlbumMenu({
           </Item>
         )}
       />
+      <Footer
+        style={{
+          position: 'sticky',
+          zIndex: 1,
+          bottom: 0,
+        }}
+      >
+        <Card
+          style={{
+            height: 80,
+          }}
+        >
+          <Title>I'm Footer</Title>
+        </Card>
+      </Footer>
     </Section>
   )
 }

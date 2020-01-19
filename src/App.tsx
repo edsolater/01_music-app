@@ -158,9 +158,6 @@ function App({ initIndex }: { initIndex?: number }) {
       }
     }
     tube = new ControllerSide('App', tubeRecorder)
-    setTimeout(() => {
-      tube.emitDown('AlbumMenu', { message: 'nothing' })
-    }, 300)
   }, [])
   return (
     <View className='app-box'>
