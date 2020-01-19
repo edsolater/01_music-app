@@ -26,6 +26,7 @@ export { default as Title } from './Title'
 export { default as Image } from './Image' // 通过View，使用 <img>
 export { default as ImageBox } from './ImageBox'
 export { default as Avatar } from './Avatar'
+export { default as Icon } from './Icon'
 
 /**
  * 普通组件

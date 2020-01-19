@@ -1,8 +1,10 @@
 import React, { ComponentProps, useEffect, useContext } from 'react'
-import { Menu, Title, Item, Section, Card, Footer, Avatar } from 'mypack/basic_components'
+import { Menu, Title, Item, Section, Card, Footer, Avatar, Icon } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
+import emailIcon from 'assets/email.svg'
+import settingIcon from 'assets/setting.svg'
 
 /**
  * 组件的与app通信的子设备
@@ -26,7 +28,6 @@ export default function AlbumMenu(props: {
         data={props.menuData} //TEMP
         initItemIndex={props.initSelectedIndex}
         onSelectMenuItem={(menuItemInfo) => {
-          console.log('3: ', 3)
           tube.emitUp({ type: 'change-menuItem', newIndex: menuItemInfo.itemIndex })
         }}
         __Header={(Header) => (
@@ -66,6 +67,8 @@ export default function AlbumMenu(props: {
         <Card>
           <Avatar src={props.userInfo.avatar} />
           <Title>{props.userInfo.nickname}</Title>
+          <Icon src={emailIcon} iconName='email' />
+          <Icon src={settingIcon} iconName='setting' />
         </Card>
       </Footer>
     </Section>
