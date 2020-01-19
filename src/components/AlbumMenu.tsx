@@ -31,22 +31,24 @@ export default function AlbumMenu({
           console.log('3: ', 3)
           tube.emitUp({ type: 'change-menuItem', newIndex: menuItemInfo.itemIndex })
         }}
-        __Header_node={
-          <Card
+        __Header={(Header, preProps) => (
+          <Header
+            {...preProps}
             style={{
-              height: 40,
+              position: 'sticky',
+              zIndex: 1,
+              top: 0,
             }}
           >
-            <Title>Header hear!</Title>
-          </Card>
-        }
-        __Header_props={{
-          style: {
-            position: 'sticky',
-            zIndex: 1,
-            top: 0,
-          },
-        }}
+            <Card
+              style={{
+                height: 40,
+              }}
+            >
+              <Title>Header hear!</Title>
+            </Card>
+          </Header>
+        )}
         __MenuGroup_node={({ group: menuGroup }) => (
           <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {menuGroup.title}
