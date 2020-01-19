@@ -11,12 +11,10 @@ import { ChildSideType } from 'tubeSystem'
  */
 let tube: ChildSideType
 
-export default function AlbumMenu({
-  data,
-  initSelectedIndex = 0,
-}: {
-  data: ComponentProps<typeof Menu>['data']
+export default function AlbumMenu(props: {
+  menuData: ComponentProps<typeof Menu>['data']
   initSelectedIndex?: number
+  userInfo: UserInfo
 }) {
   const Tube = useContext(ChildTubeContext)
   useEffect(() => {
@@ -25,8 +23,8 @@ export default function AlbumMenu({
   return (
     <Section className='album-menu'>
       <Menu
-        data={data} //TEMP
-        initItemIndex={initSelectedIndex}
+        data={props.menuData} //TEMP
+        initItemIndex={props.initSelectedIndex}
         onSelectMenuItem={(menuItemInfo) => {
           console.log('3: ', 3)
           tube.emitUp({ type: 'change-menuItem', newIndex: menuItemInfo.itemIndex })
@@ -48,6 +46,7 @@ export default function AlbumMenu({
             </Card>
           </Header>
         )}
+        //TODO: MenuGroup 与 MenuItem 能不能合并成一个？
         __MenuGroup={(MenuGroup, { group: menuGroup }) => (
           <MenuGroup>
             <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>

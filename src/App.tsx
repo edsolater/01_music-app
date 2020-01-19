@@ -85,6 +85,10 @@ const dataPieces = [
   },
 ]
 
+const userInfo: UserInfo = {
+  avatar,
+  nickname: 'edsolater'
+}
 const menuData: React.ComponentProps<typeof Menu>['data'] = {
   null: [{ title: '搜索' }, { title: '发现音乐' }],
   我的音乐: [
@@ -162,7 +166,7 @@ function App({ initIndex }: { initIndex?: number }) {
   return (
     <View className='app-box'>
       <ChildTubeContext.Provider value={ChildSide}>
-        <AlbumMenu data={menuData} initSelectedIndex={initIndex}></AlbumMenu>
+        <AlbumMenu menuData={menuData} initSelectedIndex={initIndex} userInfo={userInfo}></AlbumMenu>
         <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
         <AudioPlayer
           songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO

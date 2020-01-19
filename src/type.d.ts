@@ -35,3 +35,13 @@ interface MusicInfo  {
   albumUrl: string
   soundtrackUrl: string
 }
+/** 图片url */
+type PicUrl = string
+
+/**
+ * 登录的账号信息
+ */
+interface UserInfo {
+  avatar: PicUrl
+  nickname: string  
+}
