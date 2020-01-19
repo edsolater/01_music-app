@@ -31,9 +31,8 @@ export default function AlbumMenu({
           console.log('3: ', 3)
           tube.emitUp({ type: 'change-menuItem', newIndex: menuItemInfo.itemIndex })
         }}
-        __Header={(Header, preProps) => (
+        __Header={(Header) => (
           <Header
-            {...preProps}
             style={{
               position: 'sticky',
               zIndex: 1,

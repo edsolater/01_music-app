@@ -1,16 +1,13 @@
-import React, { ReactNode, ComponentProps } from 'react'
+import React, { ReactElement } from 'react'
 import { View, Header, Footer } from '.'
 import { ClassValue } from 'classnames/types'
 
 function ComponentRoot({
   name,
   className,
-  __Header_node,
-  __Header_props,
   __Header,
   children,
-  __Footer_node,
-  __Footer_props,
+  __Footer,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
@@ -20,29 +17,18 @@ function ComponentRoot({
   /**
    * 每个以ComponentRoot为根组件的组件都可以拥有，类似::before
    */
-  __Header_node?: ReactNode
-  __Header_props?: React.ComponentProps<typeof Header>
-  __Header?: (HeaderComponent: typeof Header,preProps?:ComponentProps<typeof Header>) => ReactNode
+
+  __Header?: (HeaderComponent: typeof Header) => ReactElement
   /**
    * 每个以ComponentRoot为根组件的组件都可以拥有，类似::after
    */
-  __Footer_node?: ReactNode
-  __Footer_props?: React.ComponentProps<typeof Footer>
+  __Footer?: (FooterComponent: typeof Footer) => ReactElement
 }) {
   return (
     <View className={[className, name]} {...restProps}>
-      {__Header?.(Header,{isPseudo:true})}
-      {/* {__Header_node && (
-        <Header {...__Header_props} isPseudo>
-          {__Header_node}
-        </Header>
-      )} */}
+      {__Header && <Header isPseudo {...__Header(Header).props} />}
       {children}
-      {__Footer_node && (
-        <Footer {...__Footer_props} isPseudo>
-          {__Footer_node}
-        </Footer>
-      )}
+      {__Footer && <Footer isPseudo {...__Footer(Footer).props} />}
     </View>
   )
 }
