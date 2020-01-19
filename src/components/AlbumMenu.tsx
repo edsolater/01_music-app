@@ -1,5 +1,5 @@
 import React, { ComponentProps, useEffect, useContext } from 'react'
-import { Menu, Title, Item, Section, Card, Footer, Avatar, Icon } from 'mypack/basic_components'
+import { Menu, Title, Item, Section, Card, Footer, Avatar, Icon, Text } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
@@ -58,7 +58,7 @@ export default function AlbumMenu(props: {
         __MenuItem={(MenuItem, { item: menuItem }) => (
           <MenuItem>
             <Item>
-              <Title>{menuItem.title}</Title>
+              <Text>{menuItem.title}</Text>
             </Item>
           </MenuItem>
         )}
@@ -66,7 +66,7 @@ export default function AlbumMenu(props: {
       <Footer>
         <Card>
           <Avatar src={props.userInfo.avatar} />
-          <Title>{props.userInfo.nickname}</Title>
+          <Text className='nickname'>{props.userInfo.nickname}</Text>
           <Icon src={emailIcon} iconName='email' />
           <Icon src={settingIcon} iconName='setting' />
         </Card>
