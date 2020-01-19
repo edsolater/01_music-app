@@ -1,5 +1,5 @@
 import React, { ComponentProps, useEffect, useContext } from 'react'
-import { Menu, Title, Item, Section, Card, Footer } from 'mypack/basic_components'
+import { Menu, Title, Item, Section, Card, Footer, Avatar } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
@@ -62,19 +62,10 @@ export default function AlbumMenu(props: {
           </MenuItem>
         )}
       />
-      <Footer
-        style={{
-          position: 'sticky',
-          zIndex: 1,
-          bottom: 0,
-        }}
-      >
-        <Card
-          style={{
-            height: 80,
-          }}
-        >
-          <Title>I'm Footer</Title>
+      <Footer>
+        <Card>
+          <Avatar src={props.userInfo.avatar} />
+          <Title>{props.userInfo.nickname}</Title>
         </Card>
       </Footer>
     </Section>

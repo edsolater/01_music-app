@@ -1,5 +1,6 @@
 import React from 'react'
 import { View } from '.'
+import './Image.scss'
 
 function Image({
   ...restProps
