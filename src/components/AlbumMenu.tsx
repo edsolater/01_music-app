@@ -48,15 +48,19 @@ export default function AlbumMenu({
             </Card>
           </Header>
         )}
-        __MenuGroup_node={({ group: menuGroup }) => (
-          <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
-            {menuGroup.title}
-          </Title>
+        __MenuGroup={(MenuGroup, { group: menuGroup }) => (
+          <MenuGroup>
+            <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
+              {menuGroup.title}
+            </Title>
+          </MenuGroup>
         )}
-        __MenuItems_node={({ item: menuItem }) => (
-          <Item>
-            <Title>{menuItem.title}</Title>
-          </Item>
+        __MenuItem={(MenuItem, { item: menuItem }) => (
+          <MenuItem>
+            <Item>
+              <Title>{menuItem.title}</Title>
+            </Item>
+          </MenuItem>
         )}
       />
       <Footer
