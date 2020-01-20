@@ -43,3 +43,13 @@ body * {
     }
   }
 }
+
+$dot-color: crimson;
+$dot-text-color: rgb(255, 255, 255);
+$dot-size: 16px;
+
+@mixin center-inner-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

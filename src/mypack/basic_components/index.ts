@@ -37,10 +37,11 @@ export { default as Label } from './Label'
 export { default as ImageFalls } from './ImageFalls'
 
 /**
- * Wrapper 系列，写组件时可随意添加，类似于装饰器的概念
+ * Wrapper 系列，写组件时可随意添加，类似于装饰器的概念。装载在目标元素内部
  */
 export { default as Button } from './Button'
 export { default as Popover } from './Popover'
 export { default as Group } from './Group'
+export { default as RedDot } from './RedDot'
 
 export * from './customHooks'

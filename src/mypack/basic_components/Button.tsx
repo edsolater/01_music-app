@@ -2,6 +2,7 @@ import React, { MouseEvent } from 'react'
 import './Button.scss'
 import { ComponentRoot } from '.'
 
+//TODO： 常规操作：定义各种按钮样式
 function Button({
   isOn,
   isOff,

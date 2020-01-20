@@ -16,6 +16,7 @@ function Icon({
 }) {
   return (
     <ComponentRoot name={['Icon',iconName]} {...restProps}>
+      {restProps.children}
       <Image src={src} alt={alt} srcSet={srcSet}  />
     </ComponentRoot>
   )
