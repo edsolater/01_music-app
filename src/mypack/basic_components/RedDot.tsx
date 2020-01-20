@@ -1,6 +1,6 @@
-import React, { MouseEvent, useRef, useEffect } from 'react'
+import React from 'react'
 import './RedDot.scss'
-import { ComponentRoot, View, Slot,Text } from '.'
+import { ComponentRoot, Slot, Text } from '.'
 
 /**
  * 父元素不能定义overflow:hidden
@@ -15,14 +15,16 @@ function RedDot({
    */
   amount?: number | string
 }) {
-
-  //TODO : force ref
-  const measureParentBox = (element: HTMLDivElement) => {
-    console.log('element: ', element)
+  const addParentClass = (element: HTMLDivElement) => {
+    globalThis.setTimeout(() => {
+      element.parentElement?.classList.add('_hasRedDot')
+    }, 0)
   }
   return (
-    <ComponentRoot ref={measureParentBox} name='RedDot' {...restProps}>
-      <Slot name='__Dot'><Text>{amount}</Text></Slot>
+    <ComponentRoot ref={addParentClass} name='RedDot' {...restProps}>
+      <Slot name='__Dot'>
+        <Text>{amount}</Text>
+      </Slot>
     </ComponentRoot>
   )
 }
