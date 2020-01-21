@@ -167,11 +167,7 @@ function App({ initIndex }: { initIndex?: number }) {
     <View className='app-box'>
       <React.StrictMode>
         <ChildTubeContext.Provider value={ChildSide}>
-          <AlbumMenu
-            menuData={menuData}
-            initSelectedIndex={initIndex}
-            userInfo={userInfo}
-          ></AlbumMenu>
+          <AlbumMenu menuData={menuData} initSelectedIndex={initIndex} userInfo={userInfo} />
           <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
           <AudioPlayer
             songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO

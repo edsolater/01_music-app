@@ -6,7 +6,7 @@ import { ComponentRoot, Slot, Text } from '.'
  * 父元素不能定义overflow:hidden
  * 该子元素必须排在父元素的所有非Wrapper子元素之前
  */
-function RedDot({
+const RedDot = ({
   amount,
   invisiable,
   ...restProps
@@ -19,7 +19,7 @@ function RedDot({
    * 像没有一样
    */
   invisiable?: boolean
-}) {
+}) => {
   const addParentClass = (element: HTMLDivElement) => {
     globalThis.setTimeout(() => {
       element.parentElement?.classList.add('_hasRedDot')
