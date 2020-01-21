@@ -37,5 +37,6 @@ const ComponentRoot = React.forwardRef(
     )
   },
 )
+ComponentRoot.displayName = 'ComponentRoot'
 
 export default React.memo(ComponentRoot) as typeof ComponentRoot

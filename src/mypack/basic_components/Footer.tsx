@@ -1,5 +1,5 @@
 import React from 'react'
-import { ComponentRoot } from '.'
+import { ComponentRoot, View } from '.'
 
 /**
  * 只作为 "伪元素" 而存在，不视作一个组件
@@ -7,7 +7,7 @@ import { ComponentRoot } from '.'
 function Footer({
   isPseudo,
   ...restProps
-}: React.ComponentProps<typeof ComponentRoot> & {
+}: React.ComponentProps<typeof View> & {
   isPseudo?: boolean
 }) {
   return <ComponentRoot name={isPseudo ? '__Footer' : 'Footer'} {...restProps} />

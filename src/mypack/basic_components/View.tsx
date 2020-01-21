@@ -26,4 +26,5 @@ const View = React.forwardRef(
     })
   },
 )
+View.displayName = 'View'
 export default React.memo(View) as typeof View
