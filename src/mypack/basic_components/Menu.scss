@@ -5,7 +5,7 @@
   --divider-color: rgba(0, 0, 0, 0.1);
   --divider-left: 0px;
   .__MenuGroup {
-    &.selected {
+    &._selected {
       > .Title {
         background-color: aliceblue;
       }
@@ -35,7 +35,7 @@
       left: 0;
       background-color: rgba(0, 0, 0, 0.1);
     }
-    &.selected {
+    &._selected {
       border-left: 4px solid var(--primary, dodgerblue);
     }
     /* divider style */

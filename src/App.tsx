@@ -120,20 +120,6 @@ const menuData: React.ComponentProps<typeof Menu>['data'] = {
   创建的歌单: [{ title: '我喜欢的音乐' }, { title: '鬼畜' }],
   收藏的歌单: [{ title: '神级燃曲 · 百首顶级日漫激昂配乐' }],
 }
-// TEMP
-function InfoDetail({ songs: data }: { songs: MusicInfo[] }) {
-  return (
-    <View className='song-details'>
-      <Text className='plate-tital'>"song-detail"</Text>
-      {/* <Menu
-        data={data}
-        __MenuItem={(data) => {
-          return <View className='songItem'>{data.songTitle}</View>
-        }}
-      ></Menu> */}
-    </View>
-  )
-}
 
 let tube: ControllerSideType
 

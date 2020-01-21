@@ -137,7 +137,7 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup, children }: Props__
             key={groupInfo.group.title}
             name={[
               '__MenuGroup',
-              { selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
+              { _selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
             ]}
             {...__MenuGroup?.(SlotScope, groupInfo).props}
           >
@@ -168,7 +168,7 @@ function MenuItems({ currentPath, items, group, onSelectMenuItem, __MenuItem }: 
             key={itemInfo.item.title}
             name={[
               '__MenuItem',
-              { selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
+              { _selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
             ]}
             onClick={() => onSelectMenuItem?.(itemInfo)}
             {...__MenuItem?.(SlotScope, itemInfo).props}
