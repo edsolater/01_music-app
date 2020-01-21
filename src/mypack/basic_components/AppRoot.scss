@@ -1,5 +1,7 @@
 @import 'App';
 
 .AppRoot {
+  position: absolute;
+  z-index: -9;
   background-color: dodgerblue;
 }
