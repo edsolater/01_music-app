@@ -40,7 +40,7 @@ export default function AlbumMenu(props: {
         data={props.menuData} //TEMP
         initItemIndex={props.initSelectedIndex}
         onSelectMenuItem={(menuItemInfo) => {
-          tube.emitUp({ type: 'change-menuItem', newIndex: menuItemInfo.itemIndex })
+          tube.emitUp({ type: 'change-menuItem', path:menuItemInfo.currentMenuPath })
         }}
         __Header={(Header) => (
           <Header

@@ -30,7 +30,7 @@ export default function MainAppContent(props: {}) {
   }, [])
   return (
     <Section className='main-app-content'>
-      <Text>main</Text>
+      <LineText>歌单</LineText>
     </Section>
   )
 }

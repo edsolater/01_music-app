@@ -3,7 +3,9 @@ import React, { ReactNode, ReactElement } from 'react'
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, SlotScope } from '.'
-
+/**
+ * TODO: Menu会引起Typescript的类型推断崩溃，肯定有什么问题
+ */
 type MenuItemInfo = {
   itemIndex: number
   item: AlbumMenuItem

@@ -1,4 +1,15 @@
-@import 'App';
+// TODO: 这是一个通用组件，不能出现太过语义化的@use， 再了解Sass之前，暂且这么预制着
+$dot-color: crimson;
+$dot-text-color: rgb(255, 255, 255);
+$dot-size: 16px;
+$dot-position-x: 0px;
+$dot-position-y: 6px;
+
+@mixin center-normal-inner-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .RedDot {
   &._invisiable {

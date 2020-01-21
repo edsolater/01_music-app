@@ -141,7 +141,7 @@ function App({ initIndex }: { initIndex?: number }) {
         case 'change-menuItem':
           // 这里需要申明payload的类型信息
 
-          activeCollectionIndex.set(payload.newIndex)
+          activeCollectionIndex.set(payload.path)
           console.log('hello: ', payload)
           break
         default:
