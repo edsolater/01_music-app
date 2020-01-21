@@ -10,6 +10,7 @@ import {
   Icon,
   Text,
   RedDot,
+  LineIntro,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
@@ -69,10 +70,10 @@ export default function AlbumMenu(props: {
         __MenuItem={(MenuItem, { item: menuItem }) => (
           <MenuItem>
             <Item>
-              <Text>
+              <LineIntro>
                 <RedDot amount={3} />
-                {menuItem.title}
-              </Text>
+                <Text>{menuItem.title}</Text>
+              </LineIntro>
             </Item>
           </MenuItem>
         )}
