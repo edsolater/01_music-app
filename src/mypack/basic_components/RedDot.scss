@@ -1,6 +1,9 @@
 @import 'App';
 
 .RedDot {
+  &._invisiable {
+    display: none;
+  }
   position: relative;
   width: 100%;
   height: 0;
@@ -15,6 +18,6 @@
     height: $dot-size;
     min-width: $dot-size;
     border-radius: 100px;
-    @include center-normal-inner-element
+    @include center-normal-inner-element;
   }
 }

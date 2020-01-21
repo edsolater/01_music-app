@@ -87,7 +87,7 @@ const dataPieces = [
 
 const userInfo: UserInfo = {
   avatar,
-  nickname: 'edsolater'
+  nickname: 'edsolater',
 }
 const menuData: React.ComponentProps<typeof Menu>['data'] = {
   null: [{ title: '搜索' }, { title: '发现音乐' }],
@@ -165,15 +165,21 @@ function App({ initIndex }: { initIndex?: number }) {
   }, [])
   return (
     <View className='app-box'>
-      <ChildTubeContext.Provider value={ChildSide}>
-        <AlbumMenu menuData={menuData} initSelectedIndex={initIndex} userInfo={userInfo}></AlbumMenu>
-        <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
-        <AudioPlayer
-          songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO
-          albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO
-          soundtrackUrl={activeSongInfo.getTotalObject().soundtrackUrl as string} //TODO
-        />
-      </ChildTubeContext.Provider>
+      <React.StrictMode>
+        <ChildTubeContext.Provider value={ChildSide}>
+          <AlbumMenu
+            menuData={menuData}
+            initSelectedIndex={initIndex}
+            userInfo={userInfo}
+          ></AlbumMenu>
+          <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
+          <AudioPlayer
+            songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO
+            albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO
+            soundtrackUrl={activeSongInfo.getTotalObject().soundtrackUrl as string} //TODO
+          />
+        </ChildTubeContext.Provider>
+      </React.StrictMode>
     </View>
   )
 }

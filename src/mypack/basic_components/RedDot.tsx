@@ -8,20 +8,29 @@ import { ComponentRoot, Slot, Text } from '.'
  */
 function RedDot({
   amount,
+  invisiable,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 红点上显式的数量
    */
   amount?: number | string
+  /**
+   * 像没有一样
+   */
+  invisiable?: boolean
 }) {
   const addParentClass = (element: HTMLDivElement) => {
     globalThis.setTimeout(() => {
       element.parentElement?.classList.add('_hasRedDot')
-    }, 0)
+    })
   }
   return (
-    <ComponentRoot ref={addParentClass} name='RedDot' {...restProps}>
+    <ComponentRoot
+      ref={addParentClass}
+      name={['RedDot', { _invisiable: invisiable }]}
+      {...restProps}
+    >
       <Slot name='__Dot'>
         <Text>{amount}</Text>
       </Slot>
