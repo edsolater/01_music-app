@@ -10,20 +10,19 @@ body * {
 }
 
 /* 业务样式 */
-.app-box {
+.AppRoot {
   /* 业务样式的包壳，迟早要替换掉 */
   --primary: crimson;
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template:
-    'song-collections  main-app-content  ' 1fr
-    'player-bar        player-bar    ' auto
+    'album-menu  main-app-content' 1fr
+    'player-bar  player-bar      ' auto
     / 1fr 4fr;
 }
-.song-collections {
-  grid-area: song-collections;
-  background-color: #eee;
+.album-menu {
+  grid-area: album-menu;
 }
 .main-app-content {
   grid-area: main-app-content;

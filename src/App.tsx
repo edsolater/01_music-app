@@ -8,7 +8,7 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
-import { View, useMaster, Text, Menu } from 'mypack/basic_components'
+import { useMaster, Menu, AppRoot } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
 import MainAppContent from 'components/MainAppContent'
@@ -151,7 +151,7 @@ function App({ initIndex }: { initIndex?: number }) {
     tube = new ControllerSide('App', tubeRecorder)
   }, [])
   return (
-    <View className='app-box'>
+    <AppRoot>
       <React.StrictMode>
         <ChildTubeContext.Provider value={ChildSide}>
           <AlbumMenu menuData={menuData} initSelectedIndex={initIndex} userInfo={userInfo} />
@@ -163,7 +163,7 @@ function App({ initIndex }: { initIndex?: number }) {
           />
         </ChildTubeContext.Provider>
       </React.StrictMode>
-    </View>
+    </AppRoot>
   )
 }
 

@@ -34,6 +34,7 @@ export { default as Icon } from './Icon'
 /**
  * 普通组件
  */
+export { default as AppRoot } from './AppRoot'
 export { default as Button } from './Button'
 export { default as Slider } from './Slider'
 export { default as Menu } from './Menu'
