@@ -11,6 +11,7 @@ import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最�
 import { View, useMaster, Text, Menu } from 'mypack/basic_components'
 import AudioPlayer from 'components/AudioPlayer'
 import AlbumMenu from 'components/AlbumMenu'
+import MainAppContent from 'components/MainAppContent'
 import { spawnCommunicationSystem, ControllerSideType } from './tubeSystem'
 
 const { ControllerSide, ChildSide } = spawnCommunicationSystem()
@@ -168,7 +169,7 @@ function App({ initIndex }: { initIndex?: number }) {
       <React.StrictMode>
         <ChildTubeContext.Provider value={ChildSide}>
           <AlbumMenu menuData={menuData} initSelectedIndex={initIndex} userInfo={userInfo} />
-          <InfoDetail songs={dataPieces[activeCollectionIndex.getValue()].songs}></InfoDetail>
+          <MainAppContent />
           <AudioPlayer
             songTitle={activeSongInfo.getTotalObject().songTitle as string} //TODO
             albumUrl={activeSongInfo.getTotalObject().albumUrl as string} //TODO

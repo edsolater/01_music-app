@@ -17,7 +17,7 @@ body * {
   height: 100vh;
   display: grid;
   grid-template:
-    'song-collections  song-details  ' 1fr
+    'song-collections  main-app-content  ' 1fr
     'player-bar        player-bar    ' auto
     / 1fr 4fr;
 }
@@ -25,9 +25,8 @@ body * {
   grid-area: song-collections;
   background-color: #eee;
 }
-.song-details {
-  grid-area: song-details;
-  background-color: #ddd;
+.main-app-content {
+  grid-area: main-app-content;
 }
 .player-bar {
   grid-area: player-bar;
