@@ -11,10 +11,18 @@ import {
   Text,
   RedDot,
   LineText,
+  Group,
+  View,
+  Image,
+  ImageBox,
+  Button,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { ChildTubeContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
+import thumbnail from 'assets/专辑封面.webp' // 这个信息最终要靠后端传过来，现在只是占位
+import avatar from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
+import heart from 'assets/icons/heart-line.svg' // 这个信息最终要靠后端传过来，现在只是占位
 
 /**
  * 组件的与app通信的子设备
@@ -31,6 +39,26 @@ export default function MainAppContent(props: {}) {
   return (
     <Section className='main-app-content'>
       <LineText>歌单</LineText>
+      <View className='collection-info'>
+        <View className='thumbnail'>
+          <ImageBox src={thumbnail} className='thumbnail-pic' />
+          {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
+          <Icon src={heart} className='thumbnail-icon' />
+        </View>
+        <Title>我喜欢的音乐</Title>
+        <View className='creator'>
+          <Avatar src={avatar} className='creator-avatar' />
+          <LineText className='creator-nickname'>desolaters</LineText>
+          <LineText className='creator-create-time'>2016-09-13 创建</LineText>
+        </View>
+        <Group className='buttons'>
+          <Button>收藏</Button>
+          <Button>评论</Button>
+          <Button>分享</Button>
+          <Button>下载全部</Button>
+          <Button>更多</Button>
+        </Group>
+      </View>
     </Section>
   )
 }

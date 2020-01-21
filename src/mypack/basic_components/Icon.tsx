@@ -2,6 +2,9 @@ import React from 'react'
 import { ComponentRoot, Image } from '.'
 import './Icon.scss'
 
+/**
+ * TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 
+ */
 function Icon({
   src,
   alt,

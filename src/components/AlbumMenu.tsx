@@ -72,7 +72,7 @@ export default function AlbumMenu(props: {
             <Item>
               <LineText>
                 <RedDot onlyDot/>
-                <Text>{menuItem.title}</Text>
+                <Text>{menuItem.itemPathLabel}</Text>
               </LineText>
             </Item>
           </MenuItem>

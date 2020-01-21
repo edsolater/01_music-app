@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react'
+import React from 'react'
 import './Button.scss'
 import { ComponentRoot } from '.'
 
@@ -6,6 +6,7 @@ import { ComponentRoot } from '.'
 function Button({
   isOn,
   isOff,
+  disabled,
   ...restProps
 }: Omit<React.ComponentProps<typeof ComponentRoot>, 'onClick'> & {
   /**
@@ -16,10 +17,17 @@ function Button({
    * 按钮打开
    */
   isOff?: boolean
-  onClick?: (event: MouseEvent, changeToNextMode?: () => any) => any
+  /**
+   * 按钮处于失效状态
+   */
+  disabled?: boolean
 }) {
-  return <ComponentRoot name={['Button', { on: isOn, off: isOff }]} {...restProps}></ComponentRoot>
+  return (
+    <ComponentRoot
+      name={['Button', { _disabled: disabled, _on: isOn, _off: isOff }]}
+      {...restProps}
+    ></ComponentRoot>
+  )
 }
 
 export default React.memo(Button) as typeof Button
-

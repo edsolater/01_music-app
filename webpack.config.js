@@ -61,7 +61,7 @@ const config = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|gif|mp3)$/,
+        test: /\.(png|svg|jpg|gif|webp|mp3)$/,
         use: 'file-loader',
       },
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.

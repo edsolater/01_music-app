@@ -10,7 +10,7 @@ type MenuItemInfo = {
   itemIndex: number
   item: AlbumMenuItem
   itemsInGroup: AlbumMenuItem[]
-  currentMenuPath: string //TODO: 这里是不是应该是个完整的对象
+  currentMenuPath: string //TODO: 这里是不是应该是个完整的对象 //TODO: 这里的值不应该由没有意义的数字组成
   groupIndex?: number
   group?: AlbumMenuGroup
   hasChangeGroup?: boolean
@@ -167,7 +167,7 @@ function MenuItems({ currentPath, items, group, onSelectMenuItem, __MenuItem }: 
         }
         return (
           <SlotScope
-            key={itemInfo.item.title}
+            key={itemInfo.item.itemPathLabel}
             name={[
               '__MenuItem',
               { _selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },

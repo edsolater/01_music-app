@@ -1,3 +1,6 @@
 .Button {
   cursor: default;
+  &._disabled {
+    opacity: 0.5;
+  }
 }

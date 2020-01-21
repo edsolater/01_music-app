@@ -1,3 +1,54 @@
 .main-app-content {
+  padding-left: 8px;
+  padding-right: 8px;
   background-image: linear-gradient(to bottom, #eee, #fff);
+  > .LineText {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+  .collection-info {
+    display: grid; // TODO: 使用 css grid
+    .thumbnail {
+      width: 120px;
+      height: 120px;
+      position: relative;
+      .thumbnail-pic {
+        width: 100%;
+        height: 100%;
+        filter: brightness(0.65);
+      }
+      .thumbnail-icon {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .creator {
+      display: flex; // TODO: 使用 css grid 代替 cssFlex，因为grid有个gap属性
+      align-items: center;
+      .creator-avatar {
+        width: 48px;
+        height: 48px;
+        margin-right: 8px;
+      }
+      .creator-nickname {
+        font-size: small;
+        margin-right: 8px;
+        opacity: 0.45;
+      }
+      .creator-create-time {
+        font-size: small;
+        margin-right: 8px;
+        opacity: 0.3;
+      }
+    }
+    .buttons {
+      display: flex;
+      align-items: center; // TODO: 使用 css grid 代替 cssFlex，因为grid有个gap属性
+    }
+  }
 }

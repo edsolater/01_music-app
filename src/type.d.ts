@@ -9,7 +9,7 @@ declare type ActionType = 'show-local-music' | 'show-downloaded-music' | 'show-r
 interface AlbumMenuItem {
   [itemInfo: string]: string | undefined
   imageUrl?: string
-  title: string
+  itemPathLabel: string
   subtitle?: string
   detail?: string
   selectAction?: ActionType
@@ -25,7 +25,7 @@ interface AlbumMenuGroup {
 /**
  * 需要传递给<Menu>组件（带Group的数据形式）
  */
-interface MenuGroupData { [groupName: string]: AlbumMenuItem[] }
+interface MenuGroupData { [groupPathLabel: string]: AlbumMenuItem[] }
 
 /**
  * 一首音乐所必须包含的信息
