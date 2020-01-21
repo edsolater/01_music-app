@@ -21,7 +21,7 @@ export { default as Footer } from './Footer'
 export { default as Item } from './Item'
 export { default as Card } from './Card'
 export { default as Intro } from './Intro'
-export { default as LineIntro } from './LineIntro'
+export { default as LineText } from './LineText'
 export { default as Group } from './Group'
 export { default as Section } from './Section' // 通过View，使用 <section>
 export { default as Text } from './Text' // 通过View，使用 <div>
