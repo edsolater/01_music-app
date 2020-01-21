@@ -9,6 +9,7 @@ import { ComponentRoot, Slot, Text } from '.'
 const RedDot = ({
   amount,
   invisiable,
+  onlyDot,
   ...restProps
 }: React.ComponentProps<typeof ComponentRoot> & {
   /**
@@ -19,6 +20,10 @@ const RedDot = ({
    * 像没有一样
    */
   invisiable?: boolean
+  /**
+   * 只显示红点而不显示数字
+   */
+  onlyDot?: boolean
 }) => {
   const addParentClass = (element: HTMLDivElement) => {
     globalThis.setTimeout(() => {
@@ -31,9 +36,7 @@ const RedDot = ({
       name={['RedDot', { _invisiable: invisiable }]}
       {...restProps}
     >
-      <Slot name='__Dot'>
-        <Text>{amount}</Text>
-      </Slot>
+      <Slot name={['__Dot', { _onlyDot: onlyDot }]}>{!onlyDot && <Text>{amount}</Text>}</Slot>
     </ComponentRoot>
   )
 }

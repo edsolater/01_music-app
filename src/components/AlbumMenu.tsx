@@ -71,7 +71,7 @@ export default function AlbumMenu(props: {
           <MenuItem>
             <Item>
               <LineIntro>
-                <RedDot amount={3} />
+                <RedDot onlyDot/>
                 <Text>{menuItem.title}</Text>
               </LineIntro>
             </Item>
