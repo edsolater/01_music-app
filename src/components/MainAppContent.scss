@@ -2,26 +2,25 @@
   padding-left: 8px;
   padding-right: 8px;
   background-image: linear-gradient(to bottom, #eee, #fff);
-  > .LineText {
+  > .Text {
     margin-top: 8px;
     margin-bottom: 8px;
   }
   .collection-info {
     display: grid; // TODO: 使用 css grid
     grid-template:
-      'thumbnail  title  ' 1em
-      'thumbnail  creator' 48px
-      'thumbnail  buttons' 1.5em
+      'thumbnail  title  ' auto
+      'thumbnail  creator' auto
+      'thumbnail  buttons' auto
       'thumbnail  .      ' 1fr
-      / 180px;
-    height: 180px;
+      / auto 1fr;
     gap: 10px;
     .thumbnail {
       grid-area: thumbnail;
       position: relative;
       .thumbnail-pic {
-        width: 100%;
-        height: 100%;
+        width: 180px;
+        height: 180px;
         filter: brightness(0.65);
       }
       .thumbnail-icon {

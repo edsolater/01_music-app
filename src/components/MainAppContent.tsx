@@ -10,7 +10,6 @@ import {
   Icon,
   Text,
   RedDot,
-  LineText,
   Group,
   View,
   Image,
@@ -38,7 +37,7 @@ export default function MainAppContent(props: {}) {
   }, [])
   return (
     <Section className='main-app-content'>
-      <LineText>歌单</LineText>
+      <Text>歌单</Text>
       <View className='collection-info'>
         <View className='thumbnail'>
           <ImageBox src={thumbnail} className='thumbnail-pic' />
@@ -48,8 +47,8 @@ export default function MainAppContent(props: {}) {
         <Title>我喜欢的音乐</Title>
         <View className='creator'>
           <Avatar src={avatar} className='creator-avatar' />
-          <LineText className='creator-nickname'>desolaters</LineText>
-          <LineText className='creator-create-time'>2016-09-13 创建</LineText>
+          <Text className='creator-nickname'>desolaters</Text>
+          <Text className='creator-create-time'>2016-09-13 创建</Text>
         </View>
         <Group className='buttons'>
           <Button>收藏</Button>
