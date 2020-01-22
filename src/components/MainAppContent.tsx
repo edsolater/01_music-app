@@ -15,6 +15,7 @@ import {
   Image,
   ImageBox,
   Button,
+  BigTitle,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { ChildTubeContext } from 'App'
@@ -44,7 +45,7 @@ export default function MainAppContent(props: {}) {
           {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
           <Icon src={heart} className='thumbnail-icon' />
         </View>
-        <Title>我喜欢的音乐</Title>
+        <BigTitle>我喜欢的音乐</BigTitle>
         <View className='creator'>
           <Avatar src={avatar} className='creator-avatar' />
           <Text className='creator-nickname'>desolaters</Text>
