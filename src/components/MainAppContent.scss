@@ -9,11 +9,11 @@
   .collection-info {
     display: grid; // TODO: 使用 css grid
     grid-template:
-      'thumbnail  title  ' auto
-      'thumbnail  creator' auto
-      'thumbnail  buttons' auto
+      'thumbnail  title  ' max-content
+      'thumbnail  creator' max-content
+      'thumbnail  buttons' max-content
       'thumbnail  .      ' 1fr
-      / auto 1fr;
+      / max-content 1fr;
     gap: 12px;
     .thumbnail {
       grid-area: thumbnail;
@@ -38,28 +38,30 @@
     }
     .creator {
       grid-area: creator;
-      display: flex; // TODO: 使用 css grid 代替 cssFlex，因为grid有个gap属性
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: max-content;
+      gap: 8px;
       align-items: center;
       .creator-avatar {
         width: 48px;
         height: 48px;
-        margin-right: 8px;
       }
       .creator-nickname {
         font-size: small;
-        margin-right: 8px;
         opacity: 0.45;
       }
       .creator-create-time {
         font-size: small;
-        margin-right: 8px;
         opacity: 0.3;
       }
     }
     .buttons {
       grid-area: buttons;
-      display: flex;
-      align-items: center; // TODO: 使用 css grid 代替 cssFlex，因为grid有个gap属性
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: max-content;
+      gap: 8px;
     }
   }
 }
