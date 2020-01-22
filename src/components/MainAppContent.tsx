@@ -15,6 +15,7 @@ import {
   Image,
   ImageBox,
   Button,
+  List,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { ChildTubeContext } from 'App'
@@ -62,6 +63,9 @@ export default function MainAppContent(props: {}) {
           <Button>更多</Button>
         </Group>
       </View>
+      <List>
+        this should be a list
+      </List>
     </Section>
   )
 }
