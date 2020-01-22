@@ -1,3 +1,17 @@
 .Text {
-  line-height: 1;
+  &._largeTitle {
+    font-size: 2em;
+  }
+  &._headline {
+    font-size: 1em;
+    font-weight: 600;
+  }
+  &._subhead {
+    font-size: small;
+    opacity: 0.45;
+  }
+  &._footnote {
+    font-size: small;
+    opacity: 0.3;
+  }
 }
