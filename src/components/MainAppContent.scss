@@ -8,9 +8,16 @@
   }
   .collection-info {
     display: grid; // TODO: 使用 css grid
+    grid-template:
+      'thumbnail  title  ' 1em
+      'thumbnail  creator' 48px
+      'thumbnail  buttons' 1.5em
+      'thumbnail  .      ' 1fr
+      / 180px;
+    height: 180px;
+    gap: 10px;
     .thumbnail {
-      width: 120px;
-      height: 120px;
+      grid-area: thumbnail;
       position: relative;
       .thumbnail-pic {
         width: 100%;
@@ -27,7 +34,11 @@
         height: 100%;
       }
     }
+    .Title {
+      grid-area: title;
+    }
     .creator {
+      grid-area: creator;
       display: flex; // TODO: 使用 css grid 代替 cssFlex，因为grid有个gap属性
       align-items: center;
       .creator-avatar {
@@ -47,6 +58,7 @@
       }
     }
     .buttons {
+      grid-area: buttons;
       display: flex;
       align-items: center; // TODO: 使用 css grid 代替 cssFlex，因为grid有个gap属性
     }
