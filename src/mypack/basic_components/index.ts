@@ -18,6 +18,7 @@ export { default as SlotScope } from './SlotScope'
 export { default as View } from './View' // 通过View，使用 <div>
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
+export { default as Grid } from './Grid'
 export { default as Item } from './Item'
 export { default as Card } from './Card'
 export { default as Intro } from './Intro'

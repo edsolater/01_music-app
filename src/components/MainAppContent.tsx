@@ -16,6 +16,7 @@ import {
   ImageBox,
   Button,
   List,
+  Grid,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { ChildTubeContext } from 'App'
@@ -39,7 +40,7 @@ export default function MainAppContent(props: {}) {
   return (
     <Section className='main-app-content'>
       <Text headline>歌单</Text>
-      <View className='collection-info'>
+      <Grid className='collection-info'>
         <View className='thumbnail'>
           <ImageBox src={thumbnail} className='thumbnail-pic' />
           {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
@@ -62,10 +63,8 @@ export default function MainAppContent(props: {}) {
           <Button>下载全部</Button>
           <Button>更多</Button>
         </Group>
-      </View>
-      <List>
-        this should be a list
-      </List>
+      </Grid>
+      <List>this should be a list</List>
     </Section>
   )
 }
