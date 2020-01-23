@@ -53,11 +53,11 @@ type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentP
    * **必选项**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem: (MenuItemSlot: typeof Slot, itemInfo: MenuItemInfo) => ReactElement
+  __MenuItem: (itemInfo: MenuItemInfo) => ReactElement
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup?: (MenuGroupSlot: typeof Slot, groupInfo: MenuGroupInfo) => ReactElement
+  __MenuGroup?: (groupInfo: MenuGroupInfo) => ReactNode
   /**
    * 选择某个菜单项时发起的回调
    */
@@ -148,10 +148,9 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup, children }: Props__
               '__MenuGroup',
               { _selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
             ]}
-            {...__MenuGroup?.(Slot, groupInfo).props}
           >
             {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ &&
-              __MenuGroup?.(Slot, groupInfo).props.children}
+              __MenuGroup?.(groupInfo)}
             {children(items, groupInfo)}
           </Slot>
         )
@@ -180,9 +179,9 @@ function MenuItems({ currentPath, items, group, onSelectMenuItem, __MenuItem }: 
               { _selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
             ]}
             onClick={() => onSelectMenuItem?.(itemInfo)}
-            {...__MenuItem?.(Slot, itemInfo).props}
-          />
-        )
+          >
+            {__MenuItem?.(itemInfo)}
+          </Slot>        )
       })}
     </>
   )

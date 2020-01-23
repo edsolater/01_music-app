@@ -55,22 +55,18 @@ export default function AlbumMenu(props: {
           </Card>
         )}
         //TODO: MenuGroup 与 MenuItem 能不能合并成一个？
-        __MenuGroup={(MenuGroup, { group: menuGroup }) => (
-          <MenuGroup>
-            <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
-              {menuGroup.title}
-            </Title>
-          </MenuGroup>
+        __MenuGroup={({ group: menuGroup }) => (
+          <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
+            {menuGroup.title}
+          </Title>
         )}
-        __MenuItem={(MenuItem, { item: menuItem }) => (
-          <MenuItem>
-            <Item>
-              <Text>
-                <RedDot onlyDot />
-                <Text>{menuItem.itemPathLabel}</Text>
-              </Text>
-            </Item>
-          </MenuItem>
+        __MenuItem={({ item: menuItem }) => (
+          <Item>
+            <Text>
+              <RedDot onlyDot />
+              <Text>{menuItem.itemPathLabel}</Text>
+            </Text>
+          </Item>
         )}
       />
       <Footer>
