@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, ReactElement } from 'react'
 import * as ReactDOM from 'react-dom'
 
 import './App.scss'
@@ -169,3 +169,4 @@ function App({ initIndex }: { initIndex?: number }) {
 }
 
 ReactDOM.render(<App initIndex={0} />, document.getElementById('root'))
+
