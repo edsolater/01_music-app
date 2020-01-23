@@ -64,7 +64,24 @@ export default function MainAppContent(props: {}) {
           <Button>更多</Button>
         </Group>
       </Grid>
-      <List>this should be a list</List>
+      <List
+        data={[
+          { label: 'Coming Home (Part Ⅱ)' },
+          { label: '嘘' },
+          { label: 'Lose Yourself' },
+          { label: "Where'd You Go" },
+          { label: 'Words' },
+          { label: 'Love The Way You Lie [Pary Ⅲ]' },
+          { label: 'I Need a Doctor' },
+        ]}
+        __ListItem={(ListItem, itemInfo) => {
+          return (
+            <ListItem>
+              <Text>{itemInfo.label}</Text>
+            </ListItem>
+          )
+        }}
+      />
     </Section>
   )
 }
