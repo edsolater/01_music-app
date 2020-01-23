@@ -5,7 +5,7 @@ import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, Slot } from '.'
 /**
  * TODO: Menu会引起Typescript的类型推断崩溃，肯定有什么问题（答：类型继承用得太过复杂）
- * TODO：这个Menu组件的内聚性打散了，必须重写
+ * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
  */
 type MenuItemInfo = {
   itemIndex: number
