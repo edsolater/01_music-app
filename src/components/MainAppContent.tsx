@@ -74,13 +74,11 @@ export default function MainAppContent(props: {}) {
           { label: 'Love The Way You Lie [Pary Ⅲ]' },
           { label: 'I Need a Doctor' },
         ]}
-        __ListItem={(ListItem, itemInfo) => {
-          return (
-            <ListItem>
-              <Text>{itemInfo.label}</Text>
-            </ListItem>
-          )
-        }}
+        __ListItem={(ListItem, itemInfo) => (
+          <ListItem>
+            <Text>{itemInfo.label}</Text>
+          </ListItem>
+        )}
       />
     </Section>
   )
