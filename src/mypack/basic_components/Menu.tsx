@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement } from 'react'
+import React, { ReactNode, ReactElement, ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
@@ -46,6 +46,10 @@ type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentP
    */
   noGroup?: NoGroup
   /**
+   * 出现在Menu头部位置
+   */
+  __MenuHeader?: (allProps: ComponentProps<typeof Menu>, currentPath: PathPiece) => ReactNode
+  /**
    * **必选项**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
@@ -76,21 +80,24 @@ type Props__MenuGroup = {
   children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
 } & React.ComponentProps<typeof Slot>
 
-function Menu({
-  initItemIndex = 0,
-  initGroupIndex = 0,
-  data,
-  __MenuItem,
-  __MenuGroup,
-  noGroup = false,
-  onSelectMenuItem,
-  children,
-  ...restProps
-}: Props__Menu) {
+function Menu(props: Props__Menu) {
+  const {
+    initItemIndex = 0,
+    initGroupIndex = 0,
+    data,
+    __MenuHeader,
+    __MenuItem,
+    __MenuGroup,
+    noGroup = false,
+    onSelectMenuItem,
+    children,
+    ...restProps
+  } = props
   const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
   return (
     <ComponentRoot name='Menu' {...restProps}>
       {children}
+      {props.__MenuHeader?.(props, selectedPath.getPath())}
       {noGroup ? (
         <MenuItems
           currentPath={selectedPath.getPath()}

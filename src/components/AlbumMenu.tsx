@@ -10,6 +10,7 @@ import {
   Icon,
   Text,
   RedDot,
+  Header,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
@@ -39,24 +40,19 @@ export default function AlbumMenu(props: {
         data={props.menuData} //TEMP
         initItemIndex={props.initSelectedIndex}
         onSelectMenuItem={(menuItemInfo) => {
-          tube.emitUp({ type: 'change-menuItem', path:menuItemInfo.currentMenuPath })
+          tube.emitUp({ type: 'change-menuItem', path: menuItemInfo.currentMenuPath })
         }}
-        __Header={(Header) => (
-          <Header
+        __MenuHeader={() => (
+          <Card
             style={{
               position: 'sticky',
               zIndex: 1,
               top: 0,
+              height: 40,
             }}
           >
-            <Card
-              style={{
-                height: 40,
-              }}
-            >
-              <Title>Header hear!</Title>
-            </Card>
-          </Header>
+            <Title>Header hear!</Title>
+          </Card>
         )}
         //TODO: MenuGroup 与 MenuItem 能不能合并成一个？
         __MenuGroup={(MenuGroup, { group: menuGroup }) => (
@@ -70,7 +66,7 @@ export default function AlbumMenu(props: {
           <MenuItem>
             <Item>
               <Text>
-                <RedDot onlyDot/>
+                <RedDot onlyDot />
                 <Text>{menuItem.itemPathLabel}</Text>
               </Text>
             </Item>
