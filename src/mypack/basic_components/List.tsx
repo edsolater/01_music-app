@@ -1,5 +1,5 @@
-import React, { ReactElement, ComponentProps } from 'react'
-import { ComponentRoot, Item } from '.'
+import React, { ReactElement, ComponentProps, Fragment } from 'react'
+import { ComponentRoot, Divider } from '.'
 import './List.scss'
 import SlotScope from './SlotScope'
 
@@ -17,7 +17,10 @@ function List(
   return (
     <ComponentRoot name='List' {...restProps}>
       {props.data.map((itemInfo, index) => (
-        <__ListItem key={itemInfo.label ?? index} itemInfo={itemInfo} {...props} />
+        <Fragment key={itemInfo.label ?? index}>
+          <__ListItem itemInfo={itemInfo} {...props} />
+          {props.data.length - 1 !== index && <Divider />}
+        </Fragment>
       ))}
     </ComponentRoot>
   )

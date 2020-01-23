@@ -1,5 +1,7 @@
 .List {
   border: 2px solid lightgray;
-  display: grid;
-  gap:16px;
+  .__ListItem {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
 }
