@@ -17,6 +17,7 @@ import {
   Button,
   List,
   Grid,
+  Divider,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { ChildTubeContext } from 'App'
@@ -78,6 +79,11 @@ export default function MainAppContent(props: {}) {
           <ListItem>
             <Text>{itemInfo.label}</Text>
           </ListItem>
+        )}
+        __Between={(_) => (
+          <_>
+            <Divider />
+          </_>
         )}
       />
     </Section>
