@@ -69,16 +69,14 @@ export default function AlbumMenu(props: {
           </Item>
         )}
       />
-      <Footer>
-        <Card>
-          <Avatar src={props.userInfo.avatar} />
-          <Text className='nickname'>{props.userInfo.nickname}</Text>
-          <Icon src={emailIcon} iconName='email'>
-            <RedDot amount={32} />
-          </Icon>
-          <Icon src={settingIcon} iconName='setting' />
-        </Card>
-      </Footer>
+      <Card>
+        <Avatar src={props.userInfo.avatar} />
+        <Text className='nickname'>{props.userInfo.nickname}</Text>
+        <Icon src={emailIcon} iconName='email'>
+          <RedDot amount={32} />
+        </Icon>
+        <Icon src={settingIcon} iconName='setting' />
+      </Card>
     </Section>
   )
 }

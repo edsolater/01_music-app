@@ -10,26 +10,24 @@
       background-color: white;
     }
   }
-  .Footer {
-    .Card {
-      height: 80px;
-      padding: 8px;
-      background-color: white;
-      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-      display: flex;
-      align-items: center;
-      .Avatar {
-        flex-shrink: 0;
-        margin-right: 8px;
-        height: 40px;
-        width: 40px;
-      }
-      .nickname {
-        flex: 1;
-      }
-      .Icon {
-        margin-left: 8px;
-      }
+  .Card {
+    height: 80px;
+    padding: 8px;
+    background-color: white;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    .Avatar {
+      flex-shrink: 0;
+      margin-right: 8px;
+      height: 40px;
+      width: 40px;
+    }
+    .nickname {
+      flex: 1;
+    }
+    .Icon {
+      margin-left: 8px;
     }
   }
 }
