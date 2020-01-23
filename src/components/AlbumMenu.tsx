@@ -11,6 +11,7 @@ import {
   Text,
   RedDot,
   Header,
+  Divider,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { ChildTubeContext } from 'App'
@@ -68,6 +69,7 @@ export default function AlbumMenu(props: {
             </Text>
           </Item>
         )}
+        __BetweenItems={() => <Divider />}
       />
       <Card>
         <Avatar src={props.userInfo.avatar} />

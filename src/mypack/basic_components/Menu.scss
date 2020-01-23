@@ -16,16 +16,6 @@
     }
   }
   .__MenuItem {
-    border-bottom: var(--divider-height) solid transparent; // 为了撑开高度
-    position: relative;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    &:last-child {
-      border-bottom: initial;
-      &::after {
-        all: unset;
-      }
-    }
     &:hover::before {
       content: '';
       position: absolute;
@@ -37,16 +27,6 @@
     }
     &._selected {
       border-left: 4px solid var(--primary, dodgerblue);
-    }
-    /* divider style */
-    &::after {
-      content: '';
-      position: absolute;
-      height: var(--divider-height);
-      bottom: calc(-1 * var(--divider-height));
-      left: var(--divider-left);
-      right: 0;
-      background-color: var(--divider-color);
     }
     > * {
       display: grid;

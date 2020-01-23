@@ -4,11 +4,7 @@ import { ClassValue } from 'classnames/types'
 
 const View = React.forwardRef(
   <T extends keyof JSX.IntrinsicElements>(
-    {
-      className,
-      use,
-      ...restProps
-    }: Omit<JSX.IntrinsicElements[T], 'className'> & {
+    props: Omit<JSX.IntrinsicElements[T], 'className'> & {
       /**
        * 覆盖原生的className
        */
@@ -17,11 +13,17 @@ const View = React.forwardRef(
        * 表示渲染所使用的标签，默认使用DIV
        */
       use?: T
+      /**
+       * 类似于 vue 的 v-if 反义（如果怎么怎么样，就隐藏）
+       */
+      hideif?: any
     },
     ref,
-  ): JSX.Element => {
-    return React.createElement(use ?? 'div', {
-      className: classnames(className),
+  ): JSX.Element | null => {
+    if (Boolean(props.hideif)) return null
+    const { className, use, hideif, ...restProps } = props
+    return React.createElement(props.use ?? 'div', {
+      className: classnames(props.className),
       ...Object.assign(restProps, { ref }),
     })
   },

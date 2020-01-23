@@ -19,7 +19,7 @@ function List(
     <ComponentRoot name='List' {...restProps}>
       {props.data.map((itemInfo, index) => (
         <Fragment key={itemInfo.label ?? index}>
-          {props.__ListItem(itemInfo, index, props)}
+          {props.__ListItem(itemInfo, index, props)} 
           {index !== listLength - 1 && props.__Between?.(itemInfo, index, props)}
         </Fragment>
       ))}
