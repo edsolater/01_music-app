@@ -1,4 +1,4 @@
-import React, { ComponentProps, useEffect, useContext } from 'react'
+import React, { ComponentProps, useEffect, useContext, Fragment } from 'react'
 import {
   Menu,
   Title,
@@ -75,16 +75,12 @@ export default function MainAppContent(props: {}) {
           { label: 'Love The Way You Lie [Pary Ⅲ]' },
           { label: 'I Need a Doctor' },
         ]}
-        __ListItem={(ListItem, itemInfo) => (
-          <ListItem>
+        __ListItem={(itemInfo) => (
+          <Item>
             <Text>{itemInfo.label}</Text>
-          </ListItem>
+          </Item>
         )}
-        __Between={(_) => (
-          <_>
-            <Divider />
-          </_>
-        )}
+        __Between={() => <Divider />}
       />
     </Section>
   )

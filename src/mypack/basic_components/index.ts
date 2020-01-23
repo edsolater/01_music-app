@@ -10,7 +10,6 @@
  */
 export { default as ComponentRoot } from './ComponentRoot' // 有一个 name 的 prop ，用于指定组件名称
 export { default as Slot } from './Slot'
-export { default as SlotScope } from './SlotScope'
 
 /*
  * 基本HTML及其包装（用途专有）

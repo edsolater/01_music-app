@@ -2,7 +2,7 @@ import React, { ReactNode, ReactElement } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, SlotScope } from '.'
+import { ComponentRoot, Slot } from '.'
 /**
  * TODO: Menu会引起Typescript的类型推断崩溃，肯定有什么问题
  */
@@ -49,11 +49,11 @@ type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentP
    * **必选项**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem: (MenuItemSlot: typeof SlotScope, itemInfo: MenuItemInfo) => ReactElement
+  __MenuItem: (MenuItemSlot: typeof Slot, itemInfo: MenuItemInfo) => ReactElement
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup?: (MenuGroupSlot: typeof SlotScope, groupInfo: MenuGroupInfo) => ReactElement
+  __MenuGroup?: (MenuGroupSlot: typeof Slot, groupInfo: MenuGroupInfo) => ReactElement
   /**
    * 选择某个菜单项时发起的回调
    */
@@ -68,13 +68,13 @@ type Props__MenuItems = {
    * 回调：选择另一个菜单项
    */
   onSelectMenuItem?: (itemInfo: MenuItemInfo) => any
-} & React.ComponentProps<typeof SlotScope>
+} & React.ComponentProps<typeof Slot>
 type Props__MenuGroup = {
   allData: MenuGroupData
   currentGroupPath: PathPiece
   __MenuGroup?: React.ComponentProps<typeof Menu>['__MenuGroup']
   children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
-} & React.ComponentProps<typeof SlotScope>
+} & React.ComponentProps<typeof Slot>
 
 function Menu({
   initItemIndex = 0,
@@ -135,18 +135,18 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup, children }: Props__
           itemsInThisGroup: items,
         }
         return (
-          <SlotScope
+          <Slot
             key={groupInfo.group.title}
             name={[
               '__MenuGroup',
               { _selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
             ]}
-            {...__MenuGroup?.(SlotScope, groupInfo).props}
+            {...__MenuGroup?.(Slot, groupInfo).props}
           >
             {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ &&
-              __MenuGroup?.(SlotScope, groupInfo).props.children}
+              __MenuGroup?.(Slot, groupInfo).props.children}
             {children(items, groupInfo)}
-          </SlotScope>
+          </Slot>
         )
       })}
     </>
@@ -166,14 +166,14 @@ function MenuItems({ currentPath, items, group, onSelectMenuItem, __MenuItem }: 
           },
         }
         return (
-          <SlotScope
+          <Slot
             key={itemInfo.item.itemPathLabel}
             name={[
               '__MenuItem',
               { _selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
             ]}
             onClick={() => onSelectMenuItem?.(itemInfo)}
-            {...__MenuItem?.(SlotScope, itemInfo).props}
+            {...__MenuItem?.(Slot, itemInfo).props}
           />
         )
       })}
