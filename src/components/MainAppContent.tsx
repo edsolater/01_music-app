@@ -11,7 +11,7 @@ import {
   Text,
   RedDot,
   Group,
-  View,
+  Block,
   Image,
   ImageBox,
   Button,
@@ -42,13 +42,13 @@ export default function MainAppContent(props: {}) {
     <Section className='main-app-content'>
       <Text headline>歌单</Text>
       <Grid className='collection-info'>
-        <View className='thumbnail'>
+        <Block className='thumbnail'>
           <ImageBox src={thumbnail} className='thumbnail-pic' />
           {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
           <Icon src={heart} className='thumbnail-icon' />
-        </View>
+        </Block>
         <Text largeTitle>我喜欢的音乐</Text>
-        <View className='creator'>
+        <Block className='creator'>
           <Avatar src={avatar} className='creator-avatar' />
           <Text subhead className='creator-nickname'>
             desolaters
@@ -56,7 +56,7 @@ export default function MainAppContent(props: {}) {
           <Text footnote className='creator-create-time'>
             2016-09-13 创建
           </Text>
-        </View>
+        </Block>
         <Group className='buttons'>
           <Button>收藏</Button>
           <Button>评论</Button>
