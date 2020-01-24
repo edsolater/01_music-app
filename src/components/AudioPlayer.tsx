@@ -12,21 +12,10 @@ import {
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { ChildTubeContext, AppDataContext } from 'App'
-import { ChildSideType } from 'tubeSystem'
-
-/**
- * 组件的与app通信的子设备
- * TODO：想想怎么能自动推断呢？手写类型很烦的
- */
-let tube: ChildSideType
+import { AppDataContext } from 'App'
 
 export default function AudioPlayer() {
-  const Tube = useContext(ChildTubeContext)
   const appData = useContext(AppDataContext)
-  useEffect(() => {
-    tube = new Tube(AudioPlayer.name, (payload) => console.log('listen from AudioPlayer: ', payload))
-  }, [])
   //#region 维护播放器所含的状态信息
   const masters = {
     currentSecond: useMaster({ type: 'number', init: 0 }),
@@ -67,7 +56,10 @@ export default function AudioPlayer() {
 
   return (
     <View className='player-bar'>
-      <audio ref={audioPlayerHTMLRef} src={appData.playerBar.currentMusicInfo?.soundtrackUrl}></audio>
+      <audio
+        ref={audioPlayerHTMLRef}
+        src={appData.playerBar.currentMusicInfo?.soundtrackUrl}
+      ></audio>
       <ImageBox className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
       <Group className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>

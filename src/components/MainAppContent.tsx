@@ -1,18 +1,12 @@
-import React, { ComponentProps, useEffect, useContext, Fragment } from 'react'
+import React from 'react'
 import {
-  Menu,
-  Title,
   Item,
   Section,
-  Card,
-  Footer,
   Avatar,
   Icon,
   Text,
-  RedDot,
   Group,
   Block,
-  Image,
   ImageBox,
   Button,
   List,
@@ -20,24 +14,11 @@ import {
   Divider,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
-import { ChildTubeContext } from 'App'
-import { ChildSideType } from 'tubeSystem'
 import thumbnail from 'assets/专辑封面.webp' // 这个信息最终要靠后端传过来，现在只是占位
 import avatar from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
 import heart from 'assets/icons/heart-line.svg' // 这个信息最终要靠后端传过来，现在只是占位
 
-/**
- * 组件的与app通信的子设备
- * TODO：想想怎么能自动推断呢？手写类型很烦的
- * TODO: 这相当于是一个配件，需要一个容纳配件的 “配件库”
- */
-let tube: ChildSideType
-
-export default function MainAppContent(props: {}) {
-  const Tube = useContext(ChildTubeContext)
-  useEffect(() => {
-    tube = new Tube('AlbumMenu', (payload) => console.log('listen from AlbumMenu: ', payload))
-  }, [])
+export default function MainAppContent() {
   return (
     <Section className='main-app-content'>
       <Text headline>歌单</Text>

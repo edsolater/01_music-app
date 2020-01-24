@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import {
   Menu,
   Title,
@@ -12,31 +12,19 @@ import {
   Divider,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
-import { ChildTubeContext, AppDataContext } from 'App'
-import { ChildSideType } from 'tubeSystem'
+import { AppDataContext } from 'App'
 import emailIcon from 'assets/email.svg'
 import settingIcon from 'assets/setting.svg'
 
-/**
- * 组件的与app通信的子设备
- * TODO：想想怎么能自动推断呢？手写类型很烦的
- * TODO: 这相当于是一个配件，需要一个容纳配件的 “配件库”
- */
-let tube: ChildSideType
-
 export default function AlbumMenu() {
-  const Tube = useContext(ChildTubeContext)
   const appData = useContext(AppDataContext)
-  useEffect(() => {
-    tube = new Tube('AlbumMenu', (payload) => console.log('listen from AlbumMenu: ', payload))
-  }, [])
   return (
     <Section className='album-menu'>
       <Menu
         data={appData.menu.collections} //TEMP
         initItemIndex={appData.menu.initIndex}
-        onSelectMenuItem={(menuItemInfo) => {
-          tube.emitUp({ type: 'change-menuItem', path: menuItemInfo.currentMenuPath })
+        onSelectMenuItem={() => {
+          //TODO
         }}
         __MenuHeader={() => (
           <Card
