@@ -1,20 +1,18 @@
-import React, { ComponentProps, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import {
   Menu,
   Title,
   Item,
   Section,
   Card,
-  Footer,
   Avatar,
   Icon,
   Text,
   RedDot,
-  Header,
   Divider,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
-import { ChildTubeContext } from 'App'
+import { ChildTubeContext, AppDataContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
 import emailIcon from 'assets/email.svg'
 import settingIcon from 'assets/setting.svg'
@@ -26,20 +24,17 @@ import settingIcon from 'assets/setting.svg'
  */
 let tube: ChildSideType
 
-export default function AlbumMenu(props: {
-  menuData: ComponentProps<typeof Menu>['data']
-  initSelectedIndex?: number
-  userInfo: UserInfo
-}) {
+export default function AlbumMenu() {
   const Tube = useContext(ChildTubeContext)
+  const appData = useContext(AppDataContext)
   useEffect(() => {
     tube = new Tube('AlbumMenu', (payload) => console.log('listen from AlbumMenu: ', payload))
   }, [])
   return (
     <Section className='album-menu'>
       <Menu
-        data={props.menuData} //TEMP
-        initItemIndex={props.initSelectedIndex}
+        data={appData.menu.collections} //TEMP
+        initItemIndex={appData.menu.initIndex}
         onSelectMenuItem={(menuItemInfo) => {
           tube.emitUp({ type: 'change-menuItem', path: menuItemInfo.currentMenuPath })
         }}
@@ -72,8 +67,8 @@ export default function AlbumMenu(props: {
         __BetweenItems={() => <Divider />}
       />
       <Card>
-        <Avatar src={props.userInfo.avatar} />
-        <Text className='nickname'>{props.userInfo.nickname}</Text>
+        <Avatar src={appData.userProfile.avatar} />
+        <Text className='nickname'>{appData.userProfile.nickname}</Text>
         <Icon src={emailIcon} iconName='email'>
           <RedDot amount={32} />
         </Icon>

@@ -1,11 +1,10 @@
 import { useState, useMemo } from 'react'
-import { StateBoolean, StateNumber, StateCollectionObject } from 'mypack/class'
-import StateStringPath from 'mypack/class/StateStringPath'
+import { StateBoolean, StateNumber, StateStringPath } from 'mypack/class'
 
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
-export default <T extends 'number' | 'boolean' | 'stringPath' | 'collection(object)', O>(config: {
+export default <T extends 'number' | 'boolean' | 'stringPath'>(config: {
   type: T
   init?: T extends 'number'
     ? number
@@ -13,7 +12,7 @@ export default <T extends 'number' | 'boolean' | 'stringPath' | 'collection(obje
     ? boolean
     : T extends 'stringPath'
     ? string
-    : O
+    : string
   [configProp: string]: any
 }): T extends 'number'
   ? StateNumber
@@ -21,8 +20,6 @@ export default <T extends 'number' | 'boolean' | 'stringPath' | 'collection(obje
   ? StateBoolean
   : T extends 'stringPath'
   ? StateStringPath
-  : T extends 'collection(object)'
-  ? StateCollectionObject<O>
   : void => {
   //记录着这个数据的实际内容
   const [state, setState] = useState(config.init)
@@ -37,9 +34,6 @@ export default <T extends 'number' | 'boolean' | 'stringPath' | 'collection(obje
       case 'stringPath':
         // @ts-ignore
         return new StateStringPath(config, state, setState)
-      case 'collection(object)':
-        // @ts-ignore
-        return new StateCollectionObject(config, state, setState)
       default:
         // @ts-ignore
         return null

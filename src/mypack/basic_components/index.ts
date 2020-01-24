@@ -22,10 +22,10 @@ export { default as Block } from './Block'
 export { default as Item } from './Item'
 export { default as Card } from './Card'
 export { default as Intro } from './Intro'
-export { default as LongText } from './LongText'
 export { default as Group } from './Group'
 export { default as Section } from './Section' // 通过View，使用 <section>
 export { default as Text } from './Text' // 通过View，使用 <div>
+export { default as LongText } from './LongText'
 export { default as Title } from './Title' //TODO:要干掉他，文字都使用Text
 export { default as Image } from './Image' // 通过View，使用 <img>
 export { default as ImageBox } from './ImageBox'

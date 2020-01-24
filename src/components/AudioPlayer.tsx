@@ -12,7 +12,7 @@ import {
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { ChildTubeContext } from 'App'
+import { ChildTubeContext, AppDataContext } from 'App'
 import { ChildSideType } from 'tubeSystem'
 
 /**
@@ -21,18 +21,9 @@ import { ChildSideType } from 'tubeSystem'
  */
 let tube: ChildSideType
 
-export default function AudioPlayer({
-  defaultVolume,
-  soundtrackUrl,
-  albumUrl,
-  songTitle,
-}: {
-  songTitle: string
-  albumUrl: string
-  soundtrackUrl: string
-  defaultVolume?: number
-}) {
+export default function AudioPlayer() {
   const Tube = useContext(ChildTubeContext)
+  const appData = useContext(AppDataContext)
   useEffect(() => {
     tube = new Tube(AudioPlayer.name, (payload) => console.log('listen from AudioPlayer: ', payload))
   }, [])
@@ -42,7 +33,7 @@ export default function AudioPlayer({
     totalSeconds: useMaster({ type: 'number' }),
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
-    volume: useMaster({ type: 'number', init: defaultVolume ?? 1 }),
+    volume: useMaster({ type: 'number', init: appData.playerBar.volumn ?? 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
@@ -53,7 +44,7 @@ export default function AudioPlayer({
     el.addEventListener('canplaythrough', () => {
       masters.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
-    el.volume = defaultVolume ?? 1
+    el.volume = appData.playerBar.volumn ?? 1
   })
 
   // 播放器进度条
@@ -76,8 +67,8 @@ export default function AudioPlayer({
 
   return (
     <View className='player-bar'>
-      <audio ref={audioPlayerHTMLRef} src={soundtrackUrl}></audio>
-      <ImageBox className='album-face' src={albumUrl} />
+      <audio ref={audioPlayerHTMLRef} src={appData.playerBar.currentMusicInfo?.soundtrackUrl}></audio>
+      <ImageBox className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
       <Group className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Text>⏮</Text>
@@ -100,7 +91,7 @@ export default function AudioPlayer({
         </Button>
       </Group>
       <View className='timeline'>
-        <View className='songTitle'>{songTitle}</View>
+        <View className='songTitle'>{appData.playerBar.currentMusicInfo?.songTitle}</View>
         <View className='timestamp'>{`${Time(masters.currentSecond.getValue()).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
