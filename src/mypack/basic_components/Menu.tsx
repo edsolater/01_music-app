@@ -153,7 +153,7 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup, children }: Props__
         return (
           <Slot
             key={groupInfo.group.title}
-            name={[
+            slotName={[
               '__MenuGroup',
               { _selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
             ]}
@@ -183,7 +183,7 @@ function MenuItems(props: Props__MenuItems) {
         return (
           <Slot
             key={itemInfo.item.itemPathLabel}
-            name={[
+            slotName={[
               '__MenuItem',
               { _selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
             ]}

@@ -8,7 +8,7 @@ function Button({
   isOff,
   disabled,
   ...restProps
-}: Omit<React.ComponentProps<typeof ComponentRoot>, 'onClick'> & {
+}: React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 按钮关闭
    */

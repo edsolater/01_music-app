@@ -2,22 +2,26 @@ import React from 'react'
 import View from './View'
 import { ClassValue } from 'classnames/types'
 
+/**
+ * @deprecated
+ * 为了简洁，完全抛弃slot组件
+ */
 function Slot({
-  name,
+  slotName,
   className,
-  invisiable = true,
+  visiable = true,
   ...restProps
 }: React.ComponentProps<typeof View> & {
   /**
    * 用于各个组件定义组件的名字更方便
    */
-  name?: ClassValue
+  slotName?: ClassValue
   /**
    * 这个组件是否是不可见的
    */
-  invisiable?: boolean
+  visiable?: any
 }) {
-  return invisiable ? <View className={[className, name]} {...restProps} /> : null
+  return visiable ? <View className={[className, slotName]} {...restProps} /> : null
 }
 
 export default React.memo(Slot) as typeof Slot

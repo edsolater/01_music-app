@@ -76,7 +76,7 @@ export default function MainAppContent(props: {}) {
           { label: 'I Need a Doctor' },
         ]}
         __ListItem={(itemInfo) => (
-          <Item className="hh">
+          <Item>
             <Text>{itemInfo.label}</Text>
           </Item>
         )}

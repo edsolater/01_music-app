@@ -3,6 +3,9 @@ import { useMasterBoolean } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
 import { View, ComponentRoot, Slot } from '.'
 
+/**
+ * 要向RedDot学习，做一个子组件而不是父级组件
+ */
 function Popover({
   onPointerEnter,
   onPointerLeave,
@@ -54,7 +57,7 @@ function Popover({
       {...restProps}
     >
       <Slot //content不一定得是card形式，Card单独提成一个组件
-        name={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
+        slotName={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
         onPointerEnter={() => triggerCallback.on()}
         onPointerLeave={() => triggerCallback.off()}
       >
