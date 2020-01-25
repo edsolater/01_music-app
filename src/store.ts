@@ -51,9 +51,7 @@ export const initAppData: DataSchema = {
     },
     volumn: 1,
     mode: '列表循环',
-    musicList: [
-
-    ],
+    musicList: [],
   },
   collectionInfo: {
     collectionTitle: '我喜欢的音乐',
@@ -76,7 +74,8 @@ export const initAppData: DataSchema = {
       soundtrackUrl: soundtrackUrl2,
     },
   ],
-  playNewMusic() {
+  playNewMusic(newMusic) {
+    this.playerBar.currentMusicInfo = newMusic
     return this
   },
   loadNewMusicList() {
@@ -90,5 +89,8 @@ export const initAppData: DataSchema = {
   },
   createNewMusicCollection() {
     return this
+  },
+  getAllstore() {
+    return JSON.parse(JSON.stringify(this))
   },
 }

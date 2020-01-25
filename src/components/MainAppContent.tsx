@@ -55,6 +55,10 @@ export default function MainAppContent() {
           </Item>
         )}
         __Between={() => <Divider />}
+        onSelectItem={(itemInfo, index) => {
+          //TODO: itemInfo 是自动推断的就能即刻解决这个问题
+          appData.playNewMusic(itemInfo)
+        }}
       />
     </Section>
   )

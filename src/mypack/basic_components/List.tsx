@@ -11,6 +11,7 @@ function List(
   props: ComponentProps<typeof ComponentRoot> & {
     data: ItemInfo[]
     keyPropname?: string
+    onSelectItem?: (info: ItemInfo, index: number, props: ComponentProps<typeof List>) => any
     __ListItem: (info: ItemInfo, index: number, props: ComponentProps<typeof List>) => ReactNode
     __Between?: (info: ItemInfo, index: number, props: ComponentProps<typeof List>) => ReactNode
   },
@@ -26,6 +27,7 @@ function List(
             slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
               selectedIndex.set(index)
+              props.onSelectItem?.(itemInfo, index, props)
             }}
           >
             {props.__ListItem(itemInfo, index, props)}

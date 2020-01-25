@@ -106,4 +106,5 @@ interface DataSchema {
   setVolumn(newVolumn: number /* 0-1 */): DataSchema
   /**新增一个音乐集 */
   createNewMusicCollection(): DataSchema
+  getAllstore():any
 }

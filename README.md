@@ -6,5 +6,5 @@ TODO 列表：
   - LabelText
   - ButtonText
   - Text (具体语义看className)
-- 需要写一个方法能动态地给根组件添加class（List组件的Slot位置）
+- store 需要拆分成Data部分、Action与Callback部分
 
