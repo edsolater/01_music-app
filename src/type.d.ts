@@ -45,7 +45,7 @@ interface MusicInfo {
 
 /** 图片url */
 type PicUrl = string
-type CallbackFunction = (...anys: any[])=>any
+type CallbackFunction = (...anys: any[]) => any
 
 type AppStore = DataStore & DataDispatchers & DataCallbackAdder
 /**
@@ -115,6 +115,10 @@ interface DataDispatchers {
 
 interface DataCallbackAdder {
   on<Name extends keyof DataDispatchers>(
+    dispatcherName: Name,
+    callbackFunction: (...params: Parameters<DataDispatchers[Name]>) => void,
+  ): AppStore
+  off<Name extends keyof DataDispatchers>(
     dispatcherName: Name,
     callbackFunction: (...params: Parameters<DataDispatchers[Name]>) => void,
   ): AppStore

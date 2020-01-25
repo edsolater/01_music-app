@@ -12,11 +12,12 @@ let _setStore
 /**
  * 提供给App的装载用函数
  */
-export function loadDispatcher(storeDispatcher){
+export function loadDispatcher(storeDispatcher) {
   _setStore = storeDispatcher
 }
 
 /**
+ * TODO: 我觉得这个可以专门提取成一个Class
  * 回调函数的池及其控制用函数
  */
 const _callbackPool: DataCallbackPool = {}
@@ -24,6 +25,12 @@ function _addCallback(name: keyof DataDispatchers, callback) {
   _callbackPool[name]
     ? (_callbackPool[name] as CallbackFunction[]).push(callback)
     : (_callbackPool[name] = [callback])
+}
+function _removeCallback(name: keyof DataDispatchers, callback) {
+  const callbackIndex = _callbackPool[name]?.indexOf(callback) ?? -1
+  if (callbackIndex >= 0) {
+    _callbackPool[name]?.splice(callbackIndex, 1)
+  }
 }
 function _invokeCallback(name: keyof DataDispatchers, ...params) {
   _callbackPool[name]?.forEach((callback) => callback(...params))
@@ -104,7 +111,7 @@ export const appStore: AppStore = {
   ],
   playNewMusic(newMusic) {
     this.playerBar.currentMusicInfo = newMusic
-    _setStore?.({...this})
+    _setStore?.({ ...this })
     _invokeCallback('playNewMusic', newMusic)
     return this
   },
@@ -126,6 +133,10 @@ export const appStore: AppStore = {
   },
   on(dispatchName, callback) {
     _addCallback(dispatchName, callback)
+    return this
+  },
+  off(dispatchName, callback) {
+    _removeCallback(dispatchName, callback)
     return this
   },
 }
