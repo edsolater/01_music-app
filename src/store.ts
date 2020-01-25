@@ -4,7 +4,35 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
-export const initAppData: DataSchema = {
+/**
+ * 装载触发App更新的dispacher, 由App提供
+ */
+let _setStore
+
+/**
+ * 提供给App的装载用函数
+ */
+export function loadDispatcher(storeDispatcher){
+  _setStore = storeDispatcher
+}
+
+/**
+ * 回调函数的池及其控制用函数
+ */
+const _callbackPool: DataCallbackPool = {}
+function _addCallback(name: keyof DataDispatchers, callback) {
+  _callbackPool[name]
+    ? (_callbackPool[name] as CallbackFunction[]).push(callback)
+    : (_callbackPool[name] = [callback])
+}
+function _invokeCallback(name: keyof DataDispatchers, ...params) {
+  _callbackPool[name]?.forEach((callback) => callback(...params))
+}
+
+/**
+ * 整个Store
+ */
+export const appStore: AppStore = {
   userProfile: {
     avatar: myAvatar,
     nickname: 'edsolater',
@@ -76,6 +104,8 @@ export const initAppData: DataSchema = {
   ],
   playNewMusic(newMusic) {
     this.playerBar.currentMusicInfo = newMusic
+    _setStore?.({...this})
+    _invokeCallback('playNewMusic', newMusic)
     return this
   },
   loadNewMusicList() {
@@ -91,6 +121,11 @@ export const initAppData: DataSchema = {
     return this
   },
   getAllstore() {
+    //TODO
     return JSON.parse(JSON.stringify(this))
+  },
+  on(dispatchName, callback) {
+    _addCallback(dispatchName, callback)
+    return this
   },
 }

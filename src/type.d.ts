@@ -45,11 +45,13 @@ interface MusicInfo {
 
 /** 图片url */
 type PicUrl = string
+type CallbackFunction = (...anys: any[])=>any
 
+type AppStore = DataStore & DataDispatchers & DataCallbackAdder
 /**
  * 承载整个应用的所有数据结构
  */
-interface DataSchema {
+interface DataStore {
   /**
    * 用户信息
    */
@@ -82,7 +84,7 @@ interface DataSchema {
     }
   }
 
-  collectionInfo:{
+  collectionInfo: {
     collectionTitle: string
     creatorInfo: {
       avatar: PicUrl
@@ -90,21 +92,34 @@ interface DataSchema {
     }
     thumbnail: PicUrl
     createTime: string
-  } 
+  }
   /**
    * 实际内容相关
    */
   collectionMusicList: MusicInfo[]
+}
 
+interface DataDispatchers {
   /**播放另一首歌曲 */
-  playNewMusic(newMusic: MusicInfo): DataSchema
+  playNewMusic(newMusic: MusicInfo): AppStore
   /**载入新播放列表 */
-  loadNewMusicList(newMusicList: MusicInfo[]): DataSchema
+  loadNewMusicList(newMusicList: MusicInfo[]): AppStore
   /**切换播放模式 */
-  switchPlayMode(): DataSchema
+  switchPlayMode(): AppStore
   /**设定新音量 */
-  setVolumn(newVolumn: number /* 0-1 */): DataSchema
+  setVolumn(newVolumn: number /* 0-1 */): AppStore
   /**新增一个音乐集 */
-  createNewMusicCollection(): DataSchema
-  getAllstore():any
+  createNewMusicCollection(): AppStore
+  getAllstore(): any
+}
+
+interface DataCallbackAdder {
+  on<Name extends keyof DataDispatchers>(
+    dispatcherName: Name,
+    callbackFunction: (...params: Parameters<DataDispatchers[Name]>) => void,
+  ): AppStore
+}
+
+type DataCallbackPool = {
+  [T in keyof DataDispatchers]?: CallbackFunction[]
 }

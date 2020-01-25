@@ -17,7 +17,7 @@ function List(
   },
 ) {
   const selectedIndex = useMaster({ type: 'number' })
-  const { data, __ListItem: __List, __Between: _, ...restProps } = props //TODO: 这个解决方案不够简约
+  const { data, __ListItem: __List, __Between: _, keyPropname, onSelectItem, ...restProps } = props //TODO: 这个解决方案不够简约
   const listLength = props.data.length
   return (
     <ComponentRoot name='List' {...restProps}>
