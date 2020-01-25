@@ -6,5 +6,5 @@ TODO 列表：
   - LabelText
   - ButtonText
   - Text (具体语义看className)
-- store 需要拆分成Data部分、Action与Callback部分
+- View中需要把ClassName与Style与onClick以外的原生Div属性都转到html这个prop中
 
