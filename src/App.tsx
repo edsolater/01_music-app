@@ -4,10 +4,8 @@ import * as ReactDOM from 'react-dom'
 import './App.scss'
 
 import { AppRoot } from 'mypack/basic_components'
-import AudioPlayer from 'components/AudioPlayer'
-import AlbumMenu from 'components/AlbumMenu'
-import MainAppContent from 'components/MainAppContent'
-import { appStore, loadDispatcher } from './store'
+import { appStore, loadDispatcher } from 'appStore'
+import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
 
 export const AppDataContext = React.createContext(appStore)
 AppDataContext.displayName = 'AppData'

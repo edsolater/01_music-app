@@ -121,7 +121,7 @@ export const appStore: AppStore = {
     return this
   },
   getAllstore() {
-    //TODO
+    //TODO 这没写全，而且这应该是一个异步的操作
     return JSON.parse(JSON.stringify(this))
   },
   on(dispatchName, callback) {
