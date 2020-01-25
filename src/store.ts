@@ -53,7 +53,16 @@ export const initAppData: DataSchema = {
     mode: '列表循环',
     musicList: [],
   },
-  musicList: [
+  collectionInfo: {
+    collectionTitle: '我喜欢的音乐',
+    creatorInfo: {
+      avatar: avatar2,
+      nickName: 'edsolater',
+    },
+    thumbnail: avatar,
+    createTime: '2016-09-13',
+  },
+  collectionMusicList: [
     {
       songTitle: `ezio Family.mp3`,
       albumUrl: avatar,

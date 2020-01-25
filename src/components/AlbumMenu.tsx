@@ -13,8 +13,7 @@ import {
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
-import emailIcon from 'assets/email.svg'
-import settingIcon from 'assets/setting.svg'
+import { emailIcon, gearIcon } from 'assets/icons'
 
 export default function AlbumMenu() {
   const appData = useContext(AppDataContext)
@@ -60,7 +59,7 @@ export default function AlbumMenu() {
         <Icon src={emailIcon} iconName='email'>
           <RedDot amount={32} />
         </Icon>
-        <Icon src={settingIcon} iconName='setting' />
+        <Icon src={gearIcon} iconName='setting' />
       </Card>
     </Section>
   )

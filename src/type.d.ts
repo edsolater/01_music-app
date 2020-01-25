@@ -82,10 +82,19 @@ interface DataSchema {
     }
   }
 
+  collectionInfo:{
+    collectionTitle: string
+    creatorInfo: {
+      avatar: PicUrl
+      nickName: string
+    }
+    thumbnail: PicUrl
+    createTime: string
+  } 
   /**
    * 实际内容相关
    */
-  musicList?: MusicInfo[]
+  collectionMusicList?: MusicInfo[]
 
   /**播放另一首歌曲 */
   playNewMusic(newMusic: MusicInfo): DataSchema

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
   Item,
   Section,
@@ -14,28 +14,28 @@ import {
   Divider,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
-import thumbnail from 'assets/专辑封面.webp' // 这个信息最终要靠后端传过来，现在只是占位
-import avatar from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
-import heart from 'assets/icons/heart-line.svg' // 这个信息最终要靠后端传过来，现在只是占位
+import { heartIcon } from 'assets/icons'
+import { AppDataContext } from 'App'
 
 export default function MainAppContent() {
+  const appData = useContext(AppDataContext)
   return (
     <Section className='main-app-content'>
       <Text headline>歌单</Text>
       <Grid className='collection-info'>
         <Block className='thumbnail'>
-          <ImageBox src={thumbnail} className='thumbnail-pic' />
+          <ImageBox src={appData.collectionInfo.thumbnail} className='thumbnail-pic' />
           {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
-          <Icon src={heart} className='thumbnail-icon' />
+          <Icon src={heartIcon} className='thumbnail-icon' />
         </Block>
-        <Text largeTitle>我喜欢的音乐</Text>
+        <Text largeTitle>{appData.collectionInfo.collectionTitle}</Text>
         <Block className='creator'>
-          <Avatar src={avatar} className='creator-avatar' />
+          <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
           <Text subhead className='creator-nickname'>
-            desolaters
+            {appData.collectionInfo.creatorInfo.nickName}
           </Text>
           <Text footnote className='creator-create-time'>
-            2016-09-13 创建
+            {appData.collectionInfo.createTime} 创建
           </Text>
         </Block>
         <Group className='buttons'>
