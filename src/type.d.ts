@@ -34,11 +34,11 @@ interface MenuGroupData {
  */
 interface MusicInfo {
   /**乐曲名称 */
-  songTitle: string
+  songName: string
   /**专辑封面的URL */
   albumUrl?: PicUrl
   /**音频文件的URL */
-  soundtrackUrl: string
+  soundtrackUrl?: string
   /**歌曲的总长度 */
   totalLength?: number
 }
@@ -94,7 +94,7 @@ interface DataSchema {
   /**
    * 实际内容相关
    */
-  collectionMusicList?: MusicInfo[]
+  collectionMusicList: MusicInfo[]
 
   /**播放另一首歌曲 */
   playNewMusic(newMusic: MusicInfo): DataSchema

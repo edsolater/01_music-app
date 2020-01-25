@@ -45,13 +45,15 @@ export const initAppData: DataSchema = {
   },
   playerBar: {
     currentMusicInfo: {
-      songTitle: 'words-Aimer',
+      songName: 'words-Aimer',
       albumUrl: avatar,
       soundtrackUrl: soundtrackUrl,
     },
     volumn: 1,
     mode: '列表循环',
-    musicList: [],
+    musicList: [
+
+    ],
   },
   collectionInfo: {
     collectionTitle: '我喜欢的音乐',
@@ -64,12 +66,12 @@ export const initAppData: DataSchema = {
   },
   collectionMusicList: [
     {
-      songTitle: `ezio Family.mp3`,
+      songName: `ezio Family.mp3`,
       albumUrl: avatar,
       soundtrackUrl: soundtrackUrl,
     },
     {
-      songTitle: `Aimer - STAND-ALONE.mp3`,
+      songName: `Aimer - STAND-ALONE.mp3`,
       albumUrl: avatar2,
       soundtrackUrl: soundtrackUrl2,
     },

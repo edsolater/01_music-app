@@ -1,7 +1,6 @@
 import React, { ComponentProps, Fragment, ReactNode } from 'react'
 import { ComponentRoot, Slot } from '.'
 import './List.scss'
-import { addClass, addEvent } from 'mypack/utils'
 import { useMaster } from './customHooks'
 
 type ItemInfo = {
@@ -11,6 +10,7 @@ type ItemInfo = {
 function List(
   props: ComponentProps<typeof ComponentRoot> & {
     data: ItemInfo[]
+    keyPropname?: string
     __ListItem: (info: ItemInfo, index: number, props: ComponentProps<typeof List>) => ReactNode
     __Between?: (info: ItemInfo, index: number, props: ComponentProps<typeof List>) => ReactNode
   },
@@ -21,7 +21,7 @@ function List(
   return (
     <ComponentRoot name='List' {...restProps}>
       {props.data.map((itemInfo, index) => (
-        <Fragment key={itemInfo.label ?? index}>
+        <Fragment key={itemInfo[props.keyPropname ?? ''] ?? index}>
           <Slot
             slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {

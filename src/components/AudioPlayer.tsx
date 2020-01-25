@@ -83,7 +83,7 @@ export default function AudioPlayer() {
         </Button>
       </Group>
       <View className='timeline'>
-        <View className='songTitle'>{appData.playerBar.currentMusicInfo?.songTitle}</View>
+        <View className='songTitle'>{appData.playerBar.currentMusicInfo?.songName}</View>
         <View className='timestamp'>{`${Time(masters.currentSecond.getValue()).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>

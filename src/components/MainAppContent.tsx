@@ -47,18 +47,11 @@ export default function MainAppContent() {
         </Group>
       </Grid>
       <List
-        data={[
-          { label: 'Coming Home (Part Ⅱ)' },
-          { label: '嘘' },
-          { label: 'Lose Yourself' },
-          { label: "Where'd You Go" },
-          { label: 'Words' },
-          { label: 'Love The Way You Lie [Pary Ⅲ]' },
-          { label: 'I Need a Doctor' },
-        ]}
+        keyPropname='songName'
+        data={appData.collectionMusicList}
         __ListItem={(itemInfo) => (
           <Item>
-            <Text>{itemInfo.label}</Text>
+            <Text>{itemInfo.songName}</Text>
           </Item>
         )}
         __Between={() => <Divider />}
