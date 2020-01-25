@@ -7,4 +7,5 @@ TODO 列表：
   - ButtonText
   - Text (具体语义看className)
 - View中需要把ClassName与Style与onClick以外的原生Div属性都转到html这个prop中
+- 为了看上去更清晰，所有组件的Props要单独提出，以方便阅读源代码
 
