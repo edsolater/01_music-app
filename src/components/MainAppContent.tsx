@@ -49,6 +49,7 @@ export default function MainAppContent() {
       <List
         keyPropname='songName'
         data={appData.collectionMusicList}
+        initSelectedIndex={0}//TODO: 属于App数据的一部分，要由AppStore控制
         __ListItem={(itemInfo) => (
           <Item>
             <Text>{itemInfo.songName}</Text>

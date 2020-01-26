@@ -10,6 +10,8 @@ import { pick } from 'mypack/utils'
 type IProps<T> = {
   /**存放List数据 */
   data?: T[]
+  /**初始选择的index */
+  initSelectedIndex?: number
   /**用作Key的对象的属性名 */
   keyPropname?: string
   /**当用户选择新属性时启用的回调 */
@@ -24,7 +26,7 @@ type IProps<T> = {
  * React组件
  */
 function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
-  const selectedIndex = useMaster({ type: 'number' })
+  const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, propofComponentRoot)} name='List'>
       {props.data?.map((itemInfo, index) => (
@@ -32,15 +34,18 @@ function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
           <Slot
             slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
+              props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)
-              props.data && props.onSelectItem?.(itemInfo, index, props.data)
             }}
           >
-            {props.data && props.__ListItem?.(itemInfo, index, props.data)}
+            {props.__ListItem?.(itemInfo, index, props.data!)}
           </Slot>
-          {props.data && index !== Number(props.data?.length) - 1 && props.__Between && (
-            <Slot slotName='__Divider'>{props.__Between?.(itemInfo, index, props.data!)}</Slot>
-          )}
+          <Slot
+            slotName='__Divider'
+            hide={!props.data || !props.__Between || index === Number(props.data.length) - 1}
+          >
+            {props.__Between?.(itemInfo, index, props.data!)}
+          </Slot>
         </Fragment>
       ))}
     </ComponentRoot>
