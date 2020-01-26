@@ -30,9 +30,15 @@ type IProps = {
   html?: JSX.IntrinsicElements['div']
 }
 
-const View = React.forwardRef((props: IProps, ref): JSX.Element | null =>
+const View = React.forwardRef((props: IProps, ref:any): JSX.Element | null =>
   props.hide ? null : (
-    <div className={classnames(props.className)} style={props.style} onClick={props.onClick} {...props.html}>
+    <div
+      ref={ref}
+      className={classnames(props.className)}
+      style={props.style}
+      onClick={props.onClick}
+      {...props.html}
+    >
       {props.children}
     </div>
   ),

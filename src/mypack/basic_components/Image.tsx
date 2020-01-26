@@ -35,9 +35,9 @@ type IProps = {
   src?: JSX.IntrinsicElements['img']['src']
 }
 
-const Image = React.forwardRef((props: IProps, ref): JSX.Element | null =>
+const Image = React.forwardRef((props: IProps, ref:any): JSX.Element | null =>
   props.hide ? null : (
-    <img src={props.src} className={classnames(props.className)} style={props.style} onClick={props.onClick} {...props.html}>
+    <img ref={ref} src={props.src} className={classnames(props.className)} style={props.style} onClick={props.onClick} {...props.html}>
       {props.children}
     </img>
   ),
