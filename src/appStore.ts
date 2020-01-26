@@ -126,7 +126,7 @@ export const appStore: AppStore = {
     return this
   },
   setVolumn(newVolumn) {
-    // idea ： 要一个 middleware 系统
+    //IDEA： 要一个 middleware 系统
     asyncDo(() => {
       this.playerBar.volumn = newVolumn
     })

@@ -25,7 +25,7 @@ type IProps<T> = {
 function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number' })
   const { data, __ListItem: __List, __Between: _, keyPropname, onSelectItem, ...restProps } = props //TODO: 这个解决方案不够简约
-  return (
+  return ( 
     <ComponentRoot name='List' {...restProps}>
       {props.data?.map((itemInfo, index) => (
         <Fragment key={itemInfo[props.keyPropname ?? ''] ?? index}>
@@ -33,10 +33,10 @@ function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
             slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
               selectedIndex.set(index)
-              props.onSelectItem?.(itemInfo, index, props.data!)
+              props.data && props.onSelectItem?.(itemInfo, index, props.data)
             }}
           >
-            {props.__ListItem?.(itemInfo, index, props.data!)}
+            {props.data && props.__ListItem?.(itemInfo, index, props.data)}
           </Slot>
           {props.data && index !== Number(props.data?.length) - 1 && props.__Between && (
             <Slot slotName='__Divider'>{props.__Between?.(itemInfo, index, props.data!)}</Slot>

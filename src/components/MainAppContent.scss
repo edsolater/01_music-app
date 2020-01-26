@@ -7,7 +7,7 @@
     margin-bottom: 8px;
   }
   .collection-info {
-    display: grid; // TODO: 使用 css grid
+    display: grid; 
     grid-template:
       'thumbnail  title  ' max-content
       'thumbnail  creator' max-content

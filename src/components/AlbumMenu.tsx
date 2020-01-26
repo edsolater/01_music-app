@@ -23,7 +23,7 @@ export default function AlbumMenu() {
         data={appData.menu.collections} //TEMP
         initItemIndex={appData.menu.initIndex}
         onSelectMenuItem={() => {
-          //TODO
+          //TODO 这里还没写
         }}
         __MenuHeader={() => (
           <Card
