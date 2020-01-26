@@ -1,32 +1,41 @@
-import React from 'react'
+import React, { CSSProperties } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
-const View = React.forwardRef(
-  <T extends keyof JSX.IntrinsicElements>(
-    props: Omit<JSX.IntrinsicElements[T], 'className'> & {
-      /**
-       * 覆盖原生的className
-       */
-      className?: ClassValue
-      /**
-       * 表示渲染所使用的标签，默认使用DIV
-       */
-      use?: T
-      /**
-       * 类似于 vue 的 v-if 反义（如果怎么怎么样，就隐藏）
-       */
-      hideif?: any
-    },
-    ref,
-  ): JSX.Element | null => {
-    if (Boolean(props.hideif)) return null
-    const { className, use, hideif, ...restProps } = props
-    return React.createElement(props.use ?? 'div', {
-      className: classnames(props.className),
-      ...Object.assign(restProps, { ref }),
-    })
-  },
+type IProps = {
+  /**
+   * 覆盖原生的className
+   */
+  className?: ClassValue
+  /**
+   * **特殊属性**
+   * 类似于 vue 的 v-if 反义（如果怎么怎么样，就隐藏）
+   */
+  hide?: any
+  /**
+   * 照搬<div> 的style
+   */
+  style?: CSSProperties
+  /**
+   * 照搬<div> 的onClick
+   */
+  onClick?: JSX.IntrinsicElements['div']['onClick']
+  /**
+   * 照搬<div> 的 children
+   */
+  children?: JSX.IntrinsicElements['div']['children']
+  /**
+   * 除className,style,onClick外的原生属性的
+   */
+  html?: JSX.IntrinsicElements['div']
+}
+
+const View = React.forwardRef((props: IProps, ref): JSX.Element | null =>
+  props.hide ? null : (
+    <div className={classnames(props.className)} style={props.style} onClick={props.onClick} {...props.html}>
+      {props.children}
+    </div>
+  ),
 )
 View.displayName = 'View'
 export default React.memo(View) as typeof View

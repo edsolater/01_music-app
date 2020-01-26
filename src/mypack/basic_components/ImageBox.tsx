@@ -15,7 +15,13 @@ function ImageBox({
   return (
     <ComponentRoot name='ImageBox' {...restProps}>
       {restProps.children}
-      <Image src={src} alt={alt} srcSet={srcSet}  />
+      <Image
+        src={src}
+        html={{
+          alt,
+          srcSet,
+        }}
+      />
     </ComponentRoot>
   )
 }
