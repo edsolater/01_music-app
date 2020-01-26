@@ -70,41 +70,44 @@ function Slider({
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
-      onWheel={(e) => {
-        moveTriggerDone(triggerLeft.getValue() + Math.sign(e.deltaY) * 0.1)
+      html={{
+        onWheel: (e) => {
+          moveTriggerDone(triggerLeft.getValue() + Math.sign(e.deltaY) * 0.1)
+        },
       }}
       {...restProps}
     >
       <View
         className='Trigger'
-        onPointerDown={(e) => {
-          const slider = ((e.target as Element).parentElement as HTMLDivElement)!
-          const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
-          const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
-          trigger.style.transition = 'none'
-          passedTrack.style.transition = 'none'
-          const { left: sliderClientLeft, width: sliderWidth } = slider.getBoundingClientRect()
-          /**
-           * document 绑定拖拽事件
-           */
-          const moveHandler = (e: PointerEvent) => {
-            inDraggingTrigger.turnOn()
-            moveTrigger((e.clientX - sliderClientLeft) / sliderWidth)
-          }
-          /**
-           * 清理 document 上述事件
-           */
-          const handlerDone = (e: PointerEvent) => {
-            trigger.style.transition = ''
-            passedTrack.style.transition = ''
-            inDraggingTrigger.turnOff()
-            moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
-            document.removeEventListener('pointermove', moveHandler)
-            document.removeEventListener('pointerup', handlerDone)
-          }
-
-          document.addEventListener('pointermove', moveHandler)
-          document.addEventListener('pointerup', handlerDone)
+        html={{
+          onPointerDown: (e) => {
+            const slider = ((e.target as Element).parentElement as HTMLDivElement)!
+            const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
+            const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
+            trigger.style.transition = 'none'
+            passedTrack.style.transition = 'none'
+            const { left: sliderClientLeft, width: sliderWidth } = slider.getBoundingClientRect()
+            /**
+             * document 绑定拖拽事件
+             */
+            const moveHandler = (e: PointerEvent) => {
+              inDraggingTrigger.turnOn()
+              moveTrigger((e.clientX - sliderClientLeft) / sliderWidth)
+            }
+            /**
+             * 清理 document 上述事件
+             */
+            const handlerDone = (e: PointerEvent) => {
+              trigger.style.transition = ''
+              passedTrack.style.transition = ''
+              inDraggingTrigger.turnOff()
+              moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
+              document.removeEventListener('pointermove', moveHandler)
+              document.removeEventListener('pointerup', handlerDone)
+            }
+            document.addEventListener('pointermove', moveHandler)
+            document.addEventListener('pointerup', handlerDone)
+          },
         }}
         style={{
           left: styleLeft,

@@ -7,8 +7,7 @@ import { View, ComponentRoot, Slot } from '.'
  * 要向RedDot学习，做一个子组件而不是父级组件
  */
 function Popover({
-  onPointerEnter,
-  onPointerLeave,
+  html,
 
   open,
   defaultOpen,
@@ -46,20 +45,25 @@ function Popover({
   return (
     <ComponentRoot
       name={['Popover', 'wrapper-part', { on: open ?? onOffController.isOn }]}
-      onPointerEnter={(event) => {
-        onPointerEnter?.(event)
-        triggerCallback.on()
-      }}
-      onPointerLeave={(event) => {
-        onPointerLeave?.(event)
-        triggerCallback.off()
+      html={{
+        ...html,
+        onPointerEnter: (event) => {
+          html?.onPointerEnter?.(event)
+          triggerCallback.on()
+        },
+        onPointerLeave: (event) => {
+          html?.onPointerLeave?.(event)
+          triggerCallback.off()
+        },
       }}
       {...restProps}
     >
       <Slot //content不一定得是card形式，Card单独提成一个组件
         slotName={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
-        onPointerEnter={() => triggerCallback.on()}
-        onPointerLeave={() => triggerCallback.off()}
+        html={{
+          onPointerEnter: () => triggerCallback.on(),
+          onPointerLeave: () => triggerCallback.off(),
+        }}
       >
         {Content} {/* slot */}
       </Slot>

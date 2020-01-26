@@ -8,7 +8,6 @@ function Avatar({
 }: React.ComponentProps<typeof ComponentRoot> & {
   src?: string
 }) {
-  console.log('src: ', src)
   return (
     <ComponentRoot name='Avatar' {...restProps}>
       <Image src={src} />
