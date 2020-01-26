@@ -1,29 +1,29 @@
-import React, { ReactElement } from 'react'
-import { View, Header, Footer } from '.'
+import React from 'react'
 import { ClassValue } from 'classnames/types'
+import { View, propofView } from '.'
+import { pick } from 'mypack/utils'
 
-const ComponentRoot = React.forwardRef(
-  (
-    {
-      name,
-      className,
-      children,
-      ...restProps
-    }: React.ComponentProps<typeof View> & {
-      /**
-       * 用于各个组件定义组件的名字更方便
-       */
-      name?: ClassValue
-    },
-    ref,
-  ) => {
-    return (
-      <View ref={ref} className={[className, name]} {...restProps}>
-        {children}
-      </View>
-    )
-  },
-)
+/**props定义 */
+type IProps = {
+  /**
+   * 用于各个组件定义组件的名字更方便
+   */
+  name?: ClassValue
+}
+export const propofComponentRoot: (keyof IProps | keyof React.ComponentProps<typeof View>)[] = [
+  'name',
+  'className',
+  'style',
+  'onClick',
+  'hide',
+  'html',
+  'children',
+]
+
+/**组件代码 */
+const ComponentRoot = React.forwardRef((props: React.ComponentProps<typeof View> & IProps, ref) => {
+  return <View ref={ref} {...pick(props, propofView)} className={[props.className, props.name]} />
+})
 ComponentRoot.displayName = 'ComponentRoot'
 
 export default React.memo(ComponentRoot) as typeof ComponentRoot

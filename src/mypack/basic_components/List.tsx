@@ -1,7 +1,8 @@
 import React, { ComponentProps, Fragment, ReactNode } from 'react'
-import { ComponentRoot, Slot } from '.'
+import { ComponentRoot, Slot, propofComponentRoot } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
+import { pick } from 'mypack/utils'
 
 /**
  * List组件的的Props
@@ -24,9 +25,8 @@ type IProps<T> = {
  */
 function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number' })
-  const { data, __ListItem: __List, __Between: _, keyPropname, onSelectItem, ...restProps } = props //TODO: 这个解决方案不够简约
-  return ( 
-    <ComponentRoot name='List' {...restProps}>
+  return (
+    <ComponentRoot {...pick(props, propofComponentRoot)} name='List'>
       {props.data?.map((itemInfo, index) => (
         <Fragment key={itemInfo[props.keyPropname ?? ''] ?? index}>
           <Slot

@@ -9,12 +9,14 @@
  * View的小封装，使写组件更表意
  */
 export { default as ComponentRoot } from './ComponentRoot' // 有一个 name 的 prop ，用于指定组件名称
+export * from './ComponentRoot'
 export { default as Slot } from './Slot'
 
 /*
  * 基本HTML及其包装（用途专有）
  */
 export { default as View } from './View' // 通过View，使用 <div>
+export * from './View'
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
 export { default as Grid } from './Grid'

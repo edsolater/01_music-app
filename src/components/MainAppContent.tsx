@@ -55,9 +55,10 @@ export default function MainAppContent() {
           </Item>
         )}
         __Between={() => <Divider />}
-        onSelectItem={(itemInfo, index) => {
+        onSelectItem={(itemInfo) => {
           appData.playNewMusic(itemInfo)
         }}
+
       />
     </Section>
   )

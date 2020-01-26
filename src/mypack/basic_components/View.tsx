@@ -2,6 +2,7 @@ import React, { CSSProperties } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
+/**props定义 */
 type IProps = {
   /**
    * 覆盖原生的className
@@ -29,8 +30,17 @@ type IProps = {
    */
   html?: JSX.IntrinsicElements['div']
 }
+export const propofView: (keyof IProps)[] = [
+  'className',
+  'style',
+  'onClick',
+  'hide',
+  'html',
+  'children',
+]
 
-const View = React.forwardRef((props: IProps, ref:any): JSX.Element | null =>
+/**组件代码 */
+const View = React.forwardRef((props: IProps, ref: any): JSX.Element | null =>
   props.hide ? null : (
     <div
       ref={ref}
