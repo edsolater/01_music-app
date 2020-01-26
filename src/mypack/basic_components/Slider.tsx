@@ -6,6 +6,7 @@ import { constraint } from '../utils'
 import { View, ComponentRoot } from '.'
 
 /**
+ * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次），且逻辑过于混乱，要重写
  * 注意它只能理解数字
  */
 function Slider({

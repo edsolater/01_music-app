@@ -3,17 +3,21 @@ import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过�
 import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
+import { asyncDo } from 'mypack/utils'
 
 /**
  * 装载触发App更新的dispacher, 由App提供
  */
-let _setStore
+let _storeDispatcher
+function _updateRenderTree() {
+  _storeDispatcher?.({ ...appStore })
+}
 
 /**
  * 提供给App的装载用函数
  */
 export function loadDispatcher(storeDispatcher) {
-  _setStore = storeDispatcher
+  _storeDispatcher = storeDispatcher
 }
 
 /**
@@ -111,7 +115,7 @@ export const appStore: AppStore = {
   ],
   playNewMusic(newMusic) {
     this.playerBar.currentMusicInfo = newMusic
-    _setStore?.({ ...this })
+    _updateRenderTree()
     _invokeCallback('playNewMusic', newMusic)
     return this
   },
@@ -121,14 +125,24 @@ export const appStore: AppStore = {
   switchPlayMode() {
     return this
   },
-  setVolumn() {
+  setVolumn(newVolumn) {
+    // idea ： 要一个 middleware 系统
+    asyncDo(() => {
+      this.playerBar.volumn = newVolumn
+    })
+      .then(() => {
+        _updateRenderTree()
+      })
+      .then(() => {
+        _invokeCallback('setVolumn', newVolumn)
+      })
     return this
   },
   createNewMusicCollection() {
     return this
   },
-  getAllstore() {
-    //TODO 这没写全，而且这应该是一个异步的操作
+  async getAllstore() {
+    //TODO 这里逻辑没写全
     return JSON.parse(JSON.stringify(this))
   },
   on(dispatchName, callback) {

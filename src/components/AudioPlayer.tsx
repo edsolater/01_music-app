@@ -121,7 +121,7 @@ export default function AudioPlayer() {
             <Slider
               defaultValue={masters.volume.getValue()}
               onMoveTriggerDone={(currentPercentage: number) => {
-                console.log('currentPercentage: ', currentPercentage)
+                appData.setVolumn(currentPercentage)
                 setVolume(currentPercentage)
               }}
             />

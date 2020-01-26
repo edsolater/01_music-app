@@ -46,6 +46,7 @@ interface MusicInfo {
 /** 图片url */
 type PicUrl = string
 type CallbackFunction = (...anys: any[]) => any
+type Percent = number
 
 type AppStore = DataStore & DataDispatchers & DataCallbackAdder
 /**
@@ -67,7 +68,7 @@ interface DataStore {
   playerBar: {
     currentMusicInfo?: MusicInfo
     /**音量大小 */
-    volumn: 1
+    volumn: Percent
     /**播放模式 */
     mode: '单曲循环' | '列表循环' | '随机选取'
     /**播放列表 */
@@ -110,7 +111,7 @@ interface DataDispatchers {
   setVolumn(newVolumn: number /* 0-1 */): AppStore
   /**新增一个音乐集 */
   createNewMusicCollection(): AppStore
-  getAllstore(): any
+  getAllstore(): Promise<any>
 }
 
 interface DataCallbackAdder {
