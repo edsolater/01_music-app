@@ -117,11 +117,11 @@ interface DataDispatchers {
 interface DataCallbackAdder {
   on<Name extends keyof DataDispatchers>(
     dispatcherName: Name,
-    callbackFunction: (...params: Parameters<DataDispatchers[Name]>) => void,
+    callbackFunction: (store: AppStore, ...params: Parameters<DataDispatchers[Name]>) => any,
   ): AppStore
   off<Name extends keyof DataDispatchers>(
     dispatcherName: Name,
-    callbackFunction: (...params: Parameters<DataDispatchers[Name]>) => void,
+    callbackFunction: (store: AppStore, ...params: Parameters<DataDispatchers[Name]>) => any,
   ): AppStore
 }
 

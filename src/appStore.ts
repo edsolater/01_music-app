@@ -4,6 +4,7 @@ import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后�
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import { asyncDo } from 'mypack/utils'
+import { PoolMarket } from 'mypack/class'
 
 /**
  * 装载触发App更新的dispacher, 由App提供
@@ -21,23 +22,11 @@ export function loadDispatcher(storeDispatcher) {
 }
 
 /**
- * TODO: 我觉得这个可以专门提取成一个Class
  * 回调函数的池及其控制用函数
  */
-const _callbackPool: DataCallbackPool = {}
-function _addCallback(name: keyof DataDispatchers, callback) {
-  _callbackPool[name]
-    ? (_callbackPool[name] as CallbackFunction[]).push(callback)
-    : (_callbackPool[name] = [callback])
-}
-function _removeCallback(name: keyof DataDispatchers, callback) {
-  const callbackIndex = _callbackPool[name]?.indexOf(callback) ?? -1
-  if (callbackIndex >= 0) {
-    _callbackPool[name]?.splice(callbackIndex, 1)
-  }
-}
+const _callbackPoolMarket = new PoolMarket()
 function _invokeCallback(name: keyof DataDispatchers, ...params) {
-  _callbackPool[name]?.forEach((callback) => callback(...params))
+  _callbackPoolMarket.getPool(name)?.forEach((callback) => callback(appStore, ...params))
 }
 
 /**
@@ -116,6 +105,7 @@ export const appStore: AppStore = {
   playNewMusic(newMusic) {
     this.playerBar.currentMusicInfo = newMusic
     _updateRenderTree()
+    console.log('_callbackPoolMarket.getAll(): ', _callbackPoolMarket.getAll())
     _invokeCallback('playNewMusic', newMusic)
     return this
   },
@@ -146,11 +136,11 @@ export const appStore: AppStore = {
     return JSON.parse(JSON.stringify(this))
   },
   on(dispatchName, callback) {
-    _addCallback(dispatchName, callback)
+    _callbackPoolMarket.add(dispatchName, callback)
     return this
   },
   off(dispatchName, callback) {
-    _removeCallback(dispatchName, callback)
+    _callbackPoolMarket.remove(dispatchName, callback)
     return this
   },
 }

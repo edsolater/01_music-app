@@ -1,25 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
-
 import './App.scss'
-
+import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
 import { AppRoot } from 'mypack/basic_components'
 import { appStore, loadDispatcher } from 'appStore'
-import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
 
+//导入context
 export const AppDataContext = React.createContext(appStore)
 AppDataContext.displayName = 'AppData'
 
 function App() {
-  const [store, storeDispatcher] = useState(
+  const [store, storeDispatcher] = useState(appStore)
+  useEffect(() => {
     appStore
-      .on('playNewMusic', (newMusic) => {
+      .on('playNewMusic', (store, newMusic) => {
         console.log('first: ', 1)
       })
-      .on('playNewMusic', (newMusic) => {
+      .on('playNewMusic', (store, newMusic) => {
         console.log('second: ', 2)
-      }),
-  )
+      })
+  }, [])
   loadDispatcher(storeDispatcher)
   return (
     <AppRoot>
