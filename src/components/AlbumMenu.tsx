@@ -10,6 +10,7 @@ import {
   Text,
   RedDot,
   Divider,
+  View,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
@@ -45,10 +46,11 @@ export default function AlbumMenu() {
         )}
         __MenuItem={({ item: menuItem }) => (
           <Item>
-            <Text>
+            <View className='textbox'>
+              {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
               <RedDot onlyDot />
               <Text>{menuItem.itemPathLabel}</Text>
-            </Text>
+            </View>
           </Item>
         )}
         __BetweenItems={() => <Divider />}

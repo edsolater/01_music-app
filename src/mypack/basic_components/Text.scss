@@ -1,4 +1,7 @@
 .Text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &._largeTitle {
     font-size: 2em;
   }

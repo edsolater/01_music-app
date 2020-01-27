@@ -4,7 +4,7 @@
   background-color: #eee;
   .Menu {
     flex: 1;
-    overflow: auto;
+    overflow: visible;
     background-color: white;
     .Card {
       background-color: white;
@@ -12,6 +12,10 @@
     .Item {
       padding-top: 8px;
       padding-bottom: 8px;
+      .textbox {
+        max-width: 90%;
+        width: max-content;
+      }
     }
   }
   .Card {

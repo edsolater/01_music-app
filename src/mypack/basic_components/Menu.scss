@@ -5,12 +5,12 @@
   --divider-color: rgba(0, 0, 0, 0.1);
   --divider-left: 0px;
   .__MenuGroup {
+    margin-bottom: 32px;
     &._selected {
-      > .Title {
+      > * {
         background-color: aliceblue;
       }
     }
-    margin-bottom: 32px;
     &:last-of-type {
       margin-bottom: 0;
     }
@@ -27,21 +27,6 @@
     }
     &._selected {
       border-left: 4px solid var(--primary, dodgerblue);
-    }
-    > * {
-      display: grid;
-      grid-template: 'image title' auto / auto 1fr;
-      .Image {
-        grid-area: image;
-        width: 100px;
-        height: 100px;
-        margin-right: 8px;
-        margin-left: 8px;
-      }
-      .title {
-        grid-area: title;
-        color: #333;
-      }
     }
   }
 }
