@@ -1,6 +1,5 @@
 @use 'sassMixins.scss' as *;
 
-
 .RedDot {
   &._invisiable {
     display: none;
@@ -12,15 +11,14 @@
 .__Dot {
   position: absolute;
   right: 0;
-  top:6px;
-  transform: translate(-50%, -50%);
+  transform: translateX(50%);
   background-color: crimson;
   color: white;
   font-size: 10px;
   border-radius: 100px;
   height: 16px;
   min-width: 16px;
-  @include center-inner;
+  @include center-inner($display-type: grid);
   &._onlyDot {
     min-width: 6.4px;
     height: 6.4px;
