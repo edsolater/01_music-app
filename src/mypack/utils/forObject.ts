@@ -1,16 +1,20 @@
-export function pick<O>(target: O, propNames?: (keyof O)[]) {
+import { wrapToArray } from './_preprocessingData'
+
+export function pick<O>(target: O, propNames?: (keyof O)[] | keyof O) {
   if (typeof target !== 'object' || target === null) return
-  let newObject:Partial<O> = {}
-  propNames?.forEach((propName) => {
+  let newObject: Partial<O> = {}
+  wrapToArray(propNames)?.forEach((propName) => {
     newObject[propName] = target[propName]
   })
   return newObject
 }
 
-export function deAssign<O>(target: O, propNames?: (keyof O)[]) {
+export function deAssign<O>(target: O, propNames?: (keyof O)[] | keyof O) {
   if (typeof target !== 'object' || target === null) return
-  propNames?.forEach(propName=>{
+  wrapToArray(propNames)?.forEach((propName) => {
     delete target[propName]
   })
   return target
 }
+
+console.log(pick({ a: 1 }, 'a'))

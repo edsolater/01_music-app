@@ -1,0 +1,12 @@
+@mixin center-inner($display-type: normal) {
+  @if $display-type==normal {
+  } @else if $display-type==flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  } @else if $display-type==grid {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+  }
+}

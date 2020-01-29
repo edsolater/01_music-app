@@ -1,40 +1,50 @@
+@use '../mypack/basic_components/sassMixins.scss' as *;
+
 .Section {
   display: flex;
   flex-direction: column;
   background-color: #eee;
-  .Menu {
-    flex: 1;
-    background-color: white;
-    .Card {
-      background-color: white;
-    }
-    .Item {
-      padding-top: 8px;
-      padding-bottom: 8px;
-      .textbox {
-        max-width: 90%;
-        width: max-content;
-      }
+}
+
+.Menu {
+  .Card {
+    position: sticky;
+    z-index: 1px;
+    top: 0px;
+    height: 40px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  flex: 1;
+  background-color: white;
+  .Item {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    .textbox {
+      max-width: 90%;
+      width: max-content;
     }
   }
-  .Card {
-    height: 80px;
-    padding: 8px;
-    background-color: white;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    .Avatar {
-      flex-shrink: 0;
-      margin-right: 8px;
-      height: 40px;
-      width: 40px;
-    }
-    .nickname {
-      flex: 1;
-    }
-    .Icon {
-      margin-left: 8px;
-    }
+}
+
+// 影响
+.Card.user-info {
+  height: 80px;
+  padding: 8px;
+  background-color: white;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  z-index: 1;
+  .Avatar {
+    flex-shrink: 0;
+    margin-right: 8px;
+    height: 40px;
+    width: 40px;
+  }
+  .Text.nickname {
+    flex: 1;
+  }
+  .Icon {
+    margin-left: 8px;
   }
 }

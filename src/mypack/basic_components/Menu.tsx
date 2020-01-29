@@ -1,4 +1,4 @@
-import React, { ReactNode, ReactElement, ComponentProps } from 'react'
+import React, { ReactNode, ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
@@ -167,7 +167,7 @@ function MenuGroup({ allData, currentGroupPath, __MenuGroup, children }: Props__
   )
 }
 function MenuItems(props: Props__MenuItems) {
-  const { currentPath, items, group, onSelectMenuItem, __MenuItem, __BetweenItems } = props
+  const { currentPath, items, group, onSelectMenuItem, __MenuItem } = props
   return (
     <>
       {items.map((menuItem, itemIndex) => {

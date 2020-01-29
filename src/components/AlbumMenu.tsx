@@ -27,22 +27,15 @@ export default function AlbumMenu() {
           //TODO 这里还没写
         }}
         __MenuHeader={() => (
-          <Card
-            style={{
-              position: 'sticky',
-              zIndex: 1,
-              top: 0,
-              height: 40,
-            }}
-          >
+          <Card>
             <Title>Header hear!</Title>
           </Card>
         )}
         //TODO: MenuGroup 与 MenuItem 能不能合并成一个？
         __MenuGroup={({ group: menuGroup }) => (
-          <Title style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
+          <Text headline style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
             {menuGroup.title}
-          </Title>
+          </Text>
         )}
         __MenuItem={({ item: menuItem }) => (
           <Item>
@@ -55,7 +48,7 @@ export default function AlbumMenu() {
         )}
         __BetweenItems={() => <Divider />}
       />
-      <Card>
+      <Card className="user-info">
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>
         <Icon src={emailIcon} iconName='email'>
