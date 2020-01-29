@@ -16,5 +16,3 @@ export function deAssign<O>(target: O, propNames?: (keyof O)[] | keyof O) {
   })
   return target
 }
-
-console.log(pick({ a: 1 }, 'a'))

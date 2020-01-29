@@ -1,7 +1,4 @@
-$ee: 4px;
 .Menu {
-  color: var(--primary-text, #333);
-  position: relative;
   --divider-height: 1px;
   --divider-color: rgba(0, 0, 0, 0.1);
   --divider-left: 0px;
@@ -15,22 +12,8 @@ $ee: 4px;
     }
   }
   .__MenuItem {
-    &:hover::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, 0.1);
-    }
     &._selected {
       border-left: 4px solid var(--primary, dodgerblue);
     }
   }
 }
-
-:export {
-  hello: $ee;
-}
-@debug $ee;
