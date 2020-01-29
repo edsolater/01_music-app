@@ -12,6 +12,7 @@ body * {
 /* 业务样式 */
 .AppRoot {
   /* 业务样式的包壳，迟早要替换掉 */
+  // TODO:CSS 变量命名需要在项目中列一个清单
   --primary: crimson;
   width: 100vw;
   height: 100vh;

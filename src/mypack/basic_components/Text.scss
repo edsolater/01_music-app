@@ -2,18 +2,23 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  &._largeTitle {
+  &.title3{
+    line-height: 2;
+    font-weight: 600;
+    font-size: 1.2em;
+  }
+  &.largeTitle {
     font-size: 2em;
   }
-  &._headline {
+  &.headline {
     font-size: 1em;
     font-weight: 600;
   }
-  &._subhead {
+  &.subhead {
     font-size: small;
     opacity: 0.45;
   }
-  &._footnote {
+  &.footnote {
     font-size: small;
     opacity: 0.3;
   }

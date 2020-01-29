@@ -72,18 +72,18 @@ function Text({
       name={[
         'Text',
         {
-          _largeTitle: largeTitle,
-          _title1: title1,
-          _title2: title2,
-          _title3: title3,
-          _headline: headline,
-          _body: body, //为了对称性这里写着，其实完全没有效果，相当于没写
-          _callout: callout,
-          _subhead: subhead,
-          _footnote: footnote,
-          _caption1: caption1,
-          _caption2: caption2,
-          _caption3: caption3,
+          largeTitle,
+          title1,
+          title2,
+          title3,
+          headline,
+          body, //为了对称性这里写着，其实完全没有效果，相当于没写
+          callout,
+          subhead,
+          footnote,
+          caption1,
+          caption2,
+          caption3,
         },
       ]}
       {...restProps}

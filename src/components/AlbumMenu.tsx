@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import {
   Menu,
-  Title,
   Item,
   Section,
   Card,
@@ -28,15 +27,11 @@ export default function AlbumMenu() {
         }}
         __MenuHeader={() => (
           <Card>
-            <Title>Header hear!</Title>
+            <Text title3>Header hear!</Text>
           </Card>
         )}
-        //TODO: MenuGroup 与 MenuItem 能不能合并成一个？
-        __MenuGroup={({ group: menuGroup }) => (
-          <Text headline style={{ fontSize: 14, color: 'gray' }} /* TEMP：以后要把样式从逻辑中踢出去 */>
-            {menuGroup.title}
-          </Text>
-        )}
+        //TODO: MenuGroup 与 MenuItem 能不能合并成一个？否决，反而职责不清晰
+        __MenuGroup={({ group: menuGroup }) => <Text headline>{menuGroup.title}</Text>}
         __MenuItem={({ item: menuItem }) => (
           <Item>
             <View className='textbox'>
@@ -48,7 +43,7 @@ export default function AlbumMenu() {
         )}
         __BetweenItems={() => <Divider />}
       />
-      <Card className="user-info">
+      <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>
         <Icon src={emailIcon} iconName='email'>

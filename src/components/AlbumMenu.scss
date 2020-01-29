@@ -7,15 +7,18 @@
 }
 
 .Menu {
-  .Card {
-    position: sticky;
-    z-index: 1px;
-    top: 0px;
-    height: 40px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
   flex: 1;
   background-color: white;
+  .Card {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .Text.headline {
+    font-size: 14px;
+    color: gray;
+  }
   .Item {
     padding-top: 8px;
     padding-bottom: 8px;
