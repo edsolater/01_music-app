@@ -51,9 +51,13 @@ export default function MainAppContent() {
         data={appData.collectionMusicList}
         initSelectedIndex={0}//TODO: 属于App数据的一部分，要由AppStore控制
         __ListItem={(itemInfo) => (
-          <Item $clone={2}>
-            <Text>{itemInfo.songName}</Text>
+          <Item $for={[{a:1}]}>
+            {/* TODO: 为什么没有智能提示呢？ */}
+            {(item)=><Text>{item.a}</Text>}
           </Item>
+          // <Item>
+          //   <Text>{itemInfo.songName}</Text>
+          // </Item>
         )}
         __Between={() => <Divider />}
         onSelectItem={(itemInfo) => {
