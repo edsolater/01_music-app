@@ -19,17 +19,15 @@ export default function AlbumMenu() {
   const appData = useContext(AppDataContext)
   return (
     <Section className='album-menu'>
+      <Card className='shrink-button'>
+        <Text title3>Header hear!</Text>
+      </Card>
       <Menu
         data={appData.menu.collections} //TEMP
         initItemIndex={appData.menu.initIndex}
         onSelectMenuItem={() => {
           //TODO 这里还没写
         }}
-        __MenuHeader={() => (
-          <Card>
-            <Text title3>Header hear!</Text>
-          </Card>
-        )}
         //TODO: MenuGroup 与 MenuItem 能不能合并成一个？否决，反而职责不清晰
         __MenuGroup={({ group: menuGroup }) => <Text headline>{menuGroup.title}</Text>}
         __MenuItem={({ item: menuItem }) => (

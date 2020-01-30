@@ -1,20 +1,19 @@
 @use '../mypack/basic_components/sassMixins.scss' as *;
 
-.Section {
-  display: flex;
-  flex-direction: column;
+.Section.album-menu {
+  display: grid;
+  grid-template-rows: max-content 1fr max-content;
   background-color: #eee;
 }
 
+.Card.shrink-button {
+  z-index: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
 .Menu {
-  flex: 1;
-  background-color: white;
-  .Card {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  contain: paint;
+  overflow: hidden auto;
   .Text.headline {
     font-size: 14px;
     color: gray;

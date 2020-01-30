@@ -1,5 +1,9 @@
+.Menu {
+  display: grid;
+  grid-auto-rows: max-content;
+  gap: 32px;
+}
 .__MenuGroup {
-  margin-bottom: 32px;
   &._selected {
     background-color: aliceblue;
   }
