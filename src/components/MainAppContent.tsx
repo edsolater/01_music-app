@@ -51,7 +51,7 @@ export default function MainAppContent() {
         data={appData.collectionMusicList}
         initSelectedIndex={0}//TODO: 属于App数据的一部分，要由AppStore控制
         __ListItem={(itemInfo) => (
-          <Item>
+          <Item $clone={2}>
             <Text>{itemInfo.songName}</Text>
           </Item>
         )}

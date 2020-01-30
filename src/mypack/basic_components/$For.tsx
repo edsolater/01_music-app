@@ -6,7 +6,7 @@ function Meta<O extends any>(props: {
   children?: (item: O, index: number) => ReactNode
 }) {
   return (
-    <Fragment>
+    <>
       {props.$for?.map((item, itemIndex) => (
         <Fragment
           key={
@@ -18,7 +18,7 @@ function Meta<O extends any>(props: {
           {props.children?.(item, itemIndex)}
         </Fragment>
       ))}
-    </Fragment>
+    </>
   )
 }
 

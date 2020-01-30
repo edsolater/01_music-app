@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react'
+import React, { CSSProperties, Fragment, ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 
@@ -15,9 +15,9 @@ type IProps = {
   $if?: any
   /**
    * **特殊属性**
-   * 类似于 vue 的 v-for
+   * 类似于 vue 的 v-for (接受数字(number/string)) !!!注意，此时Ref不可获取（TODO）
    */
-  $for?: any
+  $clone?: number | string
   /**
    * 照搬<div> 的style
    */
@@ -29,7 +29,7 @@ type IProps = {
   /**
    * 照搬<div> 的 children
    */
-  children?: JSX.IntrinsicElements['div']['children']
+  children?: any
   /**
    * 除className,style,onClick外的原生属性的
    */
@@ -40,24 +40,45 @@ export const propofView: (keyof IProps)[] = [
   'style',
   'onClick',
   '$if',
-  '$for',
+  '$clone',
   'html',
   'children',
 ]
 
 /**组件代码 */
-const View = React.forwardRef((props: IProps, ref: any): JSX.Element | null =>
-  props['$if'] ?? true ? (
-    <div
-      ref={ref}
-      className={classnames(props.className)}
-      style={props.style}
-      onClick={props.onClick}
-      {...props.html}
-    >
-      {props.children}
-    </div>
-  ) : null,
-)
+const View = React.forwardRef((props: IProps, ref: any): JSX.Element | null => {
+  if (props.$clone) {
+    const result: (JSX.Element | null)[] = []
+    for (let i = 0; i < Number(props.$clone); i++) {
+      result.push(
+        props['$if'] ?? true ? (
+          <div
+            key={i /* TODO：暂时 */}
+            ref={ref}
+            className={classnames(props.className)}
+            style={props.style}
+            onClick={props.onClick}
+            {...props.html}
+          >
+            {props.children}
+          </div>
+        ) : null,
+      )
+    }
+    return <>{result}</>
+  } else {
+    return props['$if'] ?? true ? (
+      <div
+        ref={ref}
+        className={classnames(props.className)}
+        style={props.style}
+        onClick={props.onClick}
+        {...props.html}
+      >
+        {props.children}
+      </div>
+    ) : null
+  }
+})
 View.displayName = 'View'
 export default React.memo(View) as typeof View
