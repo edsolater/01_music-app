@@ -4,7 +4,7 @@
   grid-auto-rows: max-content;
   gap: var(--menu-gap-width);
 }
-.__MenuGroup {
+.__MenuGroupTitle {
   &._selected {
     background-color: aliceblue;
   }

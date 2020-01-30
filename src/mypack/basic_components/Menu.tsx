@@ -5,13 +5,39 @@ import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, Slot, propofComponentRoot, View } from '.'
 import { pick } from 'mypack/utils'
 /**
+ * Menu中的Item信息
+ */
+interface MenuItemData {
+  [itemInfo: string]: string | undefined
+  imageUrl?: string
+  itemPathLabel: string
+  subtitle?: string
+  detail?: string
+  selectAction?: ActionType
+}
+
+/**
+ * TODO: 太过语义化了，要删掉
+ * Menu中的组别信息
+ */
+interface AlbumMenuGroup {
+  title: string
+  [otherInfo: string]: string | undefined
+}
+/**
+ * 需要传递给<Menu>组件（带Group的数据形式）
+ */
+interface MenuGroupData {
+  [groupPathLabel: string]: MenuItemData[]
+}
+/**
  * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
  */
 type MenuItemInfo = {
   itemIndex: number
-  item: AlbumMenuItem
-  itemsInGroup: AlbumMenuItem[]
-  currentMenuPath: string //TODO: 这里是不是应该是个完整的对象 //TODO: 这里的值不应该由没有意义的数字组成
+  item: MenuItemData
+  itemsInGroup: MenuItemData[]
+  currentMenuPath: PathPiece //TODO: 这里是不是应该是个完整的对象 //TODO: 这里的值不应该由没有意义的数字组成
   groupIndex?: number
   group?: AlbumMenuGroup
   hasChangeGroup?: boolean
@@ -19,7 +45,7 @@ type MenuItemInfo = {
 type MenuGroupInfo = {
   group: AlbumMenuGroup
   groupIndex: number
-  itemsInThisGroup: AlbumMenuItem[]
+  itemsInThisGroup: MenuItemData[]
 }
 type PathPiece = string //Temp
 /**
@@ -39,11 +65,7 @@ type IProps = React.ComponentProps<typeof ComponentRoot> & {
    * **必选项**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
-  data: AlbumMenuItem[] | MenuGroupData
-  /**
-   * 出现在Menu头部位置
-   */
-  __MenuHeader?: (allProps: ComponentProps<typeof Menu>, currentPath: PathPiece) => ReactNode
+  data: MenuItemData[] | MenuGroupData
   /**
    * **必选项**
    * Menu对具体数据的渲染（函数传入data中的数据）
@@ -53,10 +75,6 @@ type IProps = React.ComponentProps<typeof ComponentRoot> & {
    * Menu对编组的渲染
    */
   __MenuGroup?: (groupInfo: MenuGroupInfo) => ReactNode
-  /**
-   * 分割线位置
-   */
-  __BetweenItems?: (itemIndex: number, itemInfo: MenuItemInfo) => ReactNode
   /**
    * 选择某个菜单项时发起的回调
    */
@@ -71,9 +89,8 @@ function Menu(props: IProps) {
   return (
     <ComponentRoot {...pick(props, propofComponentRoot)} name='Menu'>
       {props.children}
-      {props.__MenuHeader?.(props, selectedPath.getPath())}
       {hasGroup &&
-        Object.entries(props.data) /* TODO：这里没有正确的类型推断 */
+        Object.entries(props.data as MenuGroupData) /* TODO：这里没有正确的类型推断 */
           .map(([groupName, items], groupIndex) => {
             const groupInfo: MenuGroupInfo = {
               group: { title: groupName },
@@ -85,7 +102,7 @@ function Menu(props: IProps) {
               <View className='Menu_groupBox' key={groupInfo.group.title}>
                 <Slot
                   slotName={[
-                    '__MenuGroup',
+                    '__MenuGroupTitle',
                     {
                       _selected:
                         `${groupIndex}` ===
@@ -114,6 +131,7 @@ function Menu(props: IProps) {
                         {
                           _selected:
                             `${groupInfo?.groupIndex ?? 0}/${itemIndex}` === selectedPath.getPath(),
+                          _first: itemIndex === 0,
                           _last: itemIndex === items.length - 1,
                         },
                       ]}

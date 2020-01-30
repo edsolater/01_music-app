@@ -15,8 +15,7 @@ function Group({
    * 标识组名
    */
   groupName?: ClassValue
-  
-  column?: boolean
+  column?: boolean //TODO
   /**
    * 表示组的方向，默认 row（横向）
    */
