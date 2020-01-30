@@ -10,9 +10,14 @@ type IProps = {
   className?: ClassValue
   /**
    * **特殊属性**
-   * 类似于 vue 的 v-if 反义（如果怎么怎么样，就隐藏）
+   * 类似于 vue 的 v-if
    */
-  hide?: any
+  $if?: any
+  /**
+   * **特殊属性**
+   * 类似于 vue 的 v-for
+   */
+  $for?: any
   /**
    * 照搬<div> 的style
    */
@@ -34,14 +39,15 @@ export const propofView: (keyof IProps)[] = [
   'className',
   'style',
   'onClick',
-  'hide',
+  '$if',
+  '$for',
   'html',
   'children',
 ]
 
 /**组件代码 */
 const View = React.forwardRef((props: IProps, ref: any): JSX.Element | null =>
-  props.hide ? null : (
+  props['$if'] ?? true ? (
     <div
       ref={ref}
       className={classnames(props.className)}
@@ -51,7 +57,7 @@ const View = React.forwardRef((props: IProps, ref: any): JSX.Element | null =>
     >
       {props.children}
     </div>
-  ),
+  ) : null,
 )
 View.displayName = 'View'
 export default React.memo(View) as typeof View

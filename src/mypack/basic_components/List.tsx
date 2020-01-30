@@ -37,12 +37,13 @@ function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
               props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)
             }}
+
           >
             {props.__ListItem?.(itemInfo, index, props.data!)}
           </Slot>
           <Slot
             slotName='__Divider'
-            hide={!props.data || !props.__Between || index === Number(props.data.length) - 1}
+            $if={!props.data || !props.__Between || index === Number(props.data.length) - 1}
           >
             {props.__Between?.(itemInfo, index, props.data!)}
           </Slot>

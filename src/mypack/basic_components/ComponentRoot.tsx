@@ -15,7 +15,7 @@ export const propofComponentRoot: (keyof IProps | keyof React.ComponentProps<typ
   'className',
   'style',
   'onClick',
-  'hide',
+  '$if',
   'html',
   'children',
 ]

@@ -10,9 +10,14 @@ type IProps = {
   className?: ClassValue
   /**
    * **特殊属性**
-   * 类似于 vue 的 v-if 反义（如果怎么怎么样，就隐藏）
+   * 类似于 vue 的 v-if 
    */
-  hide?: any
+  '$if'?: any
+  /**
+   * **特殊属性**
+   * 类似于 vue 的 v-for 
+   */
+  '$for'?: any
   /**
    * 照搬<div> 的style
    */
@@ -35,12 +40,19 @@ type IProps = {
   src?: JSX.IntrinsicElements['img']['src']
 }
 
-const Image = React.forwardRef((props: IProps, ref:any): JSX.Element | null =>
-  props.hide ? null : (
-    <img ref={ref} src={props.src} className={classnames(props.className)} style={props.style} onClick={props.onClick} {...props.html}>
+const Image = React.forwardRef((props: IProps, ref: any): JSX.Element | null =>
+  props['$if'] ?? true ? (
+    <img
+      ref={ref}
+      src={props.src}
+      className={classnames(props.className)}
+      style={props.style}
+      onClick={props.onClick}
+      {...props.html}
+    >
       {props.children}
     </img>
-  ),
+  ) : null,
 )
 Image.displayName = 'Image'
 export default React.memo(Image) as typeof Image
