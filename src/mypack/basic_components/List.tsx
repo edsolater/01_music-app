@@ -1,5 +1,5 @@
 import React, { ComponentProps, Fragment, ReactNode } from 'react'
-import { ComponentRoot, Slot, propofComponentRoot } from '.'
+import { ComponentRoot, Slot, propofComponentRoot, $For } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 import { pick } from 'mypack/utils'
@@ -29,26 +29,19 @@ function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, propofComponentRoot)} name='List'>
-      {props.data?.map((itemInfo, index) => (
-        <Fragment key={itemInfo[props.keyPropname ?? ''] ?? index}>
+      <$For $for={props.data} keyProp={props.keyPropname}>
+        {(itemInfo, index) => (
           <Slot
             slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)
             }}
-
           >
             {props.__ListItem?.(itemInfo, index, props.data!)}
           </Slot>
-          <Slot
-            slotName='__Divider'
-            $if={!props.data || !props.__Between || index === Number(props.data.length) - 1}
-          >
-            {props.__Between?.(itemInfo, index, props.data!)}
-          </Slot>
-        </Fragment>
-      ))}
+        )}
+      </$For>
     </ComponentRoot>
   )
 }

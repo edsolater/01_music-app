@@ -52,4 +52,9 @@ export { default as ImageFalls } from './ImageFalls'
 export { default as Popover } from './Popover'
 export { default as RedDot } from './RedDot'
 
+
+/**
+ * 特殊组件
+ */
+export { default as $For } from './$For' // for渲染
 export * from './customHooks'

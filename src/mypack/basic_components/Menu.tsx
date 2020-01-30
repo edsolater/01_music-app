@@ -2,7 +2,7 @@ import React, { ReactNode, ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot, propofComponentRoot, View } from '.'
+import { ComponentRoot, Slot, propofComponentRoot, View, $For } from '.'
 import { pick } from 'mypack/utils'
 /**
  * Menu中的Item信息
@@ -78,20 +78,20 @@ type IProps = React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectMenuItem?: (event: MenuItemInfo) => void
+  onSelectMenuItem?: (itemInfo: MenuItemInfo, event: React.MouseEvent) => void
 }
 function Menu(props: IProps) {
   const selectedPath = useMaster({
     type: 'stringPath',
-    init: `${props.initGroupIndex}/${props.initItemIndex}`,
+    init: `${props.initGroupIndex ?? 0}/${props.initItemIndex ?? 0}`,
   })
   const hasGroup = !Array.isArray(props.data)
   return (
     <ComponentRoot {...pick(props, propofComponentRoot)} name='Menu'>
       {props.children}
-      {hasGroup &&
-        Object.entries(props.data as MenuGroupData) /* TODO：这里没有正确的类型推断 */
-          .map(([groupName, items], groupIndex) => {
+      {hasGroup && (
+        <$For $for={Object.entries(props.data as MenuGroupData)}>
+          {([groupName, items], groupIndex) => {
             const groupInfo: MenuGroupInfo = {
               group: { title: groupName },
               groupIndex: groupIndex,
@@ -113,37 +113,45 @@ function Menu(props: IProps) {
                   {groupName !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
                     props.__MenuGroup?.(groupInfo)}
                 </Slot>
-                {items.map((menuItem, itemIndex) => {
-                  const itemInfo: MenuItemInfo = {
-                    ...groupInfo,
-                    ...{
-                      currentMenuPath: selectedPath.getPath(),
-                      itemIndex,
-                      item: menuItem,
-                      itemsInGroup: items,
-                    },
-                  }
-                  return (
-                    <Slot
-                      key={itemInfo.item.itemPathLabel}
-                      slotName={[
-                        '__MenuItem',
-                        {
-                          _selected:
-                            `${groupInfo?.groupIndex ?? 0}/${itemIndex}` === selectedPath.getPath(),
-                          _first: itemIndex === 0,
-                          _last: itemIndex === items.length - 1,
-                        },
-                      ]}
-                      onClick={() => props.onSelectMenuItem?.(itemInfo)}
-                    >
-                      {props.__MenuItem?.(itemInfo)}
-                    </Slot>
-                  )
-                })}
+                <$For $for={items}>
+                  {(menuItem, itemIndex) => {
+                    const itemInfo: MenuItemInfo = {
+                      ...groupInfo,
+                      ...{
+                        currentMenuPath: selectedPath.getPath(),
+                        itemIndex,
+                        item: menuItem,
+                        itemsInGroup: items,
+                      },
+                    }
+                    return (
+                      <Slot
+                        key={itemInfo.item.itemPathLabel}
+                        slotName={[
+                          '__MenuItem',
+                          {
+                            _selected:
+                              `${groupInfo?.groupIndex ?? 0}/${itemIndex}` ===
+                              selectedPath.getPath(),
+                            _first: itemIndex === 0,
+                            _last: itemIndex === items.length - 1,
+                          },
+                        ]}
+                        onClick={(event) => {
+                          selectedPath.set(`${groupIndex}/${itemIndex}`)
+                          props.onSelectMenuItem?.(itemInfo, event)
+                        }}
+                      >
+                        {props.__MenuItem?.(itemInfo)}
+                      </Slot>
+                    )
+                  }}
+                </$For>
               </View>
             )
-          })}
+          }}
+        </$For>
+      )}
     </ComponentRoot>
   )
 }
