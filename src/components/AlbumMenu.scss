@@ -12,6 +12,7 @@
 }
 
 .Menu {
+  --menu-gap-width: 48px;
   contain: paint;
   overflow: hidden auto;
   .Text.headline {
@@ -19,8 +20,8 @@
     color: gray;
   }
   .Item {
-    padding-top: 8px;
-    padding-bottom: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     .textbox {
       max-width: 90%;
       width: max-content;

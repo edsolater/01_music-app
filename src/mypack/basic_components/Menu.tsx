@@ -2,9 +2,9 @@ import React, { ReactNode, ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot } from '.'
+import { ComponentRoot, Slot, propofComponentRoot, View } from '.'
+import { pick } from 'mypack/utils'
 /**
- * TODO: Menu会引起Typescript的类型推断崩溃，肯定有什么问题（答：类型继承用得太过复杂）
  * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
  */
 type MenuItemInfo = {
@@ -26,9 +26,7 @@ type PathPiece = string //Temp
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
  * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
  */
-type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentProps<
-  typeof ComponentRoot
-> & {
+type IProps = React.ComponentProps<typeof ComponentRoot> & {
   /**
    * 初始化菜单项的index
    */
@@ -41,11 +39,7 @@ type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentP
    * **必选项**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
-  data: NoGroup extends true ? AlbumMenuItem[] : MenuGroupData
-  /**
-   * 不需要分组
-   */
-  noGroup?: NoGroup
+  data: AlbumMenuItem[] | MenuGroupData
   /**
    * 出现在Menu头部位置
    */
@@ -68,133 +62,71 @@ type Props__Menu<NoGroup extends boolean | undefined = false> = React.ComponentP
    */
   onSelectMenuItem?: (event: MenuItemInfo) => void
 }
-type Props__MenuItems = {
-  currentPath: PathPiece
-  items: AlbumMenuItem[]
-  group?: MenuGroupInfo
-  __BetweenItems?: React.ComponentProps<typeof Menu>['__BetweenItems']
-  __MenuItem?: React.ComponentProps<typeof Menu>['__MenuItem']
-  /**
-   * 回调：选择另一个菜单项
-   */
-  onSelectMenuItem?: (itemInfo: MenuItemInfo) => any
-} & React.ComponentProps<typeof Slot>
-type Props__MenuGroup = {
-  allData: MenuGroupData
-  currentGroupPath: PathPiece
-  __MenuGroup?: React.ComponentProps<typeof Menu>['__MenuGroup']
-  children: (items: AlbumMenuItem[], group: MenuGroupInfo) => ReactNode
-} & React.ComponentProps<typeof Slot>
-
-function Menu(props: Props__Menu) {
-  const {
-    initItemIndex = 0,
-    initGroupIndex = 0,
-    data,
-    __MenuHeader,
-    __MenuItem,
-    __MenuGroup,
-    __BetweenItems,
-    noGroup = false,
-    onSelectMenuItem,
-    children,
-    ...restProps
-  } = props
-  const selectedPath = useMaster({ type: 'stringPath', init: `${initGroupIndex}/${initItemIndex}` })
+function Menu(props: IProps) {
+  const selectedPath = useMaster({
+    type: 'stringPath',
+    init: `${props.initGroupIndex}/${props.initItemIndex}`,
+  })
+  const hasGroup = !Array.isArray(props.data)
   return (
-    <ComponentRoot name='Menu' {...restProps}>
-      {children}
+    <ComponentRoot {...pick(props, propofComponentRoot)} name='Menu'>
+      {props.children}
       {props.__MenuHeader?.(props, selectedPath.getPath())}
-      {noGroup ? (
-        <MenuItems
-          currentPath={selectedPath.getPath()}
-          items={(data as unknown) as AlbumMenuItem[]}
-          __MenuItem={__MenuItem}
-          __BetweenItems={__BetweenItems}
-          onSelectMenuItem={(itemInfo) => {
-            selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
-            onSelectMenuItem?.(itemInfo)
-          }}
-        />
-      ) : (
-        <MenuGroup
-          allData={(data as unknown) as MenuGroupData}
-          currentGroupPath={selectedPath.getPath(-2)}
-          __MenuGroup={__MenuGroup}
-        >
-          {(items, menuGroupObj) => (
-            <MenuItems
-              currentPath={selectedPath.getPath()}
-              items={items}
-              group={menuGroupObj}
-              __MenuItem={__MenuItem}
-              __BetweenItems={__BetweenItems}
-              onSelectMenuItem={(itemInfo) => {
-                selectedPath.set(`${itemInfo.groupIndex}/${itemInfo.itemIndex}`)
-                onSelectMenuItem?.(itemInfo)
-              }}
-            />
-          )}
-        </MenuGroup>
-      )}
+      {hasGroup &&
+        Object.entries(props.data) /* TODO：这里没有正确的类型推断 */
+          .map(([groupName, items], groupIndex) => {
+            const groupInfo: MenuGroupInfo = {
+              group: { title: groupName },
+              groupIndex: groupIndex,
+              itemsInThisGroup: items,
+            }
+            return (
+              // TODO: <Group>要支持竖向的，以代替View
+              <View className='Menu_groupBox' key={groupInfo.group.title}>
+                <Slot
+                  slotName={[
+                    '__MenuGroup',
+                    {
+                      _selected:
+                        `${groupIndex}` ===
+                        selectedPath.getPath() /* TODO:之所以判断逻辑略显繁琐，是selectedPath本身逻辑繁琐 */,
+                    },
+                  ]}
+                >
+                  {groupName !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
+                    props.__MenuGroup?.(groupInfo)}
+                </Slot>
+                {items.map((menuItem, itemIndex) => {
+                  const itemInfo: MenuItemInfo = {
+                    ...groupInfo,
+                    ...{
+                      currentMenuPath: selectedPath.getPath(),
+                      itemIndex,
+                      item: menuItem,
+                      itemsInGroup: items,
+                    },
+                  }
+                  return (
+                    <Slot
+                      key={itemInfo.item.itemPathLabel}
+                      slotName={[
+                        '__MenuItem',
+                        {
+                          _selected:
+                            `${groupInfo?.groupIndex ?? 0}/${itemIndex}` === selectedPath.getPath(),
+                          _last: itemIndex === items.length - 1,
+                        },
+                      ]}
+                      onClick={() => props.onSelectMenuItem?.(itemInfo)}
+                    >
+                      {props.__MenuItem?.(itemInfo)}
+                    </Slot>
+                  )
+                })}
+              </View>
+            )
+          })}
     </ComponentRoot>
-  )
-}
-function MenuGroup({ allData, currentGroupPath, __MenuGroup, children }: Props__MenuGroup) {
-  const amount = Object.entries(allData).length
-  return (
-    <>
-      {Object.entries(allData).map(([groupName, items], groupIndex) => {
-        const groupInfo: MenuGroupInfo = {
-          group: { title: groupName },
-          groupIndex: groupIndex,
-          itemsInThisGroup: items,
-        }
-        return (
-          <Slot
-            key={groupInfo.group.title}
-            slotName={[
-              '__MenuGroup',
-              { _selected: `${groupIndex}` === currentGroupPath, last: groupIndex === amount - 1 },
-            ]}
-          >
-            {groupName !== 'null' /* 如果是组名是 "null" 则不渲染 */ && __MenuGroup?.(groupInfo)}
-            {children(items, groupInfo)}
-          </Slot>
-        )
-      })}
-    </>
-  )
-}
-function MenuItems(props: Props__MenuItems) {
-  const { currentPath, items, group, onSelectMenuItem, __MenuItem } = props
-  return (
-    <>
-      {items.map((menuItem, itemIndex) => {
-        const itemInfo: MenuItemInfo = {
-          ...group,
-          ...{
-            currentMenuPath: currentPath,
-            itemIndex,
-            item: menuItem,
-            itemsInGroup: items,
-          },
-        }
-        return (
-          <Slot
-            key={itemInfo.item.itemPathLabel}
-            slotName={[
-              '__MenuItem',
-              { _selected: `${group?.groupIndex ?? 0}/${itemIndex}` === currentPath },
-            ]}
-            onClick={() => onSelectMenuItem?.(itemInfo)}
-          >
-            {__MenuItem?.(itemInfo)}
-            {itemIndex !== items.length - 1 && props.__BetweenItems?.(itemIndex, itemInfo)}
-          </Slot>
-        )
-      })}
-    </>
   )
 }
 

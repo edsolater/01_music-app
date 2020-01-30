@@ -8,7 +8,6 @@ import {
   Icon,
   Text,
   RedDot,
-  Divider,
   View,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
@@ -43,7 +42,6 @@ export default function AlbumMenu() {
             </View>
           </Item>
         )}
-        __BetweenItems={() => <Divider />}
       />
       <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />

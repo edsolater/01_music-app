@@ -1,8 +1,7 @@
 .Menu {
-  --menu-gap-width: 32px;
   display: grid;
   grid-auto-rows: max-content;
-  gap: var(--menu-gap-width);
+  gap: 32px;
 }
 .__MenuGroup {
   &._selected {

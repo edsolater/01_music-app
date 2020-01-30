@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode, DOMAttributes } from 'react'
 import { ClassValue } from 'classnames/types'
 
-//TODO 这两个方法能不能合并
+//TODO- 这两个方法能不能合并
 export function addClass(target: ReactNode, extraClassName: ClassValue) {
   if (target !== null && typeof target === 'object') {
     return React.cloneElement(target as ReactElement, {
