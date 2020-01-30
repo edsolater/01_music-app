@@ -1,19 +1,14 @@
-.Menu {
-  --divider-height: 1px;
-  --divider-color: rgba(0, 0, 0, 0.1);
-  --divider-left: 0px;
-  .__MenuGroup {
-    margin-bottom: 32px;
-    &._selected {
-      background-color: aliceblue;
-    }
-    &:last-of-type {
-      margin-bottom: 0;
-    }
+.__MenuGroup {
+  margin-bottom: 32px;
+  &._selected {
+    background-color: aliceblue;
   }
-  .__MenuItem {
-    &._selected {
-      border-left: 4px solid var(--primary, dodgerblue);
-    }
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+.__MenuItem {
+  &._selected {
+    border-left: 4px solid var(--primary, dodgerblue);
   }
 }

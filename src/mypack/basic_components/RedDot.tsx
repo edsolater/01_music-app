@@ -36,7 +36,7 @@ const RedDot = ({
       name={['RedDot', { _invisiable: invisiable }]}
       {...restProps}
     >
-      <Slot slotName={['__Dot', { _onlyDot: onlyDot }]}>{!onlyDot && <Text>{amount}</Text>}</Slot>
+      <Slot slotName={['RedDot__Dot', { _onlyDot: onlyDot }]}>{!onlyDot && <Text>{amount}</Text>}</Slot>
     </ComponentRoot>
   )
 }
