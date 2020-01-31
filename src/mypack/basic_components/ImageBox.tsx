@@ -1,25 +1,23 @@
 import React from 'react'
-import { ComponentRoot, Image } from '.'
+import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 import './ImageBox.scss'
 
-function ImageBox({
-  src,
-  alt,
-  srcSet,
-  ...restProps
-}: React.ComponentProps<typeof ComponentRoot> & {
-  src?: string
-  alt?: string
-  srcSet?: string
-}) {
+function ImageBox<O>(
+  props: ComponentRootPorpType<O> & {
+    src?: string
+    alt?: string
+    srcSet?: string
+  },
+) {
   return (
-    <ComponentRoot name='ImageBox' {...restProps}>
-      {restProps.children}
+    <ComponentRoot {...pick(props, componentRootProps)} name='ImageBox'>
+      {props.children}
       <Image
-        src={src}
+        src={props.src}
         html={{
-          alt,
-          srcSet,
+          alt: props.alt,
+          srcSet: props.srcSet,
         }}
       />
     </ComponentRoot>

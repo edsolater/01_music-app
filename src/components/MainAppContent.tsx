@@ -52,7 +52,7 @@ export default function MainAppContent() {
         data={appData.collectionMusicList}
         initSelectedIndex={0}//TODO: 属于App数据的一部分，要由AppStore控制
         __ListItem={(itemInfo) => (
-          <Item $for={[{a:1}]} hello='hh' ref={(jj) => {console.log('jj: ', jj)}}>
+          <Item $for={[{a:1}]}>
             {/* TODO: 为什么没有智能提示呢？ */}
             {(item)=><Text>{item.a}</Text>}
           </Item>

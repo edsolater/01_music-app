@@ -1,17 +1,19 @@
 import React from 'react'
-
 import './Label.scss'
-import { ComponentRoot } from '.'
+import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
-export default function Label({
-  text,
-  ...restProps
-}: React.ComponentProps<typeof ComponentRoot> & {
-  text?: string
-}) {
+function Label<O>(
+  props: ComponentRootPorpType<O> & {
+    text?: string
+  },
+  ref
+) {
   return (
-    <ComponentRoot name='Label' {...restProps}>
-      {text ?? restProps.children}
+    <ComponentRoot ref={ref} {...pick(props, componentRootProps)} name='Label'>
+      {props.text ?? props.children}
     </ComponentRoot>
   )
 }
+
+export default React.memo(React.forwardRef(Label)) as typeof Label

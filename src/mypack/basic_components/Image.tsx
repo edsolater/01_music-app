@@ -40,6 +40,7 @@ type IProps = {
   src?: JSX.IntrinsicElements['img']['src']
 }
 
+//TODO: Image要能依托于View，不然维护太烦
 const Image = React.forwardRef((props: IProps, ref: any): JSX.Element | null =>
   props['$if'] ?? true ? (
     <img

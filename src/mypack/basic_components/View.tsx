@@ -36,8 +36,7 @@ export type ViewPropType<O extends any> = {
    */
   children?: ReactNode | ((item: O, index: number) => ReactNode)
   /**
-   * 为了智能推断放在这里，暂时在props系统上把ref当作一个props进行智能推断，实际上ref并不存在于props中
-   * ref符合react的规矩就行
+   * 在类型系统上暂且把ref当作一个props进行智能推断，实际上ref是要forwardRef的
    */
   ref?: any
   /**

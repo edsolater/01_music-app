@@ -1,8 +1,9 @@
 import React from 'react'
-import { Section } from '.'
+import { Section, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
-function Segment({ className, ...restProps }: React.ComponentProps<typeof Section>) {
-  return <Section className={[className, 'Segment']} {...restProps} />
+function Segment<O>(props: ComponentRootPorpType<O>) {
+  return <Section {...pick(props, componentRootProps)} className={[props.className, 'Segment']} />
 }
 
 export default React.memo(Segment) as typeof Segment

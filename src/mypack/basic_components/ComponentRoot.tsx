@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react'
 import { ClassValue } from 'classnames/types'
 import { View, ViewProp, ViewPropType } from '.'
-import { pick } from 'mypack/utils'
+import { pick } from '../utils'
 
 export type ComponentRootPorpType<O extends any> = ViewPropType<O> & {
   /**
@@ -30,6 +30,4 @@ function ComponentRoot<O>(
   return <View ref={ref} {...pick(props, ViewProp)} className={[props.className, props.name]} />
 }
 
-export default React.memo(React.forwardRef(ComponentRoot)) as <O>(
-  props: ComponentRootPorpType<O>,
-) => ReactElement | null
+export default React.memo(React.forwardRef(ComponentRoot)) as typeof ComponentRoot

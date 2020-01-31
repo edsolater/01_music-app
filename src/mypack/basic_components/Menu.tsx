@@ -1,9 +1,9 @@
-import React, { ReactNode, ComponentProps } from 'react'
+import React, { ReactNode } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot, componentRootProps, View, $For } from '.'
-import { pick } from 'mypack/utils'
+import { ComponentRoot, Slot, componentRootProps, View, $For,ComponentRootPorpType} from '.'
+import { pick } from '../utils'
 /**
  * Menu中的Item信息
  */
@@ -52,7 +52,7 @@ type PathPiece = string //Temp
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
  * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
  */
-type IProps = React.ComponentProps<typeof ComponentRoot> & {
+type IProps<O> = ComponentRootPorpType<O> & {
   /**
    * 初始化菜单项的index
    */
@@ -80,7 +80,7 @@ type IProps = React.ComponentProps<typeof ComponentRoot> & {
    */
   onSelectMenuItem?: (itemInfo: MenuItemInfo, event: React.MouseEvent) => void
 }
-function Menu(props: IProps) {
+function Menu<O>(props: IProps<O>) {
   const selectedPath = useMaster({
     type: 'stringPath',
     init: `${props.initGroupIndex ?? 0}/${props.initItemIndex ?? 0}`,

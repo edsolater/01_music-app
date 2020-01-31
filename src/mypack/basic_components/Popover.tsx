@@ -1,73 +1,68 @@
 import React, { ReactNode } from 'react'
 import { useMasterBoolean } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
-import { View, ComponentRoot, Slot } from '.'
+import { Slot, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
 /**
- * 要向RedDot学习，做一个子组件而不是父级组件
+ * TODO:要向RedDot学习，做一个子组件而不是父级组件
  */
-function Popover({
-  html,
-
-  open,
-  defaultOpen,
-  delayTime,
-  Content,
-  children,
-  ...restProps
-}: React.ComponentProps<typeof View> & {
-  /**
-   * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
-   */
-  open?: boolean
-  /**
-   * 是否默认开启
-   */
-  defaultOpen?: boolean
-  /**
-   * 延迟关闭的延迟时间。(只有当交互行为由组件内部自行控制控时生效)
-   */
-  delayTime?: number
-  /**
-   * #Slot#
-   *
-   * Popover 的content的内容
-   */
-  Content?: ReactNode
-}) {
-  const onOffController = useMasterBoolean(Boolean(defaultOpen))
+function Popover<O>(
+  props: ComponentRootPorpType<O> & {
+    /**
+     * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
+     */
+    open?: boolean
+    /**
+     * 是否默认开启
+     */
+    defaultOpen?: boolean
+    /**
+     * 延迟关闭的延迟时间。(只有当交互行为由组件内部自行控制控时生效)
+     */
+    delayTime?: number
+    /**
+     * #Slot#
+     *
+     * Popover 的content的内容
+     */
+    Content?: ReactNode
+  },
+) {
+  const onOffController = useMasterBoolean(Boolean(props.defaultOpen))
+  console.log('onOffController: ', onOffController.isOn) //为什么这里会触法4次呢？
   const triggerCallback = {
     on: () => {
       onOffController.show().dismissDeferHide()
     },
-    off: () => onOffController.deferHide(delayTime),
+    off: () => onOffController.deferHide(props.delayTime),
   }
   return (
     <ComponentRoot
-      name={['Popover', 'wrapper-part', { on: open ?? onOffController.isOn }]}
+      {...pick(props, componentRootProps)}
+      name={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
       html={{
-        ...html,
+        ...props.html,
         onPointerEnter: (event) => {
-          html?.onPointerEnter?.(event)
+          props.html?.onPointerEnter?.(event)
           triggerCallback.on()
         },
         onPointerLeave: (event) => {
-          html?.onPointerLeave?.(event)
+          props.html?.onPointerLeave?.(event)
           triggerCallback.off()
         },
       }}
-      {...restProps}
     >
       <Slot //content不一定得是card形式，Card单独提成一个组件
-        slotName={['Popover', 'content-part', { on: open ?? onOffController.isOn }]}
+        slotName={['Popover', 'content-part', { on: props.open ?? onOffController.isOn }]}
         html={{
           onPointerEnter: () => triggerCallback.on(),
           onPointerLeave: () => triggerCallback.off(),
         }}
       >
-        {Content} {/* slot */}
+        {props.Content} {/* slot */}
       </Slot>
-      {children} {/* slot */}
+      {props.children} {/* slot */}
     </ComponentRoot>
   )
 }

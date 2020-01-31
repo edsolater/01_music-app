@@ -1,9 +1,10 @@
 import React from 'react'
 import './Intro.scss'
-import { ComponentRoot } from '.'
+import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
-const Intro = ({ ...restProps }: React.ComponentProps<typeof ComponentRoot>) => {
-  return <ComponentRoot name='Intro' {...restProps} />
+function Intro<O>(props: ComponentRootPorpType<O>) {
+  return <ComponentRoot {...pick(props, componentRootProps)} name='Intro' />
 }
 
 export default React.memo(Intro) as typeof Intro

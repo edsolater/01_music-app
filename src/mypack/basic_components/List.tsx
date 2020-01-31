@@ -1,8 +1,8 @@
-import React, { ComponentProps, Fragment, ReactNode } from 'react'
-import { ComponentRoot, Slot, componentRootProps, $For } from '.'
+import React, { ReactNode } from 'react'
+import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType, $For } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
-import { pick } from 'mypack/utils'
+import { pick } from '../utils'
 
 /**
  * List组件的的Props
@@ -25,7 +25,7 @@ type IProps<T> = {
 /**
  * React组件
  */
-function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
+function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='List'>

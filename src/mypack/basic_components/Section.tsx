@@ -1,10 +1,9 @@
 import React from 'react'
-import { ComponentRoot } from '.'
 import './Section.scss'
+import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
-function Section({
-  ...restProps
-}: JSX.IntrinsicElements['section'] & React.ComponentProps<typeof ComponentRoot>) {
-  return <ComponentRoot name='Section' {...restProps}></ComponentRoot>
+function Section<O>(props: ComponentRootPorpType<O>) {
+  return <ComponentRoot {...pick(props, componentRootProps)} name='Section' />
 }
 export default React.memo(Section) as typeof Section

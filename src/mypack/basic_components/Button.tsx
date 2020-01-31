@@ -1,31 +1,29 @@
 import React from 'react'
 import './Button.scss'
-import { ComponentRoot } from '.'
+import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
 //TODO： 常规操作：定义各种按钮样式
-function Button({
-  isOn,
-  isOff,
-  disabled,
-  ...restProps
-}: React.ComponentProps<typeof ComponentRoot> & {
-  /**
-   * 按钮关闭
-   */
-  isOn?: boolean
-  /**
-   * 按钮打开
-   */
-  isOff?: boolean
-  /**
-   * 按钮处于失效状态
-   */
-  disabled?: boolean
-}) {
+function Button<O>(
+  props: ComponentRootPorpType<O> & {
+    /**
+     * 按钮关闭
+     */
+    isOn?: boolean
+    /**
+     * 按钮打开
+     */
+    isOff?: boolean
+    /**
+     * 按钮处于失效状态
+     */
+    disabled?: boolean
+  },
+) {
   return (
     <ComponentRoot
-      name={['Button', { _disabled: disabled, _on: isOn, _off: isOff }]}
-      {...restProps}
+      {...pick(props, componentRootProps)/* TODO: 总是这个形式的调用，需要缓存机制 */}
+      name={['Button', { _disabled: props.disabled, _on: props.isOn, _off: props.isOff }]}
     ></ComponentRoot>
   )
 }

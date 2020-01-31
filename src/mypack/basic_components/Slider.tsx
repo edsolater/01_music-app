@@ -3,49 +3,47 @@ import React from 'react'
 import './Slider.scss'
 import { useMaster } from './customHooks'
 import { constraint } from '../utils'
-import { View, ComponentRoot } from '.'
+import { View, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { pick } from '../utils'
 
 /**
  * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次）IDEA： 加个函数防抖能轻松解决？
  * TODO：此组件的 逻辑过于混乱，要重写
  * 注意它只能理解数字
  */
-function Slider({
-  max = 1,
-  value,
-  defaultValue,
-  onMoveTrigger,
-  onMoveTriggerDone,
-  ...restProps
-}: React.ComponentProps<typeof ComponentRoot> & {
-  /**
-   * 总长度
-   */
-  max?: number
-  /**
-   * 当前所在位置 (初始值)
-   */
-  defaultValue?: number
-  /**
-   * 当前所在位置
-   */
-  value?: number
-  /**
-   * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
-   */
-  onMoveTrigger?: (currentSecond: number) => any
-  /**
-   * 只在最后触发一次
-   */
-  onMoveTriggerDone?: (currentSecond: number) => any
-}) {
+function Slider<O>(
+  props: ComponentRootPorpType<O> & {
+    /**
+     * 总长度
+     */
+    max?: number
+    /**
+     * 当前所在位置 (初始值)
+     */
+    defaultValue?: number
+    /**
+     * 当前所在位置
+     */
+    value?: number
+    /**
+     * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
+     */
+    onMoveTrigger?: (currentSecond: number) => any
+    /**
+     * 只在最后触发一次
+     */
+    onMoveTriggerDone?: (currentSecond: number) => any
+  },
+) {
+  const maxValue = props.max ?? 1
   const triggerLeft = useMaster({
     type: 'number',
-    init: (value || defaultValue || 0) / max || 0,
+    init: (props.value || props.defaultValue || 0) / maxValue || 0,
   })
   const inDraggingTrigger = useMaster({ type: 'boolean' })
-  const styleLeft = value
-    ? `${(inDraggingTrigger.getValue() ? triggerLeft.getValue() : (value ?? 0) / max) * 100}%`
+  const styleLeft = props.value
+    ? `${(inDraggingTrigger.getValue() ? triggerLeft.getValue() : (props.value ?? 0) / maxValue) *
+        100}%`
     : `${triggerLeft.getValue() * 100}%`
   const setLeft = (percentage: number) => {
     triggerLeft.set(percentage)
@@ -57,15 +55,16 @@ function Slider({
   const moveTrigger = (percentage: number) => {
     const validPercentage = constraint(percentage, { range: [0, 1] })
     setLeft(validPercentage)
-    onMoveTrigger?.(validPercentage * max)
+    props.onMoveTrigger?.(validPercentage * maxValue)
   }
   const moveTriggerDone = (percentage: number) => {
     const validPercentage = constraint(percentage, { range: [0, 1] })
     setLeft(validPercentage)
-    onMoveTriggerDone?.(validPercentage * max)
+    props.onMoveTriggerDone?.(validPercentage * maxValue)
   }
   return (
     <ComponentRoot
+      {...pick(props, componentRootProps)}
       name='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!
@@ -77,7 +76,6 @@ function Slider({
           moveTriggerDone(triggerLeft.getValue() + Math.sign(e.deltaY) * 0.1)
         },
       }}
-      {...restProps}
     >
       <View
         className='Trigger'

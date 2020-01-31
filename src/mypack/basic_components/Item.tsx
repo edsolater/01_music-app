@@ -1,6 +1,6 @@
 import React from 'react'
 import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
-import { pick } from 'mypack/utils'
+import { pick } from '../utils'
 
 /**
  * 用于横向布局
