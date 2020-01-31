@@ -12,6 +12,7 @@ import {
   List,
   Grid,
   Divider,
+  View,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
@@ -51,10 +52,10 @@ export default function MainAppContent() {
         data={appData.collectionMusicList}
         initSelectedIndex={0}//TODO: 属于App数据的一部分，要由AppStore控制
         __ListItem={(itemInfo) => (
-          <Item >
+          <View $for={[{a:1}]}>
             {/* TODO: 为什么没有智能提示呢？ */}
-            {<Text>{3}</Text>}
-          </Item>
+            {(item)=><Text>{item.a}</Text>}
+          </View>
           // <Item>
           //   <Text>{itemInfo.songName}</Text>
           // </Item>
