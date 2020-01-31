@@ -1,16 +1,15 @@
 import React from 'react'
-import View from './View'
+import { View, ViewPropType } from '.'
 import { ClassValue } from 'classnames/types'
-
 
 /**
  * 为了简洁，完全抛弃slot组件
  */
-function Slot({
+function Slot<O>({
   slotName,
   className,
   ...restProps
-}: React.ComponentProps<typeof View> & {
+}: ViewPropType<O> & {
   /**
    * 用于各个组件定义组件的名字更方便
    */

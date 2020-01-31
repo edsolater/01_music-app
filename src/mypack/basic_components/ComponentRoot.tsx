@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { ClassValue } from 'classnames/types'
 import { View, ViewProp, ViewPropType } from '.'
 import { pick } from '../utils'
