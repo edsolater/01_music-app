@@ -1,6 +1,6 @@
 import { wrapToArray } from './_preprocessingData'
 
-export function pick<O>(target: O, propNames?: (keyof O)[] | keyof O) {
+export function pick<O>(target: O, propNames?: (keyof O)[] | keyof O | string[]) {
   if (typeof target !== 'object' || target === null) return
   let newObject: Partial<O> = {}
   wrapToArray(propNames)?.forEach((propName) => {

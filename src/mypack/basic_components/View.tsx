@@ -1,46 +1,9 @@
 import React, { CSSProperties, Fragment, ReactNode } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
+import { Booleanish } from './types'
 
-/**props定义 */
-type IProps<O> = {
-  /**
-   * 覆盖原生的className
-   */
-  className?: ClassValue
-  /**
-   * **特殊属性**
-   * 类似于 vue 的 v-if
-   */
-  $if?: any
-  /**
-   * **特殊属性**
-   * 类似于 vue 的 v-for 但没有keyProp的功能，需要请使用 <$For>  !!!注意，此时Ref不可获取（TODO）
-   */
-  $for?: O[]
-  /**
-   * **特殊属性**
-   * 克隆自身 (接受数字(number/string)) !!!注意，此时Ref不可获取（TODO）
-   */
-  $clone?: number | string
-  /**
-   * 照搬<div> 的style
-   */
-  style?: CSSProperties
-  /**
-   * 照搬<div> 的onClick
-   */
-  onClick?: JSX.IntrinsicElements['div']['onClick']
-  /**
-   * 照搬<div> 的 children
-   */
-  children?: ReactNode | ((item: O, index: number) => ReactNode)
-  /**
-   * 除className,style,onClick外的原生属性的
-   */
-  html?: JSX.IntrinsicElements['div']
-}
-export const propofView: (keyof IProps<any>)[] = [
+export const propofView = [
   'className',
   'style',
   'onClick',
@@ -52,7 +15,46 @@ export const propofView: (keyof IProps<any>)[] = [
 ]
 
 /**组件代码 */
-const View = React.forwardRef(<O extends any>(props: IProps<O>, ref: any): JSX.Element | null => {
+function View<O extends any>(
+  props: {
+    /**
+     * 覆盖原生的className
+     */
+    className?: ClassValue
+    /**
+     * **特殊属性**
+     * 类似于 vue 的 v-if
+     */
+    $if?: Booleanish
+    /**
+     * **特殊属性**
+     * 类似于 vue 的 v-for 但没有keyProp的功能，需要请使用 <$For>  !!!注意，此时Ref不可获取（TODO）
+     */
+    $for?: O[]
+    /**
+     * **特殊属性**
+     * 克隆自身 (接受数字(number/string)) !!!注意，此时Ref不可获取（TODO）
+     */
+    $clone?: number | string
+    /**
+     * 照搬<div> 的style
+     */
+    style?: CSSProperties
+    /**
+     * 照搬<div> 的onClick
+     */
+    onClick?: JSX.IntrinsicElements['div']['onClick']
+    /**
+     * 照搬<div> 的 children
+     */
+    children?: ReactNode | ((item: O, index: number) => ReactNode)
+    /**
+     * 除className,style,onClick外的原生属性的
+     */
+    html?: JSX.IntrinsicElements['div']
+  },
+  ref: any,
+): JSX.Element | null {
   if (props.$for) {
     return (
       <>
@@ -104,6 +106,5 @@ const View = React.forwardRef(<O extends any>(props: IProps<O>, ref: any): JSX.E
       </div>
     ) : null
   }
-})
-View.displayName = 'View'
-export default React.memo(View) as typeof View
+}
+export default React.memo(React.forwardRef(View))

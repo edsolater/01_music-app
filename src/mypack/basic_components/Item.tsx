@@ -1,11 +1,12 @@
 import React from 'react'
-import { View } from '.'
+import { View, propofView } from '.'
+import { pick } from 'mypack/utils'
 
 /**
  * 用于横向布局
  */
-function Item({ className, ...restProps }: React.ComponentProps<typeof View>) {
-  return <View className={[className, 'Item']} {...restProps} />
+function Item(props: React.ComponentProps<typeof View>) {
+  return <View {...pick(props, propofView)} className={[props.className, 'Item']} />
 }
 
-export default React.memo(Item) as typeof Item
+export default React.memo(Item)
