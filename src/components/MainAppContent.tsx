@@ -12,7 +12,6 @@ import {
   List,
   Grid,
   Divider,
-  View,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'

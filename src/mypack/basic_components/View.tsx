@@ -1,4 +1,4 @@
-import React, { CSSProperties, Fragment, ReactNode, ReactElement } from 'react'
+import React, { CSSProperties, ReactNode, ReactElement } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Booleanish } from './types'

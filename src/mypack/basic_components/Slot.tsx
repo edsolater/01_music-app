@@ -2,9 +2,7 @@ import React from 'react'
 import { View, ViewPropType } from '.'
 import { ClassValue } from 'classnames/types'
 
-/**
- * 为了简洁，完全抛弃slot组件
- */
+
 function Slot<O>({
   slotName,
   className,
