@@ -1,5 +1,5 @@
 import React, { ComponentProps, Fragment, ReactNode } from 'react'
-import { ComponentRoot, Slot, propofComponentRoot, $For } from '.'
+import { ComponentRoot, Slot, componentRootProps, $For } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 import { pick } from 'mypack/utils'
@@ -28,7 +28,7 @@ type IProps<T> = {
 function List<T>(props: ComponentProps<typeof ComponentRoot> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
-    <ComponentRoot {...pick(props, propofComponentRoot)} name='List'>
+    <ComponentRoot {...pick(props, componentRootProps)} name='List'>
       <$For $for={props.data} keyProp={props.keyPropname}>
         {(itemInfo, index) => (
           <Slot

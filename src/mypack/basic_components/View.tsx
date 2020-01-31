@@ -1,9 +1,9 @@
-import React, { CSSProperties, Fragment, ReactNode } from 'react'
+import React, { CSSProperties, Fragment, ReactNode, ReactElement } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Booleanish } from './types'
 
-type IProp<O extends any> = {
+export type ViewPropType<O extends any> = {
   /**
    * 覆盖原生的className
    */
@@ -36,7 +36,8 @@ type IProp<O extends any> = {
    */
   children?: ReactNode | ((item: O, index: number) => ReactNode)
   /**
-   * 为了智能推断放在这里，ref符合react的规矩就行
+   * 为了智能推断放在这里，暂时在props系统上把ref当作一个props进行智能推断，实际上ref并不存在于props中
+   * ref符合react的规矩就行
    */
   ref?: any
   /**
@@ -45,7 +46,7 @@ type IProp<O extends any> = {
   html?: JSX.IntrinsicElements['div']
 }
 
-export const propofView = [
+export const ViewProp: (keyof ViewPropType<any>)[] = [
   'className',
   'style',
   'onClick',
@@ -57,10 +58,7 @@ export const propofView = [
 ]
 
 /**组件代码 */
-function View<O>(
-  props: IProp<O>,
-  ref: any,
-): JSX.Element | null {
+function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
   if (props.$for) {
     return (
       <>
@@ -113,4 +111,6 @@ function View<O>(
     ) : null
   }
 }
-export default React.memo(React.forwardRef(View)) as (<O extends any>(props:IProp<O>) => JSX.Element | null) // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背
+export default React.memo(React.forwardRef(View)) as <O>(
+  props: ViewPropType<O>,
+) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了

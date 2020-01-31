@@ -2,7 +2,7 @@ import React, { ReactNode, ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot, propofComponentRoot, View, $For } from '.'
+import { ComponentRoot, Slot, componentRootProps, View, $For } from '.'
 import { pick } from 'mypack/utils'
 /**
  * Menu中的Item信息
@@ -87,7 +87,7 @@ function Menu(props: IProps) {
   })
   const hasGroup = !Array.isArray(props.data)
   return (
-    <ComponentRoot {...pick(props, propofComponentRoot)} name='Menu'>
+    <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
       {hasGroup && (
         <$For $for={Object.entries(props.data as MenuGroupData)}>
