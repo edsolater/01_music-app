@@ -2,7 +2,14 @@ import React, { ReactNode } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot, componentRootProps, View, $$FlowControl$$, ComponentRootPorpType } from '.'
+import {
+  ComponentRoot,
+  Slot,
+  componentRootProps,
+  View,
+  $$FlowControl$$,
+  ComponentRootPorpType,
+} from '.'
 import { pick } from '../utils'
 /**
  * Menu中的Item信息
@@ -121,20 +128,21 @@ function Menu<O>(props: IProps<O>) {
               })}
               $formatterReturnType={{} as MenuItemInfo}
             >
-              {(itemInfo, itemIndex) => (
+              {(itemInfo) => (
                 <Slot
                   key={itemInfo.item.itemPathLabel}
                   slotName={[
                     '__MenuItem',
                     {
                       _selected:
-                        `${groupInfo?.groupIndex ?? 0}/${itemIndex}` === selectedPath.getPath(),
-                      _first: itemIndex === 0,
-                      _last: itemIndex === itemInfo.itemsInGroup.length - 1,
+                        `${groupInfo?.groupIndex ?? 0}/${itemInfo.itemIndex}` ===
+                        selectedPath.getPath(),
+                      _first: itemInfo.itemIndex === 0,
+                      _last: itemInfo.itemIndex === itemInfo.itemsInGroup.length - 1,
                     },
                   ]}
                   onClick={(event) => {
-                    selectedPath.set(`${groupInfo.groupIndex}/${itemIndex}`)
+                    selectedPath.set(`${groupInfo.groupIndex}/${itemInfo.itemIndex}`)
                     props.onSelectMenuItem?.(itemInfo, event)
                   }}
                 >
