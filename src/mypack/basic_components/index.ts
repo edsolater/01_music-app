@@ -56,5 +56,5 @@ export { default as RedDot } from './RedDot'
 /**
  * 特殊组件
  */
-export { default as $Meta } from './$Meta' // for渲染
+export { default as $$FlowControl$$ } from './$$FlowControl$$' // for渲染
 export * from './customHooks'

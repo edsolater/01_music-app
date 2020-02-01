@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot, componentRootProps, View, $Meta, ComponentRootPorpType } from '.'
+import { ComponentRoot, Slot, componentRootProps, View, $$FlowControl$$, ComponentRootPorpType } from '.'
 import { pick } from '../utils'
 /**
  * Menu中的Item信息
@@ -84,7 +84,7 @@ function Menu<O>(props: IProps<O>) {
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
-      <$Meta
+      <$$FlowControl$$
         $for={Object.entries(props.data as MenuGroupData)}
         $formatter={([groupName, items], groupIndex) => ({
           group: { title: groupName },
@@ -110,7 +110,7 @@ function Menu<O>(props: IProps<O>) {
               {groupInfo.group.title !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
                 props.__MenuGroup?.(groupInfo)}
             </Slot>
-            <$Meta
+            <$$FlowControl$$
               $for={groupInfo.itemsInGroup}
               $formatter={(menuItem, itemIndex) => ({
                 ...groupInfo,
@@ -141,10 +141,10 @@ function Menu<O>(props: IProps<O>) {
                   {props.__MenuItem?.(itemInfo)}
                 </Slot>
               )}
-            </$Meta>
+            </$$FlowControl$$>
           </View>
         )}
-      </$Meta>
+      </$$FlowControl$$>
     </ComponentRoot>
   )
 }
