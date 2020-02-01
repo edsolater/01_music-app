@@ -15,7 +15,7 @@ export type ViewPropType<O extends any> = {
   $if?: Booleanish
   /**
    * **特殊属性**
-   * 类似于 vue 的 v-for 但没有keyProp的功能，需要请使用 <$$FlowControl$$>  !!!注意，此时Ref不可获取（TODO）
+   * 类似于 vue 的 v-for 但没有keyProp的功能，需要请使用 <$$Control$$>  !!!注意，此时Ref不可获取（TODO）
    */
   $for?: O[]
   /**

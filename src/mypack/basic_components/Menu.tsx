@@ -7,7 +7,7 @@ import {
   Slot,
   componentRootProps,
   View,
-  $$FlowControl$$,
+  $$Control$$,
   ComponentRootPorpType,
 } from '.'
 import { pick } from '../utils'
@@ -91,7 +91,7 @@ function Menu<O>(props: IProps<O>) {
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
-      <$$FlowControl$$
+      <$$Control$$
         $for={Object.entries(props.data as MenuGroupData)}
         $formatter={([groupName, items], groupIndex) => ({
           group: { title: groupName },
@@ -117,7 +117,7 @@ function Menu<O>(props: IProps<O>) {
               {groupInfo.group.title !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
                 props.__MenuGroup?.(groupInfo)}
             </Slot>
-            <$$FlowControl$$
+            <$$Control$$
               $for={groupInfo.itemsInGroup}
               $formatter={(menuItem, itemIndex) => ({
                 ...groupInfo,
@@ -149,10 +149,10 @@ function Menu<O>(props: IProps<O>) {
                   {props.__MenuItem?.(itemInfo)}
                 </Slot>
               )}
-            </$$FlowControl$$>
+            </$$Control$$>
           </View>
         )}
-      </$$FlowControl$$>
+      </$$Control$$>
     </ComponentRoot>
   )
 }
