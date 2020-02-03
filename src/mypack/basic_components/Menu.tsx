@@ -93,7 +93,7 @@ function Menu<O>(props: IProps<O>) {
           group: { title: groupName },
           groupIndex: groupIndex,
           itemsInGroup: items,
-          currentMenuPath: selectedPath.getTotalPath(),
+          currentMenuPath: selectedPath.getTotal(),
         })}
         $formatterReturnType={{} as MenuGroupInfo}
       >
@@ -103,7 +103,7 @@ function Menu<O>(props: IProps<O>) {
             <Slot
               slotName={[
                 '__MenuGroupTitle',
-                { _selected: groupInfo.groupIndex === selectedPath.getPathItem(0) },
+                { _selected: groupInfo.groupIndex === selectedPath.getOne(0) },
               ]}
             >
               {groupInfo.group.title !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
@@ -127,14 +127,14 @@ function Menu<O>(props: IProps<O>) {
                     '__MenuItem',
                     {
                       _selected:
-                        groupInfo.groupIndex === selectedPath.getPathItem(0) &&
-                        itemInfo.itemIndex === selectedPath.getPathItem(-1),
+                        groupInfo.groupIndex === selectedPath.getOne(0) &&
+                        itemInfo.itemIndex === selectedPath.getOne(-1),
                       _first: itemInfo.itemIndex === 0,
                       _last: itemInfo.itemIndex === itemInfo.itemsInGroup.length - 1,
                     },
                   ]}
                   onClick={(event) => {
-                    selectedPath.set([groupInfo.groupIndex, itemInfo.itemIndex])
+                    selectedPath.setTotal([groupInfo.groupIndex, itemInfo.itemIndex])
                     props.onSelectMenuItem?.(itemInfo, event)
                   }}
                 >

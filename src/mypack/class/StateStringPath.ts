@@ -16,7 +16,6 @@ export default class StateStringPath {
   } = {}
   private _pathStack: Path
   private _reactSetState: React.Dispatch<React.SetStateAction<Path>>
-
   constructor(
     protected config: { [otherConfigs: string]: any },
     init: (string | number)[],
@@ -26,31 +25,46 @@ export default class StateStringPath {
     this._reactSetState = setState
   }
   /**
-   * 强行改变内涵值
+   * 设定完整的路径
    */
-  set(newPath: Path, hasCallback: boolean = true) {
+  setTotal(newTotalPath: Path, hasCallback: boolean = true) {
     // 触发设定值的回调 //TODO：改成异步触发
-    if (hasCallback) this._callbacks.set?.forEach((callback) => callback(newPath))
+    if (hasCallback) this._callbacks.setTotal?.forEach((callback) => callback(newTotalPath))
     // 更新JavaScript的对象的值
-    this._pathStack = newPath
+    this._pathStack = newTotalPath
     // 通知react以更新UI
     this._reactSetState(this._pathStack)
+    // 便于设定数据
+    return this
+  }
+  /**
+   * 设定路径的单独一项
+   */
+  setOne(newOnePath: PathItem, pathIndex: number, hasCallback: boolean = true) {
+    // 触发设定值的回调 //TODO：改成异步触发
+    if (hasCallback) this._callbacks.setOne?.forEach((callback) => callback(newOnePath, pathIndex))
+    // 更新JavaScript的对象的值
+    this._pathStack[pathIndex] = newOnePath
+    // 通知react以更新UI
+    this._reactSetState([...this._pathStack])
+    // 便于设定数据
+    return this
   }
 
   /**
    * 获取完整路径
    */
-  getTotalPath(hasCallback: boolean = true) {
+  getTotal(hasCallback: boolean = true) {
     // 触发设定值的回调 //TODO：改成异步触发
-    if (hasCallback) this._callbacks.getTotalPath?.forEach((callback) => callback())
+    if (hasCallback) this._callbacks.getTotal?.forEach((callback) => callback())
     return this._pathStack
   }
   /**
-   * 获取特定路径
+   * 获取路径的单独一项
    */
-  getPathItem(order: number, hasCallback: boolean = true) {
+  getOne(order: number, hasCallback: boolean = true) {
     // 触发设定值的回调 //TODO：改成异步触发
-    if (hasCallback) this._callbacks.getTotalPath?.forEach((callback) => callback(order))
+    if (hasCallback) this._callbacks.getOne?.forEach((callback) => callback(order))
     return this._pathStack[order >= 0 ? order : this._pathStack.length + order] // 默认取最后一项
   }
   /**
