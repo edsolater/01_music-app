@@ -57,6 +57,7 @@ export default class StateStringPath {
    */
   getOne(order: number, hasCallback: boolean = true) {
     // 触发设定值的回调 //TODO：改成异步触发
+    // console.log(3,this.callbacks.getOne) //TODO:这里怎么一下触发15次？
     if (hasCallback) this.callbacks.getOne?.forEach((callback) => callback(order))
     return this.pathStack[order >= 0 ? order : this.pathStack.length + order] // 默认取最后一项
   }

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
@@ -84,6 +84,12 @@ function Menu<O>(props: IProps<O>) {
     type: 'pathStack',
     init: [props.initGroupIndex ?? 0, props.initItemIndex ?? 0],
   })
+  useEffect(() => {
+    //TODO： 这里怎么无效？
+    selectedPath.on('getOne', () => {
+      console.log(3)
+    })
+  }, [])
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
