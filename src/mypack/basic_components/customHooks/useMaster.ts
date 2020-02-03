@@ -4,21 +4,21 @@ import { StateBoolean, StateNumber, StateStringPath } from 'mypack/class'
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
  */
-export default <T extends 'number' | 'boolean' | 'stringPath'>(config: {
+export default <T extends 'number' | 'boolean' | 'pathStack'>(config: {
   type: T
   init?: T extends 'number'
     ? number
     : T extends 'boolean'
     ? boolean
-    : T extends 'stringPath'
-    ? string
+    : T extends 'pathStack'
+    ? (string | number)[]
     : string
   [configProp: string]: any
 }): T extends 'number'
   ? StateNumber
   : T extends 'boolean'
   ? StateBoolean
-  : T extends 'stringPath'
+  : T extends 'pathStack'
   ? StateStringPath
   : void => {
   //记录着这个数据的实际内容
@@ -31,7 +31,7 @@ export default <T extends 'number' | 'boolean' | 'stringPath'>(config: {
       case 'boolean':
         // @ts-ignore
         return new StateBoolean(config, state, setState)
-      case 'stringPath':
+      case 'pathStack':
         // @ts-ignore
         return new StateStringPath(config, state, setState)
       default:

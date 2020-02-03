@@ -2,14 +2,7 @@ import React, { ReactNode } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import {
-  ComponentRoot,
-  Slot,
-  componentRootProps,
-  View,
-  $For,
-  ComponentRootPorpType,
-} from '.'
+import { ComponentRoot, Slot, componentRootProps, View, $For, ComponentRootPorpType } from '.'
 import { pick } from '../utils'
 /**
  * Menu中的Item信息
@@ -83,10 +76,13 @@ type IProps<O> = ComponentRootPorpType<O> & {
    */
   onSelectMenuItem?: (itemInfo: MenuItemInfo, event: React.MouseEvent) => void
 }
+/**
+ * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
+ */
 function Menu<O>(props: IProps<O>) {
   const selectedPath = useMaster({
-    type: 'stringPath',
-    init: `${props.initGroupIndex ?? 0}/${props.initItemIndex ?? 0}`,
+    type: 'pathStack',
+    init: [props.initGroupIndex ?? 0, props.initItemIndex ?? 0],
   })
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
@@ -97,7 +93,7 @@ function Menu<O>(props: IProps<O>) {
           group: { title: groupName },
           groupIndex: groupIndex,
           itemsInGroup: items,
-          currentMenuPath: selectedPath.getPath(),
+          currentMenuPath: selectedPath.getTotalPath(),
         })}
         $formatterReturnType={{} as MenuGroupInfo}
       >
@@ -107,11 +103,7 @@ function Menu<O>(props: IProps<O>) {
             <Slot
               slotName={[
                 '__MenuGroupTitle',
-                {
-                  _selected:
-                    `${groupInfo.groupIndex}` ===
-                    selectedPath.getPath() /* TODO:之所以判断逻辑略显繁琐，是selectedPath本身逻辑繁琐 */,
-                },
+                { _selected: groupInfo.groupIndex === selectedPath.getPathItem(0) },
               ]}
             >
               {groupInfo.group.title !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
@@ -135,14 +127,14 @@ function Menu<O>(props: IProps<O>) {
                     '__MenuItem',
                     {
                       _selected:
-                        `${groupInfo?.groupIndex ?? 0}/${itemInfo.itemIndex}` ===
-                        selectedPath.getPath(),
+                        groupInfo.groupIndex === selectedPath.getPathItem(0) &&
+                        itemInfo.itemIndex === selectedPath.getPathItem(-1),
                       _first: itemInfo.itemIndex === 0,
                       _last: itemInfo.itemIndex === itemInfo.itemsInGroup.length - 1,
                     },
                   ]}
                   onClick={(event) => {
-                    selectedPath.set(`${groupInfo.groupIndex}/${itemInfo.itemIndex}`)
+                    selectedPath.set([groupInfo.groupIndex, itemInfo.itemIndex])
                     props.onSelectMenuItem?.(itemInfo, event)
                   }}
                 >
