@@ -22,18 +22,18 @@ export default <T extends 'number' | 'boolean' | 'pathStack'>(config: {
   ? StateStringPath
   : void => {
   //记录着这个数据的实际内容
-  const [state, setState] = useState(config.init)
+  const [state, setStateFunction] = useState(config.init)
   const result = useMemo(() => {
     switch (config.type) {
       case 'number':
         // @ts-ignore
-        return new StateNumber(config, state, setState)
+        return new StateNumber(config, state, setStateFunction)
       case 'boolean':
         // @ts-ignore
-        return new StateBoolean(config, state, setState)
+        return new StateBoolean(config, state, setStateFunction)
       case 'pathStack':
         // @ts-ignore
-        return new StateStringPath(config, state, setState)
+        return new StateStringPath(config, state, setStateFunction)
       default:
         // @ts-ignore
         return null
