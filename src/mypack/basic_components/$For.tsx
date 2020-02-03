@@ -1,6 +1,6 @@
 import React, { Fragment, ReactNode } from 'react'
 
-function $$Control$$<O, T = unknown>(props: {
+function $For<O, T = unknown>(props: {
   /**
    * 是否渲染所有子元素，等同于元素上的$if
    */
@@ -48,4 +48,4 @@ function $$Control$$<O, T = unknown>(props: {
   )
 }
 
-export default React.memo($$Control$$) as typeof $$Control$$
+export default React.memo($For) as typeof $For
