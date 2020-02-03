@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType, $$Control$$ } from '.'
+import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType, $For } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 import { pick } from '../utils'
@@ -29,7 +29,7 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='List'>
-      <$$Control$$ $for={props.data} keyProp={props.keyPropname}>
+      <$For $for={props.data} keyProp={props.keyPropname}>
         {(itemInfo, index) => (
           <Slot
             slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
@@ -41,7 +41,7 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
             {props.__ListItem?.(itemInfo, index, props.data!)}
           </Slot>
         )}
-      </$$Control$$>
+      </$For>
     </ComponentRoot>
   )
 }
