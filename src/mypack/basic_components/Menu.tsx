@@ -4,6 +4,7 @@ import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, Slot, componentRootProps, View, $For, ComponentRootPorpType } from '.'
 import { pick } from '../utils'
+import { Path } from 'mypack/class/StateStringPath'
 /**
  * Menu中的Item信息
  */
@@ -20,30 +21,28 @@ interface MenuItemData {
  * TODO: 太过语义化了，要删掉
  * Menu中的组别信息
  */
-interface AlbumMenuGroup {
-  title: string
-  [otherInfo: string]: string | undefined
+interface IGroup {
+  groupName: string
 }
 /**
  * 需要传递给<Menu>组件（带Group的数据形式）
  */
-interface MenuGroupData {
-  [groupPathLabel: string]: MenuItemData[]
+interface MenuDataSchema {
+  [groupName: string]: MenuItemData[]
 }
 /**
  * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
  */
-type MenuItemInfo = MenuGroupInfo & {
+type ItemInfo = GroupInfo & {
   item: MenuItemData
   itemIndex: number
 }
-type MenuGroupInfo = {
-  group: AlbumMenuGroup
+type GroupInfo = {
+  group: IGroup
   groupIndex: number
   itemsInGroup: MenuItemData[]
-  currentMenuPath: PathPiece //TODO: 这里是不是应该是个完整的对象 //TODO: 这里的值不应该由没有意义的数字组成
+  currentMenuPath: Path
 }
-type PathPiece = string //Temp
 /**
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
  * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
@@ -61,20 +60,20 @@ type IProps<O> = ComponentRootPorpType<O> & {
    * **必选项**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
-  data: MenuGroupData
+  data: MenuDataSchema
   /**
    * **必选项**
    * Menu对具体数据的渲染（函数传入data中的数据）
    */
-  __MenuItem: (itemInfo: MenuItemInfo) => ReactNode
+  __MenuItem: (itemInfo: ItemInfo) => ReactNode
   /**
    * Menu对编组的渲染
    */
-  __MenuGroup?: (groupInfo: MenuGroupInfo) => ReactNode
+  __MenuGroup?: (groupInfo: GroupInfo) => ReactNode
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectMenuItem?: (itemInfo: MenuItemInfo, event: React.MouseEvent) => void
+  onSelectMenuItem?: (itemInfo: ItemInfo, event: React.MouseEvent) => void
 }
 /**
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
@@ -82,11 +81,11 @@ type IProps<O> = ComponentRootPorpType<O> & {
 function Menu<O>(props: IProps<O>) {
   const selectedPath = useMaster({
     type: 'pathStack',
-    init: [props.initGroupIndex ?? 0, props.initItemIndex ?? 0],
+    init: [{ index: props.initGroupIndex ?? 0 }, { index: props.initItemIndex ?? 0 }],
   })
   useEffect(() => {
     //TODO： 这里怎么无效？
-    selectedPath.on('getOne', () => {
+    selectedPath.on('getPathItem', () => {
       console.log(3)
     })
   }, [])
@@ -94,25 +93,25 @@ function Menu<O>(props: IProps<O>) {
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
       <$For
-        $for={Object.entries(props.data as MenuGroupData)}
+        $for={Object.entries(props.data as MenuDataSchema)}
         $formatter={([groupName, items], groupIndex) => ({
-          group: { title: groupName },
+          group: { groupName } as IGroup,
           groupIndex: groupIndex,
           itemsInGroup: items,
-          currentMenuPath: selectedPath.getTotal(),
+          currentMenuPath: selectedPath.getAllPathItems(),
         })}
-        $formatterReturnType={{} as MenuGroupInfo}
+        $formatterReturnType={{} as GroupInfo}
       >
         {(groupInfo) => (
           // TODO: <Group>要支持竖向的，以代替View
-          <View className='Menu_groupBox' key={groupInfo.group.title}>
+          <View className='Menu_groupBox' key={groupInfo.group.groupName}>
             <Slot
               slotName={[
                 '__MenuGroupTitle',
-                { _selected: groupInfo.groupIndex === selectedPath.getOne(0) },
+                { _selected: groupInfo.groupIndex === selectedPath.getPathItem(0)?.groupIndex },
               ]}
             >
-              {groupInfo.group.title !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
+              {groupInfo.group.groupName !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
                 props.__MenuGroup?.(groupInfo)}
             </Slot>
             <$For
@@ -124,7 +123,7 @@ function Menu<O>(props: IProps<O>) {
                   item: menuItem,
                 },
               })}
-              $formatterReturnType={{} as MenuItemInfo}
+              $formatterReturnType={{} as ItemInfo}
             >
               {(itemInfo) => (
                 <Slot
@@ -133,14 +132,14 @@ function Menu<O>(props: IProps<O>) {
                     '__MenuItem',
                     {
                       _selected:
-                        groupInfo.groupIndex === selectedPath.getOne(0) &&
-                        itemInfo.itemIndex === selectedPath.getOne(-1),
+                        groupInfo.groupIndex === selectedPath.getFirstPathItem()?.index &&
+                        itemInfo.itemIndex === selectedPath.getLastPathItem()?.index,
                       _first: itemInfo.itemIndex === 0,
                       _last: itemInfo.itemIndex === itemInfo.itemsInGroup.length - 1,
                     },
                   ]}
                   onClick={(event) => {
-                    selectedPath.setTotal([groupInfo.groupIndex, itemInfo.itemIndex])
+                    selectedPath.setAllPathItems([groupInfo, itemInfo])
                     props.onSelectMenuItem?.(itemInfo, event)
                   }}
                 >

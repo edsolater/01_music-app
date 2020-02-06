@@ -28,17 +28,13 @@ export default function AlbumMenu() {
           //TODO 这里还没写
         }}
         //TODO: MenuGroup 与 MenuItem 能不能合并成一个？否决，反而职责不清晰
-        __MenuGroup={({ group: menuGroup }) => <Text headline>{menuGroup.title}</Text>}
-        __MenuItem={({ item: menuItem }) => (
-          <Item
-            html={{
-              title: 'hello',
-            }}
-          >
+        __MenuGroup={({ group }) => <Text headline>{group.groupName}</Text>}
+        __MenuItem={({ item }) => (
+          <Item html={{ title: 'hello' }}>
             <View className='textbox'>
               {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
               <RedDot onlyDot />
-              <Text>{menuItem.itemPathLabel}</Text>
+              <Text>{item.itemPathLabel}</Text>
             </View>
           </Item>
         )}

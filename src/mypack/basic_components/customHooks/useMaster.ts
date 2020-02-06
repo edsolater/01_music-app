@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { StateBoolean, StateNumber, StateStringPath } from 'mypack/class'
+import { Path } from 'mypack/class/StateStringPath' // TODO: 要能自动推断出，而不是显示地强行规定
 
 /**
  * 返回一个 “御主”（Fate世界中的概念，这里意为component的控制者）
@@ -11,7 +12,7 @@ export default <T extends 'number' | 'boolean' | 'pathStack'>(config: {
     : T extends 'boolean'
     ? boolean
     : T extends 'pathStack'
-    ? (string | number)[]
+    ? Path
     : string
   [configProp: string]: any
 }): T extends 'number'
