@@ -3,7 +3,7 @@ import React, { ReactNode, useEffect } from 'react'
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, Slot, componentRootProps, View, $For, ComponentRootPorpType } from '.'
-import { pick } from '../utils'
+import { pick, isLast, isFirst } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
 /**
  * Menu中的Item信息
@@ -134,8 +134,8 @@ function Menu<O>(props: IProps<O>) {
                       _selected:
                         groupInfo.groupIndex === selectedPath.getFirstPathItem()?.index &&
                         itemInfo.itemIndex === selectedPath.getLastPathItem()?.index,
-                      _first: itemInfo.itemIndex === 0,
-                      _last: itemInfo.itemIndex === itemInfo.itemsInGroup.length - 1,
+                      _first: isFirst(itemInfo.itemsInGroup,itemInfo.item),
+                      _last: isLast(itemInfo.itemsInGroup, itemInfo.item),
                     },
                   ]}
                   onClick={(event) => {
