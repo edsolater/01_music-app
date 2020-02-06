@@ -8,39 +8,36 @@ import { Path } from 'mypack/class/StateStringPath'
 /**
  * Menu中的Item信息
  */
-interface MenuItemData {
-  [itemInfo: string]: string | undefined
-  imageUrl?: string
-  itemPathLabel: string
+interface IMenuItem {
+  title?: string
   subtitle?: string
-  detail?: string
-  selectAction?: ActionType
+  detail?: object // 用于自定义各种信息
 }
 
 /**
  * TODO: 太过语义化了，要删掉
  * Menu中的组别信息
  */
-interface IGroup {
-  groupName: string
+interface IMenuGroup {
+  name: string
 }
 /**
  * 需要传递给<Menu>组件（带Group的数据形式）
  */
-interface MenuDataSchema {
-  [groupName: string]: MenuItemData[]
+interface IMenu {
+  [groupName: string]: IMenuItem[]
 }
 /**
  * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
  */
 type ItemInfo = GroupInfo & {
-  item: MenuItemData
+  itemData: IMenuItem
   itemIndex: number
 }
 type GroupInfo = {
-  group: IGroup
+  groupData: IMenuGroup
   groupIndex: number
-  itemsInGroup: MenuItemData[]
+  siblingItems: IMenuItem[]
   currentMenuPath: Path
 }
 /**
@@ -60,7 +57,7 @@ type IProps<O> = ComponentRootPorpType<O> & {
    * **必选项**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
-  data: MenuDataSchema
+  data: IMenu
   /**
    * **必选项**
    * Menu对具体数据的渲染（函数传入data中的数据）
@@ -93,49 +90,53 @@ function Menu<O>(props: IProps<O>) {
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
       <$For
-        $for={Object.entries(props.data as MenuDataSchema)}
-        $formatter={([groupName, items], groupIndex) => ({
-          group: { groupName } as IGroup,
-          groupIndex: groupIndex,
-          itemsInGroup: items,
-          currentMenuPath: selectedPath.getAllPathItems(),
-        })}
+        $for={Object.entries(props.data as IMenu)}
+        $formatter={([groupName, items], groupIndex) =>
+          ({
+            groupData: { name: groupName } as IMenuGroup,
+            groupIndex: groupIndex,
+            siblingItems: items,
+            currentMenuPath: selectedPath.getAllPathItems(),
+          } as GroupInfo)
+        }
         $formatterReturnType={{} as GroupInfo}
       >
         {(groupInfo) => (
           // TODO: <Group>要支持竖向的，以代替View
-          <View className='Menu_groupBox' key={groupInfo.group.groupName}>
+          <View className='Menu_groupBox' key={groupInfo.groupData.name}>
             <Slot
               slotName={[
                 '__MenuGroupTitle',
                 { _selected: groupInfo.groupIndex === selectedPath.getPathItem(0)?.groupIndex },
               ]}
             >
-              {groupInfo.group.groupName !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
+              {groupInfo.groupData.name !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
                 props.__MenuGroup?.(groupInfo)}
             </Slot>
             <$For
-              $for={groupInfo.itemsInGroup}
-              $formatter={(menuItem, itemIndex) => ({
-                ...groupInfo,
-                ...{
-                  itemIndex,
-                  item: menuItem,
-                },
-              })}
+              $for={groupInfo.siblingItems}
+              $formatter={(menuItem, itemIndex) =>
+                ({
+                  ...groupInfo,
+                  ...{
+                    itemIndex,
+                    itemData: menuItem,
+                  },
+                } as ItemInfo)
+              }
               $formatterReturnType={{} as ItemInfo}
             >
               {(itemInfo) => (
                 <Slot
-                  key={itemInfo.item.itemPathLabel}
+                  key={itemInfo.itemData.title}
                   slotName={[
                     '__MenuItem',
                     {
                       _selected:
                         groupInfo.groupIndex === selectedPath.getFirstPathItem()?.index &&
                         itemInfo.itemIndex === selectedPath.getLastPathItem()?.index,
-                      _first: isFirst(itemInfo.itemsInGroup,itemInfo.item),
-                      _last: isLast(itemInfo.itemsInGroup, itemInfo.item),
+                      _first: isFirst(itemInfo.siblingItems, itemInfo.itemData),
+                      _last: isLast(itemInfo.siblingItems, itemInfo.itemData),
                     },
                   ]}
                   onClick={(event) => {

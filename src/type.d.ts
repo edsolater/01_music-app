@@ -3,14 +3,13 @@
  */
 declare type ActionType = 'show-local-music' | 'show-downloaded-music' | 'show-recent-music'
 
-
-interface CollectionInfo {
-  [itemInfo: string]: string | undefined
-  imageUrl?: string
-  itemPathLabel: string
+interface CollectionItemInfo {
+  title: string
   subtitle?: string
-  detail?: string
-  selectAction?: ActionType
+  detail?: {
+    imageUrl?: string
+    selectAction?: ActionType
+  }
 }
 /**
  * 一首音乐所必须包含的信息
@@ -64,12 +63,12 @@ interface DataStore {
   menu: {
     initIndex: number
     collections: {
-      [groupName: string]: CollectionInfo[]
+      [groupName: string]: CollectionItemInfo[]
     }
   }
 
   collectionInfo: {
-    collectionTitle: string
+    title: string
     creatorInfo: {
       avatar: PicUrl
       nickName: string

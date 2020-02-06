@@ -41,11 +41,11 @@ export const appStore: AppStore = {
   menu: {
     initIndex: 0,
     collections: {
-      null: [{ itemPathLabel: '搜索' }, { itemPathLabel: '发现音乐' }],
+      null: [{ title: '搜索' }, { title: '发现音乐' }],
       我的音乐: [
-        { itemPathLabel: '本地音乐', selectAction: 'show-local-music' },
-        { itemPathLabel: '下载管理' },
-        { itemPathLabel: '最近播放' },
+        { title: '本地音乐', detail:{selectAction: 'show-local-music'} },
+        { title: '下载管理' },
+        { title: '最近播放' },
       ],
       // '我的音乐-复制': [
       //   { title: '本地音乐', selectAction: 'show-local-music' },
@@ -67,8 +67,8 @@ export const appStore: AppStore = {
       //   { title: '下载管理' },
       //   { title: '最近播放' },
       // ],
-      创建的歌单: [{ itemPathLabel: '我喜欢的音乐' }, { itemPathLabel: '鬼畜' }],
-      收藏的歌单: [{ itemPathLabel: '神级燃曲 · 百首顶级日漫激昂配乐' }],
+      创建的歌单: [{ title: '我喜欢的音乐' }, { title: '鬼畜' }],
+      收藏的歌单: [{ title: '神级燃曲 · 百首顶级日漫激昂配乐' }],
     },
   },
   playerBar: {
@@ -82,7 +82,7 @@ export const appStore: AppStore = {
     musicList: [],
   },
   collectionInfo: {
-    collectionTitle: '我喜欢的音乐',
+    title: '我喜欢的音乐',
     creatorInfo: {
       avatar: avatar2,
       nickName: 'edsolater',

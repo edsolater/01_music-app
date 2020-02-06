@@ -28,7 +28,7 @@ export default function MainAppContent() {
           {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
           <Icon src={heartIcon} className='thumbnail-icon' />
         </Block>
-        <Text largeTitle>{appData.collectionInfo.collectionTitle}</Text>
+        <Text largeTitle>{appData.collectionInfo.title}</Text>
         <Block className='creator'>
           <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
           <Text subhead className='creator-nickname'>
