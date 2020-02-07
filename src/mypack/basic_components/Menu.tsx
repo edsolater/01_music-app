@@ -92,10 +92,10 @@ function Menu<O>(props: IProps<O>) {
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
       <$For
-        $for={Object.entries(props.data as MenuInfo)}
+        $for={Object.entries(props.data)}
         $formatter={([groupName, items], groupIndex) =>
           ({
-            data: { name: groupName } as GroupData,
+            data: { name: groupName },
             index: groupIndex,
             children: items,
             path: selectedPath.getAllPathItems(),
