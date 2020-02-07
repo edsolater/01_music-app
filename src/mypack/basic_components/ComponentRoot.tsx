@@ -30,4 +30,4 @@ function ComponentRoot<O>(
   return <View ref={ref} {...pick(props, ViewProp)} className={[props.className, props.name]} />
 }
 
-export default React.memo(React.forwardRef(ComponentRoot)) as typeof ComponentRoot
+export default React.forwardRef(ComponentRoot) as typeof ComponentRoot

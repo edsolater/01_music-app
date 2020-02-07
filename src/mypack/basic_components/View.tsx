@@ -110,6 +110,6 @@ function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
     ) : null
   }
 }
-export default React.memo(React.forwardRef(View)) as <O>(
+export default React.forwardRef(View) as <O>(
   props: ViewPropType<O>,
 ) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
