@@ -1,7 +1,7 @@
 /**
  * 以字符串或数字形式描述路径
  */
-type PathItem = {[desciper: string]: unknown }
+type PathItem = {[desciper: string]: any }
 export type Path = PathItem[]
 
 /**
