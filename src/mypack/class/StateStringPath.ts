@@ -1,8 +1,7 @@
 /**
  * 以字符串或数字形式描述路径
- * @example [0,1]、 ['0','1']、 ['src','try']
  */
-type PathItem = { index?: number; name?: string; [desciper: string]: unknown }
+type PathItem = {[desciper: string]: unknown }
 export type Path = PathItem[]
 
 /**
