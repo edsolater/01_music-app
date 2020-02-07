@@ -33,14 +33,14 @@ interface MenuInfo {
 type ItemInfo = {
   data: ItemData
   index: number
-  siblingItems: GroupInfo['childItems']
+  siblings: GroupInfo['children']
   group: GroupInfo
 }
 type GroupInfo = {
   data: GroupData
   index: number
-  childItems: ItemData[]
-  pathItems: Path
+  children: ItemData[]
+  path: Path
 }
 /**
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
@@ -97,8 +97,8 @@ function Menu<O>(props: IProps<O>) {
           ({
             data: { name: groupName } as GroupData,
             index: groupIndex,
-            childItems: items,
-            pathItems: selectedPath.getAllPathItems(),
+            children: items,
+            path: selectedPath.getAllPathItems(),
           } as GroupInfo)
         }
         $formatterReturnType={{} as GroupInfo}
@@ -109,20 +109,26 @@ function Menu<O>(props: IProps<O>) {
             <Slot
               slotName={[
                 '__MenuGroupTitle',
-                { _selected: groupInfo.data.name === selectedPath.getPathItem(0)?.name },
+                {
+                  _selected: hasSameProperty(
+                    groupInfo.data,
+                    selectedPath.getFirstPathItem(),
+                    'name',
+                  ),
+                },
               ]}
             >
               {groupInfo.data.name !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
                 props.__MenuGroup?.(groupInfo)}
             </Slot>
             <$For
-              $for={groupInfo.childItems}
+              $for={groupInfo.children}
               $formatter={(menuItem, itemIndex) =>
                 ({
                   group: groupInfo,
                   index: itemIndex,
                   data: menuItem,
-                  siblingItems: groupInfo.childItems,
+                  siblings: groupInfo.children,
                 } as ItemInfo)
               }
               $formatterReturnType={{} as ItemInfo}
@@ -136,8 +142,8 @@ function Menu<O>(props: IProps<O>) {
                       _selected:
                         hasSameProperty(groupInfo.data, selectedPath.getFirstPathItem(), 'name') &&
                         hasSameProperty(itemInfo.data, selectedPath.getLastPathItem(), 'title'),
-                      _first: isFirst(itemInfo.siblingItems, itemInfo.data),
-                      _last: isLast(itemInfo.siblingItems, itemInfo.data),
+                      _first: isFirst(itemInfo.siblings, itemInfo.data),
+                      _last: isLast(itemInfo.siblings, itemInfo.data),
                     },
                   ]}
                   onClick={(event) => {
