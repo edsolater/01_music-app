@@ -30,11 +30,11 @@ interface MenuInfo {
 /**
  * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
  */
-type ItemInfo =  {
+type ItemInfo = {
   data: ItemData
   index: number
   siblingItems: GroupInfo['childItems']
-  group:GroupInfo
+  group: GroupInfo
 }
 type GroupInfo = {
   data: GroupData
@@ -119,10 +119,10 @@ function Menu<O>(props: IProps<O>) {
               $for={groupInfo.childItems}
               $formatter={(menuItem, itemIndex) =>
                 ({
-                  group:groupInfo,
-                  index:itemIndex,
+                  group: groupInfo,
+                  index: itemIndex,
                   data: menuItem,
-                  siblingItems: groupInfo.childItems
+                  siblingItems: groupInfo.childItems,
                 } as ItemInfo)
               }
               $formatterReturnType={{} as ItemInfo}
@@ -134,8 +134,8 @@ function Menu<O>(props: IProps<O>) {
                     '__MenuItem',
                     {
                       _selected:
-                       hasSameProperty(groupInfo.data, selectedPath.getFirstPathItem(),'name') &&
-                        itemInfo.data.title === selectedPath.getLastPathItem()?.title,
+                        hasSameProperty(groupInfo.data, selectedPath.getFirstPathItem(), 'name') &&
+                        hasSameProperty(itemInfo.data, selectedPath.getLastPathItem(), 'title'),
                       _first: isFirst(itemInfo.siblingItems, itemInfo.data),
                       _last: isLast(itemInfo.siblingItems, itemInfo.data),
                     },
