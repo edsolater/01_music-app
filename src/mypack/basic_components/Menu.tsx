@@ -15,7 +15,6 @@ interface ItemData {
 }
 
 /**
- * TODO: 太过语义化了，要删掉
  * Menu中的组别信息
  */
 interface GroupData {
@@ -27,9 +26,7 @@ interface GroupData {
 interface MenuInfo {
   [groupName: string]: ItemData[]
 }
-/**
- * TODO：这个Menu组件的内聚性打散了，太过复杂，必须重写
- */
+
 type ItemInfo = {
   data: ItemData
   index: number
@@ -119,7 +116,7 @@ function Menu<O>(props: IProps<O>) {
               ]}
             >
               {groupInfo.data.name !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
-                props.__MenuGroup?.(groupInfo)}
+                (console.log(props.__MenuGroup?.(groupInfo)),props.__MenuGroup?.(groupInfo))}
             </Slot>
             <$For
               $for={groupInfo.children}
