@@ -18,3 +18,13 @@ export function deAssign<O>(target: O, propNames?: (keyof O)[] | keyof O) {
   })
   return target
 }
+
+export function hasSameProperty<O extends UnknownObj | undefined, T extends UnknownObj | undefined>(
+  obj1: O,
+  obj2: T,
+  propName: Extract<keyof O, string>,
+) {
+  if (obj1 && obj2) {
+    return obj1[propName] === obj2[propName]
+  } else return false
+}

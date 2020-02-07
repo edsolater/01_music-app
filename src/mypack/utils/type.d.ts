@@ -1,11 +1,12 @@
-export type Filter = Judger // alias
-export type Mapper = (...any: any[]) => any
-export type Judger = (...any: any[]) => boolean
-export type Comparator = (x: any, y: any) => boolean
-export type AsyncFunction = (...any: any[]) => Promise<any>
-export type Function = { (...any: any[]): any; [layout: string]: any }
-export type CashedFunction = Function & { cache: any }
-export type Util = Function
+declare type Filter = Judger // alias
+declare type Mapper = (...any: any[]) => any
+declare type Judger = (...any: any[]) => boolean
+declare type Comparator = (x: any, y: any) => boolean
+declare type AsyncFunction = (...any: any[]) => Promise<any>
+declare type WrappedFunction = { (...any: any[]): any; [layout: string]: any }
+declare type CashedFunction = Function & { cache: any }
+declare type UnknownObj = { [propName: string]: any }
+declare type Util = Function
 
 /**
  * Creates a union from the types of an Array or tuple
@@ -20,19 +21,19 @@ type GetLength<T extends any[]> = T['length']
 /**
  * Returns all but the first item's type in a tuple/array
  */
-export type Tail<T extends any[]> = ((...args: T) => any) extends ((
+declare type Tail<T extends any[]> = ((...args: T) => any) extends (
   head: any,
   ...tail: infer R
-) => any)
+) => any
   ? R
   : never
 
 /**
  * Returns the given tuple/array with the item type prepended to it
  */
-type Unshift<T extends any[], Item> = ((first: Item, ...rest: T) => any) extends ((
+type Unshift<T extends any[], Item> = ((first: Item, ...rest: T) => any) extends (
   ...list: infer R
-) => any)
+) => any
   ? R
   : never
 
@@ -41,13 +42,13 @@ type Unshift<T extends any[], Item> = ((first: Item, ...rest: T) => any) extends
  */
 type Equals<T, S> = [T] extends [S] ? ([S] extends [T] ? true : false) : false
 
-export type Range<N, T extends number[] = []> = {
-  0: T
-  1: Range<N, Unshift<T, GetLength<T>>>
-}[Equals<GetLength<Tail<T>>, N> extends true ? 0 : 1]
+// export type Range<N, T extends number[] = []> = {
+//   0: T
+//   1: Range<N, Unshift<T, GetLength<T>>>
+// }[Equals<GetLength<Tail<T>>, N> extends true ? 0 : 1]
 
 // /** Tests if N > M */
-// export type IsGreaterThan<N, M> = N extends Exclude<Range<N>, Range<M>> ? true : false;
+// declare type IsGreaterThan<N, M> = N extends Exclude<Range<N>, Range<M>> ? true : false;
 // /** Tests if N <= M */
 // type IsLessThanOrEqual<N, M> = Not<IsGreaterThan<N, M>>;
 // /** Tests if N < M */
@@ -119,10 +120,10 @@ type MinusOne<T extends number> = [
   59,
   60,
   61,
-  62
+  62,
 ][T]
 
-export type LastType<T extends any[]> = T[MinusOne<GetLength<T>>]
-export type FirstType<T extends any[]> = T[0]
+declare type LastType<T extends any[]> = T[MinusOne<GetLength<T>>]
+declare type FirstType<T extends any[]> = T[0]
 
-export type Tuple<TItem, TLength extends number> = [TItem, ...TItem[]] & { length: TLength }
+declare type Tuple<TItem, TLength extends number> = [TItem, ...TItem[]] & { length: TLength }

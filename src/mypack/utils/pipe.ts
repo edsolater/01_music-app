@@ -1,4 +1,3 @@
-import { FirstType, LastType, Tuple, Function } from './#package_type'
 
 /**
  * 顺序拼接（同步函数），以形成一个新函数
