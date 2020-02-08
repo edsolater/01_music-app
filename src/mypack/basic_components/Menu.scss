@@ -4,12 +4,12 @@
   grid-auto-rows: max-content;
   gap: var(--menu-gap-width);
 }
-.__MenuGroupTitle {
+.Menu_Group {
   &._selected {
     background-color: rgb(177, 217, 252);
   }
 }
-.__MenuItem {
+.Menu_Item {
   &._selected {
     border-left: 4px solid var(--primary, dodgerblue); //只是起了个示例的作用
   }

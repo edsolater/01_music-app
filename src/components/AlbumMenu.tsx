@@ -27,21 +27,19 @@ export default function AlbumMenu() {
         onSelectMenuItem={() => {
           //TODO 这里还没写
         }}
-        __MenuItem={({ data: item }) => (
-          <Item html={{ title: 'hello' }}>
-            <View className='textbox'>
-              {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
-              <RedDot onlyDot />
-              <Text>{item.title}</Text>
-            </View>
-          </Item>
-        )}
       >
-        <Menu.Group>
-          {(groupInfo) => {
-            return <Text headline>{groupInfo.data.name}</Text>
-          }}
-        </Menu.Group>
+        <Menu.Group>{(groupInfo) => <Text headline>{groupInfo.data.name}</Text>}</Menu.Group>
+        <Menu.Item>
+          {(itemInfo) => (
+            <Item html={{ title: 'hello' }}>
+              <View className='textbox'>
+                {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
+                <RedDot onlyDot />
+                <Text>{itemInfo.data.title}</Text>
+              </View>
+            </Item>
+          )}
+        </Menu.Item>
       </Menu>
       <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />

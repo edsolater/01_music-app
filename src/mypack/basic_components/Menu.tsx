@@ -67,15 +67,6 @@ type IProps<O> = ComponentRootPorpType<O> & {
    */
   data: MenuInfo
   /**
-   * **必选项**
-   * Menu对具体数据的渲染（函数传入data中的数据）
-   */
-  __MenuItem: (itemInfo: ItemInfo) => ReactNode
-  /**
-   * Menu对编组的渲染
-   */
-  __MenuGroup?: (groupInfo: GroupInfo) => ReactNode
-  /**
    * 选择某个菜单项时发起的回调
    */
   onSelectMenuItem?: (itemInfo: ItemInfo, event: React.MouseEvent) => void
@@ -156,7 +147,7 @@ export default function Menu<O>(props: IProps<O>) {
                     props.onSelectMenuItem?.(itemInfo, event)
                   }}
                 >
-                  {props.__MenuItem?.(itemInfo)}
+                  {extractReactChildByType(props.children, Menu.Item, itemInfo)}
                 </Slot>
               )}
             </$For>
@@ -168,6 +159,10 @@ export default function Menu<O>(props: IProps<O>) {
 }
 
 Menu.Group = function Menu_Group(props: SlotElementBasicPropType<GroupInfo>) {
+  return props._info_ ? <>{props.children?.(props._info_)}</> : null
+}
+
+Menu.Item = function Menu_Item(props: SlotElementBasicPropType<ItemInfo>) {
   return props._info_ ? <>{props.children?.(props._info_)}</> : null
 }
 
