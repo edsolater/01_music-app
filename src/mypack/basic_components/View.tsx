@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Booleanish } from './types'
 
-export type ViewPropType<O extends any> = {
+export type ViewPropType<O extends {} = {}> = {
   /**
    * 覆盖原生的className
    */
@@ -110,6 +110,4 @@ function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
     ) : null
   }
 }
-export default React.forwardRef(View) as <O>(
-  props: ViewPropType<O>,
-) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
+export default React.forwardRef(View) as <O>(props: ViewPropType<O>) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了

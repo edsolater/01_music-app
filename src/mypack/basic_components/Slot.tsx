@@ -2,6 +2,9 @@ import React from 'react'
 import { View, ViewPropType } from '.'
 import { ClassValue } from 'classnames/types'
 
+export type SlotPropType<O = {}> = ViewPropType<O> & {
+  slotName?: ClassValue
+}
 
 function Slot<O>({
   slotName,

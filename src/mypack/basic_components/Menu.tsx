@@ -2,8 +2,16 @@ import React, { ReactNode, useEffect } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { ComponentRoot, Slot, componentRootProps, View, $For, ComponentRootPorpType } from '.'
-import { pick, isLast, isFirst, hasSameProperty } from '../utils'
+import {
+  ComponentRoot,
+  Slot,
+  componentRootProps,
+  View,
+  $For,
+  ComponentRootPorpType,
+  SlotPropType,
+} from '.'
+import { pick, isLast, isFirst, hasSameProperty, extractReactChildByType } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
 /**
  * Menu中的Item信息
@@ -74,7 +82,7 @@ type IProps<O> = ComponentRootPorpType<O> & {
 /**
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
  */
-function Menu<O>(props: IProps<O>) {
+export default function Menu<O>(props: IProps<O>) {
   const selectedPath = useMaster({
     type: 'pathStack',
     init: [{ index: props.initGroupIndex ?? 0 }, { index: props.initItemIndex ?? 0 }],
@@ -105,7 +113,7 @@ function Menu<O>(props: IProps<O>) {
           <View className='Menu_groupBox' key={groupInfo.data.name}>
             <Slot
               slotName={[
-                '__MenuGroupTitle',
+                'Menu_Group',
                 {
                   _selected: hasSameProperty(
                     groupInfo.data,
@@ -115,8 +123,8 @@ function Menu<O>(props: IProps<O>) {
                 },
               ]}
             >
-              {groupInfo.data.name !== 'null' /* 约定：如果是组名是 "null" 则不渲染 */ &&
-                (console.log(props.__MenuGroup?.(groupInfo)),props.__MenuGroup?.(groupInfo))}
+              {groupInfo.data.name !== 'null' &&
+                extractReactChildByType(props.children, Menu.Group, groupInfo)}
             </Slot>
             <$For
               $for={groupInfo.children}
@@ -134,7 +142,7 @@ function Menu<O>(props: IProps<O>) {
                 <Slot
                   key={itemInfo.data.title}
                   slotName={[
-                    '__MenuItem',
+                    'Menu_Item',
                     {
                       _selected:
                         hasSameProperty(groupInfo.data, selectedPath.getFirstPathItem(), 'name') &&
@@ -159,4 +167,10 @@ function Menu<O>(props: IProps<O>) {
   )
 }
 
-export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力
+Menu.Group = function Menu_Group(...args) {
+  console.log('args: ',args)
+  // return <>{props.children?.(props.info)}</>
+  return <>{'hhh'}</>
+}
+
+// export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力

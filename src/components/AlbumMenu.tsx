@@ -28,7 +28,7 @@ export default function AlbumMenu() {
           //TODO 这里还没写
         }}
         //TODO: MenuGroup 与 MenuItem 能不能合并成一个？否决，反而职责不清晰
-        __MenuGroup={({ data: group }) => <Text headline>{group.name}</Text>}
+        // __MenuGroup={({ data: group }) => <Text headline>{group.name}</Text>}
         __MenuItem={({ data: item }) => (
           <Item html={{ title: 'hello' }}>
             <View className='textbox'>
@@ -38,7 +38,14 @@ export default function AlbumMenu() {
             </View>
           </Item>
         )}
-      />
+      >
+        <Menu.Group>
+          {(groupInfo) => {
+            console.log('groupInfo: ', groupInfo)
+            return <Text headline>dd</Text>
+          }}
+        </Menu.Group>
+      </Menu>
       <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>

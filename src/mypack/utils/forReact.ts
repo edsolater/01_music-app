@@ -29,3 +29,25 @@ export function addEvent(
     return target
   }
 }
+
+/**
+ * 提取相对应的子组件
+ * @example
+ * extractChildComponent()
+ */
+export function extractReactChildByType(
+  children: ReactNode,
+  targetType: string | Function,
+  detail: object = {},
+) {
+  return React.Children.map(children, (element) => {
+    if (isJSXElement(element) && element.type === targetType) {
+      console.log('element: ', element)
+      return element
+    }
+  })
+}
+
+export function isJSXElement(element: any): element is JSX.Element {
+  return Boolean(element?.type)
+}
