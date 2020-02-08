@@ -38,16 +38,12 @@ export function addEvent(
 export function extractReactChildByType(
   children: ReactNode,
   targetType: string | Function,
-  detail: object = {},
+  detail?: object,
 ) {
   return React.Children.map(children, (element) => {
-    if (isJSXElement(element) && element.type === targetType) {
+    if (React.isValidElement(element) && element.type === targetType) {
       console.log('element: ', element)
-      return element
+      return React.cloneElement(element, {_info_: detail})
     }
   })
-}
-
-export function isJSXElement(element: any): element is JSX.Element {
-  return Boolean(element?.type)
 }

@@ -41,9 +41,9 @@ export const appStore: AppStore = {
   menu: {
     initIndex: 0,
     collections: {
-      null: [{ title: '搜索' }, { title: '发现音乐' }],
-      我的音乐: [
-        { title: '本地音乐', detail:{selectAction: 'show-local-music'} },
+      '': [{ title: '搜索' }, { title: '发现音乐' }],
+      '我的音乐': [
+        { title: '本地音乐', detail: { selectAction: 'show-local-music' } },
         { title: '下载管理' },
         { title: '最近播放' },
       ],
@@ -67,8 +67,8 @@ export const appStore: AppStore = {
       //   { title: '下载管理' },
       //   { title: '最近播放' },
       // ],
-      创建的歌单: [{ title: '我喜欢的音乐' }, { title: '鬼畜' }],
-      收藏的歌单: [{ title: '神级燃曲 · 百首顶级日漫激昂配乐' }],
+      '创建的歌单': [{ title: '我喜欢的音乐' }, { title: '鬼畜' }],
+      '收藏的歌单': [{ title: '神级燃曲 · 百首顶级日漫激昂配乐' }],
     },
   },
   playerBar: {

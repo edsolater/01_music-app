@@ -13,6 +13,7 @@ import {
 } from '.'
 import { pick, isLast, isFirst, hasSameProperty, extractReactChildByType } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
+import { SlotElementPropType as SlotElementBasicPropType } from './Slot'
 /**
  * Menu中的Item信息
  */
@@ -123,8 +124,7 @@ export default function Menu<O>(props: IProps<O>) {
                 },
               ]}
             >
-              {groupInfo.data.name !== 'null' &&
-                extractReactChildByType(props.children, Menu.Group, groupInfo)}
+              {extractReactChildByType(props.children, Menu.Group, groupInfo)}
             </Slot>
             <$For
               $for={groupInfo.children}
@@ -167,10 +167,8 @@ export default function Menu<O>(props: IProps<O>) {
   )
 }
 
-Menu.Group = function Menu_Group(...args) {
-  console.log('args: ',args)
-  // return <>{props.children?.(props.info)}</>
-  return <>{'hhh'}</>
+Menu.Group = function Menu_Group(props: SlotElementBasicPropType<GroupInfo>) {
+  return props._info_ ? <>{props.children?.(props._info_)}</> : null
 }
 
 // export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力
