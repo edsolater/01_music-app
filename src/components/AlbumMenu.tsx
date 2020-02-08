@@ -28,6 +28,7 @@ export default function AlbumMenu() {
           //TODO 这里还没写
         }}
       >
+        haha
         <Menu.Group>{(groupInfo) => <Text headline>{groupInfo.data.name}</Text>}</Menu.Group>
         <Menu.Item>
           {(itemInfo) => (

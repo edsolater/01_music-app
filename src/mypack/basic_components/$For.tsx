@@ -1,5 +1,8 @@
 import React, { Fragment, ReactNode } from 'react'
 
+/**
+ * 其作用类似于小程序的<block>外套上了wx:for
+ */
 function $For<O, T = unknown>(props: {
   /**
    * 是否渲染所有子元素，等同于元素上的$if
