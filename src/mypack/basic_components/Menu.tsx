@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
@@ -9,11 +9,10 @@ import {
   View,
   $For,
   ComponentRootPorpType,
-  SlotPropType,
+  SlotElementPropType
 } from '.'
 import { pick, isLast, isFirst, hasSameProperty, extractReactChildByType } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
-import { SlotElementPropType as SlotElementBasicPropType } from './Slot'
 /**
  * Menu中的Item信息
  */
@@ -158,12 +157,12 @@ export default function Menu<O>(props: IProps<O>) {
   )
 }
 
-Menu.Group = function Menu_Group(props: SlotElementBasicPropType<GroupInfo>) {
-  return props._info_ ? <>{props.children?.(props._info_)}</> : null
+Menu.Group = function Menu_Group(props: SlotElementPropType<GroupInfo>) {
+  return props._passedOnPayload ? <>{props.children?.(props._passedOnPayload)}</> : null
 }
 
-Menu.Item = function Menu_Item(props: SlotElementBasicPropType<ItemInfo>) {
-  return props._info_ ? <>{props.children?.(props._info_)}</> : null
+Menu.Item = function Menu_Item(props: SlotElementPropType<ItemInfo>) {
+  return props._passedOnPayload ? <>{props.children?.(props._passedOnPayload)}</> : null
 }
 
 // export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力

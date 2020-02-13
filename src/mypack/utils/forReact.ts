@@ -35,15 +35,15 @@ export function addEvent(
  * @example
  * extractChildComponent()
  */
-export function extractReactChildByType(
+export const extractReactChildByType = (
   children: ReactNode,
   targetType: string | Function,
   detail?: object,
-) {
-  return React.Children.map(children, (element) => {
+) =>
+  React.Children.map(children, (element) => {
     if (React.isValidElement(element) && element.type === targetType) {
-      console.log('element: ', element)
-      return React.cloneElement(element, {_info_: detail})
+      return React.cloneElement(element, {
+        _passedOnPayload /* 包含需要从组件内部抛出的对象，命名无所谓 */: detail,
+      })
     }
   })
-}

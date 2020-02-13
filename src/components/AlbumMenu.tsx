@@ -24,11 +24,11 @@ export default function AlbumMenu() {
       <Menu
         data={appData.menu.collections} //TEMP
         initItemIndex={appData.menu.initIndex}
-        onSelectMenuItem={() => {
-          //TODO 这里还没写
+        onSelectMenuItem={(itemInfo, event) => {
+          console.log('itemInfo: ', itemInfo)
+          console.log('event: ', event)
         }}
       >
-        haha
         <Menu.Group>{(groupInfo) => <Text headline>{groupInfo.data.name}</Text>}</Menu.Group>
         <Menu.Item>
           {(itemInfo) => (
