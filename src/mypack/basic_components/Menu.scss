@@ -3,14 +3,18 @@
   display: grid;
   grid-auto-rows: max-content;
   gap: var(--menu-gap-width);
+  width: 100%;
+  grid-template-columns: 100%;
 }
-.Menu_Group {
-  &._selected {
-    background-color: rgb(177, 217, 252);
+.Menu_groupBox {
+  .Menu_Group {
+    &._selected {
+      background-color: rgb(177, 217, 252);
+    }
   }
-}
-.Menu_Item {
-  &._selected {
-    border-left: 4px solid var(--primary, dodgerblue); //只是起了个示例的作用
+  .Menu_Item {
+    &._selected {
+      border-left: 4px solid var(--primary, dodgerblue); //只是起了个示例的作用
+    }
   }
 }
