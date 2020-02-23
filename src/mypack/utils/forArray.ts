@@ -105,28 +105,33 @@ export const isEqualWith = <T extends unknown, U extends unknown>(arrA: T[], arr
 // ———————————— 定义包装类 ——————————————
 // TODO: 想想怎么继承es6的Array呢？A:这会使层混乱，不是个好想法
 //
-class _UArray<T> {
+class _UArraySet<T> {
   constructor(private arr: T[]) {}
   get value() {
     return this.arr
   }
+  get lastIndex() {
+    return this.arr.length - 1
+  }
+  get lastItem() {
+    return this.arr[this.lastIndex]
+  }
+  get isEmpty() {
+    return this.arr.length === 0
+  }
+
   // self开头，代表返回的依旧是同类型
   map<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any) {
-    return new _UArray(this.arr.map(callbackfn, thisArg))
+    return new _UArraySet(this.arr.map(callbackfn, thisArg))
   }
   trim() {
-    return new _UArray(
+    return new _UArraySet(
       this.arr.filter(item => item !== undefined && item !== null) as Exclude<
         T,
         undefined | null
       >[],
     )
   }
-  isFirstIndex = isFirstIndex.bind(this, this.arr)
-  isFirstItem = isFirstItem.bind(this, this.arr)
-  isLastIndex = isLastIndex.bind(this, this.arr)
-  isLastItem = isLastItem.bind(this, this.arr)
-  isEmpty = isEmpty.bind(this, this.arr)
 
   intersectWidth = intersectWidth.bind(this, this.arr)
   exclusiveOrWidth = exclusiveOrWidth.bind(this, this.arr)
@@ -139,33 +144,29 @@ class _UArray<T> {
   isSubsetOf = isSubsetOf.bind(this, this.arr)
   isEqualWith = isEqualWith.bind(this, this.arr)
 }
-export const UArray = <T>(arr: T[]) => new _UArray(arr)
-UArray.isFirstIndex = isFirstIndex
-UArray.isFirstItem = isFirstItem
-UArray.isLastIndex = isLastIndex
-UArray.isLastItem = isLastItem
-UArray.isEmpty = isEmpty
+export const UArraySet = <T>(arr: T[]) => new _UArraySet(arr)
+UArraySet.isEmpty = isEmpty
 
-UArray.intersectWidth = intersectWidth
-UArray.exclusiveOrWidth = exclusiveOrWidth
-UArray.unionWidth = unionWidth
-UArray.substractWidth = substractWidth
+UArraySet.intersectWidth = intersectWidth
+UArraySet.exclusiveOrWidth = exclusiveOrWidth
+UArraySet.unionWidth = unionWidth
+UArraySet.substractWidth = substractWidth
 
-UArray.isIntersetWith = isIntersetWith
-UArray.isDisjointWith = isDisjointWith
-UArray.isSupersetOf = isSupersetOf
-UArray.isSubsetOf = isSubsetOf
-UArray.isEqualWith = isEqualWith
+UArraySet.isIntersetWith = isIntersetWith
+UArraySet.isDisjointWith = isDisjointWith
+UArraySet.isSupersetOf = isSupersetOf
+UArraySet.isSubsetOf = isSubsetOf
+UArraySet.isEqualWith = isEqualWith
 
 //
 //
 // ———————————— test ——————————————
 //
 console.log(isIntersetWith([2, 4], [2, 4, 1, 3]))
-console.log(UArray.isIntersetWith([27], [2, 4, 1, 3]))
-console.log(UArray([2, 4, 5]).isEqualWith([2, 4, 5]))
+console.log(UArraySet.isIntersetWith([27], [2, 4, 1, 3]))
+console.log(UArraySet([2, 4, 5]).isEqualWith([2, 4, 5]))
 console.log(
-  UArray([2, 4, 5, undefined])
+  UArraySet([2, 4, 5, undefined])
     .trim()
     .map(item => 3 * item)
     .map(i => i * 4).value,
