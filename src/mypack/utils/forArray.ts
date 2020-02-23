@@ -103,6 +103,7 @@ export const isEqualWith = (arrA: unknown[], arrB: unknown[]) =>
 //
 //
 // ———————————— 定义包装类 ——————————————
+// TODO: 想想怎么继承es6的Array呢？
 //
 class _UArray {
   constructor(private arr: unknown[]) {}
@@ -123,9 +124,7 @@ class _UArray {
   isSubsetOf = isSubsetOf.bind(this, this.arr)
   isEqualWith = isEqualWith.bind(this, this.arr)
 }
-export function UArray(arr: unknown[]) {
-  return new _UArray(arr)
-}
+export const UArray = (arr: unknown[]) => new _UArray(arr)
 UArray.isFirstIndex = isFirstIndex
 UArray.isFirstItem = isFirstItem
 UArray.isLastIndex = isLastIndex
@@ -150,3 +149,4 @@ UArray.isEqualWith = isEqualWith
 console.log(isIntersetWith([2, 4], [2, 4, 1, 3]))
 console.log(UArray.isIntersetWith([27], [2, 4, 1, 3]))
 console.log(UArray([2, 4, 5]).isEqualWith([2, 4, 5]))
+// console.log(UArray([2, 4, 5]).map(i=>i*i))
