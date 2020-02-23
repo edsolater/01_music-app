@@ -17,10 +17,9 @@ export const isFirst = (array: unknown[], itemOrIndex: unknown) => {
     return isFirstItem(array, itemOrIndex)
   }
 }
-
+export const isEmpty = (array: unknown[]) => array.length === 0
 export const createArray = (config: { repeating?: unknown; count?: number } = {}) =>
   Array(config.count).fill(config.repeating)
-
 export const createRange = (
   config: { min?: number; max?: number; count?: number; includeEnd?: boolean } = {},
 ) => {
@@ -28,4 +27,7 @@ export const createRange = (
   const max = config.max ?? min + (config.count ?? 10)
   return Array.from({ length: max - min + (config.includeEnd ? 1 : 0) }, (_, i) => i + min)
 }
+
+export const removeItem = <T>(array: T[], item: T) => array.splice(array.indexOf(item), 1)
+export const removeAllItems = <T>(array: T[]) => array.splice(0, array.length)
 
