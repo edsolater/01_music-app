@@ -21,25 +21,3 @@ export const isFirst = (array: unknown[], itemOrIndex: unknown) => {
   }
 }
 export const isEmpty = (array: unknown[]) => array.length === 0
-
-//
-//
-// —————————————— 创建数组 ——————————————
-//
-export const createArray = (config: { repeating?: unknown; count?: number } = {}) =>
-  Array(config.count).fill(config.repeating)
-export const createRange = (
-  config: { min?: number; max?: number; count?: number; includeEnd?: boolean } = {},
-) => {
-  const min = config.min ?? (config.max ?? 10) - (config.count ?? 10)
-  const max = config.max ?? min + (config.count ?? 10)
-  return Array.from({ length: max - min + (config.includeEnd ? 1 : 0) }, (_, i) => i + min)
-}
-
-//
-//
-// —————————————— 数组操作 ——————————————
-//
-export const removeItem = <T>(array: T[], item: T) => array.splice(array.indexOf(item), 1)
-export const removeAllItems = <T>(array: T[]) => array.splice(0, array.length)
-

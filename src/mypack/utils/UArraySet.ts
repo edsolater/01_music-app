@@ -64,11 +64,11 @@ class _UArraySet<T> {
   get value() {
     return this.arr
   }
+  get length() {
+    return this.arr.length
+  }
   get lastIndex() {
     return this.arr.length - 1
-  }
-  get lastItem() {
-    return this.arr[this.lastIndex]
   }
   get isEmpty() {
     return this.arr.length === 0
