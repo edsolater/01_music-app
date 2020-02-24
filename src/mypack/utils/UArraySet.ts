@@ -18,19 +18,19 @@ const _splitArrayParts = <T, U>(arrA: T[], arrB: U[]) => {
 }
 
 //交集、差集、并集（集合加法）、集合减法
-const intersectWidth = <T, U>(arrA: T[], arrB: U[]) => {
+const intersect = <T, U>(arrA: T[], arrB: U[]) => {
   const [, partAB] = _splitArrayParts(arrA, arrB)
   return partAB
 }
-const exclusiveOrWidth = <T, U>(arrA: T[], arrB: U[]) => {
+const exclusiveOr = <T, U>(arrA: T[], arrB: U[]) => {
   const [partA, , partB] = _splitArrayParts(arrA, arrB)
   return partA.concat(partB)
 }
-const unionWidth = <T, U>(arrA: T[], arrB: U[]) => {
+const union = <T, U>(arrA: T[], arrB: U[]) => {
   const [partA, partAB, partB] = _splitArrayParts(arrA, arrB)
   return partA.concat(partAB).concat(partB)
 }
-const substractWidth = <T, U>(arrA: T[], arrB: U[]) => {
+const substract = <T, U>(arrA: T[], arrB: U[]) => {
   const [partA] = _splitArrayParts(arrA, arrB)
   return partA
 }
@@ -40,10 +40,10 @@ const substractWidth = <T, U>(arrA: T[], arrB: U[]) => {
 // —————————————— 判断两个数组关系 ——————————————
 //
 // 判断A与B相交
-const isIntersetWith = <T, U>(arrA: T[], arrB: U[]) =>
+const canInterset = <T, U>(arrA: T[], arrB: U[]) =>
   arrB.some(itemB => arrA.includes(itemB as any))
 // 判断A与B毫不相干
-const isDisjointWith = <T, U>(arrA: T[], arrB: U[]) =>
+const canDisjoint = <T, U>(arrA: T[], arrB: U[]) =>
   arrB.every(itemB => !arrA.includes(itemB as any))
 // 判断A是B的超集
 const isSupersetOf = <T, U>(arrA: T[], arrB: U[]) =>
@@ -51,7 +51,7 @@ const isSupersetOf = <T, U>(arrA: T[], arrB: U[]) =>
 // 判断A是B的子集
 const isSubsetOf = <T, U>(arrA: T[], arrB: U[]) => arrA.every(itemA => arrB.includes(itemA as any))
 // 判断内容相等
-const isEqualWith = <T extends unknown, U extends unknown>(arrA: T[], arrB: U[]) =>
+const areEqual = <T extends unknown, U extends unknown>(arrA: T[], arrB: U[]) =>
   arrA.length === arrB.length && arrA.every((itemA, idx) => itemA === arrB[idx])
 
 //
@@ -87,36 +87,34 @@ class _UArraySet<T> {
     )
   }
 
-  intersectWidth = intersectWidth.bind(this, this.arr)
-  exclusiveOrWidth = exclusiveOrWidth.bind(this, this.arr)
-  unionWidth = unionWidth.bind(this, this.arr)
-  substractWidth = substractWidth.bind(this, this.arr)
+  intersectWidth = intersect.bind(this, this.arr)
+  exclusiveOrWidth = exclusiveOr.bind(this, this.arr)
+  unionWidth = union.bind(this, this.arr)
+  substractWidth = substract.bind(this, this.arr)
 
-  isIntersetWith = isIntersetWith.bind(this, this.arr)
-  isDisjointWith = isDisjointWith.bind(this, this.arr)
+  canIntersetWith = canInterset.bind(this, this.arr)
+  canDisjointWith = canDisjoint.bind(this, this.arr)
   isSupersetOf = isSupersetOf.bind(this, this.arr)
   isSubsetOf = isSubsetOf.bind(this, this.arr)
-  isEqualWith = isEqualWith.bind(this, this.arr)
+  isEqualWith = areEqual.bind(this, this.arr)
 }
 export const UArraySet = <T>(arr: T[]) => new _UArraySet(arr)
 
-UArraySet.intersectWidth = intersectWidth
-UArraySet.exclusiveOrWidth = exclusiveOrWidth
-UArraySet.unionWidth = unionWidth
-UArraySet.substractWidth = substractWidth
+UArraySet.intersect = intersect
+UArraySet.exclusiveOr = exclusiveOr
+UArraySet.union = union
+UArraySet.substract = substract
 
-UArraySet.isIntersetWith = isIntersetWith
-UArraySet.isDisjointWith = isDisjointWith
-UArraySet.isSupersetOf = isSupersetOf
-UArraySet.isSubsetOf = isSubsetOf
-UArraySet.isEqualWith = isEqualWith
+UArraySet.canInterset = canInterset
+UArraySet.canDisjoint = canDisjoint
+UArraySet.areEqual = areEqual
 
 //
 //
 // ———————————— test ——————————————
 //
-console.log(isIntersetWith([2, 4], [2, 4, 1, 3]))
-console.log(UArraySet.isIntersetWith([27], [2, 4, 1, 3]))
+console.log(canInterset([2, 4], [2, 4, 1, 3]))
+console.log(UArraySet.canInterset([27], [2, 4, 1, 3]))
 console.log(UArraySet([2, 4, 5]).isEqualWith([2, 4, 5]))
 console.log(
   UArraySet([2, 4, 5, undefined])
