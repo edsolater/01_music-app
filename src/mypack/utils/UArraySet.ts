@@ -40,8 +40,7 @@ const substract = <T, U>(arrA: T[], arrB: U[]) => {
 // —————————————— 判断两个数组关系 ——————————————
 //
 // 判断A与B相交
-const canInterset = <T, U>(arrA: T[], arrB: U[]) =>
-  arrB.some(itemB => arrA.includes(itemB as any))
+const canInterset = <T, U>(arrA: T[], arrB: U[]) => arrB.some(itemB => arrA.includes(itemB as any))
 // 判断A与B毫不相干
 const canDisjoint = <T, U>(arrA: T[], arrB: U[]) =>
   arrB.every(itemB => !arrA.includes(itemB as any))
@@ -57,8 +56,18 @@ const areEqual = <T extends unknown, U extends unknown>(arrA: T[], arrB: U[]) =>
 //
 //
 // ———————————— 定义包装类 ——————————————
-// TODO: 想想怎么继承es6的Array呢？A:这会使层混乱，不是个好想法
 //
+export const UArraySet = <T>(arr: T[]) => new _UArraySet(arr)
+UArraySet.intersect = intersect
+UArraySet.exclusiveOr = exclusiveOr
+UArraySet.union = union
+UArraySet.substract = substract
+/**
+ * TODO：注释也可以放在这儿，最好能链接，
+ */
+UArraySet.canInterset = canInterset
+UArraySet.canDisjoint = canDisjoint
+UArraySet.areEqual = areEqual
 class _UArraySet<T> {
   constructor(private arr: T[]) {}
   get value() {
@@ -87,27 +96,70 @@ class _UArraySet<T> {
     )
   }
 
-  intersectWidth = intersect.bind(this, this.arr)
-  exclusiveOrWidth = exclusiveOr.bind(this, this.arr)
-  unionWidth = union.bind(this, this.arr)
-  substractWidth = substract.bind(this, this.arr)
-
-  canIntersetWith = canInterset.bind(this, this.arr)
-  canDisjointWith = canDisjoint.bind(this, this.arr)
-  isSupersetOf = isSupersetOf.bind(this, this.arr)
-  isSubsetOf = isSubsetOf.bind(this, this.arr)
-  isEqualWith = areEqual.bind(this, this.arr)
+  /**
+   * 求交集 (A ∩ B)
+   * @param arrB 另一个数组
+   */
+  intersectWidth<T>(arrB: T[]) {
+    return new _UArraySet(intersect(this.arr, arrB))
+  }
+  /**
+   * 求亦或集合 (A ∪ B - A ∩ B)
+   * @param arrB 另一个数组
+   */
+  exclusiveOrWidth<T>(arrB: T[]) {
+    return new _UArraySet(intersect(this.arr, arrB))
+  }
+  /**
+   * 求并集 (A ∪ B )
+   * @param arrB 另一个数组
+   */
+  unionWidth<T>(arrB: T[]) {
+    return new _UArraySet(intersect(this.arr, arrB))
+  }
+  /**
+   * 求差集 (A - B)
+   * @param arrB 另一个数组
+   */
+  substractWidth<T>(arrB: T[]) {
+    return new _UArraySet(intersect(this.arr, arrB))
+  }
+  /**
+   * 判断相交
+   * @param arrB 另一个数组
+   */
+  canIntersetWith<T>(arrB: T[]) {
+    return canInterset(this.arr, arrB)
+  }
+  /**
+   * 判断不相交
+   * @param arrB 另一个数组
+   */
+  canDisjointWith<T>(arrB: T[]) {
+    return canDisjoint(this.arr, arrB)
+  }
+  /**
+   * 判断是超集
+   * @param arrB 另一个数组
+   */
+  isSupersetOf<T>(arrB: T[]) {
+    return isSupersetOf(this.arr, arrB)
+  }
+  /**
+   * 判断是子集
+   * @param arrB 另一个数组
+   */
+  isSubsetOf<T>(arrB: T[]) {
+    return isSubsetOf(this.arr, arrB)
+  }
+  /**
+   * 判断集合相等
+   * @param arrB 另一个数组
+   */
+  isEqualWith<T>(arrB: T[]) {
+    return areEqual(this.arr, arrB)
+  }
 }
-export const UArraySet = <T>(arr: T[]) => new _UArraySet(arr)
-
-UArraySet.intersect = intersect
-UArraySet.exclusiveOr = exclusiveOr
-UArraySet.union = union
-UArraySet.substract = substract
-
-UArraySet.canInterset = canInterset
-UArraySet.canDisjoint = canDisjoint
-UArraySet.areEqual = areEqual
 
 //
 //
