@@ -18,18 +18,18 @@ body * {
   height: 100vh;
   display: grid;
   grid-template:
-    'album-menu  main-app-content' 1fr
-    'player-bar  player-bar      ' auto
+    'a  b' 1fr
+    'c  c' auto
     / 1fr 4fr;
 }
-.album-menu { //TODO: 研究一下，这几行能不能不要啊？
-  grid-area: album-menu;
+.album-menu { 
+  grid-area: a;
 }
 .main-app-content {
-  grid-area: main-app-content;
+  grid-area: b;
 }
 .player-bar {
-  grid-area: player-bar;
+  grid-area: c;
 }
 
 .collections-list {
