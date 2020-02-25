@@ -116,6 +116,7 @@ export default function Menu<O>(props: IProps<O>) {
             >
               {extractReactChildByType(props.children, Menu.Group, groupInfo)}
             </Slot>
+            // TODO：Menu需要嵌套List组件
             <$For
               $for={groupInfo.children}
               $formatter={(menuItem, itemIndex) =>
