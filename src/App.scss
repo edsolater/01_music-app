@@ -22,7 +22,7 @@ body * {
     'player-bar  player-bar      ' auto
     / 1fr 4fr;
 }
-.album-menu {
+.album-menu { //TODO: 研究一下，这几行能不能不要啊？
   grid-area: album-menu;
 }
 .main-app-content {
