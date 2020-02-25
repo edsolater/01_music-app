@@ -1,28 +1,24 @@
 /* 初始化样式 */
 body {
-  display: unset;
   margin: 0;
 }
 body * {
-  user-select: none;
   transition: 0.2s;
   box-sizing: border-box;
 }
 
 /* 业务样式 */
 .AppRoot {
-  /* 业务样式的包壳，迟早要替换掉 */
-  // TODO:CSS 变量命名需要在项目中列一个清单
-  --primary: crimson;
-  width: 100vw;
-  height: 100vh;
+  --primary: rgb(247, 80, 2);
+  --secondary: rgb(255, 109, 0);
+  height: 100%;
   display: grid;
   grid-template:
-    'a  b' 1fr
-    'c  c' auto
+    'a b' 1fr
+    'c c' auto
     / 1fr 4fr;
 }
-.album-menu { 
+.album-menu {
   grid-area: a;
 }
 .main-app-content {
@@ -34,7 +30,7 @@ body * {
 
 .collections-list {
   .MenuList {
-    --divider-left: 54px;
+    --divider-left: 54px; //TODO: 只有tableView需要不含icon部分的分割线，需要特意配数值吗？为了快速开发，去掉不必要的细粒度
     .Image {
       width: 40px;
       height: 40px;
