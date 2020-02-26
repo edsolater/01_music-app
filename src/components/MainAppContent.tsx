@@ -50,12 +50,12 @@ export default function MainAppContent() {
         keyPropname='songName'
         data={appData.collectionMusicList}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
-        __ListItem={(itemInfo) => (
+        renderListItem={(itemInfo) => (
           <Item>
             <Text>{itemInfo.songName}</Text>
           </Item>
         )}
-        __Between={() => <Divider />}
+        renderBetween={() => <Divider />}
         onSelectItem={(itemInfo) => {
           appData.playNewMusic(itemInfo)
         }}

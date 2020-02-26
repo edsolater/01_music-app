@@ -1,17 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, ReactNode } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import {
-  ComponentRoot,
-  Slot,
-  componentRootProps,
-  View,
-  $For,
-  ComponentRootPorpType,
-  SlotElementPropType
-} from '.'
-import { pick, isLast, isFirst, hasSameProperty, extractReactChildByType } from '../utils'
+import { ComponentRoot, Slot, componentRootProps, View, ComponentRootPorpType, List } from '.'
+import { pick, UArray } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
 /**
  * Menu中的Item信息
@@ -69,6 +61,14 @@ type IProps<O> = ComponentRootPorpType<O> & {
    * 选择某个菜单项时发起的回调
    */
   onSelectMenuItem?: (itemInfo: ItemInfo, event: React.MouseEvent) => void
+  /**
+   * 菜单项
+   */
+  renderMenuItem?: (itemInfo: ItemInfo, index: number) => ReactNode
+  /**
+   * 菜单组的标头
+   */
+  renderMenuGroup?: (groupInfo: GroupInfo, index: number) => ReactNode
 }
 /**
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
@@ -88,83 +88,62 @@ export default function Menu<O>(props: IProps<O>) {
     // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
-      <$For
-        $for={Object.entries(props.data)}
-        $formatter={([groupName, items], groupIndex) =>
-          ({
-            data: { name: groupName },
-            index: groupIndex,
-            children: items,
-            path: selectedPath.getAllPathItems(),
-          } as GroupInfo)
+      {Object.entries(props.data).map(([groupName, childItems], groupIndex) => {
+        const groupInfo: GroupInfo = {
+          data: { name: groupName },
+          index: groupIndex,
+          children: childItems,
+          path: selectedPath.getAllPathItems(),
         }
-        $formatterReturnType={{} as GroupInfo}
-      >
-        {(groupInfo) => (
+        return (
           // TODO: <Group>要支持竖向的，以代替View
-          <View className='Menu_groupBox' key={groupInfo.data.name}>
+          <View className='Menu_groupBox' key={groupName}>
             <Slot
               slotName={[
                 'Menu_Group',
-                {
-                  _selected: hasSameProperty(
-                    groupInfo.data,
-                    selectedPath.getFirstPathItem(),
-                    'name',
-                  ),
-                },
+                { _selected: groupName === selectedPath.getFirstPathItem()?.name },
               ]}
             >
-              {extractReactChildByType(props.children, Menu.Group, groupInfo)}
+              {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
-             {/* TODO：Menu需要嵌套List组件 */}
-            <$For
-              $for={groupInfo.children}
-              $formatter={(menuItem, itemIndex) =>
-                ({
+            <List
+              data={childItems}
+              keyPropname='title'
+              renderListItem={(menuItem, itemIndex) => {
+                const itemInfo: ItemInfo = {
                   group: groupInfo,
                   index: itemIndex,
                   data: menuItem,
-                  siblings: groupInfo.children,
-                } as ItemInfo)
-              }
-              $formatterReturnType={{} as ItemInfo}
-            >
-              {(itemInfo) => (
-                <Slot
-                  key={itemInfo.data.title}
-                  slotName={[
-                    'Menu_Item',
-                    {
-                      _selected:
-                        hasSameProperty(groupInfo.data, selectedPath.getFirstPathItem(), 'name') &&
-                        hasSameProperty(itemInfo.data, selectedPath.getLastPathItem(), 'title'),
-                      _first: isFirst(itemInfo.siblings, itemInfo.data),
-                      _last: isLast(itemInfo.siblings, itemInfo.data),
-                    },
-                  ]}
-                  onClick={(event) => {
-                    selectedPath.setAllPathItems([groupInfo.data, itemInfo.data])
-                    props.onSelectMenuItem?.(itemInfo, event)
-                  }}
-                >
-                  {extractReactChildByType(props.children, Menu.Item, itemInfo)}
-                </Slot>
-              )}
-            </$For>
+                  siblings: childItems,
+                }
+                return (
+                  <Slot
+                    slotName={[
+                      'Menu_Item',
+                      {
+                        _selected: UArray.hasSameItems(selectedPath.getAllPathItems(), [
+                          groupInfo.data.name,
+                          itemInfo.data.title,
+                        ]),
+                        _first: itemInfo.siblings[0] === itemInfo.data,
+                        _last: itemInfo.siblings[itemInfo.siblings.length - 1] === itemInfo.data,
+                      },
+                    ]}
+                    onClick={event => {
+                      selectedPath.setAllPathItems([groupInfo.data, itemInfo.data])
+                      props.onSelectMenuItem?.(itemInfo, event)
+                    }}
+                  >
+                    {props.renderMenuItem?.(itemInfo, itemIndex)}
+                  </Slot>
+                )
+              }}
+            />
           </View>
-        )}
-      </$For>
+        )
+      })}
     </ComponentRoot>
   )
-}
-
-Menu.Group = function Menu_Group(props: SlotElementPropType<GroupInfo>) {
-  return props.$$passedOnPayload ? <>{props.children?.(props.$$passedOnPayload)}</> : null
-}
-
-Menu.Item = function Menu_Item(props: SlotElementPropType<ItemInfo>) {
-  return props.$$passedOnPayload ? <>{props.children?.(props.$$passedOnPayload)}</> : null
 }
 
 // export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力

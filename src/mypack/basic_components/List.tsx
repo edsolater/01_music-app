@@ -17,9 +17,9 @@ type IProps<T> = {
   /**当用户选择新属性时启用的回调 */
   onSelectItem?: (item: T, index: number, items: T[]) => any
   /**Slot：渲染每一个ListItem */
-  __ListItem?: (item: T, index: number, items: T[]) => ReactNode
+  renderListItem?: (item: T, index: number, items: T[]) => ReactNode
   /**Slot：渲染分隔符 */
-  __Between?: (item: T, index: number, items: T[]) => ReactNode
+  renderBetween?: (item: T, index: number, items: T[]) => ReactNode
 }
 
 //TODO:最后做成一个类似 scroll-view 的 list 特异性组件
@@ -39,7 +39,7 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
               selectedIndex.set(index)
             }}
           >
-            {props.__ListItem?.(itemInfo, index, props.data!)}
+            {props.renderListItem?.(itemInfo, index, props.data!)}
           </Slot>
         )}
       </$For>
