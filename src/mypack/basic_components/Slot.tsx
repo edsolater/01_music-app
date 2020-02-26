@@ -26,6 +26,6 @@ export type SlotElementPropType<SlotInfo extends object, O = {}> = Omit<ViewProp
   /**
    * 用于载入当前Slot时的信息，内部用Props，些业务逻辑时无需理会
    */
-  _passedOnPayload?: SlotInfo
+  $$passedOnPayload?: SlotInfo
   children?: (info: SlotInfo)=>ReactNode
 }

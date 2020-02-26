@@ -160,11 +160,11 @@ export default function Menu<O>(props: IProps<O>) {
 }
 
 Menu.Group = function Menu_Group(props: SlotElementPropType<GroupInfo>) {
-  return props._passedOnPayload ? <>{props.children?.(props._passedOnPayload)}</> : null
+  return props.$$passedOnPayload ? <>{props.children?.(props.$$passedOnPayload)}</> : null
 }
 
 Menu.Item = function Menu_Item(props: SlotElementPropType<ItemInfo>) {
-  return props._passedOnPayload ? <>{props.children?.(props._passedOnPayload)}</> : null
+  return props.$$passedOnPayload ? <>{props.children?.(props.$$passedOnPayload)}</> : null
 }
 
 // export default React.memo(Menu) as typeof Menu //为了使组件不丧失generic的能力
