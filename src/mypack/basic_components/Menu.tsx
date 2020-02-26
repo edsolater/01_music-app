@@ -85,6 +85,7 @@ export default function Menu<O>(props: IProps<O>) {
     })
   }, [])
   return (
+    // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
       <$For
@@ -116,7 +117,7 @@ export default function Menu<O>(props: IProps<O>) {
             >
               {extractReactChildByType(props.children, Menu.Group, groupInfo)}
             </Slot>
-            // TODO：Menu需要嵌套List组件
+             {/* TODO：Menu需要嵌套List组件 */}
             <$For
               $for={groupInfo.children}
               $formatter={(menuItem, itemIndex) =>
