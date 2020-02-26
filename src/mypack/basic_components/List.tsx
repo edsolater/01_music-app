@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType, $For } from '.'
+import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 import { pick } from '../utils'
@@ -13,9 +13,9 @@ type IProps<T> = {
   /**初始选择的index */
   initSelectedIndex?: number
   /**用作Key的对象的属性名 */
-  keyPropname?: string
+  keyForItems?: ((item: T, index: number, items: T[]) => string | number | undefined) | keyof T
   /**当用户选择新属性时启用的回调 */
-  onSelectItem?: (item: T, index: number, items: T[]) => any
+  onSelectItem?: (item: T, index: number, items: T[]) => unknown
   /**Slot：渲染每一个ListItem */
   renderListItem?: (item: T, index: number, items: T[]) => ReactNode
   /**Slot：渲染分隔符 */
@@ -30,10 +30,15 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='List'>
-      <$For $for={props.data} keyProp={props.keyPropname}>
-        {(itemInfo, index) => (
+      {props.data?.map((itemInfo, index) => {
+        return (
           <Slot
-            slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
+            key={
+              typeof props.keyForItems === 'function'
+                ? props.keyForItems(itemInfo, index, props.data!)
+                : itemInfo[String(props.keyForItems)]
+            }
+            slotName={['List__Item', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)
@@ -41,8 +46,8 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
           >
             {props.renderListItem?.(itemInfo, index, props.data!)}
           </Slot>
-        )}
-      </$For>
+        )
+      })}
     </ComponentRoot>
   )
 }

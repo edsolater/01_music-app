@@ -88,38 +88,38 @@ export default function Menu<O>(props: IProps<O>) {
     // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
     <ComponentRoot {...pick(props, componentRootProps)} name='Menu'>
       {props.children}
-      {Object.entries(props.data).map(([groupName, childItems], groupIndex) => {
+      {Object.entries(props.data).map(([groupName, groupItems], groupIndex) => {
         const groupInfo: GroupInfo = {
           data: { name: groupName },
           index: groupIndex,
-          children: childItems,
+          children: groupItems,
           path: selectedPath.getAllPathItems(),
         }
         return (
           // TODO: <Group>要支持竖向的，以代替View
-          <View className='Menu_groupBox' key={groupName}>
+          <View className='Menu__groupBox' key={groupName}>
             <Slot
               slotName={[
-                'Menu_Group',
+                'Menu__Group',
                 { _selected: groupName === selectedPath.getFirstPathItem()?.name },
               ]}
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
             <List
-              data={childItems}
-              keyPropname='title'
+              data={groupItems}
+              keyForItems='title'
               renderListItem={(menuItem, itemIndex) => {
                 const itemInfo: ItemInfo = {
                   group: groupInfo,
                   index: itemIndex,
                   data: menuItem,
-                  siblings: childItems,
+                  siblings: groupItems,
                 }
                 return (
                   <Slot
                     slotName={[
-                      'Menu_Item',
+                      'Menu__Item',
                       {
                         _selected: UArray.hasSameItems(selectedPath.getAllPathItems(), [
                           groupInfo.data.name,
