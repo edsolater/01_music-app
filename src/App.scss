@@ -9,9 +9,9 @@ body * {
 
 /* 业务样式 */
 .AppRoot {
-  --light-line: rgba(211, 211, 211, 0.541);
-  --middle-line:1.5px solid  lightgray;
-  --dark-line: gray;
+  --light-line: 1px solid rgba(211, 211, 211, 0.541);
+  --middle-line: 1.5px solid #dddde1;
+  --dark-line: 2px solid gray;
   --theme-color: #fff; // 无彩色
   --primary-color: #f3f3f5;
   --secondary-color: #df3b3b;

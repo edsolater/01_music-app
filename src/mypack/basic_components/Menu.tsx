@@ -5,39 +5,20 @@ import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, Slot, componentRootProps, View, ComponentRootPorpType, List } from '.'
 import { pick, UArray } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
-/**
- * Menu中的Item信息
- */
-interface ItemData {
-  title?: string
-  subtitle?: string
-  detail?: object // 用于自定义各种信息
-}
-
-/**
- * Menu中的组别信息
- */
-interface GroupData {
-  name: string
-}
-/**
- * 需要传递给<Menu>组件（带Group的数据形式）
- */
-interface MenuInfo {
-  [groupName: string]: ItemData[]
-}
 
 type ItemInfo = {
-  data: ItemData
-  index: number
-  siblings: GroupInfo['children']
-  group: GroupInfo
+  title: string
+  subtitle?: string
+  index?: number
+  siblings?: GroupInfo['children']
+  group?: GroupInfo
+  detail?: unknown
 }
 type GroupInfo = {
-  data: GroupData
-  index: number
-  children: ItemData[]
-  path: Path
+  label: string
+  index?: number
+  children?: ItemInfo[]
+  path?: Path
 }
 /**
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
@@ -45,18 +26,11 @@ type GroupInfo = {
  */
 type IProps<O> = ComponentRootPorpType<O> & {
   /**
-   * 初始化菜单项的index
-   */
-  initItemIndex?: number
-  /**
-   * 初始化菜单组的index
-   */
-  initGroupIndex?: number
-  /**
    * **必选项**
    * MenuList会使用的具体数据（Template定义渲染的样式）
    */
-  data: MenuInfo
+  data: { [groupName: string]: ItemInfo[] }
+
   /**
    * 选择某个菜单项时发起的回调
    */
@@ -76,7 +50,7 @@ type IProps<O> = ComponentRootPorpType<O> & {
 export default function Menu<O>(props: IProps<O>) {
   const selectedPath = useMaster({
     type: 'pathStack',
-    init: [{ index: props.initGroupIndex ?? 0 }, { index: props.initItemIndex ?? 0 }],
+    init: [],
   })
   useEffect(() => {
     //TODO： 这里怎么无效？
@@ -90,18 +64,18 @@ export default function Menu<O>(props: IProps<O>) {
       {props.children}
       {Object.entries(props.data).map(([groupName, groupItems], groupIndex) => {
         const groupInfo: GroupInfo = {
-          data: { name: groupName },
+          label: groupName,
           index: groupIndex,
           children: groupItems,
           path: selectedPath.getAllPathItems(),
         }
         return (
           // TODO: <Group>要支持竖向的，以代替View
-          <View className='Menu__groupBox' key={groupName}>
+          <View className='__Groupbox' key={groupName}>
             <Slot
               slotName={[
-                'Menu__Group',
-                { _selected: groupName === selectedPath.getFirstPathItem()?.name },
+                '__MenuGroupTitle',
+                { selected: groupName === selectedPath.getFirstPathItem()?.name },
               ]}
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
@@ -111,26 +85,25 @@ export default function Menu<O>(props: IProps<O>) {
               keyForListItems='title'
               renderListItem={(menuItem, itemIndex) => {
                 const itemInfo: ItemInfo = {
+                  ...menuItem,
                   group: groupInfo,
                   index: itemIndex,
-                  data: menuItem,
                   siblings: groupItems,
                 }
                 return (
                   <Slot
                     slotName={[
-                      'Menu__Item',
+                      '__Item',
+                      '__MenuItem',
                       {
-                        _selected: UArray.hasSameItems(selectedPath.getAllPathItems(), [
-                          groupInfo.data.name,
-                          itemInfo.data.title,
-                        ]),
-                        _first: itemInfo.siblings[0] === itemInfo.data,
-                        _last: itemInfo.siblings[itemInfo.siblings.length - 1] === itemInfo.data,
+                        selected:
+                          (selectedPath.getFirstPathItem() as GroupInfo)?.label ===
+                            groupInfo.label &&
+                          (selectedPath.getLastPathItem() as ItemInfo)?.title === itemInfo.title,
                       },
                     ]}
                     onClick={event => {
-                      selectedPath.setAllPathItems([groupInfo.data, itemInfo.data])
+                      selectedPath.setAllPathItems([groupInfo, itemInfo])
                       props.onSelectMenuItem?.(itemInfo, event)
                     }}
                   >

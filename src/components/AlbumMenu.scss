@@ -28,8 +28,13 @@
       width: max-content;
     }
   }
-  .Menu__Item:hover {
-    background-color: cornflowerblue;
+  .__MenuItem {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+    &.selected {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
   }
 }
 
