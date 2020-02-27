@@ -108,7 +108,7 @@ export default function Menu<O>(props: IProps<O>) {
             </Slot>
             <List
               data={groupItems}
-              keyForItems='title'
+              keyForListItems='title'
               renderListItem={(menuItem, itemIndex) => {
                 const itemInfo: ItemInfo = {
                   group: groupInfo,

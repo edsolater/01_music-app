@@ -47,8 +47,8 @@ export default function MainAppContent() {
         </Group>
       </Grid>
       <List
-        keyForItems={item => item.songName}
         data={appData.collectionMusicList}
+        keyForListItems={item => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={itemInfo => (
           <Item>

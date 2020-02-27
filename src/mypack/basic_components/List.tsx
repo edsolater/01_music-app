@@ -13,7 +13,7 @@ type IProps<T> = {
   /**初始选择的index */
   initSelectedIndex?: number
   /**用作Key的对象的属性名 */
-  keyForItems?: ((item: T, index: number, items: T[]) => string | number | undefined) | keyof T
+  keyForListItems?: ((item: T, index: number, items: T[]) => string | number | undefined) | keyof T
   /**当用户选择新属性时启用的回调 */
   onSelectItem?: (item: T, index: number, items: T[]) => unknown
   /**Slot：渲染每一个ListItem */
@@ -34,9 +34,9 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
         return (
           <Slot
             key={
-              typeof props.keyForItems === 'function'
-                ? props.keyForItems(itemInfo, index, props.data!)
-                : itemInfo[String(props.keyForItems)]
+              typeof props.keyForListItems === 'function'
+                ? props.keyForListItems(itemInfo, index, props.data!)
+                : itemInfo[String(props.keyForListItems)]
             }
             slotName={['List__Item', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
