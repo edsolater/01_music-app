@@ -9,8 +9,12 @@ body * {
 
 /* 业务样式 */
 .AppRoot {
-  --primary: rgb(247, 80, 2);
-  --secondary: rgb(255, 109, 0);
+  --light-line: rgba(211, 211, 211, 0.541);
+  --middle-line:1.5px solid  lightgray;
+  --dark-line: gray;
+  --theme-color: #fff; // 无彩色
+  --primary-color: #f3f3f5;
+  --secondary-color: #df3b3b;
   height: 100%;
   display: grid;
   grid-template:
@@ -30,7 +34,6 @@ body * {
 
 .collections-list {
   .MenuList {
-    --divider-left: 54px; //TODO: 只有tableView需要不含icon部分的分割线，需要特意配数值吗？为了快速开发，去掉不必要的细粒度
     .Image {
       width: 40px;
       height: 40px;
