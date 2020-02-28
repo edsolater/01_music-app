@@ -24,8 +24,8 @@ export default function AlbumMenu() {
       <Menu
         data={appData.menu.collections} //TEMP
         onSelectMenuItem={(itemInfo, event) => {
-          console.log('itemInfo: ', itemInfo)
-          console.log('event: ', event)
+          // console.log('itemInfo: ', itemInfo)
+          // console.log('event: ', event)
         }}
         renderMenuGroup={groupInfo => <Text headline>{groupInfo.label}</Text>}
         renderMenuItem={itemInfo => (
