@@ -1,8 +1,8 @@
 /************
- * 
+ *
  * 以 "__" 开头的组件名地位类似CSS中的伪元素
  * 以 "_" 开头的组件名地位类似CSS中的伪类（表示状态）
- * 
+ *
  ************/
 
 /**
@@ -12,6 +12,7 @@ export { default as ComponentRoot } from './ComponentRoot' // 有一个 name 的
 export * from './ComponentRoot'
 export { default as Slot } from './Slot'
 export * from './Slot'
+export { default as GhostNode } from './GhostNode'
 
 /*
  * 基本HTML及其包装（用途专有）
@@ -53,9 +54,7 @@ export { default as ImageFalls } from './ImageFalls'
 export { default as Popover } from './Popover'
 export { default as RedDot } from './RedDot'
 
-
 /**
  * 特殊组件
  */
-export { default as $For } from './$For' // for渲染
 export * from './customHooks'

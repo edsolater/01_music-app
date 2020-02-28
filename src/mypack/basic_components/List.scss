@@ -1,5 +1,5 @@
 .List {
-  .__ListItem {
+  .List__Item {
     opacity: 0.8;
     &:hover:not(._selected) {
       transform:  translateX(8px);

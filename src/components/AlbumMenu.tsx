@@ -28,20 +28,17 @@ export default function AlbumMenu() {
           console.log('itemInfo: ', itemInfo)
           console.log('event: ', event)
         }}
-      >
-        <Menu.Group>{(groupInfo) => <Text headline>{groupInfo.data.name}</Text>}</Menu.Group>
-        <Menu.Item>
-          {(itemInfo) => (
-            <Item html={{ title: 'hello' }}>
-              <View className='textbox'>
-                {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
-                <RedDot onlyDot />
-                <Text>{itemInfo.data.title}</Text>
-              </View>
-            </Item>
-          )}
-        </Menu.Item>
-      </Menu>
+        renderMenuGroup={groupInfo => <Text headline>{groupInfo.data.name}</Text>}
+        renderMenuItem={itemInfo => (
+          <Item html={{ title: 'hello' }}>
+            <View className='textbox'>
+              {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
+              <RedDot onlyDot />
+              <Text>{itemInfo.data.title}</Text>
+            </View>
+          </Item>
+        )}
+      />
       <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>

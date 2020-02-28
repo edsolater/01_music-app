@@ -1,14 +1,14 @@
 .player-bar {
   display: grid;
-  grid-template-columns: auto auto 1fr auto;
   align-items: center;
-  background: rgb(158, 158, 158);
+  grid-template-columns: auto auto 1fr auto;
+  border-top: var(--middle-line);
+  background: var(--theme-color);
   height: 100%;
   gap: 48px;
   .album-face {
-    --size: 80px;
-    width: var(--size);
-    height: var(--size);
+    width: 80px;
+    height: 80px;
     object-fit: cover;
   }
   .music-buttons .Button {
@@ -16,7 +16,8 @@
     height: 50px;
     margin-right: 16px;
     border-radius: 1000px;
-    background: rgb(216, 216, 216);
+    background: var(--secondary-color);
+    color: white;
     display: grid;
     place-items: center;
     &:hover {

@@ -26,6 +26,8 @@ const createRange = (
 const removeByItem = <T>(array: T[], item: T) => array.splice(array.indexOf(item), 1)
 const removeByIndex = <T>(array: T[], index: number) => array.splice(index, 1)
 const removeAllItems = <T>(array: T[]) => array.splice(0, array.length)
+const hasSameItems = (arrA: unknown[], arrB: unknown[]) =>
+  arrA.every((itemA, idx) => itemA === arrB[idx])
 
 //
 //
@@ -63,6 +65,7 @@ class _UArray<T> {
   removeByItem = removeByItem.bind(this, this.arr)
   removeByIndex = removeByIndex.bind(this, this.arr)
   removeAllItems = removeAllItems.bind(this, this.arr)
+  hasSameItems = hasSameItems.bind(this, this.arr)
 }
 export const UArray = <T>(arr: T[]) => new _UArray(arr)
 UArray.trim = trim
@@ -71,6 +74,7 @@ UArray.createRange = createRange
 UArray.removeByItem = removeByItem
 UArray.removeByIndex = removeByIndex
 UArray.removeAllItems = removeAllItems
+UArray.hasSameItems = hasSameItems
 
 //
 //

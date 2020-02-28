@@ -2,13 +2,14 @@
 
 .Section.album-menu {
   display: grid;
+  border-right: var(--middle-line);
   grid-template-rows: max-content 1fr max-content;
-  background-color: #eee;
+  background-color: var(--primary-color);
 }
 
 .Card.shrink-button {
-  z-index: 1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: transparent;
+  box-shadow: unset;
 }
 
 .Menu {
@@ -27,7 +28,7 @@
       width: max-content;
     }
   }
-  .Menu_Item:hover {
+  .Menu__Item:hover {
     background-color: cornflowerblue;
   }
 }
@@ -36,11 +37,11 @@
 .Card.user-info {
   height: 80px;
   padding: 8px;
-  background-color: white;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  border-top: var(--middle-line);
+  background-color: transparent;
+  box-shadow: unset;
   display: flex;
   align-items: center;
-  z-index: 1;
   .Avatar {
     flex-shrink: 0;
     margin-right: 8px;

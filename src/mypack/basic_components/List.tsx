@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType, $For } from '.'
+import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 import { pick } from '../utils'
@@ -13,13 +13,13 @@ type IProps<T> = {
   /**初始选择的index */
   initSelectedIndex?: number
   /**用作Key的对象的属性名 */
-  keyPropname?: string
+  keyForListItems?: ((item: T, index: number, items: T[]) => string | number | undefined) | keyof T
   /**当用户选择新属性时启用的回调 */
-  onSelectItem?: (item: T, index: number, items: T[]) => any
+  onSelectItem?: (item: T, index: number, items: T[]) => unknown
   /**Slot：渲染每一个ListItem */
-  __ListItem?: (item: T, index: number, items: T[]) => ReactNode
+  renderListItem?: (item: T, index: number, items: T[]) => ReactNode
   /**Slot：渲染分隔符 */
-  __Between?: (item: T, index: number, items: T[]) => ReactNode
+  renderBetween?: (item: T, index: number, items: T[]) => ReactNode
 }
 
 //TODO:最后做成一个类似 scroll-view 的 list 特异性组件
@@ -30,19 +30,24 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='List'>
-      <$For $for={props.data} keyProp={props.keyPropname}>
-        {(itemInfo, index) => (
+      {props.data?.map((itemInfo, index) => {
+        return (
           <Slot
-            slotName={['__ListItem', { _selected: index === selectedIndex.getValue() }]}
+            key={
+              typeof props.keyForListItems === 'function'
+                ? props.keyForListItems(itemInfo, index, props.data!)
+                : itemInfo[String(props.keyForListItems)]
+            }
+            slotName={['List__Item', { _selected: index === selectedIndex.getValue() }]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)
             }}
           >
-            {props.__ListItem?.(itemInfo, index, props.data!)}
+            {props.renderListItem?.(itemInfo, index, props.data!)}
           </Slot>
-        )}
-      </$For>
+        )
+      })}
     </ComponentRoot>
   )
 }

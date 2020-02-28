@@ -31,6 +31,7 @@ export function addEvent(
 }
 
 /**
+ * @deprecated 减弱了可读性
  * 提取相对应的子组件
  * @example
  * extractChildComponent()
