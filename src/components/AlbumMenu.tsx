@@ -23,18 +23,17 @@ export default function AlbumMenu() {
       </Card>
       <Menu
         data={appData.menu.collections} //TEMP
-        initItemIndex={appData.menu.initIndex}
         onSelectMenuItem={(itemInfo, event) => {
           console.log('itemInfo: ', itemInfo)
           console.log('event: ', event)
         }}
-        renderMenuGroup={groupInfo => <Text headline>{groupInfo.data.name}</Text>}
+        renderMenuGroup={groupInfo => <Text headline>{groupInfo.label}</Text>}
         renderMenuItem={itemInfo => (
           <Item html={{ title: 'hello' }}>
             <View className='textbox'>
               {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
               <RedDot onlyDot />
-              <Text>{itemInfo.data.title}</Text>
+              <Text>{itemInfo.title}</Text>
             </View>
           </Item>
         )}

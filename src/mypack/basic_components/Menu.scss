@@ -6,15 +6,17 @@
   width: 100%;
   grid-template-columns: 100%;
 }
-.Menu__groupBox {
-  .Menu__Group {
-    &._selected {
-      background-color: rgb(177, 217, 252);
-    }
-  }
-  .Menu__Item {
-    &._selected {
-      border-left: 4px solid var(--primary, dodgerblue); //只是起了个示例的作用
-    }
-  }
-}
+
+/* 示例 */
+// .__Groupbox {
+//   .__MenuGroupTitle {
+//     &.selected {
+//       background-color: rgb(177, 217, 252);
+//     }
+//   }
+//   .__Item {
+//     &.selected {
+//       border-left: 4px solid var(--primary, dodgerblue); 
+//     }
+//   }
+// }

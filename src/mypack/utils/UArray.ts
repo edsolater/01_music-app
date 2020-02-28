@@ -27,7 +27,7 @@ const removeByItem = <T>(array: T[], item: T) => array.splice(array.indexOf(item
 const removeByIndex = <T>(array: T[], index: number) => array.splice(index, 1)
 const removeAllItems = <T>(array: T[]) => array.splice(0, array.length)
 const hasSameItems = (arrA: unknown[], arrB: unknown[]) =>
-  arrA.every((itemA, idx) => itemA === arrB[idx])
+  arrA.every((itemA, idx) => itemA === arrB[idx]) //TODO: 这里的全等只是个临时措施，需要写个深层递归的全等
 
 //
 //

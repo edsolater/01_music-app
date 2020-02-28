@@ -38,7 +38,7 @@ function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
                 ? props.keyForListItems(itemInfo, index, props.data!)
                 : itemInfo[String(props.keyForListItems)]
             }
-            slotName={['List__Item', { _selected: index === selectedIndex.getValue() }]}
+            slotName={['__Item', '__ListItem', { selected: index === selectedIndex.getValue() }]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)
