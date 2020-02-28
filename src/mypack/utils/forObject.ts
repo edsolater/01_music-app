@@ -1,4 +1,4 @@
-import { wrapToArray } from './_preprocessingData'
+import { wrapToArray } from './UParseData'
 
 export function pick<O>(target: O, propNames?: (keyof O)[] | keyof O | string[]) {
   if (typeof target !== 'object' || target === null) return

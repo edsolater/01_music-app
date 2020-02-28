@@ -1,4 +1,4 @@
-import { constraint } from 'mypack/utils'
+import { UGuard } from 'mypack/utils'
 
 /**
  * 输入初始状态（number），返回一个包含数字的对象
@@ -31,7 +31,7 @@ export default class StateNumber {
    * @alias
    */
   add(addNumber: number) {
-    this._callbacks.add?.forEach((callback) => callback())
+    this._callbacks.add?.forEach(callback => callback())
     return this.set(this._value + addNumber)
   }
   /**
@@ -48,10 +48,10 @@ export default class StateNumber {
   }
   set(setNumber: number) {
     if (this.config?.range) {
-      setNumber = constraint(setNumber, { range: this.config.range })
+      setNumber = UGuard.number(setNumber, { range: this.config.range })
     }
     //触发设定值的回调
-    this._callbacks.set?.forEach((callback) => callback(setNumber))
+    this._callbacks.set?.forEach(callback => callback(setNumber))
     // 更新JavaScript的对象的值
     this._value = setNumber
     // 通知react以更新UI
@@ -61,7 +61,7 @@ export default class StateNumber {
   }
 
   getValue() {
-    this._callbacks.getValue?.forEach((callback) => callback())
+    this._callbacks.getValue?.forEach(callback => callback())
     return this._value
   }
 

@@ -2,9 +2,9 @@ import React from 'react'
 
 import './Slider.scss'
 import { useMaster } from './customHooks'
-import { constraint } from '../utils'
 import { View, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
+import { UGuard } from 'mypack/utils/UGuard'
 
 /**
  * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次）IDEA： 加个函数防抖能轻松解决？
@@ -53,12 +53,12 @@ function Slider<O>(
    * 移动 Trigger
    */
   const moveTrigger = (percentage: number) => {
-    const validPercentage = constraint(percentage, { range: [0, 1] })
+    const validPercentage = UGuard.number(percentage, { range: [0, 1] })
     setLeft(validPercentage)
     props.onMoveTrigger?.(validPercentage * maxValue)
   }
   const moveTriggerDone = (percentage: number) => {
-    const validPercentage = constraint(percentage, { range: [0, 1] })
+    const validPercentage = UGuard.number(percentage, { range: [0, 1] })
     setLeft(validPercentage)
     props.onMoveTriggerDone?.(validPercentage * maxValue)
   }
