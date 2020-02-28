@@ -80,5 +80,5 @@ UArray.hasSameItems = hasSameItems
 //
 // ———————————— test ——————————————
 //
-console.log(UArray.trim([2, 4, 1, 3, undefined]))
-console.log(UArray([2, 4, 1, 3, undefined]).removeAllItems())
+// console.log(UArray.trim([2, 4, 1, 3, undefined]))
+// console.log(UArray([2, 4, 1, 3, undefined]).removeAllItems())

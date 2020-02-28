@@ -165,12 +165,12 @@ class _UArraySet<T> {
 //
 // ———————————— test ——————————————
 //
-console.log(canInterset([2, 4], [2, 4, 1, 3]))
-console.log(UArraySet.canInterset([27], [2, 4, 1, 3]))
-console.log(UArraySet([2, 4, 5]).isEqualWith([2, 4, 5]))
-console.log(
-  UArraySet([2, 4, 5, undefined])
-    .trim()
-    .map(item => 3 * item)
-    .map(i => i * 4).value,
-)
+// console.log(canInterset([2, 4], [2, 4, 1, 3]))
+// console.log(UArraySet.canInterset([27], [2, 4, 1, 3]))
+// console.log(UArraySet([2, 4, 5]).isEqualWith([2, 4, 5]))
+// console.log(
+//   UArraySet([2, 4, 5, undefined])
+//     .trim()
+//     .map(item => 3 * item)
+//     .map(i => i * 4).value,
+// )
