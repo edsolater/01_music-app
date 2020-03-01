@@ -40,10 +40,10 @@ export default function AlbumMenu() {
       <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>
-        <Icon iconfont='mail'>
+        <Icon iconfontName='mail'>
           <RedDot amount={32} />
         </Icon>
-        <Icon iconfont='setting' />
+        <Icon iconfontName='setting' />
       </Card>
     </Section>
   )

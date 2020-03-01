@@ -9,6 +9,7 @@ import {
   useMaster,
   useCallbackRef,
   View,
+  Icon,
 } from 'mypack/basic_components'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
@@ -29,7 +30,7 @@ export default function AudioPlayer() {
   const totalSeconds = masters.totalSeconds.getValue()
   //#endregion
 
-  const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), (el) => {
+  const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), el => {
     el.addEventListener('canplaythrough', () => {
       masters.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
@@ -63,10 +64,10 @@ export default function AudioPlayer() {
       <ImageBox className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
       <Group className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
-          <Text>⏮</Text>
+          <Icon iconfontName='music_pre' />
         </Button>
         <Button
-          className={isPlaying ? 'pause' : 'play'}
+          className={isPlaying ? 'paused' : 'playing'}
           onClick={() => {
             if (audioPlayerHTML && isPlaying) {
               audioPlayerHTML.pause()
@@ -76,10 +77,10 @@ export default function AudioPlayer() {
             masters.AudioPlaying.toggle()
           }}
         >
-          <Text>{isPlaying ? '⏸' : '▶'}</Text>
+          {isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
         </Button>
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
-          <Text>⏭</Text>
+          <Icon iconfontName="music_next" />
         </Button>
       </Group>
       <View className='timeline'>
@@ -90,10 +91,10 @@ export default function AudioPlayer() {
         <Slider
           value={masters.currentSecond.getValue()}
           max={totalSeconds}
-          onMoveTrigger={(incomeCurrentSecond) => {
+          onMoveTrigger={incomeCurrentSecond => {
             masters.currentSecond.set(incomeCurrentSecond)
           }}
-          onMoveTriggerDone={(incomeCurrentSecond) => {
+          onMoveTriggerDone={incomeCurrentSecond => {
             masters.currentSecond.set(incomeCurrentSecond)
             audioPlayerHTML.currentTime = incomeCurrentSecond
           }}
@@ -101,8 +102,9 @@ export default function AudioPlayer() {
       </View>
       <Group className='info-panel'>
         <Button className='favorite'>
-          <Text>❤</Text>
+          <Icon iconfontName="heart_empty"/>
         </Button>
+        {/* TODO: 轮流切换的Button，需要单独再封一个组件，这种模式经常用到 */}
         <Button
           className={['play-mode', { on: masters.inLoopMode.isOn, off: masters.inLoopMode.isOff }]}
           onClick={() => {
@@ -114,7 +116,7 @@ export default function AudioPlayer() {
             }
           }}
         >
-          <Text>🔁</Text>
+          <Icon iconfontName="infinit-mode" />
         </Button>
         <Popover
           Content={
@@ -128,11 +130,11 @@ export default function AudioPlayer() {
           }
         >
           <Button className='volume'>
-            <Text>🔉</Text>
+            <Icon iconfontName="volumn_empty"/>
           </Button>
         </Popover>
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
-          <Text>📃</Text>
+          <Icon iconfontName="music-list" />
         </Button>
       </Group>
     </View>

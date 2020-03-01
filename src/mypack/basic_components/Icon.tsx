@@ -8,17 +8,17 @@ import { pick } from '../utils'
  */
 function Icon<O>(
   props: ComponentRootPorpType<O> & {
-    iconfont?: string
+    iconfontName?: IconfontName
     src?: string
     alt?: string
     srcSet?: string
   },
 ) {
   return (
-    <ComponentRoot {...pick(props, componentRootProps)} name={['Icon', props.iconfont]}>
+    <ComponentRoot {...pick(props, componentRootProps)} name={['Icon', props.iconfontName]}>
       {props.children}
-      {props.iconfont ? (
-        <View className={['iconfont', `icon-${props.iconfont}`]} />
+      {props.iconfontName ? (
+        <View className={['iconfont', `icon-${props.iconfontName}`]} />
       ) : (
         <Image
           src={props.src}
