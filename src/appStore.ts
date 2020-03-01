@@ -26,7 +26,7 @@ export function loadDispatcher(storeDispatcher) {
  */
 const _callbackPoolMarket = new PoolMarket()
 function _invokeCallback(name: keyof DataDispatchers, ...params) {
-  _callbackPoolMarket.getPool(name)?.forEach((callback) => callback(appStore, ...params))
+  _callbackPoolMarket.getPool(name)?.forEach(callback => callback(appStore, ...params))
 }
 
 /**
@@ -41,33 +41,44 @@ export const appStore: AppStore = {
   menu: {
     initIndex: 0,
     collections: {
-      '': [{ title: '搜索' }, { title: '发现音乐' }],
+      '': [
+        { title: '搜索', icon: 'search' },
+        { title: '发现音乐', icon: 'music-note' },
+        { title: 'MV', icon: 'mv' },
+        { title: '朋友', icon: 'friends' },
+      ],
       '我的音乐': [
-        { title: '本地音乐', detail: { selectAction: 'show-local-music' } },
+        { title: '本地音乐', detail: { selectAction: 'show-local-music' }, icon: 'local-music' },
+        { title: '下载管理', icon: 'download' },
+        { title: '最近播放', icon: 'history' },
+        { title: '我的音乐云盘', icon: 'cloud-disk' },
+        { title: '我的电台', icon: 'music-station' },
+        { title: '我的收藏', icon: 'collection-folder' },
+      ],
+      '我的音乐-复制': [
+        { title: '本地音乐' },
         { title: '下载管理' },
         { title: '最近播放' },
       ],
-      // '我的音乐-复制': [
-      //   { title: '本地音乐', selectAction: 'show-local-music' },
-      //   { title: '下载管理' },
-      //   { title: '最近播放' },
-      // ],
       // '我的音乐-复制2': [
-      //   { title: '本地音乐', selectAction: 'show-local-music' },
+      //   { title: '本地音乐' },
       //   { title: '下载管理' },
       //   { title: '最近播放' },
       // ],
       // '我的音乐-复制3': [
-      //   { title: '本地音乐', selectAction: 'show-local-music' },
+      //   { title: '本地音乐' },
       //   { title: '下载管理' },
       //   { title: '最近播放' },
       // ],
       // '我的音乐-复制4': [
-      //   { title: '本地音乐', selectAction: 'show-local-music' },
+      //   { title: '本地音乐' },
       //   { title: '下载管理' },
       //   { title: '最近播放' },
       // ],
-      '创建的歌单': [{ title: '我喜欢的音乐' }, { title: '鬼畜' }],
+      '创建的歌单': [
+        { title: '我喜欢的音乐', icon: 'heart_empty', hasSomethingNew: true /* example */ },
+        { title: '鬼畜' },
+      ],
       '收藏的歌单': [{ title: '神级燃曲 · 百首顶级日漫激昂配乐急急急急急急啦啦啦啦啦啦啦啦啦啦' }],
     },
   },

@@ -17,21 +17,26 @@ export default function AlbumMenu() {
   const appData = useContext(AppDataContext)
   return (
     <Section className='album-menu'>
-      <Card className='shrink-button'>
-        <Text title3>Header hear!</Text>
-      </Card>
+      <View className='shrink-button'>
+        <Icon iconfontName='menu' />
+      </View>
       <Menu
         data={appData.menu.collections} //TEMP
         onSelectMenuItem={(itemInfo, event) => {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)
         }}
-        renderMenuGroup={groupInfo => <Text headline>{groupInfo.label}</Text>}
+        renderMenuGroup={groupInfo => (
+          <View className='menu-title'>
+            <Text headline>{groupInfo.label}</Text>
+            {groupInfo.label === '创建的歌单' && <Icon iconfontName='add' />}
+          </View>
+        )}
         renderMenuItem={itemInfo => (
-          <Item html={{ title: 'hello' }}>
+          <Item className='menu-item' /* html={{ title: 'hello' }} */>
+            <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>
-              {/* TODO： 这个textbox 专门为了RedDot元素能overflow而存在，应该提取一个名为软性外边框的组件 */}
-              <RedDot onlyDot />
+              {itemInfo.hasSomethingNew && <RedDot justDot />}
               <Text>{itemInfo.title}</Text>
             </View>
           </Item>

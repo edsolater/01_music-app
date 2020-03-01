@@ -7,21 +7,46 @@
   background-color: var(--primary-color);
 }
 
-.Card.shrink-button {
-  background-color: transparent;
-  box-shadow: unset;
+.shrink-button {
+  display: flex;
+  position: sticky;
+  top: 0;
+  height: 30px;
+  align-items: center;
+  .Icon {
+    margin-left: 12px;
+  }
 }
 
 .Menu {
   --menu-gap-width: 48px;
   overflow: hidden auto;
   .Text.headline {
-    font-size: 14px;
-    color: gray;
+    font-size: 0.8em;
+    color: #999;
+    margin-left: 12px;
   }
-  .Item {
-    padding-top: 12px;
-    padding-bottom: 12px;
+  .menu-title {
+    display: flex;
+    align-items: center;
+    .Icon {
+      margin-left: auto;
+      margin-right: 12px;
+      color: #999;
+    }
+  }
+  .menu-item {
+    padding: 16px 0;
+    display: flex;
+    align-items: center;
+    .Icon {
+      color: #666;
+      margin: 0 12px;
+      flex-shrink: 0;
+    }
+    .Text {
+      color: #333;
+    }
     .textbox {
       max-width: 90%;
       width: max-content;

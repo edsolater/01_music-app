@@ -6,6 +6,8 @@ declare type ActionType = 'show-local-music' | 'show-downloaded-music' | 'show-r
 interface CollectionItemInfo {
   title: string
   subtitle?: string
+  icon?: IconfontName
+  hasSomethingNew?: boolean
   detail?: {
     imageUrl?: string
     selectAction?: ActionType
@@ -81,7 +83,9 @@ interface DataStore {
    */
   collectionMusicList: MusicInfo[]
 }
-
+/**
+ * 承载整个应用的所有交互方法
+ */
 interface DataDispatchers {
   /**播放另一首歌曲 */
   playNewMusic(newMusic: MusicInfo): AppStore

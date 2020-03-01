@@ -3,13 +3,15 @@ import React, { useEffect, ReactNode } from 'react'
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
 import { ComponentRoot, Slot, componentRootProps, View, ComponentRootPorpType, List } from '.'
-import { pick, UArray } from '../utils'
+import { pick } from '../utils'
 import { Path } from 'mypack/class/StateStringPath'
 
 type ItemInfo = {
   title: string
+  icon?: IconfontName
   subtitle?: string
   index?: number
+  hasSomethingNew?: boolean
   siblings?: GroupInfo['children']
   group?: GroupInfo
   detail?: unknown
@@ -25,6 +27,7 @@ type GroupInfo = {
  * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
  */
 type IProps<O> = ComponentRootPorpType<O> & {
+  //TODO: generic掉data中的ItemInfo的类型
   /**
    * **必选项**
    * MenuList会使用的具体数据（Template定义渲染的样式）
