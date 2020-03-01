@@ -5,14 +5,13 @@ import {
   Section,
   Card,
   Avatar,
-  Icon,
   Text,
   RedDot,
   View,
+  Icon,
 } from 'mypack/basic_components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
-import { emailIcon, gearIcon } from 'assets/icons'
 
 export default function AlbumMenu() {
   const appData = useContext(AppDataContext)
@@ -41,10 +40,10 @@ export default function AlbumMenu() {
       <Card className='user-info'>
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>
-        <Icon src={emailIcon} iconName='email'>
+        <Icon iconfont='mail'>
           <RedDot amount={32} />
         </Icon>
-        <Icon src={gearIcon} iconName='setting' />
+        <Icon iconfont='setting' />
       </Card>
     </Section>
   )

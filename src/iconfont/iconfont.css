@@ -1,0 +1,181 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('iconfont.woff2?') format('woff2');
+  /* url('iconfont.woff?t=1583049043817') format('woff'); iOS 4.1- */
+}
+
+.iconfont {
+  font-family: 'iconfont';
+}
+
+.icon-music_next::before {
+  content: '\e626';
+}
+
+.icon-music_pre::before {
+  content: '\e62b';
+}
+
+.icon-setting::before {
+  content: '\e68a';
+}
+
+.icon-mail::before {
+  content: '\e632';
+}
+
+.icon-music-station::before {
+  content: '\e948';
+}
+
+.icon-decrease::before {
+  content: '\e63f';
+}
+
+.icon-music-note::before {
+  content: '\e638';
+}
+
+.icon-local-music::before {
+  content: '\e607';
+}
+
+.icon-increase::before {
+  content: '\e601';
+}
+
+.icon-sq::before {
+  content: '\e602';
+}
+
+.icon-mv::before {
+  content: '\e66e';
+}
+
+.icon-select-panel::before {
+  content: '\e629';
+}
+
+.icon-play::before {
+  content: '\e6d8';
+}
+
+.icon-add::before {
+  content: '\e6f9';
+}
+
+.icon-friends::before {
+  content: '\e678';
+}
+
+.icon-cloud-disk::before {
+  content: '\e625';
+}
+
+.icon-collection-folder::before {
+  content: '\e609';
+}
+
+.icon-close::before {
+  content: '\e68c';
+}
+
+.icon-history::before {
+  content: '\e73f';
+}
+
+.icon-delete::before {
+  content: '\e603';
+}
+
+.icon-play-all::before {
+  content: '\e62c';
+}
+
+.icon-music-collection::before {
+  content: '\e857';
+}
+
+.icon-alarm-clock::before {
+  content: '\e657';
+}
+
+.icon-shut-down::before {
+  content: '\e658';
+}
+
+.icon-countdown::before {
+  content: '\e659';
+}
+
+.icon-dark-mode::before {
+  content: '\e65a';
+}
+
+.icon-ticket::before {
+  content: '\e65b';
+}
+
+.icon-scan::before {
+  content: '\e65c';
+}
+
+.icon-download::before {
+  content: '\e65f';
+}
+
+.icon-message::before {
+  content: '\e660';
+}
+
+.icon-right-arrow::before {
+  content: '\e661';
+}
+
+.icon-search::before {
+  content: '\e662';
+}
+
+.icon-menu::before {
+  content: '\e663';
+}
+
+.icon-valumn::before {
+  content: '\e664';
+}
+
+.icon-music-list::before {
+  content: '\e666';
+}
+
+.icon-infinit-mode::before {
+  content: '\e667';
+}
+
+.icon-random-mode::before {
+  content: '\e668';
+}
+
+.icon-recursive-mode::before {
+  content: '\e669';
+}
+
+.icon-heart::before {
+  content: '\e66a';
+}
+
+.icon-heart_empty::before {
+  content: '\e66b';
+}
+
+.icon-more-info::before {
+  content: '\e66c';
+}
+
+.icon-volumn_empty::before {
+  content: '\e66d';
+}
+
+.icon-pause::before {
+  content: '\e66f';
+}

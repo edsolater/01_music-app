@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import * as ReactDOM from 'react-dom'
+import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
 import { AppRoot } from 'mypack/basic_components'

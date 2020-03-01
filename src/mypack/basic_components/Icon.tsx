@@ -1,6 +1,6 @@
 import React from 'react'
 import './Icon.scss'
-import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps, View } from '.'
 import { pick } from '../utils'
 
 /**
@@ -8,22 +8,26 @@ import { pick } from '../utils'
  */
 function Icon<O>(
   props: ComponentRootPorpType<O> & {
+    iconfont?: string
     src?: string
     alt?: string
     srcSet?: string
-    iconName?: string
   },
 ) {
   return (
-    <ComponentRoot {...pick(props, componentRootProps)} name={['Icon', props.iconName]}>
+    <ComponentRoot {...pick(props, componentRootProps)} name={['Icon', props.iconfont]}>
       {props.children}
-      <Image
-        src={props.src}
-        html={{
-          alt: props.alt,
-          srcSet: props.srcSet,
-        }}
-      />
+      {props.iconfont ? (
+        <View className={['iconfont', `icon-${props.iconfont}`]} />
+      ) : (
+        <Image
+          src={props.src}
+          html={{
+            alt: props.alt,
+            srcSet: props.srcSet,
+          }}
+        />
+      )}
     </ComponentRoot>
   )
 }
