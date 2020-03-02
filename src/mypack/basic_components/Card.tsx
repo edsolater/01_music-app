@@ -6,8 +6,8 @@ import { pick } from '../utils'
 /**
  * 目前只是个有特殊样式的DIV
  */
-function Card<O>(
-  props: ComponentRootPorpType<O> & {
+function Card(
+  props: ComponentRootPorpType & {
     // src?: string
     // alt?: string
     // srcSet?: string

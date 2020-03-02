@@ -4,8 +4,8 @@ import './Switcher.scss'
 import { View, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Switcher<O>(
-  props: ComponentRootPorpType<O> & {
+function Switcher(
+  props: ComponentRootPorpType & {
     /**
      * 总长度
      */

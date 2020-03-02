@@ -3,8 +3,8 @@ import './Label.scss'
 import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Label<O>(
-  props: ComponentRootPorpType<O> & {
+function Label(
+  props: ComponentRootPorpType & {
     text?: string
   },
   ref

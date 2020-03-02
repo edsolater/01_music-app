@@ -7,8 +7,8 @@ import { pick } from '../utils'
  * 父元素不能定义overflow:hidden
  * 该子元素必须排在父元素的所有非Wrapper子元素之前
  */
-function RedDot<O>(
-  props: ComponentRootPorpType<O> & {
+function RedDot(
+  props: ComponentRootPorpType & {
     /**
      * 红点上显式的数量
      */

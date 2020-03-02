@@ -4,8 +4,8 @@ import { ClassValue } from 'classnames/types'
 import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Group<O>(
-  props: ComponentRootPorpType<O> & {
+function Group(
+  props: ComponentRootPorpType & {
     /**
      * 标识组名
      */

@@ -26,7 +26,7 @@ type IProps<T> = {
 /**
  * React组件
  */
-function List<T, O>(props: ComponentRootPorpType<O> & IProps<T>) {
+function List<T, O>(props: ComponentRootPorpType & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
     <ComponentRoot {...pick(props, componentRootProps)} name='List'>

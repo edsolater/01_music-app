@@ -3,8 +3,8 @@ import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps } from 
 import { pick } from '../utils'
 import './ImageBox.scss'
 
-function ImageBox<O>(
-  props: ComponentRootPorpType<O> & {
+function ImageBox(
+  props: ComponentRootPorpType & {
     src?: string
     alt?: string
     srcSet?: string

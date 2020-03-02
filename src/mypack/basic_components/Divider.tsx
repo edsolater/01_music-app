@@ -6,7 +6,7 @@ import { pick } from '../utils'
 /**
  * TODO: 目前只是个简单的横向分割线
  */
-function Divider<O>(props: ComponentRootPorpType<O> & {}) {
+function Divider(props: ComponentRootPorpType & {}) {
   return <ComponentRoot {...pick(props, componentRootProps)} name='Divider' />
 }
 

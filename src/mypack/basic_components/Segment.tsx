@@ -2,7 +2,7 @@ import React from 'react'
 import { Section, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Segment<O>(props: ComponentRootPorpType<O>) {
+function Segment(props: ComponentRootPorpType) {
   return <Section {...pick(props, componentRootProps)} className={[props.className, 'Segment']} />
 }
 

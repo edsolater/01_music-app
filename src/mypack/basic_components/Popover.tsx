@@ -7,8 +7,8 @@ import { pick } from '../utils'
 /**
  * TODO:要向RedDot学习，做一个子组件而不是父级组件
  */
-function Popover<O>(
-  props: ComponentRootPorpType<O> & {
+function Popover(
+  props: ComponentRootPorpType & {
     /**
      * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
      */

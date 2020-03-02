@@ -3,7 +3,7 @@ import './Intro.scss'
 import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Intro<O>(props: ComponentRootPorpType<O>) {
+function Intro(props: ComponentRootPorpType) {
   return <ComponentRoot {...pick(props, componentRootProps)} name='Intro' />
 }
 

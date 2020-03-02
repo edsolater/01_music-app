@@ -3,27 +3,26 @@ import { ClassValue } from 'classnames/types'
 import { View, ViewProp, ViewPropType } from '.'
 import { pick } from '../utils'
 
-export type ComponentRootPorpType<O extends any> = ViewPropType<O> & {
+export type ComponentRootPorpType = ViewPropType & {
   /**
    * 用于各个组件定义组件的名字更方便
    */
   name?: ClassValue
 }
 
-export const componentRootProps: (keyof ComponentRootPorpType<any>)[] = [
+export const componentRootProps: (keyof ComponentRootPorpType)[] = [
   'name',
   'className',
   'style',
   'onClick',
   'if',
-  'for',
   'html',
   'children',
 ]
 
 /**组件代码 */
-function ComponentRoot<O>(
-  props: ComponentRootPorpType<O>,
+function ComponentRoot(
+  props: ComponentRootPorpType,
   ref,
 ) {
   return <View ref={ref} {...pick(props, ViewProp)} className={[props.className, props.name]} />

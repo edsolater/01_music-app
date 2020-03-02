@@ -4,8 +4,8 @@ import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
 //TODO： 常规操作：定义各种按钮样式
-function Button<O>(
-  props: ComponentRootPorpType<O> & {
+function Button(
+  props: ComponentRootPorpType & {
     /**
      * 按钮关闭
      */

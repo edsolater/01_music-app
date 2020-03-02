@@ -26,7 +26,7 @@ type GroupInfo = {
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
  * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
  */
-type IProps<O> = ComponentRootPorpType<O> & {
+type IProps = ComponentRootPorpType & {
   //TODO: generic掉data中的ItemInfo的类型
   /**
    * **必选项**
@@ -50,7 +50,7 @@ type IProps<O> = ComponentRootPorpType<O> & {
 /**
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
  */
-export default function Menu<O>(props: IProps<O>) {
+export default function Menu(props: IProps) {
   const selectedPath = useMaster({
     type: 'pathStack',
     init: [],

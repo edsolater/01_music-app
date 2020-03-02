@@ -3,8 +3,8 @@ import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps } from 
 import './Avatar.scss'
 import { pick } from '../utils'
 
-function Avatar<O>(
-  props: ComponentRootPorpType<O> & {
+function Avatar(
+  props: ComponentRootPorpType & {
     src?: string
   },
 ) {

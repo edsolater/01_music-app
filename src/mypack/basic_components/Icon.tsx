@@ -6,8 +6,8 @@ import { pick } from '../utils'
 /**
  * TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理
  */
-function Icon<O>(
-  props: ComponentRootPorpType<O> & {
+function Icon(
+  props: ComponentRootPorpType & {
     iconfontName?: IconfontName
     src?: string
     alt?: string

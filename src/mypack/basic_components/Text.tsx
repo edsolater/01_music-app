@@ -3,8 +3,8 @@ import './Text.scss'
 import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Text<O>(
-  props: ComponentRootPorpType<O> & {
+function Text(
+  props: ComponentRootPorpType & {
     /**
      * 大标题
      */

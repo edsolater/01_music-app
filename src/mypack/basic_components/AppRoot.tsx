@@ -6,7 +6,7 @@ import { ComponentRootPorpType } from './ComponentRoot'
 /**
  * TODO：提供一些应用的根组件的“能力”
  */
-function AppRoot<O>(props: ComponentRootPorpType<O>){
+function AppRoot(props: ComponentRootPorpType){
   return <ComponentRoot name='AppRoot' {...props} />
 }
 

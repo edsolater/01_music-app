@@ -11,8 +11,8 @@ import { UGuard } from 'mypack/utils/UGuard'
  * TODO：此组件的 逻辑过于混乱，要重写
  * 注意它只能理解数字
  */
-function Slider<O>(
-  props: ComponentRootPorpType<O> & {
+function Slider(
+  props: ComponentRootPorpType & {
     /**
      * 总长度
      */

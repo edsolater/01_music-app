@@ -7,7 +7,7 @@ import { pick } from '../utils'
  * @deprecated
  * 已废弃，文字都使用 <Text>
  */
-function Title<O>(props: ComponentRootPorpType<O>) {
+function Title(props: ComponentRootPorpType) {
   return <ComponentRoot {...pick(props, componentRootProps)} name='Title' />
 }
 

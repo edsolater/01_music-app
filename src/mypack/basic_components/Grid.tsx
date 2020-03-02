@@ -3,7 +3,7 @@ import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
 
-function Grid<O>(props:ComponentRootPorpType<O>) {
+function Grid(props:ComponentRootPorpType) {
   return <ComponentRoot {...pick(props, componentRootProps)} name='Grid'  />
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
 import { pick } from '../utils'
 
-function Footer<O>(props: ComponentRootPorpType<O> & {}) {
+function Footer(props: ComponentRootPorpType & {}) {
   return <ComponentRoot {...pick(props, componentRootProps)} name='Footer' />
 }
 

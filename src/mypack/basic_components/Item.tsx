@@ -5,8 +5,8 @@ import { pick } from '../utils'
 /**
  * 用于横向布局
  */
-function Item<O>(
-  props: ComponentRootPorpType<O> & {
+function Item(
+  props: ComponentRootPorpType & {
     hello?: string
   },
   ref: any,
