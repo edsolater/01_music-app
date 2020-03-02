@@ -2,7 +2,6 @@ import React, { useContext } from 'react'
 import {
   Menu,
   Item,
-  Section,
   Card,
   Avatar,
   Text,
@@ -16,7 +15,7 @@ import { AppDataContext } from 'App'
 export default function AlbumMenu() {
   const appData = useContext(AppDataContext)
   return (
-    <Section className='album-menu'>
+    <View className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
@@ -50,6 +49,6 @@ export default function AlbumMenu() {
         </Icon>
         <Icon iconfontName='setting' />
       </Card>
-    </Section>
+    </View>
   )
 }

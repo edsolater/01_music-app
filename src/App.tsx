@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
-import { AppRoot } from 'mypack/basic_components'
+import { View } from 'mypack/basic_components'
 import { appStore, loadDispatcher } from 'appStore'
 
 //导入context
@@ -23,7 +23,7 @@ function App() {
   }, [])
   loadDispatcher(storeDispatcher)
   return (
-    <AppRoot>
+    <View className='AppRoot'>
       <React.StrictMode>
         <AppDataContext.Provider value={store}>
           <AlbumMenu />
@@ -31,7 +31,7 @@ function App() {
           <AudioPlayer />
         </AppDataContext.Provider>
       </React.StrictMode>
-    </AppRoot>
+    </View>
   )
 }
 

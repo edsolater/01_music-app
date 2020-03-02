@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import {
   Item,
-  Section,
   Avatar,
   Icon,
   Text,
@@ -12,6 +11,7 @@ import {
   List,
   Grid,
   Divider,
+  View,
 } from 'mypack/basic_components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
@@ -20,7 +20,7 @@ import { AppDataContext } from 'App'
 export default function MainAppContent() {
   const appData = useContext(AppDataContext)
   return (
-    <Section className='main-app-content'>
+    <View className='main-app-content'>
       <Text headline>歌单</Text>
       <Grid className='collection-info'>
         <Block className='thumbnail'>
@@ -60,6 +60,6 @@ export default function MainAppContent() {
           appData.playNewMusic(itemInfo)
         }}
       />
-    </Section>
+    </View>
   )
 }
