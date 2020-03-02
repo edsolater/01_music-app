@@ -5,32 +5,32 @@ import { Booleanish } from './types'
 
 export type ViewPropType = {
   /**
-   * 覆盖原生的className
+   * 连接 css
    */
   className?: ClassValue
   /**
-   * **特殊属性**
-   * 类似于 vue 的 v-if
+   * 条件渲染（影响子内容的渲染）
    */
   if?: Booleanish
   /**
-   * 照搬<div> 的style
+   * 条件渲染（无关子内容的渲染）
+   */
+  when?: Booleanish
+  /**
+   * 内联样式
    */
   style?: CSSProperties
   /**
-   * 照搬<div> 的onClick
+   * 基础交互
    */
   onClick?: JSX.IntrinsicElements['div']['onClick']
-  /**
-   * 照搬<div> 的 children
-   */
   children?: ReactNode
   /**
    * 在类型系统上暂且把ref当作一个props进行智能推断，实际上ref是要forwardRef的
    */
   ref?: any
   /**
-   * 除className,style,onClick外的原生属性的
+   * 原生html属性
    */
   html?: JSX.IntrinsicElements['div']
 }
@@ -40,6 +40,7 @@ export const ViewProp: (keyof ViewPropType)[] = [
   'style',
   'onClick',
   'if',
+  'when',
   'html',
   'children',
 ]
@@ -47,6 +48,7 @@ export const ViewProp: (keyof ViewPropType)[] = [
 /**组件代码 */
 function View(props: ViewPropType, ref: any): JSX.Element | null {
   if (!(props.if ?? true)) return null
+  if (!(props.when ?? true)) return <>{props.children}</>
   return (
     <div
       ref={ref}
