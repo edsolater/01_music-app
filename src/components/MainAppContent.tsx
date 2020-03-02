@@ -8,7 +8,6 @@ import {
   ImageBox,
   Button,
   List,
-  Grid,
   Divider,
   View,
 } from 'mypack/basic_components'
@@ -21,7 +20,7 @@ export default function MainAppContent() {
   return (
     <View className='main-app-content'>
       <Text headline>歌单</Text>
-      <Grid className='collection-info'>
+      <View className='collection-info'>
         <View className='thumbnail'>
           <ImageBox src={appData.collectionInfo.thumbnail} className='thumbnail-pic' />
           {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
@@ -44,7 +43,7 @@ export default function MainAppContent() {
           <Button>下载全部</Button>
           <Button>更多</Button>
         </Group>
-      </Grid>
+      </View>
       <List
         data={appData.collectionMusicList}
         keyForListItems={item => item.songName}
