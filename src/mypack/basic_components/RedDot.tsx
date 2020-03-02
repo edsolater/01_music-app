@@ -20,7 +20,7 @@ function RedDot<O>(
     /**
      * 只显示红点而不显示数字
      */
-    onlyDot?: boolean
+    justDot?: boolean
   },
 ) {
   const addParentClass = (element: HTMLDivElement) => {
@@ -34,8 +34,8 @@ function RedDot<O>(
       ref={addParentClass}
       name={['RedDot', { _invisiable: props.invisiable }]}
     >
-      <Slot slotName={['RedDot__Dot', { _onlyDot: props.onlyDot }]}>
-        <Text $if={!props.onlyDot}>{props.amount}</Text>
+      <Slot slotName={['RedDot__Dot', { _onlyDot: props.justDot }]}>
+        <Text $if={!props.justDot}>{props.amount}</Text>
       </Slot>
     </ComponentRoot>
   )

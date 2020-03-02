@@ -19,7 +19,7 @@ body * {
   grid-template:
     'a b' 1fr
     'c c' auto
-    / 1fr 4fr;
+    / 226px 1fr;
 }
 .album-menu {
   grid-area: a;
