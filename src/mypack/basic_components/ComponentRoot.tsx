@@ -15,9 +15,8 @@ export const componentRootProps: (keyof ComponentRootPorpType<any>)[] = [
   'className',
   'style',
   'onClick',
-  '$if',
-  '$for',
-  '$clone',
+  'if',
+  'for',
   'html',
   'children',
 ]
