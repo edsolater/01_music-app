@@ -12,12 +12,12 @@ export type ViewPropType<O extends {} = {}> = {
    * **特殊属性**
    * 类似于 vue 的 v-if
    */
-  $if?: Booleanish
+  if?: Booleanish
   /**
    * **特殊属性**
    * 类似于 vue 的 v-for 但没有keyProp的功能，需要请使用 <$For>  !!!注意，此时Ref不可获取（TODO）
    */
-  $for?: O[]
+  for?: O[]
   /**
    * 照搬<div> 的style
    */
@@ -44,19 +44,19 @@ export const ViewProp: (keyof ViewPropType<any>)[] = [
   'className',
   'style',
   'onClick',
-  '$if',
-  '$for',
+  'if',
+  'for',
   'html',
   'children',
 ]
 
 /**组件代码 */
 function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
-  if (props.$for) {
+  if (props.for) {
     return (
       <>
-        {props.$for.map((item, itemIndex) =>
-          props['$if'] ?? true ? (
+        {props.for.map((item, itemIndex) =>
+          props['if'] ?? true ? (
             <div
               key={itemIndex /* TODO：暂时 */}
               ref={ref}
@@ -72,7 +72,7 @@ function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
       </>
     )
   } else {
-    return props['$if'] ?? true ? (
+    return props['if'] ?? true ? (
       <div
         ref={ref}
         className={classnames(props.className)}
