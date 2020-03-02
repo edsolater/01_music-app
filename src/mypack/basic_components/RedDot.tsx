@@ -35,7 +35,7 @@ function RedDot<O>(
       name={['RedDot', { _invisiable: props.invisiable }]}
     >
       <Slot slotName={['RedDot__Dot', { _onlyDot: props.onlyDot }]}>
-        {!props.onlyDot && <Text>{props.amount}</Text>}
+        <Text $if={!props.onlyDot}>{props.amount}</Text>
       </Slot>
     </ComponentRoot>
   )

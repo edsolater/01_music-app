@@ -19,11 +19,6 @@ export type ViewPropType<O extends {} = {}> = {
    */
   $for?: O[]
   /**
-   * **特殊属性**
-   * 克隆自身 (接受数字(number/string)) !!!注意，此时Ref不可获取（TODO）
-   */
-  $clone?: number | string
-  /**
    * 照搬<div> 的style
    */
   style?: CSSProperties
@@ -51,7 +46,6 @@ export const ViewProp: (keyof ViewPropType<any>)[] = [
   'onClick',
   '$if',
   '$for',
-  '$clone',
   'html',
   'children',
 ]
@@ -77,25 +71,6 @@ function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
         )}
       </>
     )
-  } else if (props.$clone) {
-    const result: ReactNode[] = []
-    for (let i = 0; i < Number(props.$clone); i++) {
-      result.push(
-        props['$if'] ?? true ? (
-          <div
-            key={i /* TODO：暂时 */}
-            ref={ref}
-            className={classnames(props.className)}
-            style={props.style}
-            onClick={props.onClick}
-            {...props.html}
-          >
-            {props.children}
-          </div>
-        ) : null,
-      )
-    }
-    return <>{result}</>
   } else {
     return props['$if'] ?? true ? (
       <div
