@@ -52,27 +52,26 @@ export const ViewProp: (keyof ViewPropType<any>)[] = [
 
 /**组件代码 */
 function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
+  if (!(props.if ?? true)) return null
   if (props.for) {
     return (
       <>
-        {props.for.map((item, itemIndex) =>
-          props['if'] ?? true ? (
-            <div
-              key={itemIndex /* TODO：暂时 */}
-              ref={ref}
-              className={classnames(props.className)}
-              style={props.style}
-              onClick={props.onClick}
-              {...props.html}
-            >
-              {typeof props.children === 'function' && props.children?.(item, itemIndex)}
-            </div>
-          ) : null,
-        )}
+        {props.for.map((item, itemIndex) => (
+          <div
+            key={itemIndex /* TODO：暂时 */}
+            ref={ref}
+            className={classnames(props.className)}
+            style={props.style}
+            onClick={props.onClick}
+            {...props.html}
+          >
+            {typeof props.children === 'function' && props.children?.(item, itemIndex)}
+          </div>
+        ))}
       </>
     )
   } else {
-    return props['if'] ?? true ? (
+    return (
       <div
         ref={ref}
         className={classnames(props.className)}
@@ -82,7 +81,7 @@ function View<O>(props: ViewPropType<O>, ref: any): JSX.Element | null {
       >
         {props.children}
       </div>
-    ) : null
+    )
   }
 }
 export default React.forwardRef(View) as <O>(props: ViewPropType<O>) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
