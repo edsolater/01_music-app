@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import './Group.scss'
 import { ClassValue } from 'classnames/types'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { View,  } from '.'
 
 function Group(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * 标识组名
      */
@@ -23,7 +22,7 @@ function Group(
 ) {
   return (
     <View
-      {...pick(props, ViewProp)}
+      {...props}
       _componentName_='Group'
       className={[props.className, props.groupName]}
       style={{

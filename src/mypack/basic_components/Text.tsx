@@ -1,10 +1,9 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import './Text.scss'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { View,  } from '.'
 
 function Text(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * 大标题
      */
@@ -58,7 +57,7 @@ function Text(
 ) {
   return (
     <View
-      {...pick(props, ViewProp)}
+      {...props}
       _componentName_={[
         'Text',
         {

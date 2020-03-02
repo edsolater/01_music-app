@@ -1,16 +1,15 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import './Label.scss'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { View,  } from '.'
 
 function Label(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     text?: string
   },
   ref
 ) {
   return (
-    <View ref={ref} {...pick(props, ViewProp)} _componentName_='Label'>
+    <View ref={ref} {...props} _componentName_='Label'>
       {props.text ?? props.children}
     </View>
   )

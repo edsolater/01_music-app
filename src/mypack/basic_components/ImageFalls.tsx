@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import View from './View'
 import { ClassValue } from 'classnames/types'
 

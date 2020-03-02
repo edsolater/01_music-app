@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 import { Booleanish } from './types'
 
-export type ViewPropType = {
+type ViewProp = {
   /**
    * 专为了创建组件使用的属性
    */
@@ -39,19 +39,8 @@ export type ViewPropType = {
   html?: JSX.IntrinsicElements['div']
 }
 
-export const ViewProp: (keyof ViewPropType)[] = [
-  '_componentName_',
-  'className',
-  'style',
-  'onClick',
-  'if',
-  'when',
-  'html',
-  'children',
-]
-
 /**组件代码 */
-function View(props: ViewPropType, ref: any): JSX.Element | null {
+function View(props: ViewProp, ref: any): JSX.Element | null {
   if (!(props.if ?? true)) return null
   if (!(props.when ?? true)) return <>{props.children}</>
   return (
@@ -66,4 +55,4 @@ function View(props: ViewPropType, ref: any): JSX.Element | null {
     </div>
   )
 }
-export default React.forwardRef(View) as (props: ViewPropType) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
+export default React.forwardRef(View) as (props: ViewProp) => ReactElement | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了

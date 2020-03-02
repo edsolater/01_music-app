@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 
 import './Slider.scss'
 import { useMaster } from './customHooks'
-import { View,ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { View, } from '.'
 import { UGuard } from 'mypack/utils/UGuard'
 
 /**
@@ -12,7 +11,7 @@ import { UGuard } from 'mypack/utils/UGuard'
  * 注意它只能理解数字
  */
 function Slider(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * 总长度
      */
@@ -64,7 +63,7 @@ function Slider(
   }
   return (
     <View
-      {...pick(props, ViewProp)}
+      {...props}
       _componentName_='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!

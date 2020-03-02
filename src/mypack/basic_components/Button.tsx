@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import './Button.scss'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { View,  } from '.'
 
 //TODO： 常规操作：定义各种按钮样式
 function Button(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * 按钮关闭
      */
@@ -22,7 +21,7 @@ function Button(
 ) {
   return (
     <View
-      {...pick(props, ViewProp)/* TODO: 总是这个形式的调用，需要缓存机制 */}
+      {...props}
       _componentName_={['Button', { _disabled: props.disabled, _on: props.isOn, _off: props.isOff }]}
     ></View>
   )

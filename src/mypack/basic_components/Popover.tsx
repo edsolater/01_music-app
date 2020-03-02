@@ -1,14 +1,13 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, ComponentProps } from 'react'
 import { useMasterBoolean } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
-import { Slot, View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { Slot, View } from '.'
 
 /**
  * TODO:要向RedDot学习，做一个子组件而不是父级组件
  */
 function Popover(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
      */
@@ -39,15 +38,15 @@ function Popover(
   }
   return (
     <View
-      {...pick(props, ViewProp)}
+      {...props}
       _componentName_={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
       html={{
         ...props.html,
-        onPointerEnter: (event) => {
+        onPointerEnter: event => {
           props.html?.onPointerEnter?.(event)
           triggerCallback.on()
         },
-        onPointerLeave: (event) => {
+        onPointerLeave: event => {
           props.html?.onPointerLeave?.(event)
           triggerCallback.off()
         },

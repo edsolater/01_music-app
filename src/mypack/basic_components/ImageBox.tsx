@@ -1,17 +1,16 @@
-import React from 'react'
-import { Image, View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import React, { ComponentProps } from 'react'
+import { Image, View,  } from '.'
 import './ImageBox.scss'
 
 function ImageBox(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     src?: string
     alt?: string
     srcSet?: string
   },
 ) {
   return (
-    <View {...pick(props, ViewProp)} _componentName_='ImageBox'>
+    <View {...props} _componentName_='ImageBox'>
       {props.children}
       <Image
         src={props.src}

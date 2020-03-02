@@ -1,9 +1,8 @@
-import React from 'react'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import React, { ComponentProps } from 'react'
+import { View,  } from '.'
 
-function Footer(props: ViewPropType & {}) {
-  return <View {...pick(props, ViewProp)} _componentName_='Footer' />
+function Footer(props: ComponentProps<typeof View> & {}) {
+  return <View {...props} _componentName_='Footer' />
 }
 
 export default React.memo(Footer) as typeof Footer

@@ -1,12 +1,11 @@
-import React from 'react'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import React, { ComponentProps } from 'react'
+import { View,  } from '.'
 
 /**
  * 用于横向布局
  */
 function Item(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     hello?: string
   },
   ref: any,
@@ -14,7 +13,7 @@ function Item(
   return (
     <View
       ref={ref}
-      {...pick(props, ViewProp)}
+      {...props}
       className={[props.className, 'Item']}
     />
   )

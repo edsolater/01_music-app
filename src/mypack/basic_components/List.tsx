@@ -1,8 +1,7 @@
-import React, { ReactNode } from 'react'
-import { View, Slot, ViewProp, ViewPropType } from '.'
+import React, { ReactNode,ComponentProps } from 'react'
+import { View, Slot,  } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
-import { pick } from '../utils'
 
 /**
  * List组件的的Props
@@ -26,10 +25,10 @@ type IProps<T> = {
 /**
  * React组件
  */
-function List<T, O>(props: ViewPropType & IProps<T>) {
+function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
-    <View {...pick(props, ViewProp)} _componentName_='List'>
+    <View {...props} _componentName_='List'>
       {props.data?.map((itemInfo, index) => {
         return (
           <Slot

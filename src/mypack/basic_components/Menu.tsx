@@ -1,9 +1,8 @@
-import React, { useEffect, ReactNode } from 'react'
+import React, { useEffect, ReactNode,ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'
-import { View, Slot, ViewProp, ViewPropType, List } from '.'
-import { pick } from '../utils'
+import { View, Slot, List } from '.'
 import { Path } from 'mypack/class/StateStringPath'
 
 type ItemInfo = {
@@ -26,7 +25,7 @@ type GroupInfo = {
  * TODO：这样的类型形式还是有点冗余，应该declare function 的
  * TODO2: 最终是要专门写个网页介绍各个组件的传参的，这样是不是反而没有必要？
  */
-type IProps = ViewPropType & {
+type IProps = ComponentProps<typeof View> & {
   //TODO: generic掉data中的ItemInfo的类型
   /**
    * **必选项**
@@ -63,7 +62,7 @@ export default function Menu(props: IProps) {
   }, [])
   return (
     // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
-    <View {...pick(props, ViewProp)} _componentName_='Menu'>
+    <View {...props} _componentName_='Menu'>
       {props.children}
       {Object.entries(props.data).map(([groupName, groupItems], groupIndex) => {
         const groupInfo: GroupInfo = {

@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 import './RedDot.scss'
-import { Slot, Text, View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { Slot, Text, View,  } from '.'
 
 /**
  * 父元素不能定义overflow:hidden
  * 该子元素必须排在父元素的所有非Wrapper子元素之前
  */
 function RedDot(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * 红点上显式的数量
      */
@@ -30,7 +29,7 @@ function RedDot(
   }
   return (
     <View
-      {...pick(props, ViewProp)}
+      {...props}
       ref={addParentClass}
       _componentName_={['RedDot', { _invisiable: props.invisiable }]}
     >

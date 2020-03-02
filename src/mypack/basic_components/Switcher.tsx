@@ -1,11 +1,10 @@
-import React from 'react'
+import React, { ComponentProps } from 'react'
 
 import './Switcher.scss'
-import { View, ViewPropType, ViewProp } from '.'
-import { pick } from '../utils'
+import { View,  } from '.'
 
 function Switcher(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     /**
      * 总长度
      */
@@ -29,7 +28,7 @@ function Switcher(
   },
 ) {
   return (
-    <View {...pick(props, ViewProp)} _componentName_='Switcher'>
+    <View {...props} _componentName_='Switcher'>
       <View className='slot'>
         <View className='trigger' />
       </View>

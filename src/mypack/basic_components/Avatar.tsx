@@ -1,15 +1,14 @@
-import React from 'react'
-import { Image, View, ViewProp, ViewPropType } from '.'
+import React, { ComponentProps } from 'react'
+import { Image, View } from '.'
 import './Avatar.scss'
-import { pick } from '../utils'
 
 function Avatar(
-  props: ViewPropType & {
+  props: ComponentProps<typeof View> & {
     src?: string
   },
 ) {
   return (
-    <View {...pick(props, ViewProp)} _componentName_='Avatar'>
+    <View {...props} _componentName_='Avatar'>
       <Image src={props.src} />
     </View>
   )
