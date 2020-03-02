@@ -1,10 +1,10 @@
 import React from 'react'
-import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 
-function Grid(props:ComponentRootPorpType) {
-  return <ComponentRoot {...pick(props, componentRootProps)} name='Grid'  />
+function Grid(props:ViewPropType) {
+  return <View {...pick(props, ViewProp)} _componentName_='Grid'  />
 }
 
 export default React.memo(Grid) as typeof Grid

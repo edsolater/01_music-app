@@ -1,11 +1,11 @@
 import React from 'react'
 
 import './Switcher.scss'
-import { View, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 function Switcher(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     /**
      * 总长度
      */
@@ -29,11 +29,11 @@ function Switcher(
   },
 ) {
   return (
-    <ComponentRoot {...pick(props, componentRootProps)} name='Switcher'>
+    <View {...pick(props, ViewProp)} _componentName_='Switcher'>
       <View className='slot'>
         <View className='trigger' />
       </View>
-    </ComponentRoot>
+    </View>
   )
 }
 

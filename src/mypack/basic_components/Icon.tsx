@@ -1,13 +1,13 @@
 import React from 'react'
 import './Icon.scss'
-import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps, View } from '.'
+import { Image, View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 /**
  * TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理
  */
 function Icon(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     iconfontName?: IconfontName
     src?: string
     alt?: string
@@ -15,7 +15,7 @@ function Icon(
   },
 ) {
   return (
-    <ComponentRoot {...pick(props, componentRootProps)} name={['Icon', props.iconfontName]}>
+    <View {...pick(props, ViewProp)} _componentName_={['Icon', props.iconfontName]}>
       {props.children}
       {props.iconfontName ? (
         <View className={['iconfont', `icon-${props.iconfontName}`]} />
@@ -28,7 +28,7 @@ function Icon(
           }}
         />
       )}
-    </ComponentRoot>
+    </View>
   )
 }
 

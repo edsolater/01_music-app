@@ -1,11 +1,11 @@
 import React from 'react'
 import './Button.scss'
-import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 //TODO： 常规操作：定义各种按钮样式
 function Button(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     /**
      * 按钮关闭
      */
@@ -21,10 +21,10 @@ function Button(
   },
 ) {
   return (
-    <ComponentRoot
-      {...pick(props, componentRootProps)/* TODO: 总是这个形式的调用，需要缓存机制 */}
-      name={['Button', { _disabled: props.disabled, _on: props.isOn, _off: props.isOff }]}
-    ></ComponentRoot>
+    <View
+      {...pick(props, ViewProp)/* TODO: 总是这个形式的调用，需要缓存机制 */}
+      _componentName_={['Button', { _disabled: props.disabled, _on: props.isOn, _off: props.isOff }]}
+    ></View>
   )
 }
 

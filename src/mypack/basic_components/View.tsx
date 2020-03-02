@@ -5,6 +5,10 @@ import { Booleanish } from './types'
 
 export type ViewPropType = {
   /**
+   * 专为了创建组件使用的属性
+   */
+  _componentName_?: ClassValue
+  /**
    * 连接 css
    */
   className?: ClassValue
@@ -36,6 +40,7 @@ export type ViewPropType = {
 }
 
 export const ViewProp: (keyof ViewPropType)[] = [
+  '_componentName_',
   'className',
   'style',
   'onClick',
@@ -52,7 +57,7 @@ function View(props: ViewPropType, ref: any): JSX.Element | null {
   return (
     <div
       ref={ref}
-      className={classnames(props.className)}
+      className={classnames(props._componentName_, props.className)}
       style={props.style}
       onClick={props.onClick}
       {...props.html}

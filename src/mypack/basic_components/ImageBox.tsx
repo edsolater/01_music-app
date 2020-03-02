@@ -1,17 +1,17 @@
 import React from 'react'
-import { Image, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { Image, View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 import './ImageBox.scss'
 
 function ImageBox(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     src?: string
     alt?: string
     srcSet?: string
   },
 ) {
   return (
-    <ComponentRoot {...pick(props, componentRootProps)} name='ImageBox'>
+    <View {...pick(props, ViewProp)} _componentName_='ImageBox'>
       {props.children}
       <Image
         src={props.src}
@@ -20,7 +20,7 @@ function ImageBox(
           srcSet: props.srcSet,
         }}
       />
-    </ComponentRoot>
+    </View>
   )
 }
 

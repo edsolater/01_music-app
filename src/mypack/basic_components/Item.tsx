@@ -1,20 +1,20 @@
 import React from 'react'
-import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 /**
  * 用于横向布局
  */
 function Item(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     hello?: string
   },
   ref: any,
 ) {
   return (
-    <ComponentRoot
+    <View
       ref={ref}
-      {...pick(props, componentRootProps)}
+      {...pick(props, ViewProp)}
       className={[props.className, 'Item']}
     />
   )

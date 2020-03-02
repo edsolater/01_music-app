@@ -1,10 +1,10 @@
 import React from 'react'
 import './Text.scss'
-import { ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 function Text(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     /**
      * 大标题
      */
@@ -57,9 +57,9 @@ function Text(
   },
 ) {
   return (
-    <ComponentRoot
-      {...pick(props, componentRootProps)}
-      name={[
+    <View
+      {...pick(props, ViewProp)}
+      _componentName_={[
         'Text',
         {
           largeTitle: props.largeTitle,

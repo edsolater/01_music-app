@@ -8,8 +8,6 @@
 /**
  * View的小封装，使写组件更表意
  */
-export { default as ComponentRoot } from './ComponentRoot' // 有一个 name 的 prop ，用于指定组件名称
-export * from './ComponentRoot'
 export { default as Slot } from './Slot'
 export * from './Slot'
 export { default as GhostNode } from './GhostNode'

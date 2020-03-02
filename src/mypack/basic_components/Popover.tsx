@@ -1,14 +1,14 @@
 import React, { ReactNode } from 'react'
 import { useMasterBoolean } from 'mypack/basic_components/customHooks'
 import './Popover.scss'
-import { Slot, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { Slot, View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 /**
  * TODO:要向RedDot学习，做一个子组件而不是父级组件
  */
 function Popover(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     /**
      * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
      */
@@ -38,9 +38,9 @@ function Popover(
     off: () => onOffController.deferHide(props.delayTime),
   }
   return (
-    <ComponentRoot
-      {...pick(props, componentRootProps)}
-      name={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
+    <View
+      {...pick(props, ViewProp)}
+      _componentName_={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
       html={{
         ...props.html,
         onPointerEnter: (event) => {
@@ -63,7 +63,7 @@ function Popover(
         {props.Content} {/* slot */}
       </Slot>
       {props.children} {/* slot */}
-    </ComponentRoot>
+    </View>
   )
 }
 export default React.memo(Popover) as typeof Popover

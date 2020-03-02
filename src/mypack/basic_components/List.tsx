@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { ComponentRoot, Slot, componentRootProps, ComponentRootPorpType } from '.'
+import { View, Slot, ViewProp, ViewPropType } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 import { pick } from '../utils'
@@ -26,10 +26,10 @@ type IProps<T> = {
 /**
  * React组件
  */
-function List<T, O>(props: ComponentRootPorpType & IProps<T>) {
+function List<T, O>(props: ViewPropType & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
-    <ComponentRoot {...pick(props, componentRootProps)} name='List'>
+    <View {...pick(props, ViewProp)} _componentName_='List'>
       {props.data?.map((itemInfo, index) => {
         return (
           <Slot
@@ -48,7 +48,7 @@ function List<T, O>(props: ComponentRootPorpType & IProps<T>) {
           </Slot>
         )
       })}
-    </ComponentRoot>
+    </View>
   )
 }
 

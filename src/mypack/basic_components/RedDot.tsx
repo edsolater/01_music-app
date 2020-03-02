@@ -1,6 +1,6 @@
 import React from 'react'
 import './RedDot.scss'
-import { Slot, Text, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { Slot, Text, View, ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 
 /**
@@ -8,7 +8,7 @@ import { pick } from '../utils'
  * 该子元素必须排在父元素的所有非Wrapper子元素之前
  */
 function RedDot(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     /**
      * 红点上显式的数量
      */
@@ -29,15 +29,15 @@ function RedDot(
     })
   }
   return (
-    <ComponentRoot
-      {...pick(props, componentRootProps)}
+    <View
+      {...pick(props, ViewProp)}
       ref={addParentClass}
-      name={['RedDot', { _invisiable: props.invisiable }]}
+      _componentName_={['RedDot', { _invisiable: props.invisiable }]}
     >
       <Slot slotName={['RedDot__Dot', { _onlyDot: props.justDot }]}>
         <Text if={!props.justDot}>{props.amount}</Text>
       </Slot>
-    </ComponentRoot>
+    </View>
   )
 }
 

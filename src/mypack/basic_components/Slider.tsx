@@ -2,7 +2,7 @@ import React from 'react'
 
 import './Slider.scss'
 import { useMaster } from './customHooks'
-import { View, ComponentRoot, ComponentRootPorpType, componentRootProps } from '.'
+import { View,ViewPropType, ViewProp } from '.'
 import { pick } from '../utils'
 import { UGuard } from 'mypack/utils/UGuard'
 
@@ -12,7 +12,7 @@ import { UGuard } from 'mypack/utils/UGuard'
  * 注意它只能理解数字
  */
 function Slider(
-  props: ComponentRootPorpType & {
+  props: ViewPropType & {
     /**
      * 总长度
      */
@@ -63,9 +63,9 @@ function Slider(
     props.onMoveTriggerDone?.(validPercentage * maxValue)
   }
   return (
-    <ComponentRoot
-      {...pick(props, componentRootProps)}
-      name='Slider'
+    <View
+      {...pick(props, ViewProp)}
+      _componentName_='Slider'
       onClick={(e) => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
@@ -121,7 +121,7 @@ function Slider(
           }}
         />
       </View>
-    </ComponentRoot>
+    </View>
   )
 }
 
