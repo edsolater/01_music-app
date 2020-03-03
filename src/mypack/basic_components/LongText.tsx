@@ -7,7 +7,7 @@ import { View } from '.'
  * 该子元素必须排在父元素的所有非Wrapper子元素之前
  */
 function LongText(props: ComponentProps<typeof View>) {
-  return <View {...props} _componentName_='LongText' />
+  return <View {...props} $componentName='LongText' />
 }
 
 export default React.memo(LongText) as typeof LongText

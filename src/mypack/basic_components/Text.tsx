@@ -58,7 +58,7 @@ function Text(
   return (
     <View
       {...props}
-      _componentName_={[
+      $componentName={[
         'Text',
         {
           largeTitle: props.largeTitle,

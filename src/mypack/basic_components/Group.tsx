@@ -23,7 +23,7 @@ function Group(
   return (
     <View
       {...props}
-      _componentName_='Group'
+      $componentName='Group'
       className={[props.className, props.groupName]}
       style={{
         ...{ display: 'flex', flexDirection: props.groupDirection ?? 'row' },

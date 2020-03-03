@@ -28,7 +28,7 @@ type IProps<T> = {
 function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
-    <View {...props} _componentName_='List'>
+    <View {...props} $componentName='List'>
       {props.data?.map((itemInfo, index) => {
         return (
           <Slot

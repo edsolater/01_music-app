@@ -11,7 +11,7 @@ function Button(
     disabled?: boolean
   },
 ) {
-  return <View {...props} _componentName_={['Button', { _disabled: props.disabled }]}></View>
+  return <View {...props} $componentName={['Button', { _disabled: props.disabled }]}></View>
 }
 
 export default React.memo(Button) as typeof Button

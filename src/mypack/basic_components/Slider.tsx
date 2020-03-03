@@ -64,7 +64,7 @@ function Slider(
   return (
     <View
       {...props}
-      _componentName_='Slider'
+      $componentName='Slider'
       onClick={e => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()

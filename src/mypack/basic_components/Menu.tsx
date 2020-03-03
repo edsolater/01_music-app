@@ -62,7 +62,7 @@ export default function Menu(props: IProps) {
   }, [])
   return (
     // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
-    <View {...props} _componentName_='Menu'>
+    <View {...props} $componentName='Menu'>
       {props.children}
       {Object.entries(props.data).map(([groupName, groupItems], groupIndex) => {
         const groupInfo: GroupInfo = {

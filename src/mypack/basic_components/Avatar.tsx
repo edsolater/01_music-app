@@ -8,7 +8,7 @@ function Avatar(
   },
 ) {
   return (
-    <View {...props} _componentName_='Avatar'>
+    <View {...props} $componentName='Avatar'>
       <Image src={props.src} />
     </View>
   )

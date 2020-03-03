@@ -28,7 +28,7 @@ function Switcher(
   },
 ) {
   return (
-    <View {...props} _componentName_='Switcher'>
+    <View {...props} $componentName='Switcher'>
       <View className='slot'>
         <View className='trigger' />
       </View>

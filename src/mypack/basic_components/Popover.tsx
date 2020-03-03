@@ -39,7 +39,7 @@ function Popover(
   return (
     <View
       {...props}
-      _componentName_={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
+      $componentName={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
       html={{
         ...props.html,
         onPointerEnter: event => {

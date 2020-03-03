@@ -31,7 +31,7 @@ function RedDot(
     <View
       {...props}
       ref={addParentClass}
-      _componentName_={['RedDot', { _invisiable: props.invisiable }]}
+      $componentName={['RedDot', { _invisiable: props.invisiable }]}
     >
       <Slot slotName={['RedDot__Dot', { _onlyDot: props.justDot }]}>
         <Text if={!props.justDot}>{props.amount}</Text>

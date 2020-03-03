@@ -7,7 +7,7 @@ type ViewProp = {
   /**
    * 专为了创建组件使用的属性
    */
-  _componentName_?: ClassValue
+  $componentName?: ClassValue
   /**
    * 连接 css
    */
@@ -46,7 +46,7 @@ function View(props: ViewProp, ref: any): JSX.Element | null {
   return (
     <div
       ref={ref}
-      className={classnames(props._componentName_, props.className)}
+      className={classnames(props.$componentName, props.className)}
       style={props.style}
       onClick={props.onClick}
       {...props.html}

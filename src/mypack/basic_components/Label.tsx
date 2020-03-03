@@ -9,7 +9,7 @@ function Label(
   ref,
 ) {
   return (
-    <View ref={ref} {...props} _componentName_='Label'>
+    <View ref={ref} {...props} $componentName='Label'>
       {props.text ?? props.children}
     </View>
   )

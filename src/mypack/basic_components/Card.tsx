@@ -6,7 +6,7 @@ import { View } from '.'
  * 目前只是个有特殊样式的DIV
  */
 function Card(props: ComponentProps<typeof View>) {
-  return <View {...props} _componentName_='Card' />
+  return <View {...props} $componentName='Card' />
 }
 
 export default React.memo(Card) as typeof Card

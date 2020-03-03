@@ -14,7 +14,7 @@ function Icon(
   },
 ) {
   return (
-    <View {...props} _componentName_={['Icon', props.iconfontName]}>
+    <View {...props} $componentName={['Icon', props.iconfontName]}>
       {props.children}
       {props.iconfontName ? (
         <View className={['iconfont', `icon-${props.iconfontName}`]} />

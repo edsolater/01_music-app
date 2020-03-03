@@ -10,7 +10,7 @@ function ImageBox(
   },
 ) {
   return (
-    <View {...props} _componentName_='ImageBox'>
+    <View {...props} $componentName='ImageBox'>
       {props.children}
       <Image
         src={props.src}
