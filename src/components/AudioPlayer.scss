@@ -13,10 +13,12 @@
   }
   .music-buttons {
     display: flex;
+    *:not(:last-child) {
+      margin-right: 16px;
+    }
     .Button {
       width: 40px;
       height: 40px;
-      margin-right: 16px;
       border-radius: 1000px;
       background: var(--secondary-color);
       color: white;
@@ -28,9 +30,6 @@
       }
       &:active {
         filter: brightness(0.8);
-      }
-      &:last-child {
-        margin-right: 0;
       }
       &.last-song .Text {
         padding-bottom: 3px;
@@ -77,9 +76,12 @@
   }
 
   .info-panel {
+    margin-right: 24px;
     display: flex;
-    .Button {
+    *:not(:last-child) {
       margin-right: 24px;
+    }
+    .Button {
       &._off {
         filter: brightness(0.5);
       }

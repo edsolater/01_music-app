@@ -7,7 +7,7 @@
     margin-bottom: 8px;
   }
   .collection-info {
-    display: grid; 
+    display: grid;
     grid-template:
       'thumbnail  title  ' max-content
       'thumbnail  creator' max-content
@@ -58,10 +58,11 @@
     }
     .buttons {
       grid-area: buttons;
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: max-content;
-      gap: 8px;
+      /* TODO: 这种模式可以单独sass抽象出来 */
+      display: flex;
+      *:not(:last-child) {
+        margin-right: 8px;
+      }
     }
   }
   .List {
