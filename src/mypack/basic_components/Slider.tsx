@@ -2,7 +2,7 @@ import React, { ComponentProps } from 'react'
 
 import './Slider.scss'
 import { useMaster } from './customHooks'
-import { View, } from '.'
+import { View } from '.'
 import { UGuard } from 'mypack/utils/UGuard'
 
 /**
@@ -65,13 +65,13 @@ function Slider(
     <View
       {...props}
       _componentName_='Slider'
-      onClick={(e) => {
+      onClick={e => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       html={{
-        onWheel: (e) => {
+        onWheel: e => {
           moveTriggerDone(triggerLeft.getValue() + Math.sign(e.deltaY) * 0.1)
         },
       }}
@@ -79,7 +79,7 @@ function Slider(
       <View
         className='Trigger'
         html={{
-          onPointerDown: (e) => {
+          onPointerDown: e => {
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
             const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!

@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Icon.scss'
-import { Image, View,  } from '.'
+import { Image, View } from '.'
 
 /**
  * TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理

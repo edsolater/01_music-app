@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './LongText.scss'
-import { View,  } from '.'
+import { View } from '.'
 
 /**
  * 父元素不能定义overflow:hidden

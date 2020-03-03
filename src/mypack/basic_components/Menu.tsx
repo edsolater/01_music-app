@@ -1,4 +1,4 @@
-import React, { useEffect, ReactNode,ComponentProps } from 'react'
+import React, { useEffect, ReactNode, ComponentProps } from 'react'
 
 import './Menu.scss'
 import { useMaster } from 'mypack/basic_components/customHooks'

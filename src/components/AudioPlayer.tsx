@@ -80,7 +80,7 @@ export default function AudioPlayer() {
           {isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
         </Button>
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
-          <Icon iconfontName="music_next" />
+          <Icon iconfontName='music_next' />
         </Button>
       </Group>
       <View className='timeline'>
@@ -102,7 +102,7 @@ export default function AudioPlayer() {
       </View>
       <Group className='info-panel'>
         <Button className='favorite'>
-          <Icon iconfontName="heart_empty"/>
+          <Icon iconfontName='heart_empty' />
         </Button>
         {/* TODO: 轮流切换的Button，需要单独再封一个组件，这种模式经常用到 */}
         <Button
@@ -116,7 +116,7 @@ export default function AudioPlayer() {
             }
           }}
         >
-          <Icon iconfontName="infinit-mode" />
+          <Icon iconfontName='infinit-mode' />
         </Button>
         <Popover
           Content={
@@ -130,11 +130,11 @@ export default function AudioPlayer() {
           }
         >
           <Button className='volume'>
-            <Icon iconfontName="volumn_empty"/>
+            <Icon iconfontName='volumn_empty' />
           </Button>
         </Popover>
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
-          <Icon iconfontName="music-list" />
+          <Icon iconfontName='music-list' />
         </Button>
       </Group>
     </View>

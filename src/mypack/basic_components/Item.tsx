@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { View,  } from '.'
+import { View } from '.'
 
 /**
  * 用于横向布局
@@ -10,13 +10,7 @@ function Item(
   },
   ref: any,
 ) {
-  return (
-    <View
-      ref={ref}
-      {...props}
-      className={[props.className, 'Item']}
-    />
-  )
+  return <View ref={ref} {...props} className={[props.className, 'Item']} />
 }
 
 export default React.memo(React.forwardRef(Item)) as typeof Item

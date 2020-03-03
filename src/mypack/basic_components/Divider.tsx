@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Divider.scss'
-import { View,  } from '.'
+import { View } from '.'
 
 /**
  * TODO: 目前只是个简单的横向分割线

@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './RedDot.scss'
-import { Slot, Text, View,  } from '.'
+import { Slot, Text, View } from '.'
 
 /**
  * 父元素不能定义overflow:hidden

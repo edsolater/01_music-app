@@ -1,5 +1,5 @@
-import React, { ReactNode,ComponentProps } from 'react'
-import { View, Slot,  } from '.'
+import React, { ReactNode, ComponentProps } from 'react'
+import { View, Slot } from '.'
 import './List.scss'
 import { useMaster } from './customHooks'
 

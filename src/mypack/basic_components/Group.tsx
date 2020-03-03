@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react'
 import './Group.scss'
 import { ClassValue } from 'classnames/types'
-import { View,  } from '.'
+import { View } from '.'
 
 function Group(
   props: ComponentProps<typeof View> & {

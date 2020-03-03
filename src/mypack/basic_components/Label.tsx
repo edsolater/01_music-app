@@ -1,12 +1,12 @@
 import React, { ComponentProps } from 'react'
 import './Label.scss'
-import { View,  } from '.'
+import { View } from '.'
 
 function Label(
   props: ComponentProps<typeof View> & {
     text?: string
   },
-  ref
+  ref,
 ) {
   return (
     <View ref={ref} {...props} _componentName_='Label'>

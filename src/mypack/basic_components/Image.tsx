@@ -10,14 +10,14 @@ type IProps = {
   className?: ClassValue
   /**
    * **特殊属性**
-   * 类似于 vue 的 v-if 
+   * 类似于 vue 的 v-if
    */
-  '$if'?: any
+  $if?: any
   /**
    * **特殊属性**
-   * 类似于 vue 的 v-for 
+   * 类似于 vue 的 v-for
    */
-  '$for'?: any
+  $for?: any
   /**
    * 照搬<div> 的style
    */
