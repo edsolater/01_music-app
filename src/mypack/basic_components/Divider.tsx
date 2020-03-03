@@ -5,7 +5,7 @@ import { View } from '.'
 /**
  * TODO: 目前只是个简单的横向分割线
  */
-function Divider(props: ComponentProps<typeof View> & {}) {
+function Divider(props: ComponentProps<typeof View>) {
   return <View {...props} $componentName='Divider' />
 }
 

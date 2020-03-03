@@ -13,4 +13,4 @@ declare type GetChildCommands<C extends JSXElementConstructor<any>> = ComponentP
   C
 >['componentCommands']
 
-declare type Booleanish = any 
+declare type Booleanish = unknown
