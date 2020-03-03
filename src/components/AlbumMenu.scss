@@ -1,4 +1,5 @@
 .album-menu {
+  // FIXME: 一维结构，flex的控制力是不是更高？
   display: grid;
   border-right: var(--middle-line);
   grid-template-rows: max-content 1fr max-content;
