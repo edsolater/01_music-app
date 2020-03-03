@@ -1,0 +1,6 @@
+@mixin group($gap: 8px) {
+  display: flex;
+  *:not(:last-child) {
+    margin-right: $gap;
+  }
+}

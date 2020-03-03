@@ -1,3 +1,4 @@
+@use '../mypack/sass/layout.scss';
 .main-app-content {
   padding-left: 8px;
   padding-right: 8px;
@@ -58,11 +59,7 @@
     }
     .buttons {
       grid-area: buttons;
-      /* TODO: 这种模式可以单独sass抽象出来 */
-      display: flex;
-      *:not(:last-child) {
-        margin-right: 8px;
-      }
+      @include layout.group;
     }
   }
   .List {
