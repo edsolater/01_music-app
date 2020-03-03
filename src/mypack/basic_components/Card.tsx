@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Card.scss'
-import { View,  } from '.'
+import { View } from '.'
 
 /**
  * 目前只是个有特殊样式的DIV

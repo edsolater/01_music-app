@@ -19,7 +19,9 @@
     "@types/webpack": "^4.41.7",
     "css-loader": "^3.4.2",
     "file-loader": "^5.1.0",
+    "husky": "^4.2.3",
     "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1",
     "sass": "^1.26.2",
     "sass-loader": "^8.0.2",
     "source-map-loader": "^0.2.4",
@@ -42,5 +44,10 @@
     "ts-node": "将ts的能力注入给 node.js ，quokka需要使用",
     "ts-loader": "桥接器：ts-loader helps Webpack compile your TypeScript code using the TypeScript’s standard configuration file named tsconfig.json",
     "source-map-loader": "桥接器：source-map-loader uses any sourcemap outputs from TypeScript to inform webpack when generating its own sourcemaps."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
