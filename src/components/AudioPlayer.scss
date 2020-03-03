@@ -11,41 +11,44 @@
     height: 80px;
     object-fit: cover;
   }
-  .music-buttons .Button {
-    width: 40px;
-    height: 40px;
-    margin-right: 16px;
-    border-radius: 1000px;
-    background: var(--secondary-color);
-    color: white;
-    display: grid;
-    place-items: center;
-    font-size: 0.8em;
-    &:hover {
-      transform: scale(1.2);
-    }
-    &:active {
-      filter: brightness(0.8);
-    }
-    &:last-child {
-      margin-right: 0;
-    }
-    &.last-song .Text {
-      padding-bottom: 3px;
-      padding-right: 1.5px;
-    }
-    &.play .Text {
-      padding-bottom: 0.5px;
-      padding-left: 2.5px;
-      transform: scale(1.5);
-    }
-    &.pause .Text {
-      padding-bottom: 3px;
-      transform: scale(1.5);
-    }
-    &.next-song .Text {
-      padding-bottom: 3px;
-      padding-left: 1.5px;
+  .music-buttons {
+    display: flex;
+    .Button {
+      width: 40px;
+      height: 40px;
+      margin-right: 16px;
+      border-radius: 1000px;
+      background: var(--secondary-color);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 0.8em;
+      &:hover {
+        transform: scale(1.2);
+      }
+      &:active {
+        filter: brightness(0.8);
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      &.last-song .Text {
+        padding-bottom: 3px;
+        padding-right: 1.5px;
+      }
+      &.play .Text {
+        padding-bottom: 0.5px;
+        padding-left: 2.5px;
+        transform: scale(1.5);
+      }
+      &.pause .Text {
+        padding-bottom: 3px;
+        transform: scale(1.5);
+      }
+      &.next-song .Text {
+        padding-bottom: 3px;
+        padding-left: 1.5px;
+      }
     }
   }
   .timeline {
@@ -74,6 +77,7 @@
   }
 
   .info-panel {
+    display: flex;
     .Button {
       margin-right: 24px;
       &._off {

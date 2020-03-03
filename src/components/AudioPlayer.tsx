@@ -1,8 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import {
-  Text,
   Button,
-  Group,
   ImageBox,
   Slider,
   Popover,
@@ -62,7 +60,7 @@ export default function AudioPlayer() {
         src={appData.playerBar.currentMusicInfo?.soundtrackUrl}
       ></audio>
       <ImageBox className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
-      <Group className='music-buttons'>
+      <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
         </Button>
@@ -82,7 +80,7 @@ export default function AudioPlayer() {
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
           <Icon iconfontName='music_next' />
         </Button>
-      </Group>
+      </View>
       <View className='timeline'>
         <View className='songTitle'>{appData.playerBar.currentMusicInfo?.songName}</View>
         <View className='timestamp'>{`${Time(masters.currentSecond.getValue()).print({
@@ -100,7 +98,7 @@ export default function AudioPlayer() {
           }}
         />
       </View>
-      <Group className='info-panel'>
+      <View className='info-panel'>
         <Button className='favorite'>
           <Icon iconfontName='heart_empty' />
         </Button>
@@ -136,7 +134,7 @@ export default function AudioPlayer() {
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
           <Icon iconfontName='music-list' />
         </Button>
-      </Group>
+      </View>
     </View>
   )
 }

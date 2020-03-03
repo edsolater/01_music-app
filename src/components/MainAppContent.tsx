@@ -4,7 +4,6 @@ import {
   Avatar,
   Icon,
   Text,
-  Group,
   ImageBox,
   Button,
   List,
@@ -36,13 +35,13 @@ export default function MainAppContent() {
             {appData.collectionInfo.createTime} 创建
           </Text>
         </View>
-        <Group className='buttons'>
+        <View className='buttons'>
           <Button>收藏</Button>
           <Button>评论</Button>
           <Button>分享</Button>
           <Button>下载全部</Button>
           <Button>更多</Button>
-        </Group>
+        </View>
       </View>
       <List
         data={appData.collectionMusicList}
