@@ -5,7 +5,7 @@ import { useState, useCallback } from 'react'
  */
 const useCallbackRef = <T>(defaultElement: T, callback?: (element: T) => void) => {
   const [element, attachElement] = useState(defaultElement)
-  const elementRef = useCallback((node) => {
+  const elementRef = useCallback(node => {
     if (node) {
       attachElement(node)
       if (callback) callback(node)

@@ -1,15 +1,5 @@
 import React, { useContext } from 'react'
-import {
-  Item,
-  Avatar,
-  Icon,
-  Text,
-  ImageBox,
-  Button,
-  List,
-  Divider,
-  View,
-} from 'mypack/basic_components'
+import { Item, Avatar, Icon, Text, ImageBox, Button, List, Divider, View } from 'mypack/components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'

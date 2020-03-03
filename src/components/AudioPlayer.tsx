@@ -8,7 +8,7 @@ import {
   useCallbackRef,
   View,
   Icon,
-} from 'mypack/basic_components'
+} from 'mypack/components'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { AppDataContext } from 'App'

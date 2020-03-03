@@ -1,5 +1,5 @@
 import React, { ReactNode, ComponentProps } from 'react'
-import { useMasterBoolean } from 'mypack/basic_components/customHooks'
+import { useMasterBoolean } from 'mypack/components/customHooks'
 import './Popover.scss'
 import { Slot, View } from '.'
 

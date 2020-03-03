@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
-import { View } from 'mypack/basic_components'
+import { View } from 'mypack/components'
 import { appStore, loadDispatcher } from 'appStore'
 
 //导入context

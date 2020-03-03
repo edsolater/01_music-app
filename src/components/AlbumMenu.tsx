@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Menu, Item, Card, Avatar, Text, RedDot, View, Icon } from 'mypack/basic_components'
+import { Menu, Item, Card, Avatar, Text, RedDot, View, Icon } from 'mypack/components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
 
