@@ -1,9 +1,8 @@
-import React, { CSSProperties, ReactNode, ReactElement, createElement } from 'react'
+import React, { CSSProperties, ReactNode, createElement } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import { Booleanish } from './types'
 type HTMLTag = keyof React.ReactHTML
-type ViewProp<Tag extends HTMLTag = 'div'> = {
+type ViewProp<Tag extends HTMLTag> = {
   /**
    * 专为了创建组件使用的属性
    */
@@ -19,11 +18,11 @@ type ViewProp<Tag extends HTMLTag = 'div'> = {
   /**
    * 条件渲染（影响子内容的渲染）
    */
-  if?: Booleanish
+  if?: unknown
   /**
    * 条件渲染（无关子内容的渲染）
    */
-  when?: Booleanish
+  when?: unknown
   /**
    * 内联样式
    */
@@ -31,7 +30,7 @@ type ViewProp<Tag extends HTMLTag = 'div'> = {
   /**
    * 基础交互
    */
-  onClick?: JSX.IntrinsicElements[Tag]['onClick']
+  onClick?: JSX.IntrinsicElements['div']['onClick']
   children?: ReactNode
   /**
    * 在类型系统上暂且把ref当作一个props进行智能推断，实际上ref是要forwardRef的
@@ -44,7 +43,7 @@ type ViewProp<Tag extends HTMLTag = 'div'> = {
 }
 
 /**组件代码 */
-function View<Tag extends HTMLTag = 'div'>(props: ViewProp<Tag>, ref: any) {
+function View<Tag extends HTMLTag>(props: ViewProp<Tag>, ref: any) {
   if (!(props.if ?? true)) return null
   if (!(props.when ?? true)) return <>{props.children}</>
   return createElement(
@@ -59,6 +58,6 @@ function View<Tag extends HTMLTag = 'div'>(props: ViewProp<Tag>, ref: any) {
     props.children,
   )
 }
-export default React.forwardRef(View) as <Tag extends HTMLTag = 'div'>(
+export default React.forwardRef(View) as <Tag extends HTMLTag>(
   props: ViewProp<Tag>,
 ) => JSX.Element | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
