@@ -23,11 +23,12 @@ export default function AlbumMenu() {
           </View>
         )}
         renderMenuItem={itemInfo => (
-          <Item className='menu-item' /* html={{ title: 'hello' }} */>
+          <Item className='menu-item'>
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>
-              {itemInfo.hasSomethingNew && <RedDot justDot />}
-              <Text>{itemInfo.title}</Text>
+              <RedDot hidden={!itemInfo.hasSomethingNew}>
+                <Text>{itemInfo.title}</Text>
+              </RedDot>
             </View>
           </Item>
         )}
@@ -35,9 +36,9 @@ export default function AlbumMenu() {
       <View className='user-info'>
         <Avatar src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>
-        <Icon iconfontName='mail'>
-          <RedDot amount={32} />
-        </Icon>
+        <RedDot number={32}>
+          <Icon iconfontName='mail' />
+        </RedDot>
         <Icon iconfontName='setting' />
       </View>
     </View>

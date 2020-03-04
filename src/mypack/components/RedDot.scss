@@ -1,27 +1,25 @@
+$dot-size: 16px;
 .RedDot {
-  --dot-size: 16px;
-  &._invisiable {
-    display: none;
-  }
   position: relative;
-  width: 100%;
-  height: 0;
 }
-.RedDot__Dot {
+.__Dot {
   position: absolute;
   right: 0;
   transform: translateX(50%);
-  height: var(--dot-size);
-  min-width: var(--dot-size);
+  height: $dot-size;
+  min-width: $dot-size;
   display: grid;
   place-content: center;
 
   background-color: crimson;
   color: white;
-  font-size: calc(0.625 * var(--dot-size));
+  font-size: calc(0.625 * #{$dot-size});
   border-radius: 100px;
-  &._onlyDot {
-    min-width: calc(0.4 * var(--dot-size));
-    height: calc(0.4 * var(--dot-size));
+  &._empty {
+    min-width: calc(0.4 * #{$dot-size});
+    height: calc(0.4 * #{$dot-size});
+  }
+  &._hidden {
+    visibility: hidden;
   }
 }

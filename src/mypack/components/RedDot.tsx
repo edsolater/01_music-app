@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './RedDot.scss'
-import { Slot, Text, View } from '.'
+import { Text, View } from '.'
 
 /**
  * 父元素不能定义overflow:hidden
@@ -9,33 +9,28 @@ import { Slot, Text, View } from '.'
 function RedDot(
   props: ComponentProps<typeof View> & {
     /**
+     * 隐藏红点（视图上不可见）
+     */
+    hidden?: unknown
+    /**
      * 红点上显式的数量
      */
-    amount?: number | string
-    /**
-     * 像没有一样
-     */
-    invisiable?: boolean
-    /**
-     * 只显示红点而不显示数字
-     */
-    justDot?: boolean
+    number?: number | string
   },
 ) {
-  const addParentClass = (element: HTMLDivElement) => {
-    globalThis.setTimeout(() => {
-      element.parentElement?.classList.add('_hasRedDot')
-    })
-  }
+  console.log('props.number: ', props.number)
   return (
     <View
       {...props}
-      ref={addParentClass}
-      $componentName={['RedDot', { _invisiable: props.invisiable }]}
+      ref={(element: HTMLDivElement) => element.firstElementChild?.classList.add('_hasRedDot')}
+      $componentName='RedDot'
     >
-      <Slot slotName={['RedDot__Dot', { _onlyDot: props.justDot }]}>
-        <Text if={!props.justDot}>{props.amount}</Text>
-      </Slot>
+      <View
+        className={['__Dot', { _empty: !Number(props.number), _hidden: Boolean(props.hidden) }]}
+      >
+        <Text if={Number(props.number) > 0}>{props.number}</Text>
+      </View>
+      {props.children}
     </View>
   )
 }
