@@ -42,7 +42,7 @@ export { default as ImageFalls } from './ImageFalls'
  * Wrapper 系列，写组件时可随意添加，类似于装饰器的概念。装载在目标元素内部
  */
 export { default as Popover } from './Popover'
-export { default as RedDot } from './RedDot'
+export { default as Badge } from './Badge'
 
 /**
  * 特殊组件

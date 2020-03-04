@@ -1,5 +1,5 @@
 $dot-size: 16px;
-.RedDot {
+.Badge {
   position: relative;
 }
 .__Dot {
@@ -16,7 +16,7 @@ $dot-size: 16px;
   color: white;
   font-size: calc(0.625 * #{$dot-size});
   border-radius: 100px;
-  &._empty {
+  &._dot {
     min-width: calc(0.4 * #{$dot-size});
     height: calc(0.4 * #{$dot-size});
   }

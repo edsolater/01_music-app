@@ -4,7 +4,7 @@ import './Popover.scss'
 import { Slot, View } from '.'
 
 /**
- * TODO:要向RedDot学习，做一个子组件而不是父级组件
+ * TODO:要向Badge学习，做一个子组件而不是父级组件
  */
 function Popover(
   props: ComponentProps<typeof View> & {
