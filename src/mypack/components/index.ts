@@ -20,7 +20,6 @@ export * from './View'
 export { default as Header } from './Header'
 export { default as Footer } from './Footer'
 export { default as Item } from './Item'
-export { default as Card } from './Card'
 export { default as Text } from './Text' // 通过View，使用 <div>
 export { default as LongText } from './LongText'
 export { default as Image } from './Image' // 通过View，使用 <img>
