@@ -32,6 +32,7 @@
         left: 0;
         width: 100%;
         height: 100%;
+        backdrop-filter: blur(2px);
       }
     }
     .Title {
@@ -59,7 +60,7 @@
     }
     .buttons {
       grid-area: buttons;
-      @include layout.group;
+      @include layout.flexbox;
     }
   }
   .List {

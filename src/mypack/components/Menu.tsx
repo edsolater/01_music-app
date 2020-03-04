@@ -1,6 +1,5 @@
 import React, { useEffect, ReactNode, ComponentProps } from 'react'
 
-import './Menu.scss'
 import { useMaster } from 'mypack/components/customHooks'
 import { View, Slot, List } from '.'
 import { Path } from 'mypack/class/StateStringPath'

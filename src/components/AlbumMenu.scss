@@ -1,10 +1,9 @@
+@use '../mypack/sass/layout.scss';
 .album-menu {
-  // FIXME: 一维结构，flex的控制力是不是更高？
-  display: grid;
   border-right: var(--middle-line);
-  grid-template-rows: max-content 1fr max-content;
   background-color: var(--primary-color);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .shrink-button {
@@ -19,7 +18,9 @@
 }
 
 .Menu {
-  --menu-gap-width: 48px;
+  flex: 1 1 0;
+  width: 100%;
+  @include layout.flexbox_col(48px);
   overflow: hidden auto;
   .Text.headline {
     font-size: 0.8em;
