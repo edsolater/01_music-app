@@ -13,7 +13,7 @@
     object-fit: cover;
   }
   .music-buttons {
-    @include layout.flexbox(16px);
+    @include layout.row(16px);
     .Button {
       width: 40px;
       height: 40px;
@@ -75,7 +75,7 @@
 
   .info-panel {
     margin-right: 24px;
-    @include layout.flexbox(24px);
+    @include layout.row(24px);
     .Button {
       &._off {
         filter: brightness(0.5);

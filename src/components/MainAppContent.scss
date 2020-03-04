@@ -60,7 +60,7 @@
     }
     .buttons {
       grid-area: buttons;
-      @include layout.flexbox;
+      @include layout.row;
     }
   }
   .List {
