@@ -4,8 +4,9 @@ $dot-size: 16px;
 }
 .__Dot {
   position: absolute;
+  top: 0;
   right: 0;
-  transform: translateX(50%);
+  transform: translate(50%, -50%);
   height: $dot-size;
   min-width: $dot-size;
   display: grid;
@@ -20,6 +21,6 @@ $dot-size: 16px;
     height: calc(0.4 * #{$dot-size});
   }
   &._hidden {
-    visibility: hidden;
+    display: none;
   }
 }

@@ -20,11 +20,8 @@ function RedDot(
 ) {
   console.log('props.number: ', props.number)
   return (
-    <View
-      {...props}
-      ref={(element: HTMLDivElement) => element.firstElementChild?.classList.add('_hasRedDot')}
-      $componentName='RedDot'
-    >
+    <View {...props} $componentName='RedDot'>
+      {/* TODO:使用::before/::after会更干净 */}
       <View
         className={['__Dot', { _empty: !Number(props.number), _hidden: Boolean(props.hidden) }]}
       >
