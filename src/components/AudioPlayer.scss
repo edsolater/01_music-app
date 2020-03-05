@@ -3,7 +3,7 @@
   display: grid;
   align-items: center;
   grid-template-columns: auto auto 1fr auto;
-  border-top: var(--middle-line);
+  border-top: var(--section-divider);
   background: var(--theme-color);
   height: 100%;
   gap: 48px;
@@ -18,7 +18,7 @@
       width: 40px;
       height: 40px;
       border-radius: 1000px;
-      background: var(--secondary-color);
+      background: var(--secondary);
       color: white;
       display: grid;
       place-items: center;

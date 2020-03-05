@@ -1,8 +1,9 @@
 @use '../mypack/sass/layout.scss';
 @use '../mypack/sass/component.scss';
+@use '../mypack/sass/colorBlock.scss';
 .album-menu {
-  border-right: var(--middle-line);
-  background-color: var(--primary-color);
+  border-right: var(--section-divider);
+  background-color: var(--primary);
   display: flex;
   flex-direction: column;
 }
@@ -55,19 +56,12 @@
     }
   }
   .__MenuItem {
-    position: relative;
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
     }
     &.selected {
       background-color: rgba(0, 0, 0, 0.1);
-      &::before {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-left: var(--socondary-color-line);
-      }
+      @include colorBlock.float-line($color: var(--secondary), $width: 4px, $direction: left);
     }
   }
 }
@@ -76,7 +70,7 @@
 .user-info {
   height: 80px;
   padding: 8px;
-  border-top: var(--middle-line);
+  border-top: var(--section-divider);
   background-color: transparent;
   box-shadow: unset;
   display: flex;

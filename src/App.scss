@@ -8,12 +8,10 @@ body * {
 
 /* 业务样式 */
 .AppRoot {
-  --light-line: 1px solid rgba(211, 211, 211, 0.541);
-  --middle-line: 1.5px solid #dddde1;
+  --section-divider: 1.5px solid #dddde1;
   --theme-color: #fff; // 无彩色
-  --primary-color: #f3f3f5;
-  --secondary-color: #df3b3b;
-  --socondary-color-line: 4px solid var(--secondary-color);
+  --primary: #f3f3f5;
+  --secondary: #df3b3b;
   height: 100vh;
   display: grid;
   grid-template:
