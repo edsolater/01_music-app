@@ -20,7 +20,7 @@ function Badge(
 ) {
   return (
     <View {...props} $componentName='Badge'>
-      {/* TODO:使用::before/::after会更干净 */}
+      {/* TODO:使用::before/::after Dom结构会更干净 */}
       <View className={['__Dot', { _dot: !Number(props.number), _hidden: Boolean(props.hidden) }]}>
         <Text if={Number(props.number) > 0}>{props.number}</Text>
       </View>

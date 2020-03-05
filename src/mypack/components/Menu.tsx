@@ -71,7 +71,6 @@ export default function Menu(props: IProps) {
           path: selectedPath.getAllPathItems(),
         }
         return (
-          // TODO: <Group>要支持竖向的，以代替View
           <View className='__Groupbox' key={groupName}>
             <Slot
               slotName={[
