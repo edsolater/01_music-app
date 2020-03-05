@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Menu, Item, Avatar, Text, Badge, View, Icon } from 'mypack/components'
+import { Menu, Item, Image, Text, Badge, View, Icon } from 'mypack/components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
 
@@ -34,7 +34,7 @@ export default function AlbumMenu() {
         )}
       />
       <View className='user-info'>
-        <Avatar src={appData.userProfile.avatar} />
+        <Image className='avatar' src={appData.userProfile.avatar} />
         <Text className='nickname'>{appData.userProfile.nickname}</Text>
         <Badge number={32}>
           <Icon iconfontName='mail' />

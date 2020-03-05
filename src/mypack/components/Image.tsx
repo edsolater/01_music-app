@@ -14,8 +14,8 @@ type IProps = ComponentProps<typeof View> & {
 }
 
 const Image = React.forwardRef((props: IProps, ref: any) => (
-  <View ref={ref} $tag='img' html={{ src: props.src, ...props.html }}>
+  <View ref={ref} $tag='img' {...props} html={{ src: props.src, ...props.html }}>
     {props.children}
   </View>
 ))
-export default React.memo(Image) as typeof Image
+export default Image

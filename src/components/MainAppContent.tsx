@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Item, Avatar, Icon, Text, ImageBox, Button, List, Divider, View } from 'mypack/components'
+import { Item, Image, Icon, Text, ImageBox, Button, List, Divider, View } from 'mypack/components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
@@ -12,12 +12,11 @@ export default function MainAppContent() {
       <View className='collection-info'>
         <View className='thumbnail'>
           <ImageBox src={appData.collectionInfo.thumbnail} className='thumbnail-pic' />
-          {/* TODO: 以后SVGIcon要动态的化不能简单地作为 img 处理 */}
           <Icon src={heartIcon} className='thumbnail-icon' />
         </View>
         <Text largeTitle>{appData.collectionInfo.title}</Text>
         <View className='creator'>
-          <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
+          <Image src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
           <Text subhead className='creator-nickname'>
             {appData.collectionInfo.creatorInfo.nickName}
           </Text>

@@ -1,0 +1,6 @@
+@mixin avatar($diameter: 32px) {
+  width: $diameter;
+  height: $diameter;
+  border-radius: 50%;
+  object-fit: cover;
+}
