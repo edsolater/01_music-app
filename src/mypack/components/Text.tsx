@@ -2,7 +2,7 @@ import React, { ComponentProps } from 'react'
 import './Text.scss'
 import { View } from '.'
 
-function Text(
+export default function Text(
   props: ComponentProps<typeof View> & {
     /**
      * 大标题
@@ -78,4 +78,3 @@ function Text(
     />
   )
 }
-export default React.memo(Text) as typeof Text

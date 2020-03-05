@@ -21,7 +21,6 @@ type IProps<T> = {
   renderBetween?: (item: T, index: number, items: T[]) => ReactNode
 }
 
-//TODO:最后做成一个类似 scroll-view 的 list 特异性组件
 /**
  * React组件
  */
