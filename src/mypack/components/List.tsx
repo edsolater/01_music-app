@@ -36,7 +36,11 @@ function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
                 ? props.keyForListItems(itemInfo, index, props.data!)
                 : itemInfo[String(props.keyForListItems)]
             }
-            slotName={['__Item', '__ListItem', { selected: index === selectedIndex.getValue() }]}
+            slotName={[
+              '__Item',
+              '__ListItem',
+              { _selected: index === selectedIndex.getValue(), _odd: index % 2 === 1 },
+            ]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
               selectedIndex.set(index)

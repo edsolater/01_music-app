@@ -1,14 +1,7 @@
 /* 示例 */
 // .List {
 //   .__Item {
-//     opacity: 0.8;
-//     &:hover:not(.selected) {
-//       transform:  translateX(8px);
-//     }
-//     &.selected {
-//       opacity: 1;
-//       filter: contrast(50%);
-//       background-color: rgba(0, 0, 0, 0.1);
-//     }
+//     &._selected {}
+//     &._odd {}
 //   }
 // }

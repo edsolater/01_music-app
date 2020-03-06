@@ -1,5 +1,6 @@
 @use '../mypack/sass/layout.scss';
 @use '../mypack/sass/component.scss';
+@use '../mypack/sass/initialize.scss';
 .main-app-content {
   padding-left: 8px;
   padding-right: 8px;
@@ -47,7 +48,7 @@
       gap: 8px;
       align-items: center;
       .creator-avatar {
-        @include component.avatar(48px);
+        @include component.avatar(28px);
       }
       .creator-nickname {
         font-size: small;
@@ -63,8 +64,50 @@
       @include layout.row;
     }
   }
+  .list-operator {
+    @include layout.row;
+    .play-all-btn {
+      @include layout.row;
+      .Icon {
+        color: var(--secondary);
+      }
+      .Text {
+        color: gray;
+      }
+    }
+    .select-btn {
+      @include layout.row;
+      .Icon {
+        color: darkgray;
+      }
+      .Text {
+        color: gray;
+      }
+    }
+    .search-slot {
+      @include layout.row($height: 32px);
+      padding: 0 8px;
+      margin-left: auto;
+      color: gray;
+      border: 1.5px solid lightgray;
+      border-radius: 100px;
+      .input {
+        width: 88px;
+        @include initialize.input;
+        &::placeholder {
+          color: lightgray;
+        }
+      }
+      .Icon {
+        color: gray;
+      }
+    }
+  }
   .List {
     border: 2px solid lightgray;
+    .__Item._odd {
+      background: gainsboro;
+    }
     .Item {
       padding-top: 8px;
       padding-bottom: 8px;

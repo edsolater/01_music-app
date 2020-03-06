@@ -32,6 +32,22 @@ export default function MainAppContent() {
           <Button>更多</Button>
         </View>
       </View>
+      <View className='list-operator'>
+        <View className='play-all-btn'>
+          <Icon iconfontName='play-all' />
+          <Text>全部播放</Text>
+        </View>
+        <View className='col-line' />
+        {/* TODO: icon text 是常见的使用组合，需要提出组件以增强表现力 */}
+        <View className='select-btn'>
+          <Icon iconfontName='select-panel' />
+          <Text>选择</Text>
+        </View>
+        <View className='search-slot'>
+          <View $tag='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
+          <Icon iconfontName='search' />
+        </View>
+      </View>
       <List
         data={appData.collectionMusicList}
         keyForListItems={item => item.songName}

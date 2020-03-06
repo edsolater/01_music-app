@@ -1,5 +1,7 @@
-@mixin row($gap: 8px) {
+@mixin row($gap: 8px, $height: auto) {
   display: flex;
+  height: $height;
+  align-items: center;
   > *:not(:last-child) {
     margin-right: $gap;
   }

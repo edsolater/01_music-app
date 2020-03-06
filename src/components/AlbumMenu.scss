@@ -59,7 +59,7 @@
     &:hover {
       background-color: rgba(0, 0, 0, 0.04);
     }
-    &.selected {
+    &._selected {
       background-color: rgba(0, 0, 0, 0.1);
       @include colorBlock.float-line($color: var(--secondary), $width: 4px, $direction: left);
     }

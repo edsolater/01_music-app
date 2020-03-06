@@ -75,7 +75,7 @@ export default function Menu(props: IProps) {
             <Slot
               slotName={[
                 '__MenuGroupTitle',
-                { selected: groupName === selectedPath.getFirstPathItem()?.name },
+                { _selected: groupName === selectedPath.getFirstPathItem()?.name },
               ]}
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
@@ -96,7 +96,7 @@ export default function Menu(props: IProps) {
                       '__Item',
                       '__MenuItem',
                       {
-                        selected:
+                        _selected:
                           (selectedPath.getFirstPathItem() as GroupInfo)?.label ===
                             groupInfo.label &&
                           (selectedPath.getLastPathItem() as ItemInfo)?.title === itemInfo.title,

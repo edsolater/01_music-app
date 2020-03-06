@@ -55,11 +55,7 @@ export const appStore: AppStore = {
         { title: '我的电台', icon: 'music-station' },
         { title: '我的收藏', icon: 'collection-folder' },
       ],
-      '我的音乐-复制': [
-        { title: '本地音乐' },
-        { title: '下载管理' },
-        { title: '最近播放' },
-      ],
+      '我的音乐-复制': [{ title: '本地音乐' }, { title: '下载管理' }, { title: '最近播放' }],
       // '我的音乐-复制2': [
       //   { title: '本地音乐' },
       //   { title: '下载管理' },
@@ -106,6 +102,21 @@ export const appStore: AppStore = {
       songName: `ezio Family.mp3`,
       albumUrl: avatar,
       soundtrackUrl: soundtrackUrl,
+    },
+    {
+      songName: `Aimer - STAND-ALONE.mp3`,
+      albumUrl: avatar2,
+      soundtrackUrl: soundtrackUrl2,
+    },
+    {
+      songName: `Aimer - STAND-ALONE.mp3`,
+      albumUrl: avatar2,
+      soundtrackUrl: soundtrackUrl2,
+    },
+    {
+      songName: `Aimer - STAND-ALONE.mp3`,
+      albumUrl: avatar2,
+      soundtrackUrl: soundtrackUrl2,
     },
     {
       songName: `Aimer - STAND-ALONE.mp3`,
