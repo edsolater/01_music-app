@@ -16,10 +16,6 @@ type ViewProp<Tag extends HTMLTag> = {
    */
   className?: ClassValue
   /**
-   * 条件渲染
-   */
-  if?: unknown
-  /**
    * 内联样式
    */
   style?: CSSProperties
@@ -40,7 +36,6 @@ type ViewProp<Tag extends HTMLTag> = {
 
 /**组件代码 */
 function View<Tag extends HTMLTag>(props: ViewProp<Tag>, ref: any) {
-  if (!(props.if ?? true)) return null
   return createElement(
     props.$tag ?? 'div',
     {

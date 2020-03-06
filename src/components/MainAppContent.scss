@@ -66,13 +66,11 @@
   }
   .list-operator {
     @include layout.row;
+    margin: 16px 0;
     .play-all-btn {
       @include layout.row;
       .Icon {
         color: var(--secondary);
-      }
-      .Text {
-        color: gray;
       }
     }
     .select-btn {
@@ -80,15 +78,11 @@
       .Icon {
         color: darkgray;
       }
-      .Text {
-        color: gray;
-      }
     }
     .search-slot {
       @include layout.row($height: 32px);
       padding: 0 8px;
       margin-left: auto;
-      color: gray;
       border: 1.5px solid lightgray;
       border-radius: 100px;
       .input {
@@ -104,13 +98,39 @@
     }
   }
   .List {
-    border: 2px solid lightgray;
-    .__Item._odd {
-      background: gainsboro;
-    }
-    .Item {
-      padding-top: 8px;
-      padding-bottom: 8px;
+    .__Item {
+      padding: 16px;
+      @include layout.row(16px);
+      &._even {
+        background: #eee;
+      }
+      .Icon.heart,
+      .Icon.sq {
+        color: var(--secondary);
+      }
+      .song-name {
+        flex: 2 0 0;
+        min-width: 80px;
+        .song-sub-name {
+          display: inline;
+          opacity: 0.4;
+        }
+      }
+      .album-name {
+        flex: 1 0 0;
+        min-width: 60px;
+      }
+      .author {
+        flex: 1 0 0;
+        min-width: 40px;
+      }
+      .total-seconds {
+        flex: 0.5 0 0;
+        min-width: 40px;
+      }
+      .icon-box {
+        min-width: 20px;
+      }
     }
   }
 }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Menu, Item, Image, Text, Badge, View, Icon } from 'mypack/components'
+import { Menu, Image, Text, Badge, View, Icon } from 'mypack/components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
 
@@ -23,14 +23,14 @@ export default function AlbumMenu() {
           </View>
         )}
         renderMenuItem={itemInfo => (
-          <Item className='menu-item'>
+          <>
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>
               <Badge hidden={!itemInfo.hasSomethingNew}>
                 <Text>{itemInfo.title}</Text>
               </Badge>
             </View>
-          </Item>
+          </>
         )}
       />
       <View className='user-info'>

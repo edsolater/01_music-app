@@ -17,14 +17,25 @@ interface CollectionItemInfo {
  * 一首音乐所必须包含的信息
  */
 interface MusicInfo {
-  /**乐曲名称 */
+  /**歌曲名称 */
   songName: string
+  /**歌曲副标题 */
+  songSubname?: string
   /**专辑封面的URL */
   albumUrl?: PicUrl
   /**音频文件的URL */
   soundtrackUrl?: string
   /**歌曲的总长度 */
-  totalLength?: number
+  totalSeconds?: number
+  /**所属专辑的名称 */
+  albumName?: string
+  /**是否已加入 “我喜欢” */
+  isLiked?: boolean
+  /**这首歌的作者 */
+  author: string
+  /**是否是高清版本的音源 */
+  isSQ?: boolean
+  /**是否有相关MV */
 }
 
 /** 图片url */

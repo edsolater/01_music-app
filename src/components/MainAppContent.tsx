@@ -52,12 +52,27 @@ export default function MainAppContent() {
         data={appData.collectionMusicList}
         keyForListItems={item => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
-        renderListItem={itemInfo => (
-          <Item>
-            <Text>{itemInfo.songName}</Text>
-          </Item>
+        renderListItem={(itemInfo, index) => (
+          <>
+            <Text>{String(index).padStart(2, '0')}</Text>
+            <view className='icon-box'>
+              {itemInfo.isLiked ? (
+                <Icon iconfontName='heart' />
+              ) : (
+                <Icon iconfontName='heart_empty' />
+              )}
+            </view>
+            <Text className='song-name'>
+              {itemInfo.songName}
+              <Text className='song-sub-name'>{itemInfo.songSubname}</Text>
+            </Text>
+            <Text className='author'>{itemInfo.author}</Text>
+            <Text className='album-name'>{itemInfo.albumName}</Text>
+            {/* TODO:需要时间格式化方法 */}
+            <Text className='total-seconds'>{itemInfo.totalSeconds}</Text>
+            <View className='icon-box'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</View>
+          </>
         )}
-        renderBetween={() => <Divider />}
         onSelectItem={itemInfo => {
           appData.playNewMusic(itemInfo)
         }}

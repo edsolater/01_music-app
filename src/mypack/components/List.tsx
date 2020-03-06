@@ -17,8 +17,6 @@ type IProps<T> = {
   onSelectItem?: (item: T, index: number, items: T[]) => unknown
   /**Slot：渲染每一个ListItem */
   renderListItem?: (item: T, index: number, items: T[]) => ReactNode
-  /**Slot：渲染分隔符 */
-  renderBetween?: (item: T, index: number, items: T[]) => ReactNode
 }
 
 /**
@@ -39,7 +37,10 @@ function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
             slotName={[
               '__Item',
               '__ListItem',
-              { _selected: index === selectedIndex.getValue(), _odd: index % 2 === 1 },
+              {
+                _selected: index === selectedIndex.getValue(),
+              },
+              index % 2 === 1 ? '_odd' : '_even',
             ]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
