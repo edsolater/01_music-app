@@ -76,7 +76,6 @@ export default function MainAppContent() {
               <Text>{itemInfo.albumName}</Text>
             </Box>
             <Box className='total-seconds'>
-              {/* TODO:需要时间格式化方法 */}
               <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
             </Box>
             <Box className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Box>
