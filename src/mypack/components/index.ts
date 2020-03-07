@@ -32,7 +32,6 @@ export { default as Icon } from './Icon'
  * 普通组件
  */
 export { default as Button } from './Button'
-export { default as Divider } from './Divider'
 export { default as Slider } from './Slider'
 export { default as Menu } from './Menu'
 export { default as List } from './List'

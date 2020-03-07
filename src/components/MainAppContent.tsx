@@ -3,6 +3,7 @@ import { Image, Icon, Text, ImageBox, Button, List, View, Box } from 'mypack/com
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
+import { formatSeconds } from 'mypack/utils/TimeFormatter'
 
 export default function MainAppContent() {
   const appData = useContext(AppDataContext)
@@ -76,7 +77,7 @@ export default function MainAppContent() {
             </Box>
             <Box className='total-seconds'>
               {/* TODO:需要时间格式化方法 */}
-              <Text>{itemInfo.totalSeconds}</Text>
+              <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
             </Box>
             <Box className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Box>
           </>
