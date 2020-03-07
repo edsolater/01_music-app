@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps } from 'react'
 import { useMasterBoolean } from 'mypack/components/customHooks'
 import './Popover.scss'
-import { Slot, View } from '.'
+import { Slot, View } from '..'
 
 /**
  * TODO:要向Badge学习，做一个子组件而不是父级组件

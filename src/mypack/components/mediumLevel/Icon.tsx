@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Icon.scss'
-import { Image, View } from '.'
+import { Image, View } from '..'
 
 export default function Icon(
   props: ComponentProps<typeof View> & {

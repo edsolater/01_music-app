@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Box.scss'
-import { View } from '.'
+import { View } from '..'
 
 export default function Box(
   props: ComponentProps<typeof View> & {

@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Button.scss'
-import { View } from '.'
+import { View } from '..'
 
 //TODO： 常规操作：定义各种按钮样式
 export default function Button(

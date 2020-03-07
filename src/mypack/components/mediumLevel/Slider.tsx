@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react'
 
 import './Slider.scss'
-import { useMaster } from './customHooks'
-import { View } from '.'
+import { useMaster } from '../customHooks'
+import { View } from '..'
 import { UGuard } from 'mypack/utils/UGuard'
 
 /**

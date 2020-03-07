@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { Image, View } from '.'
+import { Image, View } from '..'
 import './ImageBox.scss'
 
 function ImageBox(

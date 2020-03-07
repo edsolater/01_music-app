@@ -1,7 +1,7 @@
 import React, { useEffect, ReactNode, ComponentProps } from 'react'
 
 import { useMaster } from 'mypack/components/customHooks'
-import { View, Slot, List } from '.'
+import { View, Slot, List } from '..'
 import { Path } from 'mypack/class/StateStringPath'
 
 type ItemInfo = {

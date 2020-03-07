@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps } from 'react'
-import { View, Slot } from '.'
+import { View, Slot } from '..'
 import './List.scss'
-import { useMaster } from './customHooks'
+import { useMaster } from '../customHooks'
 
 /**
  * List组件的的Props
