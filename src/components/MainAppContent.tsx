@@ -38,7 +38,7 @@ export default function MainAppContent() {
           <Text>全部播放</Text>
         </View>
         <View className='col-line' />
-        {/* TODO: icon text 是常见的使用组合，需要提出组件以增强表现力 */}
+        {/* TODO: icon+text 是常见的使用组合，需要提出组件以增强表现力 */}
         <View className='select-btn'>
           <Icon iconfontName='select-panel' />
           <Text>选择</Text>
@@ -55,13 +55,13 @@ export default function MainAppContent() {
         renderListItem={(itemInfo, index) => (
           <>
             <Text>{String(index).padStart(2, '0')}</Text>
-            <view className='icon-box'>
+            <View className='icon-box'>
               {itemInfo.isLiked ? (
                 <Icon iconfontName='heart' />
               ) : (
                 <Icon iconfontName='heart_empty' />
               )}
-            </view>
+            </View>
             <Text className='song-name'>
               {itemInfo.songName}
               <Text className='song-sub-name'>{itemInfo.songSubname}</Text>
@@ -70,7 +70,7 @@ export default function MainAppContent() {
             <Text className='album-name'>{itemInfo.albumName}</Text>
             {/* TODO:需要时间格式化方法 */}
             <Text className='total-seconds'>{itemInfo.totalSeconds}</Text>
-            <View className='icon-box'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</View>
+            <View className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</View>
           </>
         )}
         onSelectItem={itemInfo => {
