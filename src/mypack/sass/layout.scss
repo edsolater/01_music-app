@@ -13,3 +13,9 @@
     margin-bottom: $gap;
   }
 }
+
+@mixin box-gap($gap: 8px) {
+  > *:not(:last-child) {
+    margin-bottom: $gap;
+  }
+}

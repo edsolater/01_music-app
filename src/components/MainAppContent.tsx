@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Item, Image, Icon, Text, ImageBox, Button, List, Divider, View } from 'mypack/components'
+import { Image, Icon, Text, ImageBox, Button, List, View, Box } from 'mypack/components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
@@ -54,23 +54,31 @@ export default function MainAppContent() {
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
           <>
-            <Text>{String(index).padStart(2, '0')}</Text>
-            <View className='icon-box'>
+            <Box className='song-index'>
+              <Text>{String(index).padStart(2, '0')}</Text>
+            </Box>
+            <Box className='icon-box'>
               {itemInfo.isLiked ? (
                 <Icon iconfontName='heart' />
               ) : (
                 <Icon iconfontName='heart_empty' />
               )}
-            </View>
-            <Text className='song-name'>
-              {itemInfo.songName}
-              <Text className='song-sub-name'>{itemInfo.songSubname}</Text>
-            </Text>
-            <Text className='author'>{itemInfo.author}</Text>
-            <Text className='album-name'>{itemInfo.albumName}</Text>
-            {/* TODO:需要时间格式化方法 */}
-            <Text className='total-seconds'>{itemInfo.totalSeconds}</Text>
-            <View className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</View>
+            </Box>
+            <Box className='song-name'>
+              <Text className='main-name'>{itemInfo.songName}</Text>
+              <Text className='sub-name'>{itemInfo.songSubname}</Text>
+            </Box>
+            <Box className='author'>
+              <Text>{itemInfo.author}</Text>
+            </Box>
+            <Box className='album-name'>
+              <Text>{itemInfo.albumName}</Text>
+            </Box>
+            <Box className='total-seconds'>
+              {/* TODO:需要时间格式化方法 */}
+              <Text>{itemInfo.totalSeconds}</Text>
+            </Box>
+            <Box className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Box>
           </>
         )}
         onSelectItem={itemInfo => {
