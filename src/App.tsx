@@ -26,7 +26,7 @@ function App() {
     <View className='AppRoot'>
       <React.StrictMode>
         <AppDataContext.Provider value={store}>
-          <AlbumMenu />
+          <AlbumMenu memu={store.menu} userProfile={store.userProfile} />
           <MainAppContent />
           <AudioPlayer />
         </AppDataContext.Provider>

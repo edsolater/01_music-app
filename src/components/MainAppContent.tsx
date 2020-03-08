@@ -81,7 +81,7 @@ export default function MainAppContent() {
           </>
         )}
         onSelectItem={itemInfo => {
-          store.playNewMusic(itemInfo) //FIXME:因为调用了这个回调，所以要整体渲染？不对吧
+          store.playNewMusic(itemInfo)
         }}
       />
     </View>

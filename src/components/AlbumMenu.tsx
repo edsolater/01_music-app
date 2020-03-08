@@ -1,23 +1,22 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import './AlbumMenu.scss'
-import { AppDataContext } from 'App'
 import { View, Icon, Badge, Text, Avatar } from 'mypack/components/lower'
 import { Menu } from 'mypack/components/higher'
+import { AppStore } from 'appDataType'
 
-export default function AlbumMenu() {
-  //TODO:总是会刷新此组件及其子组件，是不是用context传递数据反而不合适？
-  const appData = useContext(AppDataContext)
+function AlbumMenu(props: { memu: AppStore['menu']; userProfile: AppStore['userProfile'] }) {
   return (
     <View $tag='section' className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
       <Menu
-        data={appData.menu.collections} //TEMP
-        onSelectMenuItem={(itemInfo, event) => {
+        data={props.memu.collections} //TEMP
+        onSelectMenuItem={() => {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)
         }}
+        // 这里传递的匿名函数每次重渲染时都会另有函数地址，导致重渲染时性能优化的障碍。但不遇到障碍前，问题不大。
         renderMenuGroup={groupInfo => (
           <View className='menu-title'>
             <Text headline>{groupInfo.label}</Text>
@@ -36,8 +35,8 @@ export default function AlbumMenu() {
         )}
       />
       <View className='user-info'>
-        <Avatar src={appData.userProfile.avatar} />
-        <Text className='nickname'>{appData.userProfile.nickname}</Text>
+        <Avatar src={props.userProfile.avatar} />
+        <Text className='nickname'>{props.userProfile.nickname}</Text>
         <Badge number={32}>
           <Icon iconfontName='mail' />
         </Badge>
@@ -46,3 +45,4 @@ export default function AlbumMenu() {
     </View>
   )
 }
+export default React.memo(AlbumMenu)
