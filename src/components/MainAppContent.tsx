@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/basicElements'
-import { Box, OverlayedImage, Group } from 'mypack/components/layoutWrapper'
+import { Box, OverlayedImage, Group } from 'mypack/components/wrappers'
 import { List } from 'mypack/components/elementAssembly'
 
 export default function MainAppContent() {
