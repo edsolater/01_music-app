@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { Image } from '..'
+import { Image } from '.'
 import './Avatar.scss'
 
 function Avatar(props: ComponentProps<typeof Image>) {

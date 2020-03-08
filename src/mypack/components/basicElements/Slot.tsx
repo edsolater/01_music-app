@@ -1,5 +1,5 @@
 import React, { ReactNode, ComponentProps } from 'react'
-import { View } from '..'
+import { View } from '.'
 import { ClassValue } from 'classnames/types'
 
 export type SlotPropType = ComponentProps<typeof View> & {

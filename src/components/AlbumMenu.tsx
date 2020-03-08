@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { Menu, Image, Text, Badge, View, Icon } from 'mypack/components'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
+import { View, Icon, Badge, Text, Image } from 'mypack/components/basicElements'
+import { Menu } from 'mypack/components/elementAssembly'
 
 export default function AlbumMenu() {
   const appData = useContext(AppDataContext)

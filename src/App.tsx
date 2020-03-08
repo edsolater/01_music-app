@@ -3,8 +3,8 @@ import * as ReactDOM from 'react-dom'
 import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
-import { View } from 'mypack/components'
 import { appStore, loadDispatcher } from 'appStore'
+import { View } from 'mypack/components/basicElements'
 
 //导入context
 export const AppDataContext = React.createContext(appStore)

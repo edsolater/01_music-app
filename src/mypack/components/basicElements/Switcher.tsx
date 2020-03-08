@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react'
 
 import './Switcher.scss'
-import { View } from '..'
+import { View } from '.'
 
 function Switcher(
   props: ComponentProps<typeof View> & {

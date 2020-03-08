@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { View } from '..'
+import { View } from '.'
 
 type IProps = ComponentProps<typeof View> & {
   /**

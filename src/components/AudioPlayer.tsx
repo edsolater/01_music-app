@@ -1,17 +1,9 @@
 import React, { useEffect, useContext } from 'react'
-import {
-  Button,
-  Image,
-  Slider,
-  Popover,
-  useMaster,
-  useCallbackRef,
-  View,
-  Icon,
-} from 'mypack/components'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { AppDataContext } from 'App'
+import { useMaster, useCallbackRef } from 'mypack/components/customHooks'
+import { View, Button, Image, Icon, Slider, Popover } from 'mypack/components/basicElements'
 
 export default function AudioPlayer() {
   const appData = useContext(AppDataContext)

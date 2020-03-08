@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Text.scss'
-import { View } from '..'
+import { View } from '.'
 
 export default function Text(
   props: ComponentProps<typeof View> & {

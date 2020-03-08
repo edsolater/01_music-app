@@ -1,20 +1,12 @@
 import React, { useContext } from 'react'
-import {
-  Image,
-  Icon,
-  Text,
-  Button,
-  List,
-  View,
-  Box,
-  Avatar,
-  OverlayedImage,
-  Group,
-} from 'mypack/components'
+
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
+import { View, Text, Image, Icon, Avatar, Button } from 'mypack/components/basicElements'
+import { Box, OverlayedImage, Group } from 'mypack/components/layoutWrapper'
+import { List } from 'mypack/components/elementAssembly'
 
 export default function MainAppContent() {
   const appData = useContext(AppDataContext)

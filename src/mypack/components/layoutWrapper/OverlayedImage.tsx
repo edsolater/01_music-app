@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './OverlayedImage.scss'
-import { View } from '..'
+import { View } from '../basicElements'
 
 export default function OverlayedImage(
   props: ComponentProps<typeof View> & {
