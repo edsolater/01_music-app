@@ -9,23 +9,23 @@ import { Box, OverlayedImage, Group } from 'mypack/components/layoutWrapper'
 import { List } from 'mypack/components/elementAssembly'
 
 export default function MainAppContent() {
-  const appData = useContext(AppDataContext)
+  const store = useContext(AppDataContext)
   return (
     <View $tag='section' className='main-app-content'>
       <Text headline>歌单</Text>
       <Box className='collection-info'>
         <OverlayedImage className='thumbnail'>
-          <Image src={appData.collectionInfo.thumbnail} className='bg' />
+          <Image src={store.collectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </OverlayedImage>
-        <Text largeTitle>{appData.collectionInfo.title}</Text>
+        <Text largeTitle>{store.collectionInfo.title}</Text>
         <Box className='creator'>
-          <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='avatar' />
+          <Avatar src={store.collectionInfo.creatorInfo.avatar} className='avatar' />
           <Text subhead className='nickname'>
-            {appData.collectionInfo.creatorInfo.nickName}
+            {store.collectionInfo.creatorInfo.nickName}
           </Text>
           <Text footnote className='create-time'>
-            {appData.collectionInfo.createTime} 创建
+            {store.collectionInfo.createTime} 创建
           </Text>
         </Box>
         <Group className='buttons'>
@@ -55,7 +55,7 @@ export default function MainAppContent() {
         </Box>
       </Group>
       <List
-        data={appData.collectionMusicList}
+        data={store.collectionMusicList}
         keyForListItems={item => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
@@ -88,7 +88,7 @@ export default function MainAppContent() {
           </>
         )}
         onSelectItem={itemInfo => {
-          appData.playNewMusic(itemInfo)
+          store.playNewMusic(itemInfo)
         }}
       />
     </View>
