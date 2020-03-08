@@ -45,8 +45,6 @@ export default function MainAppContent() {
           <Icon iconfontName='play-all' />
           <Text>全部播放</Text>
         </Box>
-        <Box className='col-line' />
-        {/* TODO: icon+text 是常见的使用组合，需要提出组件以增强表现力 */}
         <Box className='select-btn'>
           <Icon iconfontName='select-panel' />
           <Text>选择</Text>
