@@ -5,6 +5,7 @@ import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠�
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import { asyncDo } from 'mypack/utils'
 import { PoolMarket } from 'mypack/class'
+import { DataDispatchers, AppStore } from 'appDataType'
 
 /**
  * 装载触发App更新的dispacher, 由App提供
@@ -148,8 +149,6 @@ export const appStore: AppStore = {
   playNewMusic(newMusic) {
     this.playerBar.currentMusicInfo = newMusic
     _updateRenderTree()
-    console.log('_callbackPoolMarket.getAll(): ', _callbackPoolMarket.getAll())
-    _invokeCallback('playNewMusic', newMusic)
     return this
   },
   loadNewMusicList() {

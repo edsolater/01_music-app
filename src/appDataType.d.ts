@@ -1,3 +1,5 @@
+import { IconfontName } from 'iconfont/namelist'
+
 /**
  * 点击某个菜单项能dispatch的事件介绍
  */
