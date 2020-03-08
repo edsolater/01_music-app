@@ -1,5 +1,16 @@
 import React, { useContext } from 'react'
-import { Image, Icon, Text, Button, List, View, Box } from 'mypack/components'
+import {
+  Image,
+  Icon,
+  Text,
+  Button,
+  List,
+  View,
+  Box,
+  Avatar,
+  OverlayedImage,
+  Group,
+} from 'mypack/components'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
@@ -10,14 +21,14 @@ export default function MainAppContent() {
   return (
     <View $tag='section' className='main-app-content'>
       <Text headline>歌单</Text>
-      <View className='collection-info'>
-        <View className='thumbnail'>
+      <Box className='collection-info'>
+        <OverlayedImage className='thumbnail'>
           <Image src={appData.collectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
-        </View>
+        </OverlayedImage>
         <Text largeTitle>{appData.collectionInfo.title}</Text>
         <Box className='creator'>
-          <Image src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
+          <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
           <Text subhead className='creator-nickname'>
             {appData.collectionInfo.creatorInfo.nickName}
           </Text>
@@ -25,15 +36,15 @@ export default function MainAppContent() {
             {appData.collectionInfo.createTime} 创建
           </Text>
         </Box>
-        <Box className='buttons'>
+        <Group className='buttons'>
           <Button>收藏</Button>
           <Button>评论</Button>
           <Button>分享</Button>
           <Button>下载全部</Button>
           <Button>更多</Button>
-        </Box>
-      </View>
-      <Box className='list-operator'>
+        </Group>
+      </Box>
+      <Group className='list-operator'>
         <Box className='icon-text-box'>
           <Icon className='default-placeholder' />
           <Text>placeholder-text</Text>
@@ -52,7 +63,7 @@ export default function MainAppContent() {
           <Box $tag='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
           <Icon iconfontName='search' />
         </Box>
-      </Box>
+      </Group>
       <List
         data={appData.collectionMusicList}
         keyForListItems={item => item.songName}

@@ -1,17 +1,9 @@
 import React, { ComponentProps } from 'react'
-import { Image, View } from '..'
+import { Image } from '..'
 import './Avatar.scss'
 
-function Avatar(
-  props: ComponentProps<typeof View> & {
-    src?: string
-  },
-) {
-  return (
-    <View {...props} $componentName='Avatar'>
-      <Image src={props.src} />
-    </View>
-  )
+function Avatar(props: ComponentProps<typeof Image>) {
+  return <Image $componentName='Avatar' {...props} />
 }
 
 export default React.memo(Avatar) as typeof Avatar
