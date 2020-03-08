@@ -82,6 +82,7 @@ export default function Menu(props: IProps) {
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
+            {/* TODO:Menu的__Item信息需要能与List的__Item合并 */}
             <List
               data={groupItems}
               keyForListItems='title'
