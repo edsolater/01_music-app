@@ -4,7 +4,7 @@ import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
-import { View, Text, Image, Icon, Avatar, Button } from 'mypack/components/basicElements'
+import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/basicElements'
 import { Box, OverlayedImage, Group } from 'mypack/components/layoutWrapper'
 import { List } from 'mypack/components/elementAssembly'
 
@@ -15,7 +15,7 @@ export default function MainAppContent() {
       <Text headline>歌单</Text>
       <Box className='collection-info'>
         <OverlayedImage className='thumbnail'>
-          <Image src={store.collectionInfo.thumbnail} className='bg' />
+          <Picture src={store.collectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </OverlayedImage>
         <Text largeTitle>{store.collectionInfo.title}</Text>

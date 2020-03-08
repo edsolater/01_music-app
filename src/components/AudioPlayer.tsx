@@ -3,7 +3,15 @@ import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { AppDataContext } from 'App'
 import { useMaster, useCallbackRef } from 'mypack/components/customHooks'
-import { View, Button, Image, Icon, Slider, Popover } from 'mypack/components/basicElements'
+import {
+  View,
+  Button,
+  Image,
+  Icon,
+  Slider,
+  Popover,
+  Picture,
+} from 'mypack/components/basicElements'
 
 export default function AudioPlayer() {
   const appData = useContext(AppDataContext)
@@ -51,7 +59,7 @@ export default function AudioPlayer() {
         ref={audioPlayerHTMLRef}
         src={appData.playerBar.currentMusicInfo?.soundtrackUrl}
       ></audio>
-      <Image className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
+      <Picture className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
