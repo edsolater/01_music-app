@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/basicElements'
-import { Box, OverlayedImage, Group } from 'mypack/components/wrappers'
+import { Box, OverlayedImage, Group, LoopBox } from 'mypack/components/wrappers'
 import { List } from 'mypack/components/elementAssembly'
 
 export default function MainAppContent() {
@@ -59,14 +59,11 @@ export default function MainAppContent() {
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
-            <Box className='indicator-like'>
-              {/* TODO: 要写一个能自动切换内容的容器 */}
-              {itemInfo.isLiked ? (
-                <Icon iconfontName='heart' />
-              ) : (
-                <Icon iconfontName='heart_empty' />
-              )}
-            </Box>
+            {/* TODO: 要写一个能自动切换内容的容器 */}
+            <LoopBox className='indicator-like' initActiveIndex={itemInfo.isLiked ? 0 : 1}>
+              <Icon iconfontName='heart' />
+              <Icon iconfontName='heart_empty' />
+            </LoopBox>
             <Box className='song-name'>
               <Text className='main-name'>{itemInfo.songName}</Text>
               <Text className='sub-name'>{itemInfo.songSubname}</Text>

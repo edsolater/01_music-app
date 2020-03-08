@@ -25,7 +25,7 @@ export default function AudioPlayer() {
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
-  const totalSeconds = masters.totalSeconds.getValue()
+  const totalSeconds = masters.totalSeconds.value
   //#endregion
 
   const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), el => {
@@ -37,10 +37,10 @@ export default function AudioPlayer() {
 
   // 播放器进度条
   useEffect(() => {
-    if (masters.currentSecond.getValue() === 0) {
+    if (masters.currentSecond.value === 0) {
       const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
       return () => globalThis.clearTimeout(timeoutId)
-    } else if (masters.currentSecond.getValue() < totalSeconds) {
+    } else if (masters.currentSecond.value < totalSeconds) {
       const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
       return () => globalThis.clearTimeout(timeoutId)
     } else {
@@ -83,11 +83,11 @@ export default function AudioPlayer() {
       </View>
       <View className='timeline'>
         <View className='songTitle'>{appData.playerBar.currentMusicInfo?.songName}</View>
-        <View className='timestamp'>{`${Time(masters.currentSecond.getValue()).print({
+        <View className='timestamp'>{`${Time(masters.currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
         <Slider
-          value={masters.currentSecond.getValue()}
+          value={masters.currentSecond.value}
           max={totalSeconds}
           onMoveTrigger={incomeCurrentSecond => {
             masters.currentSecond.set(incomeCurrentSecond)
@@ -119,7 +119,7 @@ export default function AudioPlayer() {
         <Popover
           Content={
             <Slider
-              defaultValue={masters.volume.getValue()}
+              defaultValue={masters.volume.value}
               onMoveTriggerDone={(currentPercentage: number) => {
                 appData.setVolumn(currentPercentage)
                 setVolume(currentPercentage)

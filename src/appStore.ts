@@ -121,7 +121,7 @@ export const appStore: AppStore = {
       soundtrackUrl: soundtrackUrl2,
     },
     {
-      songName: `Aimer - STAND-ALONE.mp3`,
+      songName: `Aimer - STAND-ALONE2.mp3`,
       author: 'Aimer',
       albumName: 'STAND-ALONE',
       totalSeconds: 240,
@@ -129,7 +129,7 @@ export const appStore: AppStore = {
       soundtrackUrl: soundtrackUrl2,
     },
     {
-      songName: `Aimer - STAND-ALONE.mp3`,
+      songName: `Aimer - STAND-ALONE3.mp3`,
       author: 'Aimer',
       albumName: 'STAND-ALONE',
       totalSeconds: 240,
@@ -137,7 +137,7 @@ export const appStore: AppStore = {
       soundtrackUrl: soundtrackUrl2,
     },
     {
-      songName: `Aimer - STAND-ALONE.mp3`,
+      songName: `Aimer - STAND-ALONE4.mp3`,
       author: 'Aimer',
       albumName: 'STAND-ALONE',
       totalSeconds: 240,

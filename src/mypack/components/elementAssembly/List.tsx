@@ -39,7 +39,7 @@ function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
               '__Item',
               '__ListItem',
               {
-                _selected: index === selectedIndex.getValue(),
+                _selected: index === selectedIndex.value,
               },
               index % 2 === 1 ? '_odd' : '_even',
             ]}
