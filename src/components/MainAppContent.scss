@@ -21,12 +21,12 @@
     .thumbnail {
       grid-area: thumbnail;
       position: relative;
-      .thumbnail-pic {
+      .bg {
         width: 180px;
         height: 180px;
         filter: brightness(0.65);
       }
-      .thumbnail-icon {
+      .cover-icon {
         position: absolute;
         top: 0;
         right: 0;

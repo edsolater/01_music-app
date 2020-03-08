@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react'
 import {
   Button,
-  ImageBox,
+  Image,
   Slider,
   Popover,
   useMaster,
@@ -54,12 +54,12 @@ export default function AudioPlayer() {
   }
 
   return (
-    <View className='player-bar'>
+    <View $tag='section' className='player-bar'>
       <audio
         ref={audioPlayerHTMLRef}
         src={appData.playerBar.currentMusicInfo?.soundtrackUrl}
       ></audio>
-      <ImageBox className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
+      <Image className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />

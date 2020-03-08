@@ -11,5 +11,11 @@ export default function Button(
     disabled?: boolean
   },
 ) {
-  return <View {...props} $componentName={['Button', { _disabled: props.disabled }]}></View>
+  return (
+    <View
+      $tag='button'
+      $componentName={['Button', { _disabled: props.disabled }]}
+      {...props}
+    ></View>
+  )
 }

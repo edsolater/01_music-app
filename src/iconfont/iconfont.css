@@ -6,6 +6,7 @@
 
 .iconfont {
   font-family: 'iconfont';
+  font-style: unset;
 }
 
 .icon-music_next::before {

@@ -6,7 +6,7 @@ import { AppDataContext } from 'App'
 export default function AlbumMenu() {
   const appData = useContext(AppDataContext)
   return (
-    <View className='album-menu'>
+    <View $tag='section' className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>

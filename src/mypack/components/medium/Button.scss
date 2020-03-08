@@ -1,5 +1,8 @@
 .Button {
   cursor: default;
+  border: 0;
+  background: transparent;
+  font-size: unset;
   &._disabled {
     opacity: 0.5;
   }

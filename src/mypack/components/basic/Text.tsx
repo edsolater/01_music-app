@@ -57,7 +57,6 @@ export default function Text(
 ) {
   return (
     <View
-      {...props}
       $componentName={[
         'Text',
         {
@@ -75,6 +74,8 @@ export default function Text(
           caption3: props.caption3,
         },
       ]}
+      $tag='span'
+      {...props}
     />
   )
 }

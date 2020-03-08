@@ -11,18 +11,27 @@ export default function Icon(
   },
 ) {
   return (
-    <View {...props} $componentName={['Icon', props.iconfontName]}>
+    <>
       {props.iconfontName ? (
-        <View className={['iconfont', `icon-${props.iconfontName}`]} />
+        <View
+          $tag='i'
+          $componentName={[
+            'Icon',
+            props.iconfontName && `${props.iconfontName} iconfont icon-${props.iconfontName}`,
+          ]}
+          {...props}
+        />
       ) : (
         <Image
+          {...props}
           src={props.src}
           html={{
             alt: props.alt,
             srcSet: props.srcSet,
+            ...(props.html as JSX.IntrinsicElements['img']),
           }}
         />
       )}
-    </View>
+    </>
   )
 }
