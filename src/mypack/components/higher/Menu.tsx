@@ -3,7 +3,7 @@ import React, { useEffect, ReactNode, ComponentProps } from 'react'
 import { useMaster } from 'mypack/components/customHooks'
 import { Path } from 'mypack/class/StateStringPath'
 import { IconfontName } from 'iconfont/namelist'
-import { View, Slot } from '../basicElements'
+import { View, Slot } from '../lower'
 import { List } from '.'
 
 type ItemInfo = {

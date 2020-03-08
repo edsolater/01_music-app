@@ -4,9 +4,9 @@ import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { AppDataContext } from 'App'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
-import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/basicElements'
+import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
 import { Box, OverlayedImage, Group, LoopBox } from 'mypack/components/wrappers'
-import { List } from 'mypack/components/elementAssembly'
+import { List } from 'mypack/components/higher'
 
 export default function MainAppContent() {
   const store = useContext(AppDataContext)

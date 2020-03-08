@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
 import './AlbumMenu.scss'
 import { AppDataContext } from 'App'
-import { View, Icon, Badge, Text, Avatar } from 'mypack/components/basicElements'
-import { Menu } from 'mypack/components/elementAssembly'
+import { View, Icon, Badge, Text, Avatar } from 'mypack/components/lower'
+import { Menu } from 'mypack/components/higher'
 
 export default function AlbumMenu() {
   //TODO:总是会刷新此组件及其子组件，是不是用context传递数据反而不合适？

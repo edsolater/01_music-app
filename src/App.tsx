@@ -4,7 +4,7 @@ import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
 import { appStore, loadDispatcher } from 'appStore'
-import { View } from 'mypack/components/basicElements'
+import { View } from 'mypack/components/lower'
 
 //导入context
 export const AppDataContext = React.createContext(appStore)

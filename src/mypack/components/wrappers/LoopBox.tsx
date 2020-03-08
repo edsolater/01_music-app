@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { View } from '../basicElements'
+import { View } from '../lower'
 import { useMaster } from '../customHooks'
 
 /**

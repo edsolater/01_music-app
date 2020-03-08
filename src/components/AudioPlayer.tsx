@@ -3,15 +3,7 @@ import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { AppDataContext } from 'App'
 import { useMaster, useCallbackRef } from 'mypack/components/customHooks'
-import {
-  View,
-  Button,
-  Image,
-  Icon,
-  Slider,
-  Popover,
-  Picture,
-} from 'mypack/components/basicElements'
+import { View, Button, Image, Icon, Slider, Popover, Picture } from 'mypack/components/lower'
 
 export default function AudioPlayer() {
   const appData = useContext(AppDataContext)
