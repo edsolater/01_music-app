@@ -38,7 +38,7 @@ export default function MainAppContent() {
       </Box>
       <Group className='list-operator'>
         <Box className='icon-text-box'>
-          <Icon className='default' />
+          <Icon />
           <Text>untitled</Text>
         </Box>
         <Box className='play-all-btn'>
