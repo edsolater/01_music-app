@@ -20,11 +20,11 @@ export default function MainAppContent() {
         </OverlayedImage>
         <Text largeTitle>{appData.collectionInfo.title}</Text>
         <Box className='creator'>
-          <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='creator-avatar' />
-          <Text subhead className='creator-nickname'>
+          <Avatar src={appData.collectionInfo.creatorInfo.avatar} className='avatar' />
+          <Text subhead className='nickname'>
             {appData.collectionInfo.creatorInfo.nickName}
           </Text>
-          <Text footnote className='creator-create-time'>
+          <Text footnote className='create-time'>
             {appData.collectionInfo.createTime} 创建
           </Text>
         </Box>
@@ -63,7 +63,8 @@ export default function MainAppContent() {
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
-            <Box className='icon-box'>
+            <Box className='indicator-like'>
+              {/* TODO: 要写一个能自动切换内容的容器 */}
               {itemInfo.isLiked ? (
                 <Icon iconfontName='heart' />
               ) : (
@@ -83,7 +84,7 @@ export default function MainAppContent() {
             <Box className='total-seconds'>
               <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
             </Box>
-            <Box className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Box>
+            <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
           </>
         )}
         onSelectItem={itemInfo => {

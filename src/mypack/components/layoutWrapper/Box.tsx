@@ -4,14 +4,12 @@ import { View } from '../basicElements'
 
 export default function Box(
   props: ComponentProps<typeof View> & {
-    /**
-     * 代表盒子样式，默认为row的样式
-     */
-    type?: 'row' | 'col'
+    /**间隙的大小 */
+    gapSize?: 'normal' | 'large' | 'small' | 'none'
   },
 ) {
   return (
-    <View {...props} $componentName={['Box', props.type]}>
+    <View {...props} $componentName={['Box', props.gapSize]}>
       {props.children}
     </View>
   )

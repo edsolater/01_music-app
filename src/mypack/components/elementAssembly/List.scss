@@ -8,4 +8,7 @@
 .List {
   list-style: none;
   padding: unset;
+  .__Item {
+    display: flex;
+  }
 }

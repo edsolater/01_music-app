@@ -1,4 +1,22 @@
 .Box {
   display: flex;
   align-items: center;
+  > *:not(:last-child) {
+    margin-right: 8px;
+  }
+}
+.Box.large {
+  > *:not(:last-child) {
+    margin-right: 24px;
+  }
+}
+.Box.small {
+  > *:not(:last-child) {
+    margin-right: 4px;
+  }
+}
+.Box.none {
+  > *:not(:last-child) {
+    margin-right: unset;
+  }
 }
