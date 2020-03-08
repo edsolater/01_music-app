@@ -24,8 +24,9 @@ export default function Icon(
         />
       ) : (
         <Image
-          {...props}
+          $componentName='Icon'
           src={props.src}
+          {...props}
           html={{
             alt: props.alt,
             srcSet: props.srcSet,

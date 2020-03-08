@@ -1,26 +1,26 @@
 $dot-size: 16px;
 .Badge {
   position: relative;
-}
-.__Dot {
-  position: absolute;
-  top: 0;
-  right: 0;
-  transform: translate(50%, -50%);
-  height: $dot-size;
-  min-width: $dot-size;
-  display: grid;
-  place-content: center;
+  .__Dot {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    height: $dot-size;
+    min-width: $dot-size;
+    display: grid;
+    place-content: center;
 
-  background-color: crimson;
-  color: white;
-  font-size: calc(0.625 * #{$dot-size});
-  border-radius: 100px;
-  &._dot {
-    min-width: calc(0.4 * #{$dot-size});
-    height: calc(0.4 * #{$dot-size});
-  }
-  &._hidden {
-    display: none;
+    background-color: crimson;
+    color: white;
+    font-size: calc(0.625 * #{$dot-size});
+    border-radius: 100px;
+    &._dot {
+      min-width: calc(0.4 * #{$dot-size});
+      height: calc(0.4 * #{$dot-size});
+    }
+    &._hidden {
+      display: none;
+    }
   }
 }
