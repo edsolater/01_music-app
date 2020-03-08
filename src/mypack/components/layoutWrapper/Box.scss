@@ -5,9 +5,9 @@
     margin-right: 8px;
   }
 }
-.Box.large {
+.Box.none {
   > *:not(:last-child) {
-    margin-right: 24px;
+    margin-right: unset;
   }
 }
 .Box.small {
@@ -15,8 +15,34 @@
     margin-right: 4px;
   }
 }
-.Box.none {
+.Box.large {
+  > *:not(:last-child) {
+    margin-right: 24px;
+  }
+}
+
+.Box.col {
+  flex-direction: column;
   > *:not(:last-child) {
     margin-right: unset;
+    margin-bottom: 8px;
+  }
+}
+.Box.col.none {
+  > *:not(:last-child) {
+    margin-right: unset;
+    margin-bottom: unset;
+  }
+}
+.Box.col.small {
+  > *:not(:last-child) {
+    margin-right: unset;
+    margin-bottom: 4px;
+  }
+}
+.Box.col.large {
+  > *:not(:last-child) {
+    margin-right: unset;
+    margin-bottom: 24px;
   }
 }

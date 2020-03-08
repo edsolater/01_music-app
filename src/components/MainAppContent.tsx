@@ -37,10 +37,6 @@ export default function MainAppContent() {
         </Group>
       </Box>
       <Group className='list-operator'>
-        <Box className='icon-text-box'>
-          <Icon />
-          <Text>untitled</Text>
-        </Box>
         <Box className='play-all-btn'>
           <Icon iconfontName='play-all' />
           <Text>全部播放</Text>
