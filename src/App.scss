@@ -5,6 +5,9 @@ body {
 body * {
   box-sizing: border-box;
 }
+body [hidden] {
+  display: none;
+}
 
 /* 业务样式 */
 .AppRoot {

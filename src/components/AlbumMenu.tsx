@@ -27,7 +27,7 @@ export default function AlbumMenu() {
           <>
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>
-              <Badge hidden={!itemInfo.hasSomethingNew}>
+              <Badge transparent={!itemInfo.hasSomethingNew}>
                 <Text>{itemInfo.title}</Text>
               </Badge>
             </View>

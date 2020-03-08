@@ -20,6 +20,10 @@ type ViewProp<Tag extends HTMLTag> = {
    */
   style?: CSSProperties
   /**
+   * html5 标签属性，可以实现v-if的条件渲染
+   */
+  hidden?: unknown
+  /**
    * 基础交互
    */
   onClick?: JSX.IntrinsicElements['div']['onClick']
@@ -43,6 +47,7 @@ function View<Tag extends HTMLTag>(props: ViewProp<Tag>, ref: any) {
       className: classnames(props.$componentName, props.className),
       style: props.style,
       onClick: props.onClick,
+      hidden: Boolean(props.hidden),
       ...props.html,
     },
     props.children,
