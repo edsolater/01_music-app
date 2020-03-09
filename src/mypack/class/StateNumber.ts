@@ -4,53 +4,51 @@ import { UGuard } from 'mypack/utils'
  * 输入初始状态（number），返回一个包含数字的对象
  */
 export default class StateNumber {
-  private _callbacks: {
-    [updateMethod in keyof StateNumber]?: ((...anys: any[]) => any)[]
-  } = {}
-  public value: number
-  private _reactSetState: React.Dispatch<React.SetStateAction<number | undefined>>
+  private callbackPool = { onChange: <Array<(newNumber: number, oldNumber: number) => unknown>>[] }
+  private reactSetState: React.Dispatch<React.SetStateAction<number | undefined>>
+  private _value: number
 
   constructor(
     protected config: {
-      /**
-       * 设定限定范围
-       */
+      /**设定限定范围 */
       range?: [number, number]
-      /**
-       * 初始值
-       */
+      /**初始值 */
       init?: number
     },
-    state: any,
+    /**传来的初始值 */
+    initValue: any,
+    /**触发react更新组件 */
     setState: any,
   ) {
-    this.value = Number(state)
-    this._reactSetState = setState
+    this._value = Number(initValue)
+    this.reactSetState = setState
   }
-  /**
-   * @alias
-   */
-  add(addNumber: number) {
-    this._callbacks.add?.forEach(callback => callback())
-    return this.set(this.value + addNumber)
+  /** 获取储存的值 */
+  get value() {
+    return this._value
   }
-  set(setNumber: number) {
+  /** 其实是set的快捷方式 */
+  add(deltaNumber: number) {
+    return this.set(this._value + deltaNumber)
+  }
+  /** 强行改变存储的值 */
+  set(targetNumber: number) {
+    // 截断，使目标值在最大最小的范围内
     if (this.config?.range) {
-      setNumber = UGuard.number(setNumber, { range: this.config.range })
+      targetNumber = UGuard.number(targetNumber, { range: this.config.range })
     }
     //触发设定值的回调
-    this._callbacks.set?.forEach(callback => callback(setNumber))
+    this.callbackPool.onChange?.forEach(callback => callback(targetNumber, this._value))
     // 更新JavaScript的对象的值
-    this.value = setNumber
+    this._value = targetNumber
     // 通知react以更新UI
-    this._reactSetState(this.value)
+    this.reactSetState(this._value)
     // 链式调用
     return this
   }
-
-  // 注册回调
-  on(eventName: keyof StateNumber, fn: (...anys: any[]) => any) {
-    this._callbacks[eventName]?.push(fn)
+  /** 注册回调 */
+  onChange(fn: (newNumber: number, oldNumber: number) => unknown) {
+    this.callbackPool['onChange'].push(fn)
     return this
   }
 }

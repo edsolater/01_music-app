@@ -3,15 +3,14 @@ import React from 'react'
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
+import { List } from 'mypack/components/higher'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
 import { Box, OverlayedImage, Group, LoopBox } from 'mypack/components/wrappers'
-import { List } from 'mypack/components/higher'
-import { useSelector } from 'react-redux'
-import { RootState } from 'appDataType'
+import { useTypedStoreSelector } from 'store'
 
 export default function MainAppContent() {
-  const currentCollectionInfo = useSelector((state: RootState) => state.collectionInfo)
-  const currentCollectionMusicList = useSelector((state: RootState) => state.collectionMusicList)
+  const currentCollectionInfo = useTypedStoreSelector(state => state.collectionInfo)
+  const currentCollectionMusicList = useTypedStoreSelector(state => state.collectionMusicList)
   return (
     <View $tag='section' className='main-app-content'>
       <Text headline>歌单</Text>

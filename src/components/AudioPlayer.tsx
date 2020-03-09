@@ -1,20 +1,23 @@
 import React, { useEffect } from 'react'
+
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { useMaster, useCallbackRef } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture } from 'mypack/components/lower'
-import { useSelector } from 'react-redux'
-import { RootState } from 'appDataType'
+import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
-  const playerBarData = useSelector((state: RootState) => state.playerBar)
+  const playerBarData = useTypedStoreSelector(state => state.playerBar)
   //#region 维护播放器所含的状态信息
   const masters = {
     currentSecond: useMaster({ type: 'number', init: 0 }),
     totalSeconds: useMaster({ type: 'number' }),
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
-    volume: useMaster({ type: 'number', init: playerBarData.volumn ?? 1 }),
+    volume: useMaster({ type: 'number', init: playerBarData.volumn ?? 1 }).onChange(newValue =>
+      //FIXME: 为什么会调用一大堆
+      console.log('newValue: ', newValue),
+    ),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
