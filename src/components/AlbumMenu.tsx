@@ -1,17 +1,20 @@
 import React from 'react'
+
 import './AlbumMenu.scss'
 import { View, Icon, Badge, Text, Avatar } from 'mypack/components/lower'
 import { Menu } from 'mypack/components/higher'
-import { AppStore } from 'appDataType'
+import { useTypedStoreSelector } from 'store'
 
-function AlbumMenu(props: { memu: AppStore['menu']; userProfile: AppStore['userProfile'] }) {
+export default function AlbumMenu() {
+  const menu = useTypedStoreSelector(state => state.menu)
+  const userProfile = useTypedStoreSelector(state => state.userProfile)
   return (
     <View $tag='section' className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
       <Menu
-        data={props.memu.collections} //TEMP
+        data={menu.collections} //TEMP
         onSelectMenuItem={() => {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)
@@ -35,8 +38,8 @@ function AlbumMenu(props: { memu: AppStore['menu']; userProfile: AppStore['userP
         )}
       />
       <View className='user-info'>
-        <Avatar src={props.userProfile.avatar} />
-        <Text className='nickname'>{props.userProfile.nickname}</Text>
+        <Avatar src={userProfile.avatar} />
+        <Text className='nickname'>{userProfile.nickname}</Text>
         <Badge number={32}>
           <Icon iconfontName='mail' />
         </Badge>
@@ -45,4 +48,3 @@ function AlbumMenu(props: { memu: AppStore['menu']; userProfile: AppStore['userP
     </View>
   )
 }
-export default React.memo(AlbumMenu)

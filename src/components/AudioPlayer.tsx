@@ -1,19 +1,20 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { AppDataContext } from 'App'
 import { useMaster, useCallbackRef } from 'mypack/components/customHooks'
-import { View, Button, Image, Icon, Slider, Popover, Picture } from 'mypack/components/lower'
+import { View, Button, Icon, Slider, Popover, Picture } from 'mypack/components/lower'
+import { useSelector } from 'react-redux'
+import { RootState } from 'appDataType'
 
 export default function AudioPlayer() {
-  const appData = useContext(AppDataContext)
+  const playerBarData = useSelector((state: RootState) => state.playerBar)
   //#region 维护播放器所含的状态信息
   const masters = {
     currentSecond: useMaster({ type: 'number', init: 0 }),
     totalSeconds: useMaster({ type: 'number' }),
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
-    volume: useMaster({ type: 'number', init: appData.playerBar.volumn ?? 1 }),
+    volume: useMaster({ type: 'number', init: playerBarData.volumn ?? 1 }),
   }
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
@@ -24,7 +25,7 @@ export default function AudioPlayer() {
     el.addEventListener('canplaythrough', () => {
       masters.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
     })
-    el.volume = appData.playerBar.volumn ?? 1
+    el.volume = playerBarData.volumn ?? 1
   })
 
   // 播放器进度条
@@ -47,11 +48,8 @@ export default function AudioPlayer() {
 
   return (
     <View $tag='section' className='player-bar'>
-      <audio
-        ref={audioPlayerHTMLRef}
-        src={appData.playerBar.currentMusicInfo?.soundtrackUrl}
-      ></audio>
-      <Picture className='album-face' src={appData.playerBar.currentMusicInfo?.albumUrl} />
+      <audio ref={audioPlayerHTMLRef} src={playerBarData.currentMusicInfo?.soundtrackUrl}></audio>
+      <Picture className='album-face' src={playerBarData.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
@@ -74,7 +72,7 @@ export default function AudioPlayer() {
         </Button>
       </View>
       <View className='timeline'>
-        <View className='songTitle'>{appData.playerBar.currentMusicInfo?.songName}</View>
+        <View className='songTitle'>{playerBarData.currentMusicInfo?.songName}</View>
         <View className='timestamp'>{`${Time(masters.currentSecond.value).print({
           format: 'MM:ss',
         })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
@@ -113,7 +111,7 @@ export default function AudioPlayer() {
             <Slider
               defaultValue={masters.volume.value}
               onMoveTriggerDone={(currentPercentage: number) => {
-                appData.setVolumn(currentPercentage)
+                // FIXME appData.setVolumn(currentPercentage)
                 setVolume(currentPercentage)
               }}
             />

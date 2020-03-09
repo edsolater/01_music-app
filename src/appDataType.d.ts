@@ -45,11 +45,10 @@ type PicUrl = string
 type CallbackFunction = (...anys: any[]) => any
 type Percent = number
 
-type AppStore = DataStore & DataDispatchers & DataCallbackAdder
 /**
  * 承载整个应用的所有数据结构
  */
-interface DataStore {
+export interface RootState {
   /**
    * 用户信息
    */
@@ -101,29 +100,14 @@ interface DataStore {
  */
 interface DataDispatchers {
   /**播放另一首歌曲 */
-  playNewMusic(newMusic: MusicInfo): AppStore
+  playNewMusic(newMusic: MusicInfo): this
   /**载入新播放列表 */
-  loadNewMusicList(newMusicList: MusicInfo[]): AppStore
+  loadNewMusicList(newMusicList: MusicInfo[]): this
   /**切换播放模式 */
-  switchPlayMode(): AppStore
+  switchPlayMode(): this
   /**设定新音量 */
-  setVolumn(newVolumn: number /* 0-1 */): AppStore
+  setVolumn(newVolumn: number /* 0-1 */): this
   /**新增一个音乐集 */
-  createNewMusicCollection(): AppStore
+  createNewMusicCollection(): this
   getAllstore(): Promise<any>
-}
-
-interface DataCallbackAdder {
-  on<Name extends keyof DataDispatchers>(
-    dispatcherName: Name,
-    callbackFunction: (store: AppStore, ...params: Parameters<DataDispatchers[Name]>) => any,
-  ): AppStore
-  off<Name extends keyof DataDispatchers>(
-    dispatcherName: Name,
-    callbackFunction: (store: AppStore, ...params: Parameters<DataDispatchers[Name]>) => any,
-  ): AppStore
-}
-
-type DataCallbackPool = {
-  [T in keyof DataDispatchers]?: CallbackFunction[]
 }

@@ -1,39 +1,18 @@
+import { createStore, Store } from 'redux'
+
 import myAvatar from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
 import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
 import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
-import { asyncDo } from 'mypack/utils'
-import { PoolMarket } from 'mypack/class'
-import { DataDispatchers, AppStore } from 'appDataType'
-
-/**
- * 装载触发App更新的dispacher, 由App提供
- */
-let _storeDispatcher
-function _updateRenderTree() {
-  _storeDispatcher?.({ ...appStore })
-}
-
-/**
- * 提供给App的装载用函数
- */
-export function loadDispatcher(storeDispatcher) {
-  _storeDispatcher = storeDispatcher
-}
-
-/**
- * 回调函数的池及其控制用函数
- */
-const _callbackPoolMarket = new PoolMarket()
-function _invokeCallback(name: keyof DataDispatchers, ...params) {
-  _callbackPoolMarket.getPool(name)?.forEach(callback => callback(appStore, ...params))
-}
+import { RootState } from 'appDataType'
+import { bigReducer } from 'reducer'
+import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
 /**
  * 整个Store
  */
-export const appStore: AppStore = {
+const initStore: RootState = {
   userProfile: {
     avatar: myAvatar,
     nickname: 'edsolater',
@@ -146,43 +125,6 @@ export const appStore: AppStore = {
       soundtrackUrl: soundtrackUrl2,
     },
   ],
-  playNewMusic(newMusic) {
-    this.playerBar.currentMusicInfo = newMusic
-    _updateRenderTree()
-    return this
-  },
-  loadNewMusicList() {
-    return this
-  },
-  switchPlayMode() {
-    return this
-  },
-  setVolumn(newVolumn) {
-    //IDEA： 要一个 middleware 系统
-    asyncDo(() => {
-      this.playerBar.volumn = newVolumn
-    })
-      .then(() => {
-        _updateRenderTree()
-      })
-      .then(() => {
-        _invokeCallback('setVolumn', newVolumn)
-      })
-    return this
-  },
-  createNewMusicCollection() {
-    return this
-  },
-  async getAllstore() {
-    //TODO 这里逻辑没写全
-    return JSON.parse(JSON.stringify(this))
-  },
-  on(dispatchName, callback) {
-    _callbackPoolMarket.add(dispatchName, callback)
-    return this
-  },
-  off(dispatchName, callback) {
-    _callbackPoolMarket.remove(dispatchName, callback)
-    return this
-  },
 }
+export const store = createStore(bigReducer, initStore)
+export const useTypedStoreSelector: TypedUseSelectorHook<RootState> = useSelector

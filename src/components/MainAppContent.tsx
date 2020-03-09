@@ -1,31 +1,33 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
-import { AppDataContext } from 'App'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
 import { Box, OverlayedImage, Group, LoopBox } from 'mypack/components/wrappers'
 import { List } from 'mypack/components/higher'
+import { useSelector } from 'react-redux'
+import { RootState } from 'appDataType'
 
 export default function MainAppContent() {
-  const store = useContext(AppDataContext)
+  const currentCollectionInfo = useSelector((state: RootState) => state.collectionInfo)
+  const currentCollectionMusicList = useSelector((state: RootState) => state.collectionMusicList)
   return (
     <View $tag='section' className='main-app-content'>
       <Text headline>歌单</Text>
       <Box className='collection-info'>
         <OverlayedImage className='thumbnail'>
-          <Picture src={store.collectionInfo.thumbnail} className='bg' />
+          <Picture src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </OverlayedImage>
-        <Text largeTitle>{store.collectionInfo.title}</Text>
+        <Text largeTitle>{currentCollectionInfo.title}</Text>
         <Box className='creator'>
-          <Avatar src={store.collectionInfo.creatorInfo.avatar} className='avatar' />
+          <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />
           <Text subhead className='nickname'>
-            {store.collectionInfo.creatorInfo.nickName}
+            {currentCollectionInfo.creatorInfo.nickName}
           </Text>
           <Text footnote className='create-time'>
-            {store.collectionInfo.createTime} 创建
+            {currentCollectionInfo.createTime} 创建
           </Text>
         </Box>
         <Group className='buttons'>
@@ -51,7 +53,7 @@ export default function MainAppContent() {
         </Box>
       </Group>
       <List
-        data={store.collectionMusicList}
+        data={currentCollectionMusicList}
         keyForListItems={item => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
@@ -80,8 +82,8 @@ export default function MainAppContent() {
             <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
           </>
         )}
-        onSelectItem={itemInfo => {
-          store.playNewMusic(itemInfo)
+        onSelectItem={() => {
+          // TODO:store.playNewMusic(itemInfo)
         }}
       />
     </View>
