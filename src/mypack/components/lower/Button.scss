@@ -6,4 +6,8 @@
   &._disabled {
     opacity: 0.5;
   }
+  &::-moz-focus-inner {
+    //为了去除firefox的边框问题
+    border: none;
+  }
 }
