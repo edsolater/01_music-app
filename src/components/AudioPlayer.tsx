@@ -15,7 +15,7 @@ export default function AudioPlayer() {
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
     volume: useMaster({ type: 'number', init: playerBarData.volumn ?? 1 }).onChange(newValue =>
-      //FIXME: 为什么会调用一大堆
+      //FIXME: 为什么会调用一大堆？useMaster语义不够清晰，有过度设计的影子，干脆重新立一个吧
       console.log('newValue: ', newValue),
     ),
   }
