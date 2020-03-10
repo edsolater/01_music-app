@@ -41,7 +41,7 @@ function Slider(
   })
   const inDraggingTrigger = useMaster({ type: 'boolean' })
   // TODO
-  console.log('组件刷新，但实际不应该让react处理刷新')
+  console.log('组件刷新，但实际不应该让react处理刷新，而应该想办法让浏览器处理样式刷新的，不然会卡')
   const styleLeft = props.value
     ? `${(inDraggingTrigger.getValue() ? triggerLeft.value : (props.value ?? 0) / maxValue) * 100}%`
     : `${triggerLeft.value * 100}%`
