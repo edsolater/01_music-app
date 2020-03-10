@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { useMaster, useCallbackRef } from 'mypack/components/customHooks'
+import { useMaster, useCallbackRef, useNumberManager } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
 
@@ -14,11 +14,13 @@ export default function AudioPlayer() {
     totalSeconds: useMaster({ type: 'number' }),
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
-    volume: useMaster({ type: 'number', init: playerBarData.volumn ?? 1 }).onChange(newValue =>
-      //FIXME: 为什么会调用一大堆？useMaster语义不够清晰，有过度设计的影子，干脆重新立一个吧
-      console.log('newValue: ', newValue),
-    ),
   }
+  const [volumeNumber, volumeManager] = useNumberManager(
+    playerBarData.volumn ?? 1,
+    newVolumeNumber => {
+      // console.log('newVolumeNumber: ', newVolumeNumber)
+    },
+  )
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
   const totalSeconds = masters.totalSeconds.value
@@ -44,9 +46,9 @@ export default function AudioPlayer() {
     }
   })
 
-  const setVolume = (newVolume: number) => {
+  const setVolumeByUI = (newVolume: number) => {
     audioPlayerHTML.volume = newVolume
-    masters.volume.set(newVolume)
+    volumeManager.set(newVolume)
   }
 
   return (
@@ -112,10 +114,10 @@ export default function AudioPlayer() {
         <Popover
           Content={
             <Slider
-              defaultValue={masters.volume.value}
+              defaultValue={volumeNumber}
               onMoveTriggerDone={(currentPercentage: number) => {
                 // FIXME appData.setVolumn(currentPercentage)
-                setVolume(currentPercentage)
+                setVolumeByUI(currentPercentage)
               }}
             />
           }

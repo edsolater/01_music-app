@@ -67,6 +67,7 @@ function Slider(
       onClick={e => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
+        console.log('onClick 已触发')
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
       }}
       html={{
@@ -96,9 +97,11 @@ function Slider(
              * 清理 document 上述事件
              */
             const handlerDone = (e: PointerEvent) => {
+              //TODO: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
               trigger.style.transition = ''
               passedTrack.style.transition = ''
               inDraggingTrigger.turnOff()
+              console.log('Done 已触发')
               moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
               document.removeEventListener('pointermove', moveHandler)
               document.removeEventListener('pointerup', handlerDone)
