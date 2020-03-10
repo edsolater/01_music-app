@@ -40,6 +40,8 @@ function Slider(
     init: (props.value || props.defaultValue || 0) / maxValue || 0,
   })
   const inDraggingTrigger = useMaster({ type: 'boolean' })
+  // TODO
+  console.log('组件刷新，但实际不应该让react处理刷新')
   const styleLeft = props.value
     ? `${(inDraggingTrigger.getValue() ? triggerLeft.value : (props.value ?? 0) / maxValue) * 100}%`
     : `${triggerLeft.value * 100}%`
