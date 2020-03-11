@@ -24,7 +24,8 @@ export default function useNumberManager(
         const newValue = typeof newNumber === 'function' ? newNumber(oldNumber) : newNumber
         // 使用 onChange 回调
         onChangeCallback?.(newValue, oldNumber)
-        console.log('触发了2次') //FIXME：onClick引起了界面的二次渲染，所以react触发了它两次，但第二次渲染时参数相同实际上没有必要
+        console.log('触发了2次') //FIXME：onClick引起了界面的二次渲染（其实并没有），所以react触发了它两次，但第二次渲染时参数相同实际上没有必要
+        // 也就是说，因为一些原因，react内部处理了两次_setNumber
         return newValue
       })
     },
