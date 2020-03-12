@@ -19,15 +19,9 @@ export default function useNumberManager(
 
     /**自定义本react钩子函数的dispatche */
     set: (newNumber: number | ((oldValue: number) => number)) => {
-      console.log('触发了1次')
-      _setNumber((oldNumber: number) => {
-        const newValue = typeof newNumber === 'function' ? newNumber(oldNumber) : newNumber
-        // 使用 onChange 回调
-        onChangeCallback?.(newValue, oldNumber)
-        console.log('触发了2次') //FIXME：onClick引起了界面的二次渲染（其实并没有），所以react触发了它两次，但第二次渲染时参数相同实际上没有必要
-        // 也就是说，因为一些原因，react内部处理了两次_setNumber
-        return newValue
-      })
+      const newValue = typeof newNumber === 'function' ? newNumber(_numberState) : newNumber
+      onChangeCallback?.(newValue, _numberState)
+      _setNumber(newValue)
     },
   }
   //返回特化过的（强化版）useState
