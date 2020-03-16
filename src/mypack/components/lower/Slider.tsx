@@ -25,6 +25,7 @@ function Slider(
      */
     value?: number
     /**
+     * !容易引起性能问题！
      * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
      */
     onMoveTrigger?: (currentSecond: number) => unknown
@@ -34,7 +35,6 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  const inDraggingTrigger = useMaster({ type: 'boolean' })
   // TODO
   console.log(
     '组件刷新，但实际不应该让react处理刷新，应该交给浏览器处理，而应该想办法让浏览器处理样式刷新的，不然会卡',
@@ -46,7 +46,6 @@ function Slider(
   const setTriggerLeft = (percentage: number = Number(props.defaultValue ?? 1)) => {
     if (refTrigger.current) {
       refTrigger.current.style.left = `${percentage * 100}%`
-      props.onMoveTrigger?.(percentage * (props.max ?? 1))
     }
   }
 
@@ -94,12 +93,12 @@ function Slider(
              * document 绑定拖拽事件
              */
             const handleMove = (e: PointerEvent) => {
-              inDraggingTrigger.turnOn()
               const percentage = UGuard.number((e.clientX - sliderClientLeft) / sliderWidth, {
                 range: [0, 1],
               })
               setTriggerLeft(percentage)
               setTrackPassWidth(percentage)
+              props.onMoveTrigger?.(percentage * (props.max ?? 1))
             }
             /**
              * 清理 document 上述事件
@@ -108,8 +107,6 @@ function Slider(
               //TODO: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
               trigger.style.transition = ''
               passedTrack.style.transition = ''
-              inDraggingTrigger.turnOff()
-              console.log('Done 已触发')
               moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
               document.removeEventListener('pointermove', handleMove)
               document.removeEventListener('pointerup', handleDone)

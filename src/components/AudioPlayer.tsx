@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { useMaster, useCallbackRef, useNumberManager } from 'mypack/components/customHooks'
-import { View, Button, Icon, Slider, Popover, Picture } from 'mypack/components/lower'
+import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
@@ -50,7 +50,7 @@ export default function AudioPlayer() {
     audioPlayerHTML.volume = newVolume
     volumeManager.set(newVolume)
   }
-
+  const currentSecondRef = useRef<HTMLSpanElement>()
   return (
     <View $tag='section' className='player-bar'>
       <audio ref={audioPlayerHTMLRef} src={playerBarData.currentMusicInfo?.soundtrackUrl}></audio>
@@ -76,16 +76,21 @@ export default function AudioPlayer() {
           <Icon iconfontName='music_next' />
         </Button>
       </View>
-      <View className='timeline'>
+      <View className='timeSlider'>
         <View className='songTitle'>{playerBarData.currentMusicInfo?.songName}</View>
-        <View className='timestamp'>{`${Time(masters.currentSecond.value).format('MM:ss')} / ${Time(
-          totalSeconds,
-        ).format('MM:ss')}`}</View>
+        <View className='timestamp'>
+          <Text ref={currentSecondRef}>{Time(masters.currentSecond.value).format('MM:ss')}</Text>
+          <Text className='divider'> / </Text>
+          <Text>{Time(totalSeconds).format('MM:ss')}</Text>
+        </View>
         <Slider
           value={masters.currentSecond.value}
           max={totalSeconds}
           onMoveTrigger={incomeCurrentSecond => {
-            masters.currentSecond.set(incomeCurrentSecond)
+            // masters.currentSecond.set(incomeCurrentSecond)
+            if (currentSecondRef.current) {
+              currentSecondRef.current.textContent = Time(incomeCurrentSecond).format('MM:ss')
+            }
           }}
           onMoveTriggerDone={incomeCurrentSecond => {
             masters.currentSecond.set(incomeCurrentSecond)

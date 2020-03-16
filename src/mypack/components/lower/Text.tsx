@@ -1,8 +1,8 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, forwardRef } from 'react'
 import './Text.scss'
 import { View } from '.'
 
-export default function Text(
+function Text(
   props: ComponentProps<typeof View> & {
     /**
      * 大标题
@@ -54,9 +54,11 @@ export default function Text(
      */
     caption3?: boolean
   },
+  ref,
 ) {
   return (
     <View
+      $tag='span'
       $componentName={[
         'Text',
         {
@@ -74,8 +76,9 @@ export default function Text(
           caption3: props.caption3,
         },
       ]}
-      $tag='span'
       {...props}
+      ref={ref}
     />
   )
 }
+export default forwardRef(Text)

@@ -2,7 +2,7 @@ import React, { CSSProperties, ReactNode, createElement } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 type HTMLTag = keyof React.ReactHTML
-type ViewProp<Tag extends HTMLTag> = {
+type IProp = {
   /**
    * 专为了创建组件使用的属性
    */
@@ -10,7 +10,7 @@ type ViewProp<Tag extends HTMLTag> = {
   /**
    * html使用的标签明
    */
-  $tag?: Tag
+  $tag?: HTMLTag
   /**
    * 连接 css
    */
@@ -26,20 +26,16 @@ type ViewProp<Tag extends HTMLTag> = {
   /**
    * 基础交互
    */
-  onClick?: JSX.IntrinsicElements['div']['onClick']
+  onClick?: JSX.IntrinsicElements[HTMLTag]['onClick']
   children?: ReactNode
-  /**
-   * 在类型系统上暂且把ref当作一个props进行智能推断，实际上ref是要forwardRef的
-   */
-  ref?: any
   /**
    * 原生html属性
    */
-  html?: JSX.IntrinsicElements[Tag]
+  html?: JSX.IntrinsicElements[HTMLTag]
 }
 
 /**组件代码 */
-function View<Tag extends HTMLTag>(props: ViewProp<Tag>, ref: any) {
+function View(props: IProp, ref: any) {
   return createElement(
     props.$tag ?? 'div',
     {
@@ -53,6 +49,4 @@ function View<Tag extends HTMLTag>(props: ViewProp<Tag>, ref: any) {
     props.children,
   )
 }
-export default React.forwardRef(View) as <Tag extends HTMLTag>(
-  props: ViewProp<Tag>,
-) => JSX.Element | null // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
+export default React.forwardRef(View) // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了
