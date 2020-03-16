@@ -78,9 +78,9 @@ export default function AudioPlayer() {
       </View>
       <View className='timeline'>
         <View className='songTitle'>{playerBarData.currentMusicInfo?.songName}</View>
-        <View className='timestamp'>{`${Time(masters.currentSecond.value).print({
-          format: 'MM:ss',
-        })} / ${Time(totalSeconds).print({ format: 'MM:ss' })}`}</View>
+        <View className='timestamp'>{`${Time(masters.currentSecond.value).format('MM:ss')} / ${Time(
+          totalSeconds,
+        ).format('MM:ss')}`}</View>
         <Slider
           value={masters.currentSecond.value}
           max={totalSeconds}

@@ -2,15 +2,15 @@
 //！！！！欠测试！！！！
 class _Time {
   constructor(public inputSeconds: number) {}
-  print(config: { format?: 'MM:ss' } = {}) {
-    if (config.format === 'MM:ss') {
+  format(format = 'MM:ss') {
+    if (format === 'MM:ss') {
       const minutes = `${Number.isNaN(this.minutesInClock) ? '--' : this.minutesInClock}`.padStart(
         2,
-        '0'
+        '0',
       )
       const seconds = `${Number.isNaN(this.secondsInClock) ? '--' : this.secondsInClock}`.padStart(
         2,
-        '0'
+        '0',
       )
       return `${minutes}:${seconds}`
     }
