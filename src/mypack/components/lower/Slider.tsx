@@ -35,10 +35,6 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  // TODO
-  console.log(
-    '组件刷新，但实际不应该让react处理刷新，应该交给浏览器处理，而应该想办法让浏览器处理样式刷新的，不然会卡',
-  )
   // FIXME
   console.log('而且初始化时要刷新四次')
 
