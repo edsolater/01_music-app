@@ -1,7 +1,7 @@
 import React, { ComponentProps, useRef, useEffect } from 'react'
 
 import './Slider.scss'
-import { useMaster } from '../customHooks'
+import { useMaster, useDomStyle } from '../customHooks'
 import { View } from '.'
 import { UGuard } from 'mypack/utils/UGuard'
 
@@ -41,19 +41,19 @@ function Slider(
   )
   // FIXME
   console.log('而且初始化时要刷新四次')
-  //TODO: 总是这个模式的调用，需要封装一个hooks
-  const refTrigger = useRef<HTMLDivElement>()
-  const setTriggerLeft = (percentage: number = Number(props.defaultValue ?? 1)) => {
-    if (refTrigger.current) {
-      refTrigger.current.style.left = `${percentage * 100}%`
-    }
+
+  const [triggerRef, triggerStyleDispatcher] = useDomStyle()
+  const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
+    triggerStyleDispatcher(style => {
+      style.left = `${percentage * 100}%`
+    })
   }
 
-  const refTrackPass = useRef<HTMLDivElement>()
-  const setTrackPassWidth = (percentage: number = Number(props.defaultValue ?? 1)) => {
-    if (refTrackPass.current) {
-      refTrackPass.current.style.width = `${percentage * 100}%`
-    }
+  const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle()
+  const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
+    tailTrackStyleDispatcher(style => {
+      style.width = `${percentage * 100}%`
+    })
   }
   useEffect(() => {
     setTrackPassWidth(props.defaultValue ?? props.value)
@@ -80,7 +80,7 @@ function Slider(
     >
       <View
         className='Trigger'
-        ref={refTrigger}
+        ref={triggerRef}
         html={{
           onPointerDown: e => {
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
@@ -117,7 +117,7 @@ function Slider(
         }}
       />
       <View className='Track'>
-        <View ref={refTrackPass} className='PassedTrack' />
+        <View ref={tailTrackRef} className='PassedTrack' />
       </View>
     </View>
   )
