@@ -1,4 +1,4 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, useRef, useEffect } from 'react'
 
 import './Slider.scss'
 import { useMaster } from '../customHooks'
@@ -27,18 +27,13 @@ function Slider(
     /**
      * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
      */
-    onMoveTrigger?: (currentSecond: number) => any
+    onMoveTrigger?: (currentSecond: number) => unknown
     /**
      * 只在最后触发一次
      */
-    onMoveTriggerDone?: (currentSecond: number) => any
+    onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  const maxValue = props.max ?? 1
-  const triggerLeft = useMaster({
-    type: 'number',
-    init: (props.value || props.defaultValue || 0) / maxValue || 0,
-  })
   const inDraggingTrigger = useMaster({ type: 'boolean' })
   // TODO
   console.log(
@@ -46,25 +41,33 @@ function Slider(
   )
   // FIXME
   console.log('而且初始化时要刷新四次')
-  const styleLeft = props.value
-    ? `${(inDraggingTrigger.getValue() ? triggerLeft.value : (props.value ?? 0) / maxValue) * 100}%`
-    : `${triggerLeft.value * 100}%`
-  const setLeft = (percentage: number) => {
-    triggerLeft.set(percentage)
+  //TODO: 总是这个模式的调用，需要封装一个hooks
+  const refTrigger = useRef<HTMLDivElement>()
+  const setTriggerLeft = (percentage: number = Number(props.defaultValue ?? 1)) => {
+    if (refTrigger.current) {
+      refTrigger.current.style.left = `${percentage * 100}%`
+      props.onMoveTrigger?.(percentage * (props.max ?? 1))
+    }
   }
+
+  const refTrackPass = useRef<HTMLDivElement>()
+  const setTrackPassWidth = (percentage: number = Number(props.defaultValue ?? 1)) => {
+    if (refTrackPass.current) {
+      refTrackPass.current.style.width = `${percentage * 100}%`
+    }
+  }
+  useEffect(() => {
+    setTrackPassWidth(props.defaultValue ?? props.value)
+    setTriggerLeft(props.defaultValue ?? props.value)
+  }, [])
 
   /**
    * 移动 Trigger
    */
-  const moveTrigger = (percentage: number) => {
-    const validPercentage = UGuard.number(percentage, { range: [0, 1] })
-    setLeft(validPercentage)
-    props.onMoveTrigger?.(validPercentage * maxValue)
-  }
   const moveTriggerDone = (percentage: number) => {
-    const validPercentage = UGuard.number(percentage, { range: [0, 1] })
-    setLeft(validPercentage)
-    props.onMoveTriggerDone?.(validPercentage * maxValue)
+    setTriggerLeft(percentage)
+    setTrackPassWidth(percentage)
+    props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
   }
   return (
     <View
@@ -73,17 +76,12 @@ function Slider(
       onClick={e => {
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
-        console.log('onClick 已触发')
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
-      }}
-      html={{
-        onWheel: e => {
-          moveTriggerDone(triggerLeft.value + Math.sign(e.deltaY) * 0.1)
-        },
       }}
     >
       <View
         className='Trigger'
+        ref={refTrigger}
         html={{
           onPointerDown: e => {
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
@@ -95,38 +93,34 @@ function Slider(
             /**
              * document 绑定拖拽事件
              */
-            const moveHandler = (e: PointerEvent) => {
+            const handleMove = (e: PointerEvent) => {
               inDraggingTrigger.turnOn()
-              moveTrigger((e.clientX - sliderClientLeft) / sliderWidth)
+              const percentage = UGuard.number((e.clientX - sliderClientLeft) / sliderWidth, {
+                range: [0, 1],
+              })
+              setTriggerLeft(percentage)
+              setTrackPassWidth(percentage)
             }
             /**
              * 清理 document 上述事件
              */
-            const handlerDone = (e: PointerEvent) => {
+            const handleDone = (e: PointerEvent) => {
               //TODO: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
               trigger.style.transition = ''
               passedTrack.style.transition = ''
               inDraggingTrigger.turnOff()
               console.log('Done 已触发')
               moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
-              document.removeEventListener('pointermove', moveHandler)
-              document.removeEventListener('pointerup', handlerDone)
+              document.removeEventListener('pointermove', handleMove)
+              document.removeEventListener('pointerup', handleDone)
             }
-            document.addEventListener('pointermove', moveHandler)
-            document.addEventListener('pointerup', handlerDone)
+            document.addEventListener('pointermove', handleMove)
+            document.addEventListener('pointerup', handleDone)
           },
-        }}
-        style={{
-          left: styleLeft,
         }}
       />
       <View className='Track'>
-        <View
-          className='PassedTrack'
-          style={{
-            width: styleLeft,
-          }}
-        />
+        <View ref={refTrackPass} className='PassedTrack' />
       </View>
     </View>
   )
