@@ -7,31 +7,20 @@ import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/compo
 import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
+  //FIXME
+  console.log('因为这个发生了4次初始化')
   const playerBarData = useTypedStoreSelector(state => state.playerBar)
+  console.log('hello')
   //#region 维护播放器所含的状态信息
   const masters = {
     currentSecond: useMaster({ type: 'number', init: 0 }),
-    totalSeconds: useMaster({ type: 'number' }),
     AudioPlaying: useMaster({ type: 'boolean' }),
     inLoopMode: useMaster({ type: 'boolean' }),
   }
-  const [volumeNumber, volumeManager] = useNumberManager(
-    playerBarData.volumn ?? 1,
-    newVolumeNumber => {
-      // console.log('newVolumeNumber: ', newVolumeNumber)
-    },
-  )
   // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
   const isPlaying = masters.AudioPlaying.isOn
-  const totalSeconds = masters.totalSeconds.value
+  const totalSeconds = Number(playerBarData.currentMusicInfo?.totalSeconds)
   //#endregion
-
-  const [audioPlayerHTML, audioPlayerHTMLRef] = useCallbackRef(new Audio(), el => {
-    el.addEventListener('canplaythrough', () => {
-      masters.totalSeconds.set(Math.round(el.duration /* 不一定是整数 */))
-    })
-    el.volume = playerBarData.volumn ?? 1
-  })
 
   // 播放器进度条
   useEffect(() => {
@@ -45,15 +34,22 @@ export default function AudioPlayer() {
       // end
     }
   })
+  const audioRef = useRef<HTMLAudioElement>()
+  //TODO: 异想天开：需要一个专门处理DOM节点的钩子
+  //搭载一个Audio节点
+  useEffect(() => {
+    const audioElement = new Audio()
+    audioElement.volume = playerBarData.volumn ?? 1
+    audioElement.src = String(playerBarData.currentMusicInfo?.soundtrackUrl)
+    audioRef.current = audioElement
+  }, [])
 
   const setVolumeByUI = (newVolume: number) => {
-    audioPlayerHTML.volume = newVolume
-    volumeManager.set(newVolume)
+    if (audioRef.current) audioRef.current.volume = newVolume
   }
   const currentSecondRef = useRef<HTMLSpanElement>()
   return (
     <View $tag='section' className='player-bar'>
-      <audio ref={audioPlayerHTMLRef} src={playerBarData.currentMusicInfo?.soundtrackUrl}></audio>
       <Picture className='album-face' src={playerBarData.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
@@ -62,10 +58,11 @@ export default function AudioPlayer() {
         <Button
           className={isPlaying ? 'paused' : 'playing'}
           onClick={() => {
-            if (audioPlayerHTML && isPlaying) {
-              audioPlayerHTML.pause()
-            } else if (audioPlayerHTML && !isPlaying) {
-              audioPlayerHTML.play()
+            //FIXME: 这种冗余的存在影响可读性，要去掉
+            if (audioRef.current && isPlaying) {
+              audioRef.current.pause()
+            } else if (audioRef.current && !isPlaying) {
+              audioRef.current.play()
             }
             masters.AudioPlaying.toggle()
           }}
@@ -94,7 +91,9 @@ export default function AudioPlayer() {
           }}
           onMoveTriggerDone={incomeCurrentSecond => {
             masters.currentSecond.set(incomeCurrentSecond)
-            audioPlayerHTML.currentTime = incomeCurrentSecond
+            if (audioRef.current) {
+              audioRef.current.currentTime = incomeCurrentSecond
+            }
           }}
         />
       </View>
@@ -107,16 +106,17 @@ export default function AudioPlayer() {
           className={['play-mode', { on: masters.inLoopMode.isOn, off: masters.inLoopMode.isOff }]}
           onClick={() => {
             masters.inLoopMode.toggle()
-            if (masters.inLoopMode) {
-              audioPlayerHTML.loop = false
-            } else {
-              audioPlayerHTML.loop = true
+            if (audioRef.current && masters.inLoopMode) {
+              audioRef.current.loop = false
+            } else if (audioRef.current) {
+              audioRef.current.loop = true
             }
           }}
         >
           <Icon iconfontName='infinit-mode' />
         </Button>
-        <Popover
+        {/* TEMP: 暂时隐去，方便Debug */}
+        {/* <Popover
           Content={
             <Slider
               defaultValue={volumeNumber}
@@ -130,7 +130,7 @@ export default function AudioPlayer() {
           <Button className='volume'>
             <Icon iconfontName='volumn_empty' />
           </Button>
-        </Popover>
+        </Popover> */}
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
           <Icon iconfontName='music-list' />
         </Button>
