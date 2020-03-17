@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { useMaster, useCallbackRef, useNumberManager } from 'mypack/components/customHooks'
+import { useMaster, useElement } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
 
@@ -31,18 +31,13 @@ export default function AudioPlayer() {
       // end
     }
   })
-  const audioRef = useRef<HTMLAudioElement>()
-  //TODO: 异想天开：需要一个专门处理DOM节点的钩子
-  //搭载一个Audio节点
-  useEffect(() => {
-    const audioElement = new Audio()
-    audioElement.volume = playerBarData.volumn
-    audioElement.src = String(playerBarData.currentMusicInfo?.soundtrackUrl)
-    audioRef.current = audioElement
-  }, [])
 
+  const audioElement = useElement('audio', el => {
+    el.volume = playerBarData.volumn
+    el.src = String(playerBarData.currentMusicInfo?.soundtrackUrl)
+  })
   const setVolumeByUI = (newVolume: number) => {
-    if (audioRef.current) audioRef.current.volume = newVolume
+    audioElement.volume = newVolume
   }
   const currentSecondRef = useRef<HTMLSpanElement>()
   return (
@@ -56,10 +51,10 @@ export default function AudioPlayer() {
           className={isPlaying ? 'paused' : 'playing'}
           onClick={() => {
             //FIXME: 这种冗余的存在影响可读性，要去掉
-            if (audioRef.current && isPlaying) {
-              audioRef.current.pause()
-            } else if (audioRef.current && !isPlaying) {
-              audioRef.current.play()
+            if (isPlaying) {
+              audioElement.pause()
+            } else {
+              audioElement.play()
             }
             masters.AudioPlaying.toggle()
           }}
@@ -87,9 +82,7 @@ export default function AudioPlayer() {
           }}
           onMoveTriggerDone={incomeCurrentSecond => {
             masters.currentSecond.set(incomeCurrentSecond)
-            if (audioRef.current) {
-              audioRef.current.currentTime = incomeCurrentSecond
-            }
+            audioElement.currentTime = incomeCurrentSecond
           }}
         />
       </View>
@@ -102,10 +95,10 @@ export default function AudioPlayer() {
           className={['play-mode', { on: masters.inLoopMode.isOn, off: masters.inLoopMode.isOff }]}
           onClick={() => {
             masters.inLoopMode.toggle()
-            if (audioRef.current && masters.inLoopMode) {
-              audioRef.current.loop = false
-            } else if (audioRef.current) {
-              audioRef.current.loop = true
+            if (masters.inLoopMode) {
+              audioElement.loop = false
+            } else {
+              audioElement.loop = true
             }
           }}
         >
