@@ -11,11 +11,9 @@ function App() {
   return (
     <Provider store={store}>
       <View className='app'>
-        <React.StrictMode>
-          <AlbumMenu />
-          <MainAppContent />
-          <AudioPlayer />
-        </React.StrictMode>
+        <AlbumMenu />
+        <MainAppContent />
+        <AudioPlayer />
       </View>
     </Provider>
   )

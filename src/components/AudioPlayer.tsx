@@ -7,10 +7,7 @@ import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/compo
 import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
-  //FIXME
-  console.log('因为这个发生了4次初始化')
   const playerBarData = useTypedStoreSelector(state => state.playerBar)
-  console.log('hello')
   //#region 维护播放器所含的状态信息
   const masters = {
     currentSecond: useMaster({ type: 'number', init: 0 }),
@@ -39,7 +36,7 @@ export default function AudioPlayer() {
   //搭载一个Audio节点
   useEffect(() => {
     const audioElement = new Audio()
-    audioElement.volume = playerBarData.volumn ?? 1
+    audioElement.volume = playerBarData.volumn
     audioElement.src = String(playerBarData.currentMusicInfo?.soundtrackUrl)
     audioRef.current = audioElement
   }, [])
@@ -84,7 +81,6 @@ export default function AudioPlayer() {
           value={masters.currentSecond.value}
           max={totalSeconds}
           onMoveTrigger={incomeCurrentSecond => {
-            // masters.currentSecond.set(incomeCurrentSecond)
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = Time(incomeCurrentSecond).format('MM:ss')
             }
@@ -115,11 +111,10 @@ export default function AudioPlayer() {
         >
           <Icon iconfontName='infinit-mode' />
         </Button>
-        {/* TEMP: 暂时隐去，方便Debug */}
-        {/* <Popover
+        <Popover
           Content={
             <Slider
-              defaultValue={volumeNumber}
+              defaultValue={playerBarData.volumn}
               onMoveTriggerDone={(currentPercentage: number) => {
                 // FIXME appData.setVolumn(currentPercentage)
                 setVolumeByUI(currentPercentage)
@@ -130,7 +125,7 @@ export default function AudioPlayer() {
           <Button className='volume'>
             <Icon iconfontName='volumn_empty' />
           </Button>
-        </Popover> */}
+        </Popover>
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
           <Icon iconfontName='music-list' />
         </Button>
