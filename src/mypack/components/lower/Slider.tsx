@@ -35,9 +35,6 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  // FIXME
-  console.log('而且初始化时要刷新四次')
-
   const [triggerRef, triggerStyleDispatcher] = useDomStyle()
   const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
     triggerStyleDispatcher(style => {
