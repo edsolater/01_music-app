@@ -1,45 +1,80 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useReducer, Reducer } from 'react'
 
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { useMaster, useElement } from 'mypack/components/customHooks'
+import { useElement } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
   const playerBarData = useTypedStoreSelector(state => state.playerBar)
-  //#region 维护播放器所含的状态信息
-  const masters = {
-    currentSecond: useMaster({ type: 'number', init: 0 }),
-    AudioPlaying: useMaster({ type: 'boolean' }),
-    inLoopMode: useMaster({ type: 'boolean' }),
-  }
-  // 以下是快捷方式，因为会频繁调用，所以把内存地址暂存在变量里
-  const isPlaying = masters.AudioPlaying.isOn
-  const totalSeconds = Number(playerBarData.currentMusicInfo?.totalSeconds)
-  //#endregion
 
   // 播放器进度条
   useEffect(() => {
-    if (masters.currentSecond.value === 0) {
-      const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
-      return () => globalThis.clearTimeout(timeoutId)
-    } else if (masters.currentSecond.value < totalSeconds) {
-      const timeoutId = globalThis.setTimeout(() => isPlaying && masters.currentSecond.add(1), 1000)
-      return () => globalThis.clearTimeout(timeoutId)
-    } else {
-      // end
-    }
+    const timeoutId = globalThis.setTimeout(() => {
+      if (thisData.isPlaying) {
+        dataDispatcher({ type: 'go on 1 second' })
+      }
+    }, 1000)
+    return () => globalThis.clearTimeout(timeoutId)
   })
 
   const audioElement = useElement('audio', el => {
     el.volume = playerBarData.volumn
     el.src = String(playerBarData.currentMusicInfo?.soundtrackUrl)
   })
-  const setVolumeByUI = (newVolume: number) => {
-    audioElement.volume = newVolume
-  }
   const currentSecondRef = useRef<HTMLSpanElement>()
+  const [thisData, dataDispatcher] = useReducer<
+    Reducer<
+      {
+        currentSecond: number
+        isPlaying: boolean
+        inLoopMode: boolean
+      },
+      {
+        type:
+          | 'go on 1 second'
+          | 'reset music progress'
+          | 'set music progress'
+          | 'play the song'
+          | 'pause the song'
+          | 'toggle loop mode'
+        //FIXME:这是一个‘set music progress’ 特异属性，应该是有条件的必选项
+        newSecond?: number
+        [any: string]: unknown
+      }
+    >
+  >(
+    (data, action) => {
+      switch (action.type) {
+        case 'go on 1 second': {
+          const oldSecond = data.currentSecond
+          const newSecond = Math.max(
+            0,
+            Math.min(oldSecond + 1, playerBarData.currentMusicInfo.totalSeconds),
+          )
+          return { ...data, currentSecond: newSecond }
+        }
+        case 'reset music progress': {
+          return { ...data, currentSecond: 0 }
+        }
+        case 'play the song': {
+          return { ...data, isPlaying: true }
+        }
+        case 'pause the song': {
+          return { ...data, isPlaying: false }
+        }
+        case 'toggle loop mode': {
+          return { ...data, inLoopMode: !data.inLoopMode }
+        }
+        case 'set music progress': {
+          audioElement.currentTime = action.newSecond ?? 0
+          return { ...data, currentSecond: action.newSecond ?? 0 }
+        }
+      }
+    },
+    { currentSecond: 0, isPlaying: false, inLoopMode: false },
+  )
   return (
     <View $tag='section' className='player-bar'>
       <Picture className='album-face' src={playerBarData.currentMusicInfo?.albumUrl} />
@@ -48,18 +83,19 @@ export default function AudioPlayer() {
           <Icon iconfontName='music_pre' />
         </Button>
         <Button
-          className={isPlaying ? 'paused' : 'playing'}
+          className={thisData.isPlaying ? 'paused' : 'playing'}
           onClick={() => {
             //FIXME: 这种冗余的存在影响可读性，要去掉
-            if (isPlaying) {
+            if (thisData.isPlaying) {
               audioElement.pause()
+              dataDispatcher({ type: 'pause the song' })
             } else {
               audioElement.play()
+              dataDispatcher({ type: 'play the song' })
             }
-            masters.AudioPlaying.toggle()
           }}
         >
-          {isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
+          {thisData.isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
         </Button>
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
           <Icon iconfontName='music_next' />
@@ -68,21 +104,20 @@ export default function AudioPlayer() {
       <View className='timeSlider'>
         <View className='songTitle'>{playerBarData.currentMusicInfo?.songName}</View>
         <View className='timestamp'>
-          <Text ref={currentSecondRef}>{Time(masters.currentSecond.value).format('MM:ss')}</Text>
+          <Text ref={currentSecondRef}>{Time(thisData.currentSecond).format('MM:ss')}</Text>
           <Text className='divider'> / </Text>
-          <Text>{Time(totalSeconds).format('MM:ss')}</Text>
+          <Text>{Time(Number(playerBarData.currentMusicInfo?.totalSeconds)).format('MM:ss')}</Text>
         </View>
         <Slider
-          value={masters.currentSecond.value}
-          max={totalSeconds}
+          value={thisData.currentSecond}
+          max={Number(playerBarData.currentMusicInfo?.totalSeconds)}
           onMoveTrigger={incomeCurrentSecond => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = Time(incomeCurrentSecond).format('MM:ss')
             }
           }}
           onMoveTriggerDone={incomeCurrentSecond => {
-            masters.currentSecond.set(incomeCurrentSecond)
-            audioElement.currentTime = incomeCurrentSecond
+            dataDispatcher({ type: 'set music progress', newSecond: incomeCurrentSecond })
           }}
         />
       </View>
@@ -92,10 +127,10 @@ export default function AudioPlayer() {
         </Button>
         {/* TODO: 轮流切换的Button，需要单独再封一个组件，这种模式经常用到 */}
         <Button
-          className={['play-mode', { on: masters.inLoopMode.isOn, off: masters.inLoopMode.isOff }]}
+          className={['play-mode', thisData.inLoopMode ? 'on' : 'off']}
           onClick={() => {
-            masters.inLoopMode.toggle()
-            if (masters.inLoopMode) {
+            dataDispatcher({ type: 'toggle loop mode' })
+            if (thisData.inLoopMode) {
               audioElement.loop = false
             } else {
               audioElement.loop = true
@@ -110,7 +145,7 @@ export default function AudioPlayer() {
               defaultValue={playerBarData.volumn}
               onMoveTriggerDone={(currentPercentage: number) => {
                 // FIXME appData.setVolumn(currentPercentage)
-                setVolumeByUI(currentPercentage)
+                audioElement.volume = currentPercentage
               }}
             />
           }

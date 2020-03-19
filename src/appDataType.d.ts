@@ -28,7 +28,7 @@ interface MusicInfo {
   /**音频文件的URL */
   soundtrackUrl?: string
   /**歌曲的总长度 */
-  totalSeconds?: number
+  totalSeconds: number
   /**所属专辑的名称 */
   albumName?: string
   /**是否已加入 “我喜欢” */
@@ -62,7 +62,7 @@ export interface RootState {
    * 播放器相关
    */
   playerBar: {
-    currentMusicInfo?: MusicInfo
+    currentMusicInfo: MusicInfo
     /**音量大小 */
     volumn: Percent
     /**播放模式 */
