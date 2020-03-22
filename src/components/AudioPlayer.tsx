@@ -1,83 +1,76 @@
-import React, { useEffect, useRef, useReducer, Reducer } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
-import { useElement } from 'mypack/components/customHooks'
+import { useElement, useMethods } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
 import { CycleView } from 'mypack/components/wrappers'
 
 export default function AudioPlayer() {
-  const playerBar = useTypedStoreSelector(store => store.playerBar)
+  const playerBar = useTypedStoreSelector(appStore => appStore.playerBar)
   const audioElement = useElement('audio', el => {
     el.volume = playerBar.volumn
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
-  //FIXME要抽象成useMethod
-  const [data, dataDispatcher] = useReducer<
-    Reducer<
-      {
-        currentSecond: number
-        isPlaying: boolean
-        inLoopMode: boolean
+  type SongStatus = 'paused' | 'playing'
+  type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
+  const [data, dataSetters] = useMethods(
+    componentData => ({
+      songSecond(
+        setter: (oldSeconds: number) => number,
+        options: { affectPlayer: boolean } = { affectPlayer: false },
+      ) {
+        const newSecond = setter(componentData.currentSecond)
+        if (newSecond <= playerBar.currentMusicInfo.totalSeconds) {
+          if (options.affectPlayer) audioElement.currentTime = newSecond
+          componentData.currentSecond = newSecond
+        }
       },
-      {
-        type:
-          | 'go on 1 second'
-          | 'reset music progress'
-          | 'set music progress'
-          | 'play the song'
-          | 'pause the song'
-          | 'toggle loop mode'
-        //FIXME:这是一个‘set music progress’ 特异属性，应该是有条件的必选项
-        newSecond?: number
-        [any: string]: unknown
-      }
-    >
-  >(
-    (data, action) => {
-      switch (action.type) {
-        case 'go on 1 second': {
-          const oldSecond = data.currentSecond
-          const newSecond = Math.max(
-            0,
-            Math.min(oldSecond + 1, playerBar.currentMusicInfo.totalSeconds),
-          )
-          return { ...data, currentSecond: newSecond }
+      playStatus(setter: (oldStatus: SongStatus) => SongStatus) {
+        const newStatus = setter(componentData.playStatus)
+        switch (newStatus) {
+          case 'playing':
+            audioElement.play()
+            break
+          case 'paused':
+            audioElement.pause()
+            break
         }
-        case 'reset music progress': {
-          return { ...data, currentSecond: 0 }
+        componentData.playStatus = setter(componentData.playStatus)
+      },
+      playMode(setter: (oldStatus: PlayMode) => PlayMode) {
+        const newMode = setter(componentData.playMode)
+        switch (newMode) {
+          case 'random-mode':
+            audioElement.loop = false
+            break
+          case 'infinit-mode':
+            audioElement.loop = true
+            break
+          case 'recursive-mode':
+            audioElement.loop = false
+            break
         }
-        case 'play the song': {
-          audioElement.play()
-          return { ...data, isPlaying: true }
-        }
-        case 'pause the song': {
-          audioElement.pause()
-          return { ...data, isPlaying: false }
-        }
-        case 'toggle loop mode': {
-          audioElement.loop = !audioElement.loop
-          return { ...data, inLoopMode: !data.inLoopMode }
-        }
-        case 'set music progress': {
-          audioElement.currentTime = action.newSecond ?? 0
-          return { ...data, currentSecond: action.newSecond ?? 0 }
-        }
-      }
+        componentData.playMode = setter(componentData.playMode)
+      },
+    }),
+    {
+      currentSecond: 0,
+      playStatus: 'paused' as SongStatus,
+      playMode: 'random-mode' as PlayMode,
     },
-    { currentSecond: 0, isPlaying: false, inLoopMode: false },
   )
 
   // 播放器进度条
   useEffect(() => {
     const timeoutId = globalThis.setTimeout(() => {
-      if (data.isPlaying) {
-        dataDispatcher({ type: 'go on 1 second' })
+      if (data.playStatus === 'playing') {
+        dataSetters.songSecond(n => n + 1)
       }
     }, 1000)
-    return () => globalThis.clearTimeout(timeoutId)
+    return () => clearTimeout(timeoutId)
   })
   return (
     <View $tag='section' className='player-bar'>
@@ -87,12 +80,16 @@ export default function AudioPlayer() {
           <Icon iconfontName='music_pre' />
         </Button>
         <Button
-          className={data.isPlaying ? 'paused' : 'playing'}
+          className={data.playStatus}
           onClick={() => {
-            dataDispatcher({ type: data.isPlaying ? 'pause the song' : 'play the song' })
+            dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
           }}
         >
-          {data.isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
+          {data.playStatus === 'playing' ? (
+            <Icon iconfontName='pause' />
+          ) : (
+            <Icon iconfontName='play' />
+          )}
         </Button>
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
           <Icon iconfontName='music_next' />
@@ -114,7 +111,7 @@ export default function AudioPlayer() {
             }
           }}
           onMoveTriggerDone={incomeCurrentSecond => {
-            dataDispatcher({ type: 'set music progress', newSecond: incomeCurrentSecond })
+            dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayer: true })
           }}
         />
       </View>
@@ -129,17 +126,17 @@ export default function AudioPlayer() {
             {
               node: <Icon iconfontName='random-mode' />,
               activeName: 'random-mode',
-              onActive: () => {},
+              onActive: () => dataSetters.playMode(() => 'random-mode'),
             },
             {
               node: <Icon iconfontName='infinit-mode' />,
               activeName: 'infinit-mode',
-              onActive: () => dataDispatcher({ type: 'toggle loop mode' }), //TODO: 这只是临时的，toggle loop mode
+              onActive: () => dataSetters.playMode(() => 'infinit-mode'),
             },
             {
               node: <Icon iconfontName='recursive-mode' />,
               activeName: 'recursive-mode',
-              onActive: () => {},
+              onActive: () => dataSetters.playMode(() => 'recursive-mode'),
             },
           ]}
         />
