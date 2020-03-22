@@ -1,7 +1,7 @@
-import React, { ComponentProps, useRef, useEffect } from 'react'
+import React, { ComponentProps, useRef, useEffect, useReducer } from 'react'
 
 import './Slider.scss'
-import { useMaster, useDomStyle } from '../customHooks'
+import { useMaster, useDomStyle, useMethods } from '../customHooks'
 import { View } from '.'
 import { UGuard } from 'mypack/utils/UGuard'
 
@@ -35,13 +35,14 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
+  const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
   const [triggerRef, triggerStyleDispatcher] = useDomStyle()
   const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
     triggerStyleDispatcher(style => {
       style.left = `${percentage * 100}%`
     })
   }
-
+  // 异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
   const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle()
   const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
     tailTrackStyleDispatcher(style => {
@@ -52,6 +53,12 @@ function Slider(
     setTrackPassWidth(props.defaultValue ?? props.value)
     setTriggerLeft(props.defaultValue ?? props.value)
   }, [])
+  useEffect(() => {
+    if (!isDragging && props.max && typeof props.value === 'number') {
+      setTrackPassWidth(props.value / props.max)
+      setTriggerLeft(props.value / props.max)
+    }
+  }, [props.value])
 
   /**
    * 移动 Trigger
@@ -76,6 +83,7 @@ function Slider(
         ref={triggerRef}
         html={{
           onPointerDown: e => {
+            toggleDragStatus()
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
             const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
@@ -97,7 +105,8 @@ function Slider(
              * 清理 document 上述事件
              */
             const handleDone = (e: PointerEvent) => {
-              //TODO: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
+              toggleDragStatus()
+              //FIXME: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
               trigger.style.transition = ''
               passedTrack.style.transition = ''
               moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
