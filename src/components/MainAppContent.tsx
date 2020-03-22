@@ -60,11 +60,24 @@ export default function MainAppContent() {
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
-            {/* TODO: 要写一个能自动切换内容的容器 */}
-            <LoopBox className='indicator-like' initActiveIndex={itemInfo.isLiked ? 0 : 1}>
-              <Icon iconfontName='heart' />
-              <Icon iconfontName='heart_empty' />
-            </LoopBox>
+            <LoopBox
+              className='indicator-like'
+              initActiveIndex={itemInfo.isLiked ? 0 : 1}
+              itemList={[
+                {
+                  node: <Icon iconfontName='heart' />,
+                  onActive: () => {
+                    console.log('full')
+                  },
+                },
+                {
+                  node: <Icon iconfontName='heart_empty' />,
+                  onActive: () => {
+                    console.log('heart_empty')
+                  },
+                },
+              ]}
+            />
             <Box className='song-name'>
               <Text className='main-name'>{itemInfo.songName}</Text>
               <Text className='sub-name'>{itemInfo.songSubname}</Text>

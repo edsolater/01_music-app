@@ -1,7 +1,12 @@
-import React, { ComponentProps } from 'react'
+import React, { ComponentProps, ReactNode } from 'react'
 import { View } from '../lower'
 import { useMaster } from '../customHooks'
 
+interface LoopItem {
+  node: ReactNode
+  activeName?: string
+  onActive?: (raw: LoopItem) => unknown
+}
 /**
  *  根据逻辑循环切换子内容，类似于微信小程序中的 <swiper> 组件
  */
@@ -12,27 +17,32 @@ export default function LoopBox(
     /**
      * 序号改变时的回调
      */
-    onActiveIndexChange?: (newIndex: number) => unknown
+    onIndexChange?: (newIndex: number) => unknown
+
+    /**切换序列 */
+    itemList?: LoopItem[]
   },
 ) {
   const activeIndex = useMaster({ type: 'number', init: props.initActiveIndex ?? 0 })
-  const childrens = React.Children.toArray(props.children)
-  const maxIndex = childrens.length
   return (
     <View
       {...props}
-      $componentName='LoopBox'
+      $componentName={[
+        'LoopBox',
+        props.itemList?.[activeIndex.value].activeName ?? activeIndex.value,
+      ]}
       onClick={e => {
-        if (activeIndex.value === maxIndex - 1) {
+        if (activeIndex.value === (props.itemList?.length ?? 1) - 1) {
           activeIndex.set(0)
         } else {
           activeIndex.add(1)
         }
-        props.onActiveIndexChange?.(activeIndex.value)
+        props.itemList?.[activeIndex.value]?.onActive?.(props.itemList?.[activeIndex.value])
+        props.onIndexChange?.(activeIndex.value)
         props.onClick?.(e)
       }}
     >
-      {childrens[activeIndex.value]}
+      {props.itemList?.[activeIndex.value].node}
     </View>
   )
 }
