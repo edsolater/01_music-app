@@ -5,7 +5,7 @@ import './AudioPlayer.scss'
 import { useElement } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
-import { LoopBox } from 'mypack/components/wrappers'
+import { CycleView } from 'mypack/components/wrappers'
 
 export default function AudioPlayer() {
   const playerBar = useTypedStoreSelector(store => store.playerBar)
@@ -121,7 +121,7 @@ export default function AudioPlayer() {
         <Button className='favorite'>
           <Icon iconfontName='heart_empty' />
         </Button>
-        <LoopBox
+        <CycleView
           className='indicator-like'
           initActiveName='infinit-mode'
           itemList={[

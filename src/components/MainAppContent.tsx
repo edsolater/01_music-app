@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
-import { Box, OverlayedImage, Group, LoopBox } from 'mypack/components/wrappers'
+import { Box, OverlayedImage, Group, CycleView } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 
 export default function MainAppContent() {
@@ -60,7 +60,7 @@ export default function MainAppContent() {
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
-            <LoopBox
+            <CycleView
               className='indicator-like'
               initActiveIndex={itemInfo.isLiked ? 0 : 1}
               itemList={[

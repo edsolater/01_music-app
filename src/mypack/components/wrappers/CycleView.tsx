@@ -2,15 +2,15 @@ import React, { ComponentProps, ReactNode, useMemo } from 'react'
 import { View } from '../lower'
 import { useMaster } from '../customHooks'
 
-interface LoopItem {
+interface CycleItem {
   node: ReactNode
   activeName?: string
-  onActive?: (raw: LoopItem) => unknown
+  onActive?: (raw: CycleItem) => unknown
 }
 /**
  *  根据逻辑循环切换子内容，类似于微信小程序中的 <swiper> 组件
  */
-export default function LoopBox(
+export default function CycleView(
   props: ComponentProps<typeof View> & {
     /**初始时激活的序号，默认第一项 */
     initActiveIndex?: number
@@ -22,7 +22,7 @@ export default function LoopBox(
     onIndexChange?: (newIndex: number) => unknown
 
     /**切换序列 */
-    itemList?: LoopItem[]
+    itemList?: CycleItem[]
   },
 ) {
   const initIndex = useMemo(
