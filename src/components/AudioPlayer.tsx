@@ -7,6 +7,9 @@ import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/compo
 import { useTypedStoreSelector } from 'store'
 import { CycleView } from 'mypack/components/wrappers'
 
+type SongStatus = 'paused' | 'playing'
+type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
+
 export default function AudioPlayer() {
   const playerBar = useTypedStoreSelector(appStore => appStore.playerBar)
   const audioElement = useElement('audio', el => {
@@ -14,22 +17,21 @@ export default function AudioPlayer() {
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
-  type SongStatus = 'paused' | 'playing'
-  type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
   const [data, dataSetters] = useMethods(
     componentData => ({
       songSecond(
-        setter: (oldSeconds: number) => number,
-        options: { affectPlayer: boolean } = { affectPlayer: false },
+        setter: ((oldSeconds: number) => number) | number,
+        options: { affectAudioPlayer: boolean } = { affectAudioPlayer: false },
       ) {
-        const newSecond = setter(componentData.currentSecond)
+        const newSecond =
+          typeof setter === 'function' ? setter(componentData.currentSecond) : setter
         if (newSecond <= playerBar.currentMusicInfo.totalSeconds) {
-          if (options.affectPlayer) audioElement.currentTime = newSecond
+          if (options.affectAudioPlayer) audioElement.currentTime = newSecond
           componentData.currentSecond = newSecond
         }
       },
-      playStatus(setter: (oldStatus: SongStatus) => SongStatus) {
-        const newStatus = setter(componentData.playStatus)
+      playStatus(setter: ((oldStatus: SongStatus) => SongStatus) | SongStatus) {
+        const newStatus = typeof setter === 'function' ? setter(componentData.playStatus) : setter
         switch (newStatus) {
           case 'playing':
             audioElement.play()
@@ -38,10 +40,10 @@ export default function AudioPlayer() {
             audioElement.pause()
             break
         }
-        componentData.playStatus = setter(componentData.playStatus)
+        componentData.playStatus = newStatus
       },
-      playMode(setter: (oldStatus: PlayMode) => PlayMode) {
-        const newMode = setter(componentData.playMode)
+      playMode(setter: ((oldStatus: PlayMode) => PlayMode) | PlayMode) {
+        const newMode = typeof setter === 'function' ? setter(componentData.playMode) : setter
         switch (newMode) {
           case 'random-mode':
             audioElement.loop = false
@@ -53,7 +55,7 @@ export default function AudioPlayer() {
             audioElement.loop = false
             break
         }
-        componentData.playMode = setter(componentData.playMode)
+        componentData.playMode = newMode
       },
     }),
     {
@@ -111,7 +113,7 @@ export default function AudioPlayer() {
             }
           }}
           onMoveTriggerDone={incomeCurrentSecond => {
-            dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayer: true })
+            dataSetters.songSecond(() => incomeCurrentSecond, { affectAudioPlayer: true })
           }}
         />
       </View>
