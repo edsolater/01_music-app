@@ -5,12 +5,8 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node", //可以自动使用文件夹下的 index.ts
-    // "strictNullChecks": true,
     "noImplicitAny": false,
-    // "noImplicitThis": true, //this 在object literial中也会有上下文的智能判定
     "strict": true,
     "baseUrl": "./src" //typescript 根路径（绝对路径的根节点）
-  },
-  "include": ["src", "node_modules/@types"]
-  // "exclude": ["node_modules"]
+  }
 }

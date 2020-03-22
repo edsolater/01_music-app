@@ -7,7 +7,7 @@ import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/compo
 import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
-  const playerBarData = useTypedStoreSelector(state => state.playerBar)
+  const playerBar = useTypedStoreSelector(store => store.playerBar)
 
   // 播放器进度条
   useEffect(() => {
@@ -20,8 +20,8 @@ export default function AudioPlayer() {
   })
 
   const audioElement = useElement('audio', el => {
-    el.volume = playerBarData.volumn
-    el.src = String(playerBarData.currentMusicInfo?.soundtrackUrl)
+    el.volume = playerBar.volumn
+    el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
   const [thisData, dataDispatcher] = useReducer<
@@ -51,7 +51,7 @@ export default function AudioPlayer() {
           const oldSecond = data.currentSecond
           const newSecond = Math.max(
             0,
-            Math.min(oldSecond + 1, playerBarData.currentMusicInfo.totalSeconds),
+            Math.min(oldSecond + 1, playerBar.currentMusicInfo.totalSeconds),
           )
           return { ...data, currentSecond: newSecond }
         }
@@ -77,7 +77,7 @@ export default function AudioPlayer() {
   )
   return (
     <View $tag='section' className='player-bar'>
-      <Picture className='album-face' src={playerBarData.currentMusicInfo?.albumUrl} />
+      <Picture className='album-face' src={playerBar.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
@@ -102,15 +102,15 @@ export default function AudioPlayer() {
         </Button>
       </View>
       <View className='timeSlider'>
-        <View className='songTitle'>{playerBarData.currentMusicInfo?.songName}</View>
+        <View className='songTitle'>{playerBar.currentMusicInfo?.songName}</View>
         <View className='timestamp'>
           <Text ref={currentSecondRef}>{Time(thisData.currentSecond).format('MM:ss')}</Text>
           <Text className='divider'> / </Text>
-          <Text>{Time(Number(playerBarData.currentMusicInfo?.totalSeconds)).format('MM:ss')}</Text>
+          <Text>{Time(Number(playerBar.currentMusicInfo?.totalSeconds)).format('MM:ss')}</Text>
         </View>
         <Slider
           value={thisData.currentSecond}
-          max={Number(playerBarData.currentMusicInfo?.totalSeconds)}
+          max={Number(playerBar.currentMusicInfo?.totalSeconds)}
           onMoveTrigger={incomeCurrentSecond => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = Time(incomeCurrentSecond).format('MM:ss')
@@ -142,7 +142,7 @@ export default function AudioPlayer() {
         <Popover
           Content={
             <Slider
-              defaultValue={playerBarData.volumn}
+              defaultValue={playerBar.volumn}
               onMoveTriggerDone={(currentPercentage: number) => {
                 // FIXME appData.setVolumn(currentPercentage)
                 audioElement.volume = currentPercentage
