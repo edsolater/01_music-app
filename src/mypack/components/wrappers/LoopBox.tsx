@@ -1,4 +1,4 @@
-import React, { ComponentProps, ReactNode } from 'react'
+import React, { ComponentProps, ReactNode, useMemo } from 'react'
 import { View } from '../lower'
 import { useMaster } from '../customHooks'
 
@@ -14,6 +14,8 @@ export default function LoopBox(
   props: ComponentProps<typeof View> & {
     /**初始时激活的序号，默认第一项 */
     initActiveIndex?: number
+    /**初始时激活的序号，使用名字 */
+    initActiveName?: string
     /**
      * 序号改变时的回调
      */
@@ -23,7 +25,18 @@ export default function LoopBox(
     itemList?: LoopItem[]
   },
 ) {
-  const activeIndex = useMaster({ type: 'number', init: props.initActiveIndex ?? 0 })
+  const initIndex = useMemo(
+    () =>
+      props.initActiveIndex ??
+      props.itemList?.findIndex(({ activeName }) => activeName === props.initActiveName)! > 0
+        ? props.itemList?.findIndex(({ activeName }) => activeName === props.initActiveName)
+        : 0,
+    [],
+  )
+  const activeIndex = useMaster({
+    type: 'number',
+    init: initIndex,
+  })
   return (
     <View
       {...props}

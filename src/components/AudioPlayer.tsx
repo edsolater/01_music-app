@@ -5,6 +5,7 @@ import './AudioPlayer.scss'
 import { useElement } from 'mypack/components/customHooks'
 import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
+import { LoopBox } from 'mypack/components/wrappers'
 
 export default function AudioPlayer() {
   const playerBar = useTypedStoreSelector(store => store.playerBar)
@@ -120,15 +121,24 @@ export default function AudioPlayer() {
         <Button className='favorite'>
           <Icon iconfontName='heart_empty' />
         </Button>
-        {/* TODO: 轮流切换的Button，需要单独再封一个组件，这种模式经常用到 */}
-        <Button
-          className='play-mode'
-          onClick={() => {
-            dataDispatcher({ type: 'toggle loop mode' })
-          }}
-        >
-          <Icon iconfontName='infinit-mode' />
-        </Button>
+        <LoopBox
+          className='indicator-like'
+          initActiveName='infinit-mode'
+          itemList={[
+            {
+              node: <Icon iconfontName='random-mode' />,
+              onActive: () => {},
+            },
+            {
+              node: <Icon iconfontName='infinit-mode' />,
+              onActive: () => dataDispatcher({ type: 'toggle loop mode' }), //TODO: 这只是临时的，toggle loop mode
+            },
+            {
+              node: <Icon iconfontName='recursive-mode' />,
+              onActive: () => {},
+            },
+          ]}
+        />
         <Popover
           Content={
             <Slider
