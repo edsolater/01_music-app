@@ -123,18 +123,21 @@ export default function AudioPlayer() {
         </Button>
         <CycleView
           className='indicator-like'
-          initActiveName='infinit-mode'
+          initActiveName='infinit-mode' //TODO: 这里还缺个智能提示，但是可有可无
           itemList={[
             {
               node: <Icon iconfontName='random-mode' />,
+              activeName: 'random-mode',
               onActive: () => {},
             },
             {
               node: <Icon iconfontName='infinit-mode' />,
+              activeName: 'infinit-mode',
               onActive: () => dataDispatcher({ type: 'toggle loop mode' }), //TODO: 这只是临时的，toggle loop mode
             },
             {
               node: <Icon iconfontName='recursive-mode' />,
+              activeName: 'recursive-mode',
               onActive: () => {},
             },
           ]}

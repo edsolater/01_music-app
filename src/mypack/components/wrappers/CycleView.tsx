@@ -8,7 +8,7 @@ interface CycleItem {
   onActive?: (raw: CycleItem) => unknown
 }
 /**
- *  根据逻辑循环切换子内容，类似于微信小程序中的 <swiper> 组件
+ *  循环切换
  */
 export default function CycleView(
   props: ComponentProps<typeof View> & {
@@ -20,7 +20,6 @@ export default function CycleView(
      * 序号改变时的回调
      */
     onIndexChange?: (newIndex: number) => unknown
-
     /**切换序列 */
     itemList?: CycleItem[]
   },
