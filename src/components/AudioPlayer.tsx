@@ -14,6 +14,7 @@ export default function AudioPlayer() {
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
+  //FIXME要抽象成useMethod
   const [data, dataDispatcher] = useReducer<
     Reducer<
       {
