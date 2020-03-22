@@ -84,6 +84,10 @@ function Slider(
         html={{
           onPointerDown: e => {
             toggleDragStatus()
+            setTimeout(() => {
+              //FIXME：为什么这里会是false呢？
+              console.log('isDragging1: ', isDragging)
+            }, 800)
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
             const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
@@ -109,6 +113,7 @@ function Slider(
               //FIXME: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
               trigger.style.transition = ''
               passedTrack.style.transition = ''
+              //FIXME 这里需要有最大最小值的约束
               moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
               document.removeEventListener('pointermove', handleMove)
               document.removeEventListener('pointerup', handleDone)
