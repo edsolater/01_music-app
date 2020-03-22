@@ -8,23 +8,12 @@ import { useTypedStoreSelector } from 'store'
 
 export default function AudioPlayer() {
   const playerBar = useTypedStoreSelector(store => store.playerBar)
-
-  // 播放器进度条
-  useEffect(() => {
-    const timeoutId = globalThis.setTimeout(() => {
-      if (thisData.isPlaying) {
-        dataDispatcher({ type: 'go on 1 second' })
-      }
-    }, 1000)
-    return () => globalThis.clearTimeout(timeoutId)
-  })
-
   const audioElement = useElement('audio', el => {
     el.volume = playerBar.volumn
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
-  const [thisData, dataDispatcher] = useReducer<
+  const [data, dataDispatcher] = useReducer<
     Reducer<
       {
         currentSecond: number
@@ -59,12 +48,15 @@ export default function AudioPlayer() {
           return { ...data, currentSecond: 0 }
         }
         case 'play the song': {
+          audioElement.play()
           return { ...data, isPlaying: true }
         }
         case 'pause the song': {
+          audioElement.pause()
           return { ...data, isPlaying: false }
         }
         case 'toggle loop mode': {
+          audioElement.loop = !audioElement.loop
           return { ...data, inLoopMode: !data.inLoopMode }
         }
         case 'set music progress': {
@@ -75,6 +67,16 @@ export default function AudioPlayer() {
     },
     { currentSecond: 0, isPlaying: false, inLoopMode: false },
   )
+
+  // 播放器进度条
+  useEffect(() => {
+    const timeoutId = globalThis.setTimeout(() => {
+      if (data.isPlaying) {
+        dataDispatcher({ type: 'go on 1 second' })
+      }
+    }, 1000)
+    return () => globalThis.clearTimeout(timeoutId)
+  })
   return (
     <View $tag='section' className='player-bar'>
       <Picture className='album-face' src={playerBar.currentMusicInfo?.albumUrl} />
@@ -83,19 +85,12 @@ export default function AudioPlayer() {
           <Icon iconfontName='music_pre' />
         </Button>
         <Button
-          className={thisData.isPlaying ? 'paused' : 'playing'}
+          className={data.isPlaying ? 'paused' : 'playing'}
           onClick={() => {
-            //FIXME: 这种冗余的存在影响可读性，要去掉
-            if (thisData.isPlaying) {
-              audioElement.pause()
-              dataDispatcher({ type: 'pause the song' })
-            } else {
-              audioElement.play()
-              dataDispatcher({ type: 'play the song' })
-            }
+            dataDispatcher({ type: data.isPlaying ? 'pause the song' : 'play the song' })
           }}
         >
-          {thisData.isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
+          {data.isPlaying ? <Icon iconfontName='pause' /> : <Icon iconfontName='play' />}
         </Button>
         <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
           <Icon iconfontName='music_next' />
@@ -104,12 +99,12 @@ export default function AudioPlayer() {
       <View className='timeSlider'>
         <View className='songTitle'>{playerBar.currentMusicInfo?.songName}</View>
         <View className='timestamp'>
-          <Text ref={currentSecondRef}>{Time(thisData.currentSecond).format('MM:ss')}</Text>
+          <Text ref={currentSecondRef}>{Time(data.currentSecond).format('MM:ss')}</Text>
           <Text className='divider'> / </Text>
           <Text>{Time(Number(playerBar.currentMusicInfo?.totalSeconds)).format('MM:ss')}</Text>
         </View>
         <Slider
-          value={thisData.currentSecond}
+          value={data.currentSecond}
           max={Number(playerBar.currentMusicInfo?.totalSeconds)}
           onMoveTrigger={incomeCurrentSecond => {
             if (currentSecondRef.current) {
@@ -127,14 +122,9 @@ export default function AudioPlayer() {
         </Button>
         {/* TODO: 轮流切换的Button，需要单独再封一个组件，这种模式经常用到 */}
         <Button
-          className={['play-mode', thisData.inLoopMode ? 'on' : 'off']}
+          className='play-mode'
           onClick={() => {
             dataDispatcher({ type: 'toggle loop mode' })
-            if (thisData.inLoopMode) {
-              audioElement.loop = false
-            } else {
-              audioElement.loop = true
-            }
           }}
         >
           <Icon iconfontName='infinit-mode' />
