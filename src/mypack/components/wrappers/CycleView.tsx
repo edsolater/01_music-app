@@ -15,7 +15,7 @@ export default function CycleView(
     /**初始时激活的序号，默认第一项 */
     initActiveIndex?: number
     /**初始时激活的序号，使用名字 */
-    initActiveName?: string
+    initActiveName?: CycleItem['activeName']
     /**
      * 序号改变时的回调
      */

@@ -128,22 +128,22 @@ export default function AudioPlayer() {
         </Button>
         <CycleView
           className='indicator-like'
-          initActiveName='infinit-mode' //TODO: 这里还缺个智能提示，但是可有可无
+          initActiveName='random-mode'
           itemList={[
             {
               node: <Icon iconfontName='random-mode' />,
               activeName: 'random-mode',
-              onActive: () => dataSetters.playMode(() => 'random-mode'),
+              onActive: () => dataSetters.playMode('random-mode'),
             },
             {
               node: <Icon iconfontName='infinit-mode' />,
               activeName: 'infinit-mode',
-              onActive: () => dataSetters.playMode(() => 'infinit-mode'),
+              onActive: () => dataSetters.playMode('infinit-mode'),
             },
             {
               node: <Icon iconfontName='recursive-mode' />,
               activeName: 'recursive-mode',
-              onActive: () => dataSetters.playMode(() => 'recursive-mode'),
+              onActive: () => dataSetters.playMode('recursive-mode'),
             },
           ]}
         />
@@ -152,7 +152,7 @@ export default function AudioPlayer() {
             <Slider
               defaultValue={playerBar.volumn}
               onMoveTriggerDone={(currentPercentage: number) => {
-                // FIXME appData.setVolumn(currentPercentage)
+                // TODO appData.setVolumn(currentPercentage) // 这需要建立整个应用的dispatcher
                 audioElement.volume = currentPercentage
               }}
             />
