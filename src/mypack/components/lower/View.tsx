@@ -20,7 +20,7 @@ type IProp = {
    */
   style?: CSSProperties
   /**
-   * html5 标签属性，可以实现v-if的条件渲染
+   * html5 标签属性，可以实现类似v-if的条件渲染
    */
   hidden?: unknown
   /**
@@ -32,7 +32,7 @@ type IProp = {
    * 原生html属性
    */
   //TOFIX: 要只能推断所有HTMLTag，会奇慢无比。最好有选择性地推测而不是大而全地推测
-  html?: JSX.IntrinsicElements['div' | 'img']
+  html?: JSX.IntrinsicElements['div']
 }
 
 /**组件代码 */
