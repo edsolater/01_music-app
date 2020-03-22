@@ -7,8 +7,13 @@ import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/compo
 import { useTypedStoreSelector } from 'store'
 import { CycleView } from 'mypack/components/wrappers'
 
-type SongStatus = 'paused' | 'playing'
+type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
+type ComponentData = {
+  currentSecond: number
+  playMode: PlayMode
+  playStatus: PlayStatus
+}
 
 export default function AudioPlayer() {
   const playerBar = useTypedStoreSelector(appStore => appStore.playerBar)
@@ -30,7 +35,7 @@ export default function AudioPlayer() {
           componentData.currentSecond = newSecond
         }
       },
-      playStatus(setter: ((oldStatus: SongStatus) => SongStatus) | SongStatus) {
+      playStatus(setter: ((oldStatus: PlayStatus) => PlayStatus) | PlayStatus) {
         const newStatus = typeof setter === 'function' ? setter(componentData.playStatus) : setter
         switch (newStatus) {
           case 'playing':
@@ -60,9 +65,9 @@ export default function AudioPlayer() {
     }),
     {
       currentSecond: 0,
-      playStatus: 'paused' as SongStatus,
-      playMode: 'random-mode' as PlayMode,
-    },
+      playStatus: 'paused',
+      playMode: 'random-mode',
+    } as ComponentData,
   )
 
   // 播放器进度条
