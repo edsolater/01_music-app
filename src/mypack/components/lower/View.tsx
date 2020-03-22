@@ -26,12 +26,13 @@ type IProp = {
   /**
    * 基础交互
    */
-  onClick?: JSX.IntrinsicElements[HTMLTag]['onClick']
+  onClick?: JSX.IntrinsicElements['div']['onClick']
   children?: ReactNode
   /**
    * 原生html属性
    */
-  html?: JSX.IntrinsicElements[HTMLTag]
+  //TOFIX: 要只能推断所有HTMLTag，会奇慢无比。最好有选择性地推测而不是大而全地推测
+  html?: JSX.IntrinsicElements['div' | 'img']
 }
 
 /**组件代码 */
