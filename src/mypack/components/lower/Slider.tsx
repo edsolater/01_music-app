@@ -1,7 +1,7 @@
 import React, { ComponentProps, useEffect, useReducer } from 'react'
 
 import './Slider.scss'
-import { useDomStyle } from '../customHooks'
+import { useDomStyle_deprecated, useDomStyle } from '../customHooks'
 import { View } from '.'
 import { UNumber } from '../../utils'
 
@@ -36,14 +36,20 @@ function Slider(
   },
 ) {
   const [isDragging, toggleDragStatus] = useReducer((v) => !v, false)
-  const [triggerRef, triggerStyleDispatcher] = useDomStyle()
-  const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
-    triggerStyleDispatcher((style) => {
+  const [triggerRef, setTriggerLeft] = useDomStyle(
+    (style) => (percentage = Number(props.defaultValue ?? 1)) => {
+      console.log('style: ', style)
       style.left = `${percentage * 100}%`
-    })
-  }
+    },
+  )
+  // const [triggerRef, triggerStyleDispatcher] = useDomStyle_deprecated()
+  // const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
+  //   triggerStyleDispatcher((style) => {
+  //     style.left = `${percentage * 100}%`
+  //   })
+  // }
   // TODO:异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
-  const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle()
+  const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle_deprecated()
   const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
     tailTrackStyleDispatcher((style) => {
       style.width = `${percentage * 100}%`
@@ -51,6 +57,7 @@ function Slider(
   }
   useEffect(() => {
     setTrackPassWidth(props.defaultValue ?? props.value)
+    console.log('setTriggerLeft: ', setTriggerLeft(1))
     setTriggerLeft(props.defaultValue ?? props.value)
   }, [])
   useEffect(() => {

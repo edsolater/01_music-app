@@ -1,4 +1,5 @@
-export { default as useDomStyle } from './useDomStyle'
+export { default as useDomStyle_deprecated } from './useDomStyle'
+export * from './useDomStyle'
 export { default as useElement } from './useElement'
 // 替代useReducer的东西
 export { default as useMethods } from './useMethods'
