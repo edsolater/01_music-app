@@ -5,6 +5,7 @@ export * from './forReact'
 export * from './forObject'
 export * from './UArraySet'
 export * from './UArray'
-export * from './UGuard'
+import * as UNumber from "./UNumber";
+export { UNumber };
 export * from './UParseData'
 

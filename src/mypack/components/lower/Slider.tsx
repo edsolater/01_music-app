@@ -3,7 +3,7 @@ import React, { ComponentProps, useEffect, useReducer } from 'react'
 import './Slider.scss'
 import { useDomStyle } from '../customHooks'
 import { View } from '.'
-import { UGuard } from 'mypack/utils/UGuard'
+import { UNumber } from '../../utils'
 
 /**
  * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次）IDEA： 加个函数防抖能轻松解决？
@@ -35,17 +35,17 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
+  const [isDragging, toggleDragStatus] = useReducer((v) => !v, false)
   const [triggerRef, triggerStyleDispatcher] = useDomStyle()
   const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
-    triggerStyleDispatcher(style => {
+    triggerStyleDispatcher((style) => {
       style.left = `${percentage * 100}%`
     })
   }
   // TODO:异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
   const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle()
   const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
-    tailTrackStyleDispatcher(style => {
+    tailTrackStyleDispatcher((style) => {
       style.width = `${percentage * 100}%`
     })
   }
@@ -72,7 +72,8 @@ function Slider(
     <View
       {...props}
       $componentName='Slider'
-      onClick={e => {
+      onClick={(e) => {
+        if (isDragging) return
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
         moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
@@ -82,12 +83,8 @@ function Slider(
         className='Trigger'
         ref={triggerRef}
         html={{
-          onPointerDown: e => {
+          onPointerDown: (e) => {
             toggleDragStatus()
-            setTimeout(() => {
-              //FIXME：为什么这里会是false呢？
-              console.log('isDragging1: ', isDragging)
-            }, 800)
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
             const passedTrack = (slider.querySelector('.PassedTrack') as HTMLDivElement)!
@@ -98,9 +95,10 @@ function Slider(
              * document 绑定拖拽事件
              */
             const handleMove = (e: PointerEvent) => {
-              const percentage = UGuard.number((e.clientX - sliderClientLeft) / sliderWidth, {
-                range: [0, 1],
-              })
+              const percentage = UNumber.between((e.clientX - sliderClientLeft) / sliderWidth, [
+                0,
+                1,
+              ])
               setTriggerLeft(percentage)
               setTrackPassWidth(percentage)
               props.onMoveTrigger?.(percentage * (props.max ?? 1))
@@ -109,12 +107,12 @@ function Slider(
              * 清理 document 上述事件
              */
             const handleDone = (e: PointerEvent) => {
-              toggleDragStatus()
-              //FIXME: 触发pointerUp的同时，也会触发上级的onClick，因此 moveTriggerDone会被触法两次
+              setTimeout(() => {
+                toggleDragStatus()
+              }, 0)
               trigger.style.transition = ''
               passedTrack.style.transition = ''
-              //FIXME 这里需要有最大最小值的约束
-              moveTriggerDone((e.clientX - sliderClientLeft) / sliderWidth)
+              moveTriggerDone(UNumber.between((e.clientX - sliderClientLeft) / sliderWidth, [0, 1]))
               document.removeEventListener('pointermove', handleMove)
               document.removeEventListener('pointerup', handleDone)
             }

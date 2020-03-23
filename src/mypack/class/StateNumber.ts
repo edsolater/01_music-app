@@ -1,4 +1,4 @@
-import { UGuard } from 'mypack/utils'
+import { UNumber } from 'mypack/utils'
 
 /**
  * 输入初始状态（number），返回一个包含数字的对象
@@ -35,10 +35,10 @@ export default class StateNumber {
   set(targetNumber: number) {
     // 截断，使目标值在最大最小的范围内
     if (this.config?.range) {
-      targetNumber = UGuard.number(targetNumber, { range: this.config.range })
+      targetNumber = UNumber.between(targetNumber, this.config.range)
     }
     //触发设定值的回调
-    this.callbackPool.onChange?.forEach(callback => callback(targetNumber, this._value))
+    this.callbackPool.onChange?.forEach((callback) => callback(targetNumber, this._value))
     // 更新JavaScript的对象的值
     this._value = targetNumber
     // 通知react以更新UI
