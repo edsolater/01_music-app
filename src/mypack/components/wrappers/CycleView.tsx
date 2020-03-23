@@ -27,9 +27,9 @@ export default function CycleView(
   const initIndex = useMemo(
     () =>
       props.initActiveIndex ??
-      props.itemList?.findIndex(({ activeName }) => activeName === props.initActiveName)! > 0
+      (props.itemList?.findIndex(({ activeName }) => activeName === props.initActiveName)! > 0
         ? props.itemList?.findIndex(({ activeName }) => activeName === props.initActiveName)
-        : 0,
+        : 0),
     [],
   )
   const activeIndex = useMaster({
