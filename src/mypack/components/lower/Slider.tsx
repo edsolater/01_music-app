@@ -36,35 +36,26 @@ function Slider(
   },
 ) {
   const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
-  const [triggerRef, setTriggerLeft] = useDomStyle(
-    style => (percentage = Number(props.defaultValue ?? 1)) => {
-      style.left = `${percentage * 100}%`
-    },
-  )
-  const [tailTrackRef, setTrackPassWidth] = useDomStyle(
-    style => (percentage = Number(props.defaultValue ?? 1)) => {
-      style.width = `${percentage * 100}%`
-    },
-  )
+  const [triggerRef, setTriggerLeft] = useDomStyle(style => (percentage: number) => {
+    style.left = `${percentage * 100}%`
+  })
+  const [tailTrackRef, setTrackPassWidth] = useDomStyle(style => (percentage: number) => {
+    style.width = `${percentage * 100}%`
+  })
+  const setStyleByMove = (percentage: number = 0) => {
+    setTriggerLeft(percentage)
+    setTrackPassWidth(percentage)
+  }
+
   useEffect(() => {
-    setTrackPassWidth(props.defaultValue ?? props.value)
-    setTriggerLeft(props.defaultValue ?? props.value)
+    setStyleByMove(props.defaultValue ?? props.value)
   }, [])
   useEffect(() => {
     if (!isDragging && props.max && typeof props.value === 'number') {
-      setTrackPassWidth(props.value / props.max)
-      setTriggerLeft(props.value / props.max)
+      setStyleByMove(props.value / props.max)
     }
   }, [props.value])
 
-  /**
-   * 移动 Trigger
-   */
-  const moveTriggerDone = (percentage: number) => {
-    setTriggerLeft(percentage)
-    setTrackPassWidth(percentage)
-    props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
-  }
   return (
     <View
       {...props}
@@ -73,7 +64,9 @@ function Slider(
         if (isDragging) return
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
-        moveTriggerDone((e.clientX - trackClientLeft) / trackWidth)
+        const percentage = (e.clientX - trackClientLeft) / trackWidth
+        setStyleByMove(percentage)
+        props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
       }}
     >
       <View
@@ -96,8 +89,7 @@ function Slider(
                 0,
                 1,
               ])
-              setTriggerLeft(percentage)
-              setTrackPassWidth(percentage)
+              setStyleByMove(percentage)
               props.onMoveTrigger?.(percentage * (props.max ?? 1))
             }
             /**
@@ -109,7 +101,12 @@ function Slider(
               }, 0)
               trigger.style.transition = ''
               passedTrack.style.transition = ''
-              moveTriggerDone(UNumber.between((e.clientX - sliderClientLeft) / sliderWidth, [0, 1]))
+              const percentage = UNumber.between((e.clientX - sliderClientLeft) / sliderWidth, [
+                0,
+                1,
+              ])
+              setStyleByMove(percentage)
+              props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
               document.removeEventListener('pointermove', handleMove)
               document.removeEventListener('pointerup', handleDone)
             }
