@@ -16,6 +16,12 @@ export default function Button(
       $tag='button'
       $componentName={['Button', { _disabled: props.disabled }]}
       {...props}
+      html={
+        {
+          type: 'button',
+          ...props.html,
+        } as any
+      }
     ></View>
   )
 }
