@@ -1,4 +1,4 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useState } from 'react'
 
 /**
  * @returns [ref, styleDispatcher]
@@ -17,14 +17,9 @@ export default function useDomStyle_deprecated() {
 export function useDomStyle<T extends (...any: any[]) => any>(
   styleCallback: (style: CSSStyleDeclaration) => T,
 ) {
-  //FIXME: 用setState缓存。不然每次刷新都会为空值
-  let styleDispatcher: T = (() => {}) as T
-  const ref = useCallback(
-    () => (el: HTMLElement) => {
-      styleDispatcher = styleCallback(el.style)
-      console.log(styleDispatcher)
-    },
-    [],
-  )
+  const [styleDispatcher, setDispatcher] = useState<T>(() => (() => {}) as T)
+  const ref = useCallback((el: HTMLElement) => {
+    setDispatcher(() => styleCallback(el.style))
+  }, [])
   return [ref, styleDispatcher] as const
 }
