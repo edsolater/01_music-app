@@ -147,7 +147,7 @@ export default function AudioPlayer() {
             },
           ]}
         />
-        <Popover
+        {/* <Popover
           Content={
             <Slider
               defaultValue={playerBar.volumn}
@@ -161,7 +161,7 @@ export default function AudioPlayer() {
           <Button className='volume'>
             <Icon iconfontName='volumn_empty' />
           </Button>
-        </Popover>
+        </Popover> */}
         <Button className='playlist' onClick={() => console.log(`I'm clicked d`)}>
           <Icon iconfontName='music-list' />
         </Button>

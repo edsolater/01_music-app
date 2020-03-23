@@ -8,7 +8,7 @@ export default function useDomStyle_deprecated() {
   const refObject = useRef<HTMLElement>()
   const styleDispatcher = (callback: (style: CSSStyleDeclaration) => any) => {
     if (refObject.current) {
-      callback(refObject.current?.style)
+      callback(refObject.current.style)
     }
   }
   return [refObject, styleDispatcher] as const
@@ -17,9 +17,11 @@ export default function useDomStyle_deprecated() {
 export function useDomStyle<T extends (...any: any[]) => any>(
   styleCallback: (style: CSSStyleDeclaration) => T,
 ) {
-  const [styleDispatcher, setDispatcher] = useState<T>(() => (() => {}) as T)
-  const ref = useCallback((el: HTMLElement) => {
-    setDispatcher(() => styleCallback(el.style))
-  }, [])
-  return [ref, styleDispatcher] as const
+  const refObject = useRef<HTMLElement>()
+  const styleSetter = ((...args) => {
+    if (refObject.current) {
+      return styleCallback(refObject.current.style)(...args)
+    }
+  }) as T
+  return [refObject, styleSetter] as const
 }

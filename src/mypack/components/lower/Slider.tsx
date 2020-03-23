@@ -42,13 +42,6 @@ function Slider(
       style.left = `${percentage * 100}%`
     },
   )
-  // const [triggerRef, triggerStyleDispatcher] = useDomStyle_deprecated()
-  // const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
-  //   triggerStyleDispatcher((style) => {
-  //     style.left = `${percentage * 100}%`
-  //   })
-  // }
-  // TODO:异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
   const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle_deprecated()
   const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
     tailTrackStyleDispatcher(style => {
