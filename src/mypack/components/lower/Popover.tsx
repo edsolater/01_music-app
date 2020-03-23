@@ -29,7 +29,6 @@ function Popover(
   },
 ) {
   const onOffController = useMasterBoolean(Boolean(props.defaultOpen))
-  // console.log('onOffController: ', onOffController.isOn) //TODO为什么这里会触法4次呢？
   const triggerCallback = {
     on: () => {
       onOffController.show().dismissDeferHide()
