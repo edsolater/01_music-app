@@ -1,7 +1,7 @@
-import React, { ComponentProps, useRef, useEffect, useReducer } from 'react'
+import React, { ComponentProps, useEffect, useReducer } from 'react'
 
 import './Slider.scss'
-import { useMaster, useDomStyle, useMethods } from '../customHooks'
+import { useDomStyle } from '../customHooks'
 import { View } from '.'
 import { UGuard } from 'mypack/utils/UGuard'
 
@@ -42,7 +42,7 @@ function Slider(
       style.left = `${percentage * 100}%`
     })
   }
-  // 异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
+  // TODO:异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
   const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle()
   const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
     tailTrackStyleDispatcher(style => {
