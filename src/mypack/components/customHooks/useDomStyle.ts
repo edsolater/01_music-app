@@ -4,12 +4,14 @@ import { useRef } from 'react'
  * @returns [ref, styleDispatcher]
  * 专用于交互（改变Style）
  */
-export default function useDomStyle() {
+export default function useDomStyle<T extends (...any: any[]) => any>(
+  styleCallback: (style: CSSStyleDeclaration) => T,
+) {
   const refObject = useRef<HTMLElement>()
-  const styleDispatcher = (callback: (style: CSSStyleDeclaration) => any) => {
+  const styleSetter = ((...args) => {
     if (refObject.current) {
-      callback(refObject.current?.style)
+      return styleCallback(refObject.current.style)(...args)
     }
-  }
-  return [refObject, styleDispatcher] as const
+  }) as T
+  return [refObject, styleSetter] as const
 }

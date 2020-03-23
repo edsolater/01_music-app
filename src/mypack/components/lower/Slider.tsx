@@ -35,20 +35,17 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  const [isDragging, toggleDragStatus] = useReducer((v) => !v, false)
-  const [triggerRef, triggerStyleDispatcher] = useDomStyle()
-  const setTriggerLeft = (percentage = Number(props.defaultValue ?? 1)) => {
-    triggerStyleDispatcher((style) => {
+  const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
+  const [triggerRef, setTriggerLeft] = useDomStyle(
+    style => (percentage = Number(props.defaultValue ?? 1)) => {
       style.left = `${percentage * 100}%`
-    })
-  }
-  // TODO:异想天开： 使用初始化时传入函数，以省去 tailTrackStyleDispatcher
-  const [tailTrackRef, tailTrackStyleDispatcher] = useDomStyle()
-  const setTrackPassWidth = (percentage = Number(props.defaultValue ?? 1)) => {
-    tailTrackStyleDispatcher((style) => {
+    },
+  )
+  const [tailTrackRef, setTrackPassWidth] = useDomStyle(
+    style => (percentage = Number(props.defaultValue ?? 1)) => {
       style.width = `${percentage * 100}%`
-    })
-  }
+    },
+  )
   useEffect(() => {
     setTrackPassWidth(props.defaultValue ?? props.value)
     setTriggerLeft(props.defaultValue ?? props.value)
@@ -72,7 +69,7 @@ function Slider(
     <View
       {...props}
       $componentName='Slider'
-      onClick={(e) => {
+      onClick={e => {
         if (isDragging) return
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
@@ -83,7 +80,7 @@ function Slider(
         className='Trigger'
         ref={triggerRef}
         html={{
-          onPointerDown: (e) => {
+          onPointerDown: e => {
             toggleDragStatus()
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
