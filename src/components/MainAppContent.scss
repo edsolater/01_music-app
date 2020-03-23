@@ -1,11 +1,12 @@
 @use '../mypack/sass/initialize.scss';
 .main-app-content {
-  padding-left: 8px;
-  padding-right: 8px;
-  background-image: linear-gradient(to bottom, #eee, #fff);
-  > .Text {
-    margin-top: 8px;
-    margin-bottom: 8px;
+  padding-left: 28px;
+  padding-right: 28px;
+  // background-image: linear-gradient(to bottom, #eee, #fff);
+  background-color: white;
+  .title {
+    margin-top: 16px;
+    margin-bottom: 16px;
   }
   .collection-info {
     display: grid;
@@ -97,17 +98,23 @@
     .__Item {
       padding: 16px;
       &._even {
-        background: #eee;
+        background: rgb(244, 244, 246);
+      }
+      > * {
+        display: flex;
       }
       .Icon.heart,
       .Icon.sq {
         color: var(--secondary);
+        filter: brightness(0.9);
       }
       .song-index {
         min-width: 40px;
+        justify-content: center;
       }
       .indicator-like {
         min-width: 40px;
+        justify-content: center;
       }
       .song-name {
         flex: 2 0 0;

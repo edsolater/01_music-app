@@ -10,7 +10,7 @@ interface CycleItem {
 /**
  *  循环切换
  */
-export default function CycleView(
+export default function CycleBox(
   props: ComponentProps<typeof View> & {
     /**初始时激活的序号，默认第一项 */
     initActiveIndex?: number
@@ -40,7 +40,7 @@ export default function CycleView(
     <View
       {...props}
       $componentName={[
-        'LoopBox',
+        'Box CycleBox',
         props.itemList?.[activeIndex.value].activeName ?? activeIndex.value,
       ]}
       onClick={e => {

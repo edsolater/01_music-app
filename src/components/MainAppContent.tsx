@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
-import { Box, OverlayedImage, Group, CycleView } from 'mypack/components/wrappers'
+import { Box, OverlayedImage, Group, CycleBox } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 
 export default function MainAppContent() {
@@ -13,13 +13,15 @@ export default function MainAppContent() {
   const currentCollectionMusicList = useTypedStoreSelector(state => state.collectionMusicList)
   return (
     <View $tag='section' className='main-app-content'>
-      <Text headline>歌单</Text>
+      <Box className='title'>
+        <Text subhead>歌单</Text>
+      </Box>
       <Box className='collection-info'>
         <OverlayedImage className='thumbnail'>
           <Picture src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </OverlayedImage>
-        <Text largeTitle>{currentCollectionInfo.title}</Text>
+        <Text title1>{currentCollectionInfo.title}</Text>
         <Box className='creator'>
           <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />
           <Text subhead className='nickname'>
@@ -60,7 +62,7 @@ export default function MainAppContent() {
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
-            <CycleView
+            <CycleBox
               className='indicator-like'
               initActiveIndex={itemInfo.isLiked ? 0 : 1}
               itemList={[
