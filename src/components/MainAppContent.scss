@@ -61,7 +61,7 @@
     }
     .buttons {
       grid-area: buttons;
-      :not(:hover):not(:active) .__Icon {
+      :not(:hover):not(:active) .Icon {
         opacity: 0.4;
       }
     }
@@ -98,7 +98,7 @@
     }
   }
   .List {
-    .__Item {
+    .Item {
       padding: 16px;
       &._even {
         background: rgb(244, 244, 246);

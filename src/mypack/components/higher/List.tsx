@@ -25,19 +25,18 @@ type IProps<T> = {
 function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
-    <View $tag='ul' {...props} $componentName='List'>
+    <View {...props} $componentName='List'>
       {props.data?.map((itemInfo, index) => {
         return (
           <Slot
-            $tag='li'
             key={
               typeof props.keyForListItems === 'function'
                 ? props.keyForListItems(itemInfo, index, props.data!)
                 : itemInfo[String(props.keyForListItems)]
             }
             className={[
-              '__Item',
-              '__ListItem',
+              'Item',
+              'ListItem',
               {
                 _selected: index === selectedIndex.value,
               },

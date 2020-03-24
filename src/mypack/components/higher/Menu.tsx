@@ -73,16 +73,16 @@ export default function Menu(props: IProps) {
           path: selectedPath.getAllPathItems(),
         }
         return (
-          <View className='__Groupbox' key={groupName}>
+          <View className='Groupbox' key={groupName}>
             <Slot
               className={[
-                '__MenuGroupTitle',
+                'MenuGroupTitle',
                 { _selected: groupName === selectedPath.getFirstPathItem()?.name },
               ]}
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
-            {/* FIXME:Menu的__Item, 不然太过于冗余了 */}
+            {/* FIXME:Menu的Item, 不然太过于冗余了 */}
             <List
               data={groupItems}
               keyForListItems='title'
@@ -96,8 +96,8 @@ export default function Menu(props: IProps) {
                 return (
                   <Slot
                     className={[
-                      '__Item',
-                      '__MenuItem',
+                      'Item',
+                      'MenuItem',
                       {
                         _selected:
                           (selectedPath.getFirstPathItem() as GroupInfo)?.label ===

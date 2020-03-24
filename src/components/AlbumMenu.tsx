@@ -4,6 +4,7 @@ import './AlbumMenu.scss'
 import { View, Icon, Badge, Text, Avatar } from 'mypack/components/lower'
 import { Menu } from 'mypack/components/higher'
 import { useTypedStoreSelector } from 'store'
+import { Item } from 'mypack/components/wrappers'
 
 export default function AlbumMenu() {
   const menu = useTypedStoreSelector(state => state.menu)
@@ -14,7 +15,7 @@ export default function AlbumMenu() {
         <Icon iconfontName='menu' />
       </View>
       <Menu
-        data={menu.collections} //TEMP
+        data={menu.collections}
         onSelectMenuItem={() => {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)
@@ -27,14 +28,14 @@ export default function AlbumMenu() {
           </View>
         )}
         renderMenuItem={itemInfo => (
-          <>
+          <Item>
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>
               <Badge transparent={!itemInfo.hasSomethingNew}>
                 <Text>{itemInfo.title}</Text>
               </Badge>
             </View>
-          </>
+          </Item>
         )}
       />
       <View className='user-info'>

@@ -7,7 +7,6 @@ import { List } from 'mypack/components/higher'
 import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
 import { Box, OverlayedImage, Group, CycleBox } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
-
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedStoreSelector(state => state.collectionInfo)
   const currentCollectionMusicList = useTypedStoreSelector(state => state.collectionMusicList)
@@ -68,7 +67,7 @@ export default function MainAppContent() {
         keyForListItems={item => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
-          <>
+          <View>
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
@@ -104,7 +103,7 @@ export default function MainAppContent() {
               <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
             </Box>
             <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
-          </>
+          </View>
         )}
         onSelectItem={() => {
           // TODO:store.playNewMusic(itemInfo)

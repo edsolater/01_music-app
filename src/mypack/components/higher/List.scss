@@ -1,6 +1,6 @@
 /* 示例 */
 // .List {
-//   .__Item {
+//   .Item {
 //     &._selected {}
 //     &._odd {}
 //   }
@@ -8,7 +8,7 @@
 .List {
   list-style: none;
   padding: unset;
-  .__Item {
+  .Item {
     display: flex;
   }
 }

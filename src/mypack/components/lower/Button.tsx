@@ -35,7 +35,7 @@ export default function Button(
         } as any
       }
     >
-      <Slot className='__Icon'>{props.renderIcon}</Slot>
+      <Slot className='Icon'>{props.renderIcon}</Slot>
       {props.children}
     </View>
   )
