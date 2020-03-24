@@ -32,11 +32,21 @@ export default function MainAppContent() {
           </Text>
         </Box>
         <Group className='buttons'>
-          <Button>收藏</Button>
-          <Button>评论</Button>
-          <Button>分享</Button>
-          <Button>下载全部</Button>
-          <Button>更多</Button>
+          <Button hasBorder size='small' renderIcon={<Icon iconfontName='collection-folder' />}>
+            <Text>收藏</Text>
+          </Button>
+          <Button hasBorder size='small' renderIcon={<Icon iconfontName='message' />}>
+            <Text>评论</Text>
+          </Button>
+          <Button hasBorder size='small' renderIcon={<Icon iconfontName='shut-down' />}>
+            <Text>分享</Text>
+          </Button>
+          <Button hasBorder size='small' renderIcon={<Icon iconfontName='download' />}>
+            <Text>下载全部</Text>
+          </Button>
+          <Button hasBorder size='small' renderIcon={<Icon iconfontName='more-info' />}>
+            <Text>更多</Text>
+          </Button>
         </Group>
       </Box>
       <Group className='list-operator'>

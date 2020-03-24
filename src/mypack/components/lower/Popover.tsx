@@ -52,7 +52,7 @@ function Popover(
       }}
     >
       <Slot //content不一定得是card形式，Card单独提成一个组件
-        slotName={['Popover', 'content-part', { on: props.open ?? onOffController.isOn }]}
+        className={['Popover', 'content-part', { on: props.open ?? onOffController.isOn }]}
         html={{
           onPointerEnter: () => triggerCallback.on(),
           onPointerLeave: () => triggerCallback.off(),

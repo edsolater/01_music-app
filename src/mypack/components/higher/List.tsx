@@ -35,7 +35,7 @@ function List<T>(props: ComponentProps<typeof View> & IProps<T>) {
                 ? props.keyForListItems(itemInfo, index, props.data!)
                 : itemInfo[String(props.keyForListItems)]
             }
-            slotName={[
+            className={[
               '__Item',
               '__ListItem',
               {

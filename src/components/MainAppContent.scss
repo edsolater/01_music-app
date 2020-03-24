@@ -61,6 +61,9 @@
     }
     .buttons {
       grid-area: buttons;
+      :not(:hover):not(:active) .__Icon {
+        opacity: 0.4;
+      }
     }
   }
   .list-operator {
