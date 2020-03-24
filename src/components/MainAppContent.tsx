@@ -31,19 +31,24 @@ export default function MainAppContent() {
           </Text>
         </Box>
         <Group className='buttons'>
-          <Button hasBorder size='small' renderIcon={<Icon iconfontName='collection-folder' />}>
+          <Button hasBorder size='small'>
+            <Icon iconfontName='collection-folder' />
             <Text>收藏</Text>
           </Button>
-          <Button hasBorder size='small' renderIcon={<Icon iconfontName='message' />}>
+          <Button hasBorder size='small'>
+            <Icon iconfontName='message' />
             <Text>评论</Text>
           </Button>
-          <Button hasBorder size='small' renderIcon={<Icon iconfontName='shut-down' />}>
+          <Button hasBorder size='small'>
+            <Icon iconfontName='shut-down' />
             <Text>分享</Text>
           </Button>
-          <Button hasBorder size='small' renderIcon={<Icon iconfontName='download' />}>
+          <Button hasBorder size='small'>
+            <Icon iconfontName='download' />
             <Text>下载全部</Text>
           </Button>
-          <Button hasBorder size='small' renderIcon={<Icon iconfontName='more-info' />}>
+          <Button hasBorder size='small'>
+            <Icon iconfontName='more-info' />
             <Text>更多</Text>
           </Button>
         </Group>

@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode } from 'react'
 import './Button.scss'
-import { View, Slot } from '.'
+import { View, Slot, Icon } from '.'
 
 //TODO： 常规操作：定义各种按钮样式
 export default function Button(
@@ -34,9 +34,6 @@ export default function Button(
           ...props.html,
         } as any
       }
-    >
-      <Slot className='Icon'>{props.renderIcon}</Slot>
-      {props.children}
-    </View>
+    />
   )
 }
