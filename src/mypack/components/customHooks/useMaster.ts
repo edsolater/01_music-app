@@ -32,6 +32,7 @@ export default <T extends 'number' | 'boolean' | 'pathStack'>(config: {
       case 'boolean':
         // @ts-ignore
         return new StateBoolean(config, state, setStateFunction)
+      // FIXME：最后一个阵地要攻克
       case 'pathStack':
         // @ts-ignore
         return new StateStringPath(config, state, setStateFunction)
