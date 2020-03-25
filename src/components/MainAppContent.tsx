@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
 import { View, Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
-import { Box, Figure, Group, CycleBox } from 'mypack/components/wrappers'
+import { Box, Figure, Group, CycleBox, Item } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
@@ -15,7 +15,7 @@ export default function MainAppContent() {
       <Box className='title'>
         <Text subhead>歌单</Text>
       </Box>
-      <Box className='collection-info'>
+      <Box as='header' className='collection-info'>
         <Figure className='thumbnail'>
           <Image src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
@@ -72,7 +72,7 @@ export default function MainAppContent() {
         keyForListItems={(item) => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
-          <View>
+          <Item>
             <Box className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </Box>
@@ -108,7 +108,7 @@ export default function MainAppContent() {
               <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
             </Box>
             <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
-          </View>
+          </Item>
         )}
         onSelectItem={() => {
           // TODO:store.playNewMusic(itemInfo)

@@ -3,5 +3,5 @@ import './Item.scss'
 import { View } from '../lower'
 
 export default function Item(props: ComponentProps<typeof View> & {}) {
-  return <View {...props} $componentName='Item' />
+  return <View {...props} $componentName='Item' as='li' />
 }

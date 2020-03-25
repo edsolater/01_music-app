@@ -26,7 +26,7 @@ function List<T>(
 ) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
   return (
-    <View {...props} $componentName='List'>
+    <View {...props} $componentName='List' as='ul'>
       {props.data?.map((itemInfo, index) => {
         return (
           <Slot
@@ -36,8 +36,6 @@ function List<T>(
                 : itemInfo[String(props.keyForListItems)]
             }
             className={[
-              'Item',
-              'ListItem',
               {
                 _selected: !props.$noSelfSelected && index === selectedIndex.value,
               },

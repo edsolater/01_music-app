@@ -39,11 +39,10 @@ export default function CycleBox(
   return (
     <View
       {...props}
-      $componentName={[
-        'Box CycleBox',
-        props.itemList?.[activeIndex.value].activeName ?? activeIndex.value,
-      ]}
-      onClick={e => {
+      $componentName={`current:${
+        props.itemList?.[activeIndex.value].activeName ?? activeIndex.value
+      }`}
+      onClick={(e) => {
         if (activeIndex.value === (props.itemList?.length ?? 1) - 1) {
           activeIndex.set(0)
         } else {

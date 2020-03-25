@@ -96,7 +96,6 @@ export default function Menu(props: IProps) {
                 return (
                   <Slot
                     className={[
-                      'MenuItem',
                       {
                         _selected:
                           (selectedPath.getFirstPathItem() as GroupInfo)?.label ===

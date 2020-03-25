@@ -11,7 +11,7 @@ export default function Box(
   },
 ) {
   return (
-    <View {...props} $componentName={['Box', props.direction, props.gapSize]}>
+    <View {...props} $componentName={[props.direction, props.gapSize]}>
       {props.children}
     </View>
   )
