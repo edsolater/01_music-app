@@ -11,7 +11,6 @@ export default function Icon(
     srcSet?: string
   },
 ) {
-  console.log('props: ', props)
   return props.iconfontName ? (
     <View
       $tag='i'

@@ -7,8 +7,8 @@ import { useTypedStoreSelector } from 'store'
 import { Item } from 'mypack/components/wrappers'
 
 export default function AlbumMenu() {
-  const menu = useTypedStoreSelector(state => state.menu)
-  const userProfile = useTypedStoreSelector(state => state.userProfile)
+  const menu = useTypedStoreSelector((state) => state.menu)
+  const userProfile = useTypedStoreSelector((state) => state.userProfile)
   return (
     <View $tag='section' className='album-menu'>
       <View className='shrink-button'>
@@ -21,13 +21,13 @@ export default function AlbumMenu() {
           // console.log('event: ', event)
         }}
         // 这里传递的匿名函数每次重渲染时都会另有函数地址，导致重渲染时性能优化的障碍。但不遇到障碍前，问题不大。
-        renderMenuGroup={groupInfo => (
+        renderMenuGroup={(groupInfo) => (
           <View className='menu-title'>
             <Text headline>{groupInfo.label}</Text>
             {groupInfo.label === '创建的歌单' && <Icon iconfontName='add' />}
           </View>
         )}
-        renderMenuItem={itemInfo => (
+        renderMenuItem={(itemInfo) => (
           <Item>
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>

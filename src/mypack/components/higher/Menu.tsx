@@ -82,8 +82,8 @@ export default function Menu(props: IProps) {
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
-            {/* FIXME:Menu的Item, 不然太过于冗余了 */}
             <List
+              $noSelfSelected
               data={groupItems}
               keyForListItems='title'
               renderListItem={(menuItem, itemIndex) => {
@@ -96,7 +96,6 @@ export default function Menu(props: IProps) {
                 return (
                   <Slot
                     className={[
-                      'Item',
                       'MenuItem',
                       {
                         _selected:
@@ -105,7 +104,7 @@ export default function Menu(props: IProps) {
                           (selectedPath.getLastPathItem() as ItemInfo)?.title === itemInfo.title,
                       },
                     ]}
-                    onClick={event => {
+                    onClick={(event) => {
                       selectedPath.setAllPathItems([groupInfo, itemInfo])
                       props.onSelectMenuItem?.(itemInfo, event)
                     }}
