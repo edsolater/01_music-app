@@ -1,5 +1,5 @@
 import React from 'react'
-import * as ReactDOM from 'react-dom'
+import { render } from 'react-dom'
 import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
@@ -16,4 +16,4 @@ function App() {
   )
 }
 
-ReactDOM.render(<App />, document.getElementById('app'))
+render(<App />, document.getElementById('app'))
