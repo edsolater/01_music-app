@@ -69,9 +69,9 @@ export default function MainAppContent() {
       </Group>
       <List
         data={currentCollectionMusicList}
-        keyForListItems={(item) => item.songName}
+        itemKey={(item) => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
-        renderListItem={(itemInfo, index) => (
+        renderItem={(itemInfo, index) => (
           <Item>
             <View className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>

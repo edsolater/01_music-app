@@ -16,7 +16,7 @@ export default function AlbumMenu() {
       </View>
       <Menu
         data={menu.collections}
-        onSelectMenuItem={() => {
+        onSelectItem={() => {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)
         }}
@@ -27,7 +27,7 @@ export default function AlbumMenu() {
             {groupInfo.label === '创建的歌单' && <Icon iconfontName='add' />}
           </View>
         )}
-        renderMenuItem={(itemInfo) => (
+        rendeItem={(itemInfo) => (
           <Item>
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>

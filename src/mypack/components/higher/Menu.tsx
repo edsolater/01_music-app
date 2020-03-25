@@ -37,11 +37,11 @@ type IProps = ComponentProps<typeof View> & {
   /**
    * 选择某个菜单项时发起的回调
    */
-  onSelectMenuItem?: (itemInfo: ItemInfo, event: React.MouseEvent) => void
+  onSelectItem?: (itemInfo: ItemInfo, event: React.MouseEvent) => void
   /**
    * 菜单项
    */
-  renderMenuItem?: (itemInfo: ItemInfo, index: number) => ReactNode
+  rendeItem?: (itemInfo: ItemInfo, index: number) => ReactNode
   /**
    * 菜单组的标头
    */
@@ -85,8 +85,8 @@ export default function Menu(props: IProps) {
             <List
               $noSelfSelected
               data={groupItems}
-              keyForListItems='title'
-              renderListItem={(menuItem, itemIndex) => {
+              itemKey='title'
+              renderItem={(menuItem, itemIndex) => {
                 const itemInfo: ItemInfo = {
                   ...menuItem,
                   group: groupInfo,
@@ -105,10 +105,10 @@ export default function Menu(props: IProps) {
                     ]}
                     onClick={(event) => {
                       selectedPath.setAllPathItems([groupInfo, itemInfo])
-                      props.onSelectMenuItem?.(itemInfo, event)
+                      props.onSelectItem?.(itemInfo, event)
                     }}
                   >
-                    {props.renderMenuItem?.(itemInfo, itemIndex)}
+                    {props.rendeItem?.(itemInfo, itemIndex)}
                   </Slot>
                 )
               }}

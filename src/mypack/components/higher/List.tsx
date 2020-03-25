@@ -15,13 +15,11 @@ function List<T>(
     /**初始选择的index */
     initSelectedIndex?: number
     /**用作Key的对象的属性名 */
-    keyForListItems?:
-      | ((item: T, index: number, items: T[]) => string | number | undefined)
-      | keyof T
+    itemKey?: ((item: T, index: number, items: T[]) => string | number | undefined) | keyof T
     /**当用户选择新属性时启用的回调 */
     onSelectItem?: (item: T, index: number, items: T[]) => unknown
     /**Slot：渲染每一个ListItem */
-    renderListItem?: (item: T, index: number, items: T[]) => ReactNode
+    renderItem?: (item: T, index: number, items: T[]) => ReactNode
   },
 ) {
   const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
@@ -31,9 +29,9 @@ function List<T>(
         return (
           <Slot
             key={
-              typeof props.keyForListItems === 'function'
-                ? props.keyForListItems(itemInfo, index, props.data!)
-                : itemInfo[String(props.keyForListItems)]
+              typeof props.itemKey === 'function'
+                ? props.itemKey(itemInfo, index, props.data!)
+                : itemInfo[String(props.itemKey)]
             }
             className={[
               {
@@ -46,7 +44,7 @@ function List<T>(
               selectedIndex.set(index)
             }}
           >
-            {props.renderListItem?.(itemInfo, index, props.data!)}
+            {props.renderItem?.(itemInfo, index, props.data!)}
           </Slot>
         )
       })}
