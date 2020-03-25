@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode, useMemo } from 'react'
 import { View } from '.'
-import { useMaster } from '../customHooks'
+import { useNumber } from '../customHooks'
 
 interface CycleItem {
   node: ReactNode
@@ -10,7 +10,7 @@ interface CycleItem {
 /**
  *  循环切换
  */
-export default function CycleBox(
+export default function Cycle(
   props: ComponentProps<typeof View> & {
     /**初始时激活的序号，默认第一项 */
     initActiveIndex?: number
@@ -32,28 +32,23 @@ export default function CycleBox(
         : 0),
     [],
   )
-  const activeIndex = useMaster({
-    type: 'number',
-    init: initIndex,
-  })
+  const [activeIndex, activeIndexManager] = useNumber(initIndex)
   return (
     <View
       {...props}
-      $componentName={`current:${
-        props.itemList?.[activeIndex.value].activeName ?? activeIndex.value
-      }`}
+      $componentName={`current:${props.itemList?.[activeIndex].activeName ?? activeIndex}`}
       onClick={(e) => {
-        if (activeIndex.value === (props.itemList?.length ?? 1) - 1) {
-          activeIndex.set(0)
+        if (activeIndex === (props.itemList?.length ?? 1) - 1) {
+          activeIndexManager.set(0)
         } else {
-          activeIndex.add(1)
+          activeIndexManager.add(1)
         }
-        props.itemList?.[activeIndex.value]?.onActive?.(props.itemList?.[activeIndex.value])
-        props.onIndexChange?.(activeIndex.value)
+        props.itemList?.[activeIndex]?.onActive?.(props.itemList?.[activeIndex])
+        props.onIndexChange?.(activeIndex)
         props.onClick?.(e)
       }}
     >
-      {props.itemList?.[activeIndex.value].node}
+      {props.itemList?.[activeIndex].node}
     </View>
   )
 }

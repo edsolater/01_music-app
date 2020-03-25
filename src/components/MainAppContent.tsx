@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
 import { Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
-import { View, Figure, Group, CycleBox, Item } from 'mypack/components/wrappers'
+import { View, Figure, Group, Cycle, Item } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
@@ -76,7 +76,7 @@ export default function MainAppContent() {
             <View className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
             </View>
-            <CycleBox
+            <Cycle
               className='indicator-like'
               initActiveIndex={itemInfo.isLiked ? 0 : 1}
               itemList={[

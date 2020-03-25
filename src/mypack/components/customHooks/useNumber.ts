@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function useNumberManager(
+export default function useNumber(
   /**初始值，默认或不能解析时均为0 */
   init?: unknown,
   /**set时的回调函数 */

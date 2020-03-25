@@ -5,7 +5,7 @@ import './AudioPlayer.scss'
 import { useElement, useMethods } from 'mypack/components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
-import { View, CycleBox } from 'mypack/components/wrappers'
+import { View, Cycle } from 'mypack/components/wrappers'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -126,7 +126,7 @@ export default function AudioPlayer() {
         <Button className='favorite'>
           <Icon iconfontName='heart_empty' />
         </Button>
-        <CycleBox
+        <Cycle
           className='indicator-like'
           initActiveName='random-mode'
           itemList={[
