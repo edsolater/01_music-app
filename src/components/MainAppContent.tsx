@@ -8,8 +8,8 @@ import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/low
 import { Box, OverlayedImage, Group, CycleBox } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 export default function MainAppContent() {
-  const currentCollectionInfo = useTypedStoreSelector(state => state.collectionInfo)
-  const currentCollectionMusicList = useTypedStoreSelector(state => state.collectionMusicList)
+  const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
+  const currentCollectionMusicList = useTypedStoreSelector((state) => state.collectionMusicList)
   return (
     <View $tag='section' className='main-app-content'>
       <Box className='title'>
@@ -31,37 +31,37 @@ export default function MainAppContent() {
           </Text>
         </Box>
         <Group className='buttons'>
-          <Button hasBorder size='small'>
+          <Button styleType='has-border' size='small'>
             <Icon iconfontName='collection-folder' />
             <Text>收藏</Text>
           </Button>
-          <Button hasBorder size='small'>
+          <Button styleType='has-border' size='small'>
             <Icon iconfontName='message' />
             <Text>评论</Text>
           </Button>
-          <Button hasBorder size='small'>
+          <Button styleType='has-border' size='small'>
             <Icon iconfontName='shut-down' />
             <Text>分享</Text>
           </Button>
-          <Button hasBorder size='small'>
+          <Button styleType='has-border' size='small'>
             <Icon iconfontName='download' />
             <Text>下载全部</Text>
           </Button>
-          <Button hasBorder size='small'>
+          <Button styleType='has-border' size='small'>
             <Icon iconfontName='more-info' />
             <Text>更多</Text>
           </Button>
         </Group>
       </Box>
       <Group className='list-operator'>
-        <Box className='play-all-btn'>
+        <Button className='play-all-btn'>
           <Icon iconfontName='play-all' />
           <Text>全部播放</Text>
-        </Box>
-        <Box className='select-btn'>
+        </Button>
+        <Button className='select-btn'>
           <Icon iconfontName='select-panel' />
           <Text>选择</Text>
-        </Box>
+        </Button>
         <Box className='search-slot'>
           <Box $tag='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
           <Icon iconfontName='search' />
@@ -69,7 +69,7 @@ export default function MainAppContent() {
       </Group>
       <List
         data={currentCollectionMusicList}
-        keyForListItems={item => item.songName}
+        keyForListItems={(item) => item.songName}
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
           <View>
