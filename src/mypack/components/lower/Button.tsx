@@ -17,7 +17,7 @@ export default function Button(
 ) {
   return (
     <View
-      $tag='button'
+      as='button'
       $componentName={[
         'Button',
         {

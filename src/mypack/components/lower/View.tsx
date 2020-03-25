@@ -10,7 +10,7 @@ type IProp = {
   /**
    * html使用的标签明
    */
-  $tag?: HTMLTag
+  as?: HTMLTag
   /**
    * 连接 css
    */
@@ -38,7 +38,7 @@ type IProp = {
 /**组件代码 */
 function View(props: IProp, ref: any) {
   return createElement(
-    props.$tag ?? 'div',
+    props.as ?? 'div',
     {
       ref: ref,
       className: classnames(props.$componentName, props.className),

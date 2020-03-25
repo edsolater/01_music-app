@@ -10,7 +10,7 @@ export default function AlbumMenu() {
   const menu = useTypedStoreSelector((state) => state.menu)
   const userProfile = useTypedStoreSelector((state) => state.userProfile)
   return (
-    <View $tag='section' className='album-menu'>
+    <View as='section' className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>

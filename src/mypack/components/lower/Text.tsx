@@ -58,7 +58,7 @@ function Text(
 ) {
   return (
     <View
-      $tag='span'
+      as='span'
       $componentName={[
         'Text',
         {

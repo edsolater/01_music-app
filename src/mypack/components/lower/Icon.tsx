@@ -13,7 +13,7 @@ export default function Icon(
 ) {
   return props.iconfontName ? (
     <View
-      $tag='i'
+      as='i'
       $componentName={[
         'Icon',
         props.iconfontName && `${props.iconfontName} iconfont icon-${props.iconfontName}`,

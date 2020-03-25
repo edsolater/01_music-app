@@ -16,14 +16,14 @@ type ComponentData = {
 }
 
 export default function AudioPlayer() {
-  const playerBar = useTypedStoreSelector(appStore => appStore.playerBar)
-  const audioElement = useElement('audio', el => {
+  const playerBar = useTypedStoreSelector((appStore) => appStore.playerBar)
+  const audioElement = useElement('audio', (el) => {
     el.volume = playerBar.volumn
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
   const [data, dataSetters] = useMethods(
-    componentData => ({
+    (componentData) => ({
       songSecond(
         setter: ((oldSeconds: number) => number) | number,
         options: { affectAudioPlayer: boolean } = { affectAudioPlayer: false },
@@ -74,13 +74,13 @@ export default function AudioPlayer() {
   useEffect(() => {
     const timeoutId = globalThis.setTimeout(() => {
       if (data.playStatus === 'playing') {
-        dataSetters.songSecond(n => n + 1)
+        dataSetters.songSecond((n) => n + 1)
       }
     }, 1000)
     return () => clearTimeout(timeoutId)
   })
   return (
-    <View $tag='section' className='player-bar'>
+    <View as='section' className='player-bar'>
       <Picture className='album-face' src={playerBar.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
@@ -89,7 +89,7 @@ export default function AudioPlayer() {
         <Button
           className={data.playStatus}
           onClick={() => {
-            dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
+            dataSetters.playStatus((old) => (old === 'paused' ? 'playing' : 'paused'))
           }}
         >
           {data.playStatus === 'playing' ? (
@@ -112,12 +112,12 @@ export default function AudioPlayer() {
         <Slider
           value={data.currentSecond}
           max={Number(playerBar.currentMusicInfo?.totalSeconds)}
-          onMoveTrigger={incomeCurrentSecond => {
+          onMoveTrigger={(incomeCurrentSecond) => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = Time(incomeCurrentSecond).format('MM:ss')
             }
           }}
-          onMoveTriggerDone={incomeCurrentSecond => {
+          onMoveTriggerDone={(incomeCurrentSecond) => {
             dataSetters.songSecond(() => incomeCurrentSecond, { affectAudioPlayer: true })
           }}
         />

@@ -16,7 +16,7 @@ type IProps = ComponentProps<typeof View> & {
 const Image = React.forwardRef((props: IProps, ref: any) => (
   <View
     ref={ref}
-    $tag='img'
+    as='img'
     {...props}
     html={{ src: props.src, ...props.html } as any /* 强行不type推断，以提升速度 */}
   >

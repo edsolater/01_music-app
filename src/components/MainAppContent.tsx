@@ -11,7 +11,7 @@ export default function MainAppContent() {
   const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
   const currentCollectionMusicList = useTypedStoreSelector((state) => state.collectionMusicList)
   return (
-    <View $tag='section' className='main-app-content'>
+    <View as='section' className='main-app-content'>
       <Box className='title'>
         <Text subhead>歌单</Text>
       </Box>
@@ -63,7 +63,7 @@ export default function MainAppContent() {
           <Text>选择</Text>
         </Button>
         <Box className='search-slot'>
-          <Box $tag='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
+          <Box as='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
           <Icon iconfontName='search' />
         </Box>
       </Group>
