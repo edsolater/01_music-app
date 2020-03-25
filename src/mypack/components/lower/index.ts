@@ -6,7 +6,6 @@ export { default as Text } from './Text'
 export { default as Image } from './Image'
 export { default as Avatar } from './Avatar' // Image 的变种
 export { default as Icon } from './Icon' // Image 的变种
-export { default as Picture } from './Picture' // Image 的变种
 
 export { default as Button } from './Button'
 

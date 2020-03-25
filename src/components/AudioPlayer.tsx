@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react'
 import { Time } from 'mypack/class'
 import './AudioPlayer.scss'
 import { useElement, useMethods } from 'mypack/components/customHooks'
-import { View, Button, Icon, Slider, Popover, Picture, Text } from 'mypack/components/lower'
+import { View, Button, Icon, Slider, Popover, Image, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
 import { CycleBox } from 'mypack/components/wrappers'
 
@@ -81,7 +81,7 @@ export default function AudioPlayer() {
   })
   return (
     <View as='section' className='player-bar'>
-      <Picture className='album-face' src={playerBar.currentMusicInfo?.albumUrl} />
+      <Image className='album-face' src={playerBar.currentMusicInfo?.albumUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
