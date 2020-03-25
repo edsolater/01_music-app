@@ -29,22 +29,3 @@ export function addEvent(
     return target
   }
 }
-
-/**
- * @deprecated 减弱了可读性
- * 提取相对应的子组件
- * @example
- * extractChildComponent()
- */
-export const extractReactChildByType = (
-  children: ReactNode,
-  targetType: string | Function,
-  detail?: object,
-) =>
-  React.Children.map(children, (element) => {
-    if (React.isValidElement(element) && element.type === targetType) {
-      return React.cloneElement(element, {
-        $$passedOnPayload /* 包含需要从组件内部抛出的对象，命名无所谓 */: detail,
-      })
-    }
-  })
