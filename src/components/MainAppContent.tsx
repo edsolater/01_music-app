@@ -4,8 +4,8 @@ import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
-import { View, Text, Icon, Avatar, Button, Picture } from 'mypack/components/lower'
-import { Box, OverlayedImage, Group, CycleBox } from 'mypack/components/wrappers'
+import { View, Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
+import { Box, Picture, Group, CycleBox } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
@@ -16,10 +16,10 @@ export default function MainAppContent() {
         <Text subhead>歌单</Text>
       </Box>
       <Box className='collection-info'>
-        <OverlayedImage className='thumbnail'>
-          <Picture src={currentCollectionInfo.thumbnail} className='bg' />
+        <Picture className='thumbnail'>
+          <Image src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
-        </OverlayedImage>
+        </Picture>
         <Text title1>{currentCollectionInfo.title}</Text>
         <Box className='creator'>
           <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />

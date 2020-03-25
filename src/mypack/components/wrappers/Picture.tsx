@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react'
-import './OverlayedImage.scss'
+import './Picture.scss'
 import { View } from '../lower'
 
-export default function OverlayedImage(
+export default function Picture(
   props: ComponentProps<typeof View> & {
     /**
      * 代表盒子样式，默认为row的样式
@@ -11,7 +11,7 @@ export default function OverlayedImage(
   },
 ) {
   return (
-    <View {...props} $componentName={['OverlayedImage', props.type]}>
+    <View {...props} $componentName={['Picture', props.type]}>
       {props.children}
     </View>
   )
