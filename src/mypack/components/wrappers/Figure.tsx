@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react'
-import './Picture.scss'
+import './Figure.scss'
 import { View } from '../lower'
 
-export default function Picture(
+export default function Figure(
   props: ComponentProps<typeof View> & {
     /**
      * 代表盒子样式，默认为row的样式
@@ -11,7 +11,7 @@ export default function Picture(
   },
 ) {
   return (
-    <View {...props} $componentName={['Picture', props.type]}>
+    <View {...props} $componentName={['Figure', props.type]}>
       {props.children}
     </View>
   )
