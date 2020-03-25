@@ -7,7 +7,8 @@ export { default as useMethods } from './useMethods'
  */
 export { default as useMaster } from './useMaster'
 export { default as useMasterBoolean } from './useMasterBoolean'
-export { default as useMasterNumber } from './useMasterNumber'
 
 /**针对number的强化版useState */
 export { default as useNumber } from './useNumber'
+/**针对boolean的强化版useState */
+export { default as useBoolean } from './useBoolean'

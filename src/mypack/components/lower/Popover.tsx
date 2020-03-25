@@ -29,8 +29,10 @@ function Popover(
   },
 ) {
   const onOffController = useMasterBoolean(Boolean(props.defaultOpen))
+  // const [onOffController, onOffControllerManager] = useBoolean(initIndex)
   const triggerCallback = {
     on: () => {
+      // FIXME UI逻辑与数据逻辑过于耦合了，难去
       onOffController.show().dismissDeferHide()
     },
     off: () => onOffController.deferHide(props.delayTime),

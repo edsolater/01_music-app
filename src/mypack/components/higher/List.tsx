@@ -1,6 +1,6 @@
 import React, { ReactNode, ComponentProps } from 'react'
 import './List.scss'
-import { useMaster } from '../customHooks'
+import { useNumber } from '../customHooks'
 import { View, Slot } from '../wrappers'
 
 /**
@@ -22,7 +22,7 @@ function List<T>(
     renderItem?: (item: T, index: number, items: T[]) => ReactNode
   },
 ) {
-  const selectedIndex = useMaster({ type: 'number', init: props.initSelectedIndex })
+  const [selectedIndex, selectedIndexManager] = useNumber(props.initSelectedIndex)
   return (
     <View {...props} $componentName='List' as='ul'>
       {props.data?.map((itemInfo, index) => {
@@ -35,13 +35,13 @@ function List<T>(
             }
             className={[
               {
-                _selected: !props.$noSelfSelected && index === selectedIndex.value,
+                _selected: !props.$noSelfSelected && index === selectedIndex,
               },
               index % 2 === 1 ? '_odd' : '_even',
             ]}
             onClick={() => {
               props.onSelectItem?.(itemInfo, index, props.data!)
-              selectedIndex.set(index)
+              selectedIndexManager.set(index)
             }}
           >
             {props.renderItem?.(itemInfo, index, props.data!)}

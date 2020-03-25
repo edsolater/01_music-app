@@ -3,7 +3,7 @@ import { useState } from 'react'
 export default function useNumber(
   /**初始值，默认或不能解析时均为0 */
   init?: unknown,
-  /**set时的回调函数 */
+  /** 值改变回调函数 */
   onChangeCallback?: (newValue: number, oldValue: number) => any,
 ) {
   // 使用原生的useState
