@@ -1,10 +1,10 @@
 import React from 'react'
 
 import './AlbumMenu.scss'
-import { View, Icon, Badge, Text, Avatar } from 'mypack/components/lower'
+import { Icon, Badge, Text, Avatar } from 'mypack/components/lower'
 import { Menu } from 'mypack/components/higher'
 import { useTypedStoreSelector } from 'store'
-import { Item } from 'mypack/components/wrappers'
+import { View, Item } from 'mypack/components/wrappers'
 
 export default function AlbumMenu() {
   const menu = useTypedStoreSelector((state) => state.menu)

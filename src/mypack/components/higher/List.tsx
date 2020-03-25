@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps } from 'react'
 import './List.scss'
 import { useMaster } from '../customHooks'
-import { View, Slot } from '../lower'
+import { View, Slot } from '../wrappers'
 
 /**
  * React组件

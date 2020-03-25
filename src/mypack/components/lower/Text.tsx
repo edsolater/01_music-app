@@ -1,6 +1,6 @@
 import React, { ComponentProps, forwardRef } from 'react'
 import './Text.scss'
-import { View } from '.'
+import { View } from '../wrappers'
 
 function Text(
   props: ComponentProps<typeof View> & {

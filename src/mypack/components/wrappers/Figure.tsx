@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Figure.scss'
-import { View } from '../lower'
+import { View } from '.'
 
 export default function Figure(
   props: ComponentProps<typeof View> & {

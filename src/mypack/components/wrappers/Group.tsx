@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Group.scss'
-import { View } from '../lower'
+import { View } from '.'
 
 export default function Group(
   props: ComponentProps<typeof View> & {

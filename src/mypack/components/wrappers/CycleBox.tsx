@@ -1,5 +1,5 @@
 import React, { ComponentProps, ReactNode, useMemo } from 'react'
-import { View } from '../lower'
+import { View } from '.'
 import { useMaster } from '../customHooks'
 
 interface CycleItem {

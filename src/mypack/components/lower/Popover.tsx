@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps } from 'react'
 import { useMasterBoolean } from 'mypack/components/customHooks'
 import './Popover.scss'
-import { Slot, View } from '.'
+import { Slot, View } from '../wrappers'
 
 /**
  * TODO:要向Badge学习，做一个子组件而不是父级组件
@@ -41,11 +41,11 @@ function Popover(
       $componentName={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
       html={{
         ...props.html,
-        onPointerEnter: event => {
+        onPointerEnter: (event) => {
           props.html?.onPointerEnter?.(event)
           triggerCallback.on()
         },
-        onPointerLeave: event => {
+        onPointerLeave: (event) => {
           props.html?.onPointerLeave?.(event)
           triggerCallback.off()
         },

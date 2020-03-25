@@ -1,7 +1,8 @@
 import React, { ComponentProps } from 'react'
 import './Icon.scss'
-import { Image, View } from '.'
 import { IconfontName } from 'iconfont/namelist'
+import { Image } from '.'
+import { View } from '../wrappers'
 
 export default function Icon(
   props: ComponentProps<typeof View> & {

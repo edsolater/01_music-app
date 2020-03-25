@@ -2,7 +2,7 @@ import React, { ComponentProps, useEffect, useReducer } from 'react'
 
 import './Slider.scss'
 import { useDomStyle } from '../customHooks'
-import { View } from '.'
+import { View } from '../wrappers'
 import { UNumber } from '../../utils'
 
 /**
@@ -35,11 +35,11 @@ function Slider(
     onMoveTriggerDone?: (currentSecond: number) => unknown
   },
 ) {
-  const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
-  const [triggerRef, setTriggerLeft] = useDomStyle(style => (percentage: number) => {
+  const [isDragging, toggleDragStatus] = useReducer((v) => !v, false)
+  const [triggerRef, setTriggerLeft] = useDomStyle((style) => (percentage: number) => {
     style.left = `${percentage * 100}%`
   })
-  const [tailTrackRef, setTrackPassWidth] = useDomStyle(style => (percentage: number) => {
+  const [tailTrackRef, setTrackPassWidth] = useDomStyle((style) => (percentage: number) => {
     style.width = `${percentage * 100}%`
   })
   const setStyleByMove = (percentage: number = 0) => {
@@ -60,7 +60,7 @@ function Slider(
     <View
       {...props}
       $componentName='Slider'
-      onClick={e => {
+      onClick={(e) => {
         if (isDragging) return
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
@@ -73,7 +73,7 @@ function Slider(
         className='Trigger'
         ref={triggerRef}
         html={{
-          onPointerDown: e => {
+          onPointerDown: (e) => {
             toggleDragStatus()
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!

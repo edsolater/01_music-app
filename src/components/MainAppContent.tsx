@@ -4,24 +4,24 @@ import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
-import { View, Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
-import { Box, Figure, Group, CycleBox, Item } from 'mypack/components/wrappers'
+import { Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
+import { View, Figure, Group, CycleBox, Item } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
   const currentCollectionMusicList = useTypedStoreSelector((state) => state.collectionMusicList)
   return (
     <View as='section' className='main-app-content'>
-      <Box className='title'>
+      <View className='title'>
         <Text subhead>歌单</Text>
-      </Box>
-      <Box as='header' className='collection-info'>
+      </View>
+      <View as='header' className='collection-info'>
         <Figure className='thumbnail'>
           <Image src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </Figure>
         <Text title1>{currentCollectionInfo.title}</Text>
-        <Box className='creator'>
+        <View className='creator'>
           <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />
           <Text subhead className='nickname'>
             {currentCollectionInfo.creatorInfo.nickName}
@@ -29,7 +29,7 @@ export default function MainAppContent() {
           <Text footnote className='create-time'>
             {currentCollectionInfo.createTime} 创建
           </Text>
-        </Box>
+        </View>
         <Group className='buttons'>
           <Button styleType='has-border' size='small'>
             <Icon iconfontName='collection-folder' />
@@ -52,7 +52,7 @@ export default function MainAppContent() {
             <Text>更多</Text>
           </Button>
         </Group>
-      </Box>
+      </View>
       <Group className='list-operator'>
         <Button className='play-all-btn'>
           <Icon iconfontName='play-all' />
@@ -62,10 +62,10 @@ export default function MainAppContent() {
           <Icon iconfontName='select-panel' />
           <Text>选择</Text>
         </Button>
-        <Box className='search-slot'>
-          <Box as='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
+        <View className='search-slot'>
+          <View as='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
           <Icon iconfontName='search' />
-        </Box>
+        </View>
       </Group>
       <List
         data={currentCollectionMusicList}
@@ -73,9 +73,9 @@ export default function MainAppContent() {
         initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
         renderListItem={(itemInfo, index) => (
           <Item>
-            <Box className='song-index'>
+            <View className='song-index'>
               <Text>{String(index).padStart(2, '0')}</Text>
-            </Box>
+            </View>
             <CycleBox
               className='indicator-like'
               initActiveIndex={itemInfo.isLiked ? 0 : 1}
@@ -94,19 +94,19 @@ export default function MainAppContent() {
                 },
               ]}
             />
-            <Box className='song-name'>
+            <View className='song-name'>
               <Text className='main-name'>{itemInfo.songName}</Text>
               <Text className='sub-name'>{itemInfo.songSubname}</Text>
-            </Box>
-            <Box className='author'>
+            </View>
+            <View className='author'>
               <Text>{itemInfo.author}</Text>
-            </Box>
-            <Box className='album-name'>
+            </View>
+            <View className='album-name'>
               <Text>{itemInfo.albumName}</Text>
-            </Box>
-            <Box className='total-seconds'>
+            </View>
+            <View className='total-seconds'>
               <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
-            </Box>
+            </View>
             <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
           </Item>
         )}

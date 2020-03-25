@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom'
 import './iconfont/iconfont.css'
 import './App.scss'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
-import { View } from 'mypack/components/lower'
 import { Provider } from 'react-redux'
 import { store } from 'store'
+import { View } from 'mypack/components/wrappers'
 
 function App() {
   return (

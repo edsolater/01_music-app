@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Badge.scss'
-import { View } from '.'
+import { View } from '../wrappers'
 
 export default function Badge(
   props: ComponentProps<typeof View> & {
