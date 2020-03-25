@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps } from 'react'
 import { useMasterBoolean } from 'mypack/components/customHooks'
 import './Popover.scss'
-import { Slot, View } from '../wrappers'
+import { View } from '../wrappers'
 
 /**
  * TODO:要向Badge学习，做一个子组件而不是父级组件
@@ -25,7 +25,7 @@ function Popover(
      *
      * Popover 的content的内容
      */
-    Content?: ReactNode
+    renderPopContent?: ReactNode
   },
 ) {
   const onOffController = useMasterBoolean(Boolean(props.defaultOpen))
@@ -53,16 +53,16 @@ function Popover(
         },
       }}
     >
-      <Slot //content不一定得是card形式，Card单独提成一个组件
+      <View //content不一定得是card形式，Card单独提成一个组件
         className={['Popover', 'content-part', { on: props.open ?? onOffController.isOn }]}
         html={{
           onPointerEnter: () => triggerCallback.on(),
           onPointerLeave: () => triggerCallback.off(),
         }}
       >
-        {props.Content} {/* slot */}
-      </Slot>
-      {props.children} {/* slot */}
+        {props.renderPopContent}
+      </View>
+      {props.children}
     </View>
   )
 }

@@ -148,7 +148,7 @@ export default function AudioPlayer() {
           ]}
         />
         <Popover
-          Content={
+          renderPopContent={
             <Slider
               defaultValue={playerBar.volumn}
               onMoveTriggerDone={(currentPercentage: number) => {
