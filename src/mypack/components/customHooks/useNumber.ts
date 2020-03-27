@@ -7,23 +7,23 @@ export default function useNumber(
   onChangeCallback?: (newValue: number, oldValue: number) => any,
 ) {
   // 使用原生的useState
-  const [_numberState, _setNumber] = useState(Number(init) || 0)
+  const [stateNumber, setNumber] = useState(Number(init) || 0)
 
   //强化型管理器
-  const stateManager = {
+  const setterManager = {
     /**原来数值的基础上做加减法 */
     add: (deltaNumber: number | ((oldValue: number) => number)) =>
       typeof deltaNumber === 'function'
-        ? stateManager.set(deltaNumber)
-        : stateManager.set((oldValue: number) => oldValue + deltaNumber),
+        ? setterManager.set(deltaNumber)
+        : setterManager.set((oldValue: number) => oldValue + deltaNumber),
 
     /**自定义本react钩子函数的dispatche */
     set: (newNumber: number | ((oldValue: number) => number)) => {
-      const newValue = typeof newNumber === 'function' ? newNumber(_numberState) : newNumber
-      onChangeCallback?.(newValue, _numberState)
-      _setNumber(newValue)
+      const newValue = typeof newNumber === 'function' ? newNumber(stateNumber) : newNumber
+      onChangeCallback?.(newValue, stateNumber)
+      setNumber(newValue)
     },
   }
   //返回特化过的（强化版）useState
-  return [_numberState, stateManager] as const
+  return [stateNumber, setterManager] as const
 }
