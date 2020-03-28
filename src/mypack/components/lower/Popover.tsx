@@ -1,5 +1,5 @@
 import React, { ReactNode, ComponentProps, useRef } from 'react'
-import { useBoolean, useRefData } from 'mypack/components/customHooks'
+import { useBoolean } from 'mypack/components/customHooks'
 import './Popover.scss'
 import { View } from '../wrappers'
 
@@ -28,19 +28,21 @@ function Popover(
     renderPopContent?: ReactNode
   },
 ) {
-  // const [timeoutId, setTimeoutId] = useRefData(0)
   const timeoutRef = useRef(0)
+  const setTimeoutId = (newId: number) => (timeoutRef.current = newId)
   const [isOpen, setters] = useBoolean(props.defaultOpen)
   const triggerCallback = {
     on: () => {
       if (!isOpen) setters.set(true)
       window.clearTimeout(timeoutRef.current)
+      setTimeoutId(0)
     },
     off: () => {
       const id = window.setTimeout(() => {
         setters.set(false)
+        setTimeoutId(0)
       }, props.delayTime ?? 600)
-      timeoutRef.current = id
+      setTimeoutId(id)
     },
   }
   return (
@@ -66,7 +68,10 @@ function Popover(
             e.stopPropagation() //因为 content-part 在 wrapper-part 内部，所以会触发2次
             return triggerCallback.on()
           },
-          onPointerLeave: () => triggerCallback.off(),
+          onPointerLeave: (e) => {
+            e.stopPropagation()
+            return triggerCallback.off()
+          },
         }}
       >
         {props.renderPopContent}

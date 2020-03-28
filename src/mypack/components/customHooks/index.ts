@@ -7,5 +7,3 @@ export { default as useMethods } from './useMethods'
 export { default as useNumber } from './useNumber'
 /**针对boolean的强化版useState */
 export { default as useBoolean } from './useBoolean'
-
-export { default as useRefData } from './useRefData'
