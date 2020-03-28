@@ -52,6 +52,7 @@ type IProps = ComponentProps<typeof View> & {
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
  */
 export default function Menu(props: IProps) {
+  //TODO：定义空数组时也能定义元素的类型信息，即currentMenuPath要自带类型信息
   const [currentMenuPath, pathSetters] = useQueue(Array(2), () => {
     console.log(12)
   })
