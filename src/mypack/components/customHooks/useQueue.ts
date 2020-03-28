@@ -1,38 +1,33 @@
 import { useState } from 'react'
 
-//TODO! 还没开始写
 /**
- * 状态hooks
- * 保存队列式（数组式）数据
+ * 数据结构 (队列Queue)
+ *
+ * 可用于记录路径
+ *
  * @example
  *   const [path, pathSetter] = useItemQueue(['parent', 'child'])
- * @param init 规定初始值
- * @param onChangeCallback 当值改变时的回调
+ * @param init 初始值
+ * @param onChangeCallback 当值改变
  */
-export default function useQueue(
-  /**初始值，默认或不能解析时均为0 */
-  init?: unknown,
+export default function useQueue<T>(
+  /**初始值，默认为 [] */
+  init?: T[],
   /** 值改变回调函数 */
-  onChangeCallback?: (newValue: number, oldValue: number) => any,
+  onChangeCallback?: (newValue: T[], oldValue: T[]) => any,
 ) {
   // 使用原生的useState
-  const [_numberState, _setNumber] = useState(Number(init) || 0)
+  const [state, set] = useState(init ?? [])
 
   //强化型管理器
-  const stateManager = {
-    /**原来数值的基础上做加减法 */
-    add: (deltaNumber: number | ((oldValue: number) => number)) =>
-      typeof deltaNumber === 'function'
-        ? stateManager.set(deltaNumber)
-        : stateManager.set((oldValue: number) => oldValue + deltaNumber),
-
+  const setters = {
     /**自定义本react钩子函数的dispatche */
-    set: (newNumber: number | ((oldValue: number) => number)) => {
-      const newValue = typeof newNumber === 'function' ? newNumber(_numberState) : newNumber
-      onChangeCallback?.(newValue, _numberState)
-      _setNumber(newValue)
+    set: (userNewValue: T[] | ((oldValue: T[]) => T[])) => {
+      const parsedNewValue = typeof userNewValue === 'function' ? userNewValue(state) : userNewValue
+      onChangeCallback?.(parsedNewValue, state)
+      set(parsedNewValue)
     },
   }
   //返回特化过的（强化版）useState
-  return [_numberState, stateManager] as const
+  return [state, setters] as const
 }

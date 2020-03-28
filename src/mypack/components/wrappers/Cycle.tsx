@@ -12,9 +12,9 @@ interface CycleItem {
  */
 export default function Cycle(
   props: ComponentProps<typeof View> & {
-    /**初始时激活的序号，默认第一项 */
+    /**初始时激活的序号，index，默认第一项 */
     initActiveIndex?: number
-    /**初始时激活的序号，使用名字 */
+    /**初始时激活的序号，name */
     initActiveName?: CycleItem['activeName']
     /**
      * 序号改变时的回调

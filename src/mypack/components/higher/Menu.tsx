@@ -5,6 +5,7 @@ import { Path } from 'mypack/class/StateStringPath'
 import { IconfontName } from 'iconfont/namelist'
 import { View, Slot } from '../wrappers'
 import { List } from '.'
+import useQueue from '../customHooks/useQueue'
 
 type ItemInfo = {
   title: string
@@ -51,16 +52,9 @@ type IProps = ComponentProps<typeof View> & {
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
  */
 export default function Menu(props: IProps) {
-  const selectedPath = useMaster({
-    type: 'pathStack',
-    init: [],
+  const [currentMenuPath, pathSetters] = useQueue(Array(2), () => {
+    console.log(12)
   })
-  useEffect(() => {
-    //TODO： 这里怎么无效？
-    selectedPath.on('getPathItem', () => {
-      console.log(3)
-    })
-  }, [])
   return (
     // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
     <View {...props} $componentName='Menu'>
@@ -70,14 +64,14 @@ export default function Menu(props: IProps) {
           label: groupName,
           index: groupIndex,
           children: groupItems,
-          path: selectedPath.getAllPathItems(),
+          path: currentMenuPath,
         }
         return (
           <View className='Groupbox' key={groupName}>
             <Slot
               className={[
                 'MenuGroupTitle',
-                { _selected: groupName === selectedPath.getFirstPathItem()?.name },
+                { _selected: groupName === (currentMenuPath[0] as GroupInfo | undefined)?.label },
               ]}
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
@@ -98,13 +92,13 @@ export default function Menu(props: IProps) {
                     className={[
                       {
                         _selected:
-                          (selectedPath.getFirstPathItem() as GroupInfo)?.label ===
+                          (currentMenuPath[0] as GroupInfo | undefined)?.label ===
                             groupInfo.label &&
-                          (selectedPath.getLastPathItem() as ItemInfo)?.title === itemInfo.title,
+                          (currentMenuPath[1] as ItemInfo | undefined)?.title === itemInfo.title,
                       },
                     ]}
                     onClick={(event) => {
-                      selectedPath.setAllPathItems([groupInfo, itemInfo])
+                      pathSetters.set([groupInfo, itemInfo])
                       props.onSelectItem?.(itemInfo, event)
                     }}
                   >
