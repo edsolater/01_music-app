@@ -13,7 +13,7 @@ import { useState } from 'react'
 export default function useQueue<T>(
   /**初始值，默认为 [] */
   init?: T[],
-  /** 值改变回调函数 */
+  /** 值改变时 */
   onChangeCallback?: (newValue: T[], oldValue: T[]) => any,
 ) {
   // 使用原生的useState
@@ -21,7 +21,6 @@ export default function useQueue<T>(
 
   //强化型管理器
   const setters = {
-    /**自定义本react钩子函数的dispatche */
     set: (userNewValue: T[] | ((oldValue: T[]) => T[])) => {
       const parsedNewValue = typeof userNewValue === 'function' ? userNewValue(state) : userNewValue
       onChangeCallback?.(parsedNewValue, state)

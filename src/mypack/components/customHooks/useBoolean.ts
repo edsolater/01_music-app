@@ -3,7 +3,7 @@ import { useState } from 'react'
 export default function useBoolean(
   /**初始值，默认或不能解析时均为0 */
   init?: unknown,
-  /** 值改变回调函数 */
+  /** 值改变时 */
   onChangeCallback?: (newValue: boolean, oldValue: boolean) => any,
 ) {
   // 使用原生的useState

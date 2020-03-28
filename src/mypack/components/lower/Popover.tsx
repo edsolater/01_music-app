@@ -1,5 +1,5 @@
-import React, { ReactNode, ComponentProps } from 'react'
-import { useMasterBoolean } from 'mypack/components/customHooks'
+import React, { ReactNode, ComponentProps, useRef } from 'react'
+import { useBoolean, useRefData } from 'mypack/components/customHooks'
 import './Popover.scss'
 import { View } from '../wrappers'
 
@@ -28,19 +28,25 @@ function Popover(
     renderPopContent?: ReactNode
   },
 ) {
-  const onOffController = useMasterBoolean(Boolean(props.defaultOpen))
-  // const [onOffController, onOffControllerManager] = useBoolean(initIndex)
+  // const [timeoutId, setTimeoutId] = useRefData(0)
+  const timeoutRef = useRef(0)
+  const [isOpen, setters] = useBoolean(props.defaultOpen)
   const triggerCallback = {
     on: () => {
-      // FIXME UI逻辑与数据逻辑过于耦合了，难去
-      onOffController.show().dismissDeferHide()
+      if (!isOpen) setters.set(true)
+      window.clearTimeout(timeoutRef.current)
     },
-    off: () => onOffController.deferHide(props.delayTime),
+    off: () => {
+      const id = window.setTimeout(() => {
+        setters.set(false)
+      }, props.delayTime ?? 600)
+      timeoutRef.current = id
+    },
   }
   return (
     <View
       {...props}
-      $componentName={['Popover', 'wrapper-part', { on: props.open ?? onOffController.isOn }]}
+      $componentName={['Popover', 'wrapper-part', { on: props.open ?? isOpen === true }]}
       html={{
         ...props.html,
         onPointerEnter: (event) => {
@@ -54,9 +60,12 @@ function Popover(
       }}
     >
       <View //content不一定得是card形式，Card单独提成一个组件
-        className={['Popover', 'content-part', { on: props.open ?? onOffController.isOn }]}
+        className={['Popover', 'content-part', { on: props.open ?? isOpen === true }]}
         html={{
-          onPointerEnter: () => triggerCallback.on(),
+          onPointerEnter: (e) => {
+            e.stopPropagation() //因为 content-part 在 wrapper-part 内部，所以会触发2次
+            return triggerCallback.on()
+          },
           onPointerLeave: () => triggerCallback.off(),
         }}
       >

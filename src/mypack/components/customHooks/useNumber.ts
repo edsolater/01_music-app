@@ -11,7 +11,7 @@ import { useState } from 'react'
 export default function useNumber(
   /**初始值，默认或不能解析时均为0 */
   init?: unknown,
-  /** 值改变回调函数 */
+  /** 值改变时 */
   onChangeCallback?: (newValue: number, oldValue: number) => any,
 ) {
   // 使用原生的useState
@@ -25,7 +25,6 @@ export default function useNumber(
         ? setters.set(deltaNumber)
         : setters.set((oldValue: number) => oldValue + deltaNumber),
 
-    /**自定义本react钩子函数的dispatche */
     set: (newNumber: number | ((oldValue: number) => number)) => {
       const newValue = typeof newNumber === 'function' ? newNumber(state) : newNumber
       onChangeCallback?.(newValue, state)
