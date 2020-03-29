@@ -4,6 +4,7 @@ import { View, Slot } from '../wrappers'
 import { List } from '.'
 import { useQueue } from '../customHooks'
 
+//TODO：是时候将类型文件单独提出一个.d.ts了，不然复杂度太高
 type ItemInfo<T> = T & {
   index: number
   siblings: T[]
