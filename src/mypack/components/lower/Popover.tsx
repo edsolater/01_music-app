@@ -21,26 +21,24 @@ function Popover(
      */
     delayTime?: number
     /**
-     * #Slot#
-     *
      * Popover 的content的内容
      */
     renderPopContent?: ReactNode
   },
 ) {
-  const timeoutRef = useRef(0)
+  const timeoutRef = useRef(NaN)
   const setTimeoutId = (newId: number) => (timeoutRef.current = newId)
   const [isOpen, setters] = useBoolean(props.defaultOpen)
   const triggerCallback = {
     on: () => {
-      if (!isOpen) setters.set(true)
       window.clearTimeout(timeoutRef.current)
-      setTimeoutId(0)
+      setTimeoutId(NaN)
+      setters.on()
     },
     off: () => {
       const id = window.setTimeout(() => {
-        setters.set(false)
-        setTimeoutId(0)
+        setTimeoutId(NaN)
+        setters.off()
       }, props.delayTime ?? 600)
       setTimeoutId(id)
     },
