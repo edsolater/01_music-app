@@ -32,7 +32,7 @@ export default function AlbumMenu() {
             <Icon iconfontName={itemInfo.icon ?? 'music-collection'} />
             <View className='textbox'>
               <Badge transparent={!itemInfo.hasSomethingNew}>
-                <Text>{itemInfo.title}</Text>
+                <Text>{itemInfo.label}</Text>
               </Badge>
             </View>
           </Item>

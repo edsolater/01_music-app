@@ -6,7 +6,7 @@ import { IconfontName } from 'iconfont/namelist'
 declare type ActionType = 'show-local-music' | 'show-downloaded-music' | 'show-recent-music'
 
 interface CollectionItemInfo {
-  title: string
+  label: string
   subtitle?: string
   icon?: IconfontName
   hasSomethingNew?: boolean
@@ -82,7 +82,7 @@ export interface RootState {
   }
 
   collectionInfo: {
-    title: string
+    label: string
     creatorInfo: {
       avatar: PicUrl
       nickName: string
