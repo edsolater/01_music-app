@@ -7,6 +7,7 @@ import { List } from '.'
 import { useQueue } from '../customHooks'
 
 type ItemInfo = {
+  //TODO: 这个label也要去掉，这样使用<Menu>组件才全无后顾之忧。最好能只传来一个id
   label: string
   icon?: IconfontName
   subtitle?: string
@@ -49,10 +50,8 @@ export default function Menu<T extends ItemInfo>(
     renderMenuGroup?: (groupInfo: GroupInfo, index: number) => ReactNode
   },
 ) {
-  //TODO：定义空数组时也能定义元素的类型信息，即currentMenuPath要自带类型信息
   const [currentMenuPath, pathSetters] = useQueue([{ label: '' }, { label: '' }] as [GroupInfo, T])
   return (
-    // TODO: 这里的数据逻辑和DOM节点信息看起来很乱。需要一键折叠节点信息的vscode插件方便看代码
     <View {...props} $componentName='Menu'>
       {props.children}
       {Object.entries(props.data).map(([groupName, groupItems], groupIndex) => {
