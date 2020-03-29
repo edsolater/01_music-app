@@ -4,7 +4,8 @@ import './Popover.scss'
 import { View } from '../wrappers'
 
 /**
- * TODO:要向Badge学习，做一个子组件而不是父级组件
+ * TODO:要使用react的新ProtalsAPI
+ * @see https://reactjs.org/docs/portals.html
  */
 function Popover(
   props: ComponentProps<typeof View> & {
