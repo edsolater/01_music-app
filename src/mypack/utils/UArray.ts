@@ -3,7 +3,7 @@
 // —————————————— 使用数组的集合算法 ——————————————
 //
 const trim = <T>(arr: T[]) =>
-  arr.filter(item => item !== undefined && item !== null) as Exclude<T, undefined | null>[]
+  arr.filter((item) => item !== undefined && item !== null) as Exclude<T, undefined | null>[]
 
 //
 //
@@ -34,38 +34,41 @@ const hasSameItems = (arrA: unknown[], arrB: unknown[]) =>
 // ———————————— 包装类 ——————————————
 //
 class _UArray<T> {
-  constructor(private arr: T[]) {}
+  #arr: T[]
+  constructor(arr: T[]) {
+    this.#arr = arr
+  }
   get value() {
-    return this.arr
+    return this.#arr
   }
   get length() {
-    return this.arr.length
+    return this.#arr.length
   }
   get lastIndex() {
-    return this.arr.length - 1
+    return this.#arr.length - 1
   }
   get isEmpty() {
-    return this.arr.length === 0
+    return this.#arr.length === 0
   }
 
   // self开头，代表返回的依旧是同类型
   map<U>(callbackfn: (value: T, index: number, array: T[]) => U, thisArg?: any) {
-    return new _UArray(this.arr.map(callbackfn, thisArg))
+    return new _UArray(this.#arr.map(callbackfn, thisArg))
   }
   trim() {
     return new _UArray(
-      this.arr.filter(item => item !== undefined && item !== null) as Exclude<
+      this.#arr.filter((item) => item !== undefined && item !== null) as Exclude<
         T,
         undefined | null
       >[],
     )
   }
 
-  // trim = trim.bind(this, this.arr)
-  removeByItem = removeByItem.bind(this, this.arr)
-  removeByIndex = removeByIndex.bind(this, this.arr)
-  removeAllItems = removeAllItems.bind(this, this.arr)
-  hasSameItems = hasSameItems.bind(this, this.arr)
+  // trim = trim.bind(this, this.#arr)
+  removeByItem = removeByItem.bind(this, this.#arr)
+  removeByIndex = removeByIndex.bind(this, this.#arr)
+  removeAllItems = removeAllItems.bind(this, this.#arr)
+  hasSameItems = hasSameItems.bind(this, this.#arr)
 }
 export const UArray = <T>(arr: T[]) => new _UArray(arr)
 UArray.trim = trim

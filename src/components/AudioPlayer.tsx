@@ -72,7 +72,7 @@ export default function AudioPlayer() {
 
   // 播放器进度条
   useEffect(() => {
-    const timeoutId = globalThis.setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       if (data.playStatus === 'playing') {
         dataSetters.songSecond((n) => n + 1)
       }
