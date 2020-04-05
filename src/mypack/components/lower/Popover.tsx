@@ -1,32 +1,25 @@
-import React, { ReactNode, ComponentProps, useRef } from 'react'
+import React, { ReactNode, ComponentProps, useRef, FC } from 'react'
 import { useBoolean } from 'mypack/components/customHooks'
 import './Popover.scss'
 import { View } from '../wrappers'
 
 /**
  * TODO:要使用react的新ProtalsAPI
+ *
  * @see https://reactjs.org/docs/portals.html
  */
-function Popover(
-  props: ComponentProps<typeof View> & {
-    /**
-     * Popover是否打开。此属性将开关的逻辑完全交给父元素控制。可以实现更复杂的控制但大多数时候使用默认交互方式即可
-     */
+const Popover: FC<
+  ComponentProps<typeof View> & {
+    /** 控制Popover是否开启状态。*/
     open?: boolean
-    /**
-     * 是否默认开启
-     */
+    /** Popover是否默认开启状态 */
     defaultOpen?: boolean
-    /**
-     * 延迟关闭的延迟时间。(只有当交互行为由组件内部自行控制控时生效)
-     */
+    /** 状态切换的延迟时间。(不设定open时生效)*/
     delayTime?: number
-    /**
-     * Popover 的content的内容
-     */
+    /** 绘制 Popover 的内部内容*/
     renderPopContent?: ReactNode
-  },
-) {
+  }
+> = (props) => {
   const timeoutRef = useRef(NaN)
   const setTimeoutId = (newId: number) => (timeoutRef.current = newId)
   const [isOpen, setters] = useBoolean(props.defaultOpen)
@@ -79,4 +72,7 @@ function Popover(
     </View>
   )
 }
-export default React.memo(Popover) as typeof Popover
+
+Popover.displayName = 'UIPropover'
+
+export default Popover
