@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Icon.scss'
-import { IconfontName } from 'iconfont/namelist'
+import { IconfontName } from 'assets/iconfont/namelist'
 import { Image } from '.'
 import { View } from '../wrappers'
 

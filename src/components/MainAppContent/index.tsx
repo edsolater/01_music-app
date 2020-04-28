@@ -6,10 +6,10 @@ import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
 import { Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
 import { View, Figure, Group, Cycle, Item } from 'mypack/components/wrappers'
-import { useTypedStoreSelector } from 'store'
+import { useTypedSelector } from 'App'
 export default function MainAppContent() {
-  const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
-  const currentCollectionMusicList = useTypedStoreSelector((state) => state.collectionMusicList)
+  const currentCollectionInfo = useTypedSelector((state) => state.collectionInfo)
+  const currentCollectionMusicList = useTypedSelector((state) => state.collectionMusicList)
   return (
     <View as='section' className='main-app-content'>
       <View className='title'>

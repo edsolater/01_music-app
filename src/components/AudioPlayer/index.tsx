@@ -4,7 +4,7 @@ import { Time } from 'mypack/class'
 import './index.scss'
 import { useElement, useMethods } from 'mypack/components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'mypack/components/lower'
-import { useTypedStoreSelector } from 'store'
+import { useTypedSelector } from 'App'
 import { View, Cycle } from 'mypack/components/wrappers'
 
 type PlayStatus = 'paused' | 'playing'
@@ -16,7 +16,7 @@ type ComponentData = {
 }
 
 export default function AudioPlayer() {
-  const playerBar = useTypedStoreSelector((appStore) => appStore.playerBar)
+  const playerBar = useTypedSelector((appStore) => appStore.playerBar)
   const audioElement = useElement('audio', (el) => {
     el.volume = playerBar.volumn
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
