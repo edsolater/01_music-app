@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './MainAppContent.scss'
+import './index.scss'
 import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
@@ -20,7 +20,7 @@ export default function MainAppContent() {
           <Image src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </Figure>
-        <Text title1>{currentCollectionInfo.title}</Text>
+        <Text title1>{currentCollectionInfo.label}</Text>
         <View className='creator'>
           <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />
           <Text subhead className='nickname'>

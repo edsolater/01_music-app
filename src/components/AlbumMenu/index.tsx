@@ -1,21 +1,23 @@
 import React from 'react'
 
-import './AlbumMenu.scss'
+import './index.scss'
 import { Menu } from 'mypack/components/higher'
 import { Icon, Badge, Text, Avatar } from 'mypack/components/lower'
 import { View, Item } from 'mypack/components/wrappers'
 import { useTypedStoreSelector } from 'store'
+import data from './data'
 
 export default function AlbumMenu() {
   const menu = useTypedStoreSelector((state) => state.menu)
   const userProfile = useTypedStoreSelector((state) => state.userProfile)
+  console.log('data: ', data)
   return (
     <View as='aside' className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
       <Menu
-        data={menu.collections}
+        data={data}
         onSelectItem={() => {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 
 import { Time } from 'mypack/class'
-import './AudioPlayer.scss'
+import './index.scss'
 import { useElement, useMethods } from 'mypack/components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'mypack/components/lower'
 import { useTypedStoreSelector } from 'store'
