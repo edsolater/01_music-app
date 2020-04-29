@@ -1,14 +1,14 @@
 import React from 'react'
 
-import './AlbumMenu.scss'
+import './index.scss'
 import { Menu } from 'mypack/components/higher'
 import { Icon, Badge, Text, Avatar } from 'mypack/components/lower'
 import { View, Item } from 'mypack/components/wrappers'
-import { useTypedStoreSelector } from 'store'
+import { useTypedSelector } from 'App'
 
 export default function AlbumMenu() {
-  const menu = useTypedStoreSelector((state) => state.menu)
-  const userProfile = useTypedStoreSelector((state) => state.userProfile)
+  const menu = useTypedSelector((state) => state.menu)
+  const userProfile = useTypedSelector((state) => state.userProfile)
   return (
     <View as='aside' className='album-menu'>
       <View className='shrink-button'>
@@ -20,7 +20,6 @@ export default function AlbumMenu() {
           // console.log('itemInfo: ', itemInfo)
           // console.log('event: ', event)
         }}
-        // 这里传递的匿名函数每次重渲染时都会另有函数地址，导致重渲染时性能优化的障碍。但不遇到障碍前，问题不大。
         renderMenuGroup={(groupInfo) => (
           <View className='menu-title'>
             <Text headline>{groupInfo.label}</Text>

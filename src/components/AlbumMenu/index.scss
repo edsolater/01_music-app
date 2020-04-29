@@ -1,6 +1,6 @@
-@use '../mypack/sass/layout.scss';
-@use '../mypack/sass/component.scss';
-@use '../mypack/sass/colorBlock.scss';
+@use '../../mypack/sass/layout.scss';
+@use '../../mypack/sass/component.scss';
+@use '../../mypack/sass/colorBlock.scss';
 .album-menu {
   border-right: var(--section-divider);
   background-color: var(--primary);

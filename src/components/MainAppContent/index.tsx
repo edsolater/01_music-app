@@ -1,15 +1,15 @@
 import React from 'react'
 
-import './MainAppContent.scss'
+import './index.scss'
 import { heartIcon } from 'assets/icons'
 import { formatSeconds } from 'mypack/utils/TimeFormatter'
 import { List } from 'mypack/components/higher'
 import { Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
 import { View, Figure, Group, Cycle, Item } from 'mypack/components/wrappers'
-import { useTypedStoreSelector } from 'store'
+import { useTypedSelector } from 'App'
 export default function MainAppContent() {
-  const currentCollectionInfo = useTypedStoreSelector((state) => state.collectionInfo)
-  const currentCollectionMusicList = useTypedStoreSelector((state) => state.collectionMusicList)
+  const currentCollectionInfo = useTypedSelector((state) => state.collectionInfo)
+  const currentCollectionMusicList = useTypedSelector((state) => state.collectionMusicList)
   return (
     <View as='section' className='main-app-content'>
       <View className='title'>
@@ -20,7 +20,7 @@ export default function MainAppContent() {
           <Image src={currentCollectionInfo.thumbnail} className='bg' />
           <Icon src={heartIcon} className='cover-icon' />
         </Figure>
-        <Text title1>{currentCollectionInfo.title}</Text>
+        <Text title1>{currentCollectionInfo.label}</Text>
         <View className='creator'>
           <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />
           <Text subhead className='nickname'>
