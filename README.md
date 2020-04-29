@@ -12,5 +12,5 @@ TODO 列表：
 
 构建数据系统：
 
-- 每个部分的 store 和 reducer 按功能分类（音乐目录、播放器、音乐列表单独有 store 和 reducer），将每个 component 的 store 注入到局部的文件夹并使用 require.context 实现在全局 store 中的自动引入【够喝一壶的了】
+- 每个部分的 store 和 reducer 按功能分类（音乐目录、播放器、音乐列表单独有 store 和 reducer），将每个 component 的 store 注入到局部的文件夹并使用 require.context 实现在全局 store 中的自动引入
 - 数据需要从服务器拿，那么每个 page 的数据中心就得实现 request.ts 文件，用于请求数据。在这之前要写好请求的基类（axios，promisify）
