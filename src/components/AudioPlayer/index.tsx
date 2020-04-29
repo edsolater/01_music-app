@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 
-import { Time } from 'mypack/class'
+import { Time } from 'class'
 import './index.scss'
-import { useElement, useMethods } from 'mypack/components/customHooks'
-import { Button, Icon, Slider, Popover, Image, Text } from 'mypack/components/lower'
-import { useTypedSelector } from 'App'
-import { View, Cycle } from 'mypack/components/wrappers'
+import { useElement, useMethods } from 'baseUI/customHooks'
+import { Button, Icon, Slider, Popover, Image, Text } from 'baseUI/lower'
+import { useTypedSelector } from 'store'
+import { View, Cycle } from 'baseUI/wrappers'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'

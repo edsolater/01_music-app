@@ -2,11 +2,11 @@ import React from 'react'
 
 import './index.scss'
 import { heartIcon } from 'assets/icons'
-import { formatSeconds } from 'mypack/utils/TimeFormatter'
-import { List } from 'mypack/components/higher'
-import { Text, Icon, Avatar, Button, Image } from 'mypack/components/lower'
-import { View, Figure, Group, Cycle, Item } from 'mypack/components/wrappers'
-import { useTypedSelector } from 'App'
+import { formatSeconds } from 'utils/TimeFormatter'
+import { List } from 'baseUI/higher'
+import { Text, Icon, Avatar, Button, Image } from 'baseUI/lower'
+import { View, Figure, Group, Cycle, Item } from 'baseUI/wrappers'
+import { useTypedSelector } from 'store'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedSelector((state) => state.collectionInfo)
   const currentCollectionMusicList = useTypedSelector((state) => state.collectionMusicList)

@@ -2,7 +2,7 @@ import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过�
 import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
-import { MusicInfo } from 'global/basicInterface'
+import { MusicInfo } from 'global/interface'
 
 type PicUrl = string
 

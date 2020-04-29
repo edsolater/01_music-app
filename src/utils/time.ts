@@ -97,4 +97,4 @@ function parseTimestamp(timeString: ITimeStamp) {
 
 //----------- test -------------
 
-console.log(countRoughTimeBetween('2020-2-25 20:00:00','2020-2-25 19:55:33'))
+console.log(countRoughTimeBetween('2020-2-25 20:00:00', '2020-2-25 19:55:33'))

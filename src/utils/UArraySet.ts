@@ -41,16 +41,16 @@ export const substract = <T, U>(arrA: T[], arrB: U[]) => {
 //
 // 判断A与B相交
 export const canInterset = <T, U>(arrA: T[], arrB: U[]) =>
-  arrB.some(itemB => arrA.includes(itemB as any))
+  arrB.some((itemB) => arrA.includes(itemB as any))
 // 判断A与B毫不相干
 export const canDisjoint = <T, U>(arrA: T[], arrB: U[]) =>
-  arrB.every(itemB => !arrA.includes(itemB as any))
+  arrB.every((itemB) => !arrA.includes(itemB as any))
 // 判断A是B的超集
 export const isSupersetOf = <T, U>(arrA: T[], arrB: U[]) =>
-  arrB.every(itemB => arrA.includes(itemB as any))
+  arrB.every((itemB) => arrA.includes(itemB as any))
 // 判断A是B的子集
 export const isSubsetOf = <T, U>(arrA: T[], arrB: U[]) =>
-  arrA.every(itemA => arrB.includes(itemA as any))
+  arrA.every((itemA) => arrB.includes(itemA as any))
 // 判断内容相等
 export const areEqual = <T extends unknown, U extends unknown>(arrA: T[], arrB: U[]) =>
   arrA.length === arrB.length && arrA.every((itemA, idx) => itemA === arrB[idx])
@@ -81,7 +81,7 @@ export class UArraySet<T> {
   }
   trim() {
     return new UArraySet(
-      this.arr.filter(item => item !== undefined && item !== null) as Exclude<
+      this.arr.filter((item) => item !== undefined && item !== null) as Exclude<
         T,
         undefined | null
       >[],

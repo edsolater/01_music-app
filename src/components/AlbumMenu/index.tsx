@@ -1,10 +1,10 @@
 import React from 'react'
 
 import './index.scss'
-import { Menu } from 'mypack/components/higher'
-import { Icon, Badge, Text, Avatar } from 'mypack/components/lower'
-import { View, Item } from 'mypack/components/wrappers'
-import { useTypedSelector } from 'App'
+import { Menu } from 'baseUI/higher'
+import { Icon, Badge, Text, Avatar } from 'baseUI/lower'
+import { View, Item } from 'baseUI/wrappers'
+import { useTypedSelector } from 'store'
 
 export default function AlbumMenu() {
   const menu = useTypedSelector((state) => state.menu)

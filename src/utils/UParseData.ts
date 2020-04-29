@@ -14,7 +14,7 @@ export function wrapToArray(item: any) {
 export const parseUrlParams = (searchSting = '?example=true&id=sdfsdf') => {
   const paramsString = searchSting.slice(1)
   const paramsObject = {}
-  paramsString.split('&').forEach(pair => {
+  paramsString.split('&').forEach((pair) => {
     let [key, value] = pair.split('=')
     try {
       value = JSON.parse(value)
