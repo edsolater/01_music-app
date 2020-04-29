@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 import './assets/iconfont/iconfont.css'
 import './App.scss'
+import './initPackage'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
 import { store } from './store'
 

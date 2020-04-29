@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 
-import { Time } from 'class'
 import './index.scss'
 import { useElement, useMethods } from 'baseUI/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'baseUI/lower'
 import { useTypedSelector } from 'store'
 import { View, Cycle } from 'baseUI/wrappers'
+import duration from 'utils/duration'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -105,16 +105,16 @@ export default function AudioPlayer() {
       <View className='timeSlider'>
         <View className='songTitle'>{playerBar.currentMusicInfo?.songName}</View>
         <View className='timestamp'>
-          <Text ref={currentSecondRef}>{Time(data.currentSecond).format('MM:ss')}</Text>
+          <Text ref={currentSecondRef}>{duration(data.currentSecond).format('MM:ss')}</Text>
           <Text className='divider'> / </Text>
-          <Text>{Time(Number(playerBar.currentMusicInfo?.totalSeconds)).format('MM:ss')}</Text>
+          <Text>{duration(Number(playerBar.currentMusicInfo?.totalSeconds)).format('MM:ss')}</Text>
         </View>
         <Slider
           value={data.currentSecond}
           max={Number(playerBar.currentMusicInfo?.totalSeconds)}
           onMoveTrigger={(incomeCurrentSecond) => {
             if (currentSecondRef.current) {
-              currentSecondRef.current.textContent = Time(incomeCurrentSecond).format('MM:ss')
+              currentSecondRef.current.textContent = duration(incomeCurrentSecond).format('MM:ss')
             }
           }}
           onMoveTriggerDone={(incomeCurrentSecond) => {

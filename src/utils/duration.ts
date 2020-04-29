@@ -1,6 +1,4 @@
-//作为一种数据的集合，这个也要测试
-//！！！！欠测试！！！！
-class _Time {
+class Duration {
   constructor(public inputSeconds: number) {}
   format(format = 'MM:ss') {
     if (format === 'MM:ss') {
@@ -41,6 +39,6 @@ class _Time {
     return Math.trunc(this.totalDays)
   }
 }
-const Time = <T extends number>(inputSeconds: T) => new _Time(inputSeconds)
-Time.prototype = _Time
-export default Time
+const duration: UtilFunction = <T extends number>(inputSeconds: T) => new Duration(inputSeconds)
+duration.prototype = Duration
+export default duration
