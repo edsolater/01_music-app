@@ -1,13 +1,18 @@
 import { useSelector, TypedUseSelectorHook } from 'react-redux'
 import { createStore } from 'redux'
-import { userProfileData } from 'global/store'
 import audioPlayerData from 'components/AudioPlayer/store'
 import albumMenuData from 'components/AlbumMenu/store'
 import mainAppContentData from 'components/MainAppContent/store'
 import { bigReducer } from './reducer'
+import myAvatar from 'assets/whiteEye--small.png'
+
 /**store */
 const initStore = {
-  userProfile: userProfileData,
+  userProfile: {
+    avatar: myAvatar,
+    nickname: 'edsolater',
+    messageList: [],
+  },
   menu: albumMenuData,
   playerBar: audioPlayerData,
   collectionInfo: mainAppContentData.collectionInfo,

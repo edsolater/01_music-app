@@ -1,4 +1,4 @@
-export type IconfontName =
+type IconfontName =
   | 'mail'
   | 'music_next'
   | 'music_pre'

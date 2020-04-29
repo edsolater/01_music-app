@@ -1,5 +1,3 @@
-import { IconfontName } from 'assets/iconfont/namelist'
-
 type ActionType = 'show-local-disk-music' | 'show-downloaded-music' | 'show-recent-music'
 
 type PicUrl = string

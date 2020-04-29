@@ -1,5 +1,3 @@
-import { CollectionItemInfo } from 'global/interface'
-
 // 暴露给顶层store
 const albumMenuData = {
   initIndex: 0,
