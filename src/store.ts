@@ -4,15 +4,11 @@ import audioPlayerData from 'components/AudioPlayer/store'
 import albumMenuData from 'components/AlbumMenu/store'
 import mainAppContentData from 'components/MainAppContent/store'
 import { bigReducer } from './reducer'
-import myAvatar from 'assets/whiteEye--small.png'
+import userProfile from 'shared/userProfile'
 
 /**store */
 const initStore = {
-  userProfile: {
-    avatar: myAvatar,
-    nickname: 'edsolater',
-    messageList: [],
-  },
+  userProfile: userProfile,
   menu: albumMenuData,
   playerBar: audioPlayerData,
   collectionInfo: mainAppContentData.collectionInfo,
