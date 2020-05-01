@@ -1,44 +1,166 @@
+import { isNunNullable } from './judger'
+import dayjs from 'dayjs'
+type Unit =
+  | 'milliseconds'
+  | 'seconds'
+  | 'minutes'
+  | 'hours'
+  | 'days'
+  | 'millisecond'
+  | 'second'
+  | 'minute'
+  | 'hour'
+  | 'day'
+  | 'ms'
+  | 's'
+  | 'm'
+  | 'h'
+  | 'd'
+type Mode = 'set' | 'add' | 'substract'
+
+const getTargetUnit = (unit: Unit) => {
+  if (['milliseconds', 'millisecond', 'ms'].includes(unit)) return 'millisecond'
+  else if (['seconds', 'second', 's'].includes(unit)) return 'second'
+  else if (['minutes', 'minute', 'm'].includes(unit)) return 'minute'
+  else if (['hours', 'hour', 'h'].includes(unit)) return 'hour'
+  else if (['days', 'day', 'd'].includes(unit)) return 'day'
+  else throw new Error(`unknow util: ${unit}`)
+}
 class Duration {
-  constructor(public inputSeconds: number) {}
+  #day = 0
+  #hour = 0
+  #minute = 0
+  #second = 0
+  #millisecond = 0
+  #total = 0
+
+  constructor(millisecond = 0) {
+    this.#total = millisecond
+    this.#calculateFromTotal()
+  }
+  #calculateFromTotal = () => {
+    let rest = this.#total
+    this.#millisecond = rest % 1000
+    rest = Math.trunc(rest / 1000)
+    if (rest <= 0) return
+    this.#second = rest % 60
+    rest = Math.trunc(rest / 60)
+    if (rest <= 0) return
+    this.#minute = rest % 60
+    rest = Math.trunc(rest / 60)
+    if (rest <= 0) return
+    this.#hour = rest % 24
+    rest = Math.trunc(rest / 24)
+    if (rest <= 0) return
+    this.#day = rest
+  }
+  clone() {
+    return new Duration(this.#total)
+  }
   format(format = 'MM:ss') {
+    // TODO 要设计format的机制
     if (format === 'MM:ss') {
-      const minutes = `${Number.isNaN(this.minutesInClock) ? '--' : this.minutesInClock}`.padStart(
-        2,
-        '0',
-      )
-      const seconds = `${Number.isNaN(this.secondsInClock) ? '--' : this.secondsInClock}`.padStart(
-        2,
-        '0',
-      )
-      return `${minutes}:${seconds}`
+      return `${this.#minute.toString().padStart(2, '0')}:${this.#second
+        .toString()
+        .padStart(2, '0')}`
     }
     return '--:--'
   }
-  get totalDays() {
-    return this.inputSeconds / (60 * 60 * 24)
+  millisecend(v?: number, mode: Mode = 'set') {
+    if (isNunNullable(v)) {
+      if (mode === 'set') return new Duration(this.#total - this.#millisecond + v)
+      if (mode === 'add') return new Duration(this.#total + v)
+      else return new Duration(this.#total - this.#millisecond - v)
+    } else {
+      return this.#millisecond
+    }
   }
-  get totalHours() {
-    return this.inputSeconds / (60 * 60)
+  second(v?: number, mode: Mode = 'set') {
+    if (isNunNullable(v)) {
+      if (mode === 'set') return new Duration(this.#total - (this.#second + v) * 1000)
+      if (mode === 'add') return new Duration(this.#total + v * 1000)
+      else return new Duration(this.#total - (this.#second - v) * 1000)
+    } else {
+      return this.#second
+    }
   }
-  get totalMinutes() {
-    return this.inputSeconds / 60
+  minute(v?: number, mode: Mode = 'set') {
+    if (isNunNullable(v)) {
+      if (mode === 'set') return new Duration(this.#total - (this.#minute + v) * 1000 * 60)
+      if (mode === 'add') return new Duration(this.#total + v * 1000 * 60)
+      else return new Duration(this.#total - (this.#minute - v) * 1000 * 60)
+    } else {
+      return this.#minute
+    }
   }
-  get totalSeconds() {
-    return this.inputSeconds
+  hour(v?: number, mode: Mode = 'set') {
+    if (isNunNullable(v)) {
+      if (mode === 'set') return new Duration(this.#total - (this.#hour + v) * 1000 * 60 * 60)
+      if (mode === 'add') return new Duration(this.#total + v * 1000 * 60 * 60)
+      else return new Duration(this.#total - (this.#hour - v) * 1000 * 60 * 60)
+    } else {
+      return this.#hour
+    }
   }
-  get secondsInClock() {
-    return Math.trunc(this.totalSeconds % 60)
+  day(v?: number, mode: Mode = 'set') {
+    if (isNunNullable(v)) {
+      if (mode === 'set') return new Duration(this.#total - (this.#day + v) * 1000 * 60 * 60 * 24)
+      if (mode === 'add') return new Duration(this.#total + v * 1000 * 60 * 60 * 24)
+      else return new Duration(this.#total - (this.#day - v) * 1000 * 60 * 60 * 24)
+    } else {
+      return this.#day
+    }
   }
-  get minutesInClock() {
-    return Math.trunc(this.totalMinutes % 60)
+  total(v?: number, mode: Mode = 'set') {
+    if (isNunNullable(v)) {
+      if (mode === 'set') return new Duration(v)
+      if (mode === 'add') return new Duration(this.#total + v)
+      else return new Duration(this.#total - v)
+    } else {
+      return this.#total
+    }
   }
-  get hoursInClock() {
-    return Math.trunc(this.totalHours % 24)
+  get(unit: Unit) {
+    const parsedUnit = getTargetUnit(unit)
+    if (parsedUnit === 'day') return this.day()
+    if (parsedUnit === 'hour') return this.hour()
+    if (parsedUnit === 'minute') return this.minute()
+    if (parsedUnit === 'second') return this.second()
+    else return this.millisecend()
   }
-  get daysInClock() {
-    return Math.trunc(this.totalDays)
+  set(unit: Unit, value: number) {
+    const parsedUnit = getTargetUnit(unit)
+    if (parsedUnit === 'day') return this.total(value * 1000 * 60 * 60 * 24, 'set')
+    if (parsedUnit === 'hour') return this.total(value * 1000 * 60 * 60 * 24, 'set')
+    if (parsedUnit === 'minute') return this.total(value * 1000 * 60, 'set')
+    if (parsedUnit === 'second') return this.total(value * 1000, 'set')
+    else return this.total(value, 'set')
+  }
+  add(value: number, unit: Unit = 'millisecond') {
+    const parsedUnit = getTargetUnit(unit)
+    if (parsedUnit === 'day') return this.total(value * 1000 * 60 * 60 * 24, 'add')
+    if (parsedUnit === 'hour') return this.total(value * 1000 * 60 * 60 * 24, 'add')
+    if (parsedUnit === 'minute') return this.total(value * 1000 * 60, 'add')
+    if (parsedUnit === 'second') return this.total(value * 1000, 'add')
+    else return this.total(value, 'add')
+  }
+  subStract(value: number, unit: Unit = 'millisecond') {
+    const parsedUnit = getTargetUnit(unit)
+    if (parsedUnit === 'day') return this.total(value * 1000 * 60 * 60 * 24, 'substract')
+    if (parsedUnit === 'hour') return this.total(value * 1000 * 60 * 60 * 24, 'substract')
+    if (parsedUnit === 'minute') return this.total(value * 1000 * 60, 'substract')
+    if (parsedUnit === 'second') return this.total(value * 1000, 'substract')
+    else return this.total(value, 'substract')
   }
 }
-const duration: UtilFunction = <T extends number>(inputSeconds: T) => new Duration(inputSeconds)
-duration.prototype = Duration
+
+const duration = (value = 0, unit: Unit = 'milliseconds') => {
+  const parsedUnit = getTargetUnit(unit)
+  if (parsedUnit === 'day') return new Duration(1000 * 60 * 60 * 24 * value)
+  if (parsedUnit === 'hour') return new Duration(1000 * 60 * 60 * value)
+  if (parsedUnit === 'minute') return new Duration(1000 * 60 * value)
+  if (parsedUnit === 'second') return new Duration(1000 * value)
+  else return new Duration(value)
+}
+
 export default duration

@@ -105,7 +105,7 @@ export default function MainAppContent() {
               <Text>{itemInfo.albumName}</Text>
             </View>
             <View className='total-seconds'>
-              <Text>{duration(itemInfo.totalSeconds).format('MM:ss')}</Text>
+              <Text>{duration(itemInfo.totalSeconds * 1000).format('MM:ss')}</Text>
             </View>
             <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
           </Item>
