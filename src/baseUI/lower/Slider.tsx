@@ -3,7 +3,7 @@ import React, { ComponentProps, useEffect, useReducer } from 'react'
 import './Slider.scss'
 import { useDomStyle } from '../customHooks'
 import { View } from '../wrappers'
-import { UNumber } from '../../utils'
+import between from 'utils/between'
 
 /**
  * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次）IDEA： 加个函数防抖能轻松解决？
@@ -85,10 +85,7 @@ function Slider(
              * document 绑定拖拽事件
              */
             const handleMove = (e: PointerEvent) => {
-              const percentage = UNumber.between((e.clientX - sliderClientLeft) / sliderWidth, [
-                0,
-                1,
-              ])
+              const percentage = between((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
               setStyleByMove(percentage)
               props.onMoveTrigger?.(percentage * (props.max ?? 1))
             }
@@ -101,10 +98,7 @@ function Slider(
               }, 0)
               trigger.style.transition = ''
               passedTrack.style.transition = ''
-              const percentage = UNumber.between((e.clientX - sliderClientLeft) / sliderWidth, [
-                0,
-                1,
-              ])
+              const percentage = between((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
               setStyleByMove(percentage)
               props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
               document.removeEventListener('pointermove', handleMove)

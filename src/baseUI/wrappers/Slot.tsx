@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import { View } from '.'
-import { mergeObjects } from 'utils/UObject'
+import mergeObjects from 'utils/mergeObject'
 
 export default function Slot(props: ComponentProps<typeof View> & {}) {
   if (React.isValidElement(props.children)) {

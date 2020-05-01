@@ -1,12 +1,12 @@
 import React from 'react'
 
-import './index.scss'
+import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
-import { formatSeconds } from 'utils/TimeFormatter'
 import { List } from 'baseUI/higher'
 import { Text, Icon, Avatar, Button, Image } from 'baseUI/lower'
 import { View, Figure, Group, Cycle, Item } from 'baseUI/wrappers'
-import { useTypedSelector } from 'store'
+import { useTypedSelector } from 'stores/createStore'
+import duration from 'utils/duration'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedSelector((state) => state.collectionInfo)
   const currentCollectionMusicList = useTypedSelector((state) => state.collectionMusicList)
@@ -105,7 +105,7 @@ export default function MainAppContent() {
               <Text>{itemInfo.albumName}</Text>
             </View>
             <View className='total-seconds'>
-              <Text>{formatSeconds(itemInfo.totalSeconds)}</Text>
+              <Text>{duration(itemInfo.totalSeconds).format('MM:ss')}</Text>
             </View>
             <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
           </Item>

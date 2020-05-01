@@ -10,7 +10,7 @@ type IAction =
       type: 'SET_SONG_VOLUMN'
       volumNumber: number
     }
-export const bigReducer = (state = {}, action: IAction) => {
+export const rootReducer = (state = {}, action: IAction) => {
   switch (action.type) {
     case 'LOAD_NEW_SONG':
       return {}

@@ -2,11 +2,11 @@ import React, { FC } from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
-import './assets/iconfont/iconfont.css'
+import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
-import { AlbumMenu, MainAppContent, AudioPlayer } from 'components'
-import { store } from './store'
+import { store } from 'stores/createStore'
+import { AlbumMenu, MainAppContent, AudioPlayer } from 'apps'
 
 /**<App> */
 const App: FC<{}> = () => (

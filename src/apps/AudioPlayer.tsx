@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 
-import './index.scss'
+import './AudioPlayer.scss'
 import { useElement, useMethods } from 'baseUI/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'baseUI/lower'
-import { useTypedSelector } from 'store'
+import { useTypedSelector } from 'stores/createStore'
 import { View, Cycle } from 'baseUI/wrappers'
 import duration from 'utils/duration'
 

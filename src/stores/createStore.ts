@@ -1,10 +1,10 @@
 import { useSelector, TypedUseSelectorHook } from 'react-redux'
 import { createStore } from 'redux'
-import audioPlayerData from 'components/AudioPlayer/store'
-import albumMenuData from 'components/AlbumMenu/store'
-import mainAppContentData from 'components/MainAppContent/store'
-import { bigReducer } from './reducer'
-import userProfile from 'shared/userProfile'
+import audioPlayerData from 'stores/storeAudioPlayer'
+import albumMenuData from 'stores/storeAlbumMenu'
+import mainAppContentData from 'stores/storeMainAppContent'
+import { rootReducer } from './reducer'
+import userProfile from 'stores/storeShared'
 
 /**store */
 const initStore = {
@@ -14,5 +14,5 @@ const initStore = {
   collectionInfo: mainAppContentData.collectionInfo,
   collectionMusicList: mainAppContentData.collectionMusicList,
 }
-export const store = createStore(bigReducer, initStore)
+export const store = createStore(rootReducer, initStore)
 export const useTypedSelector: TypedUseSelectorHook<typeof initStore> = useSelector
