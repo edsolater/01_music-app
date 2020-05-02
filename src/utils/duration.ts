@@ -1,22 +1,25 @@
 import { isNunNullable } from './judger'
 import dayjs from 'dayjs'
-type Unit =
-  | 'milliseconds'
-  | 'seconds'
-  | 'minutes'
-  | 'hours'
-  | 'days'
-  | 'millisecond'
-  | 'second'
-  | 'minute'
-  | 'hour'
-  | 'day'
-  | 'ms'
-  | 's'
-  | 'm'
-  | 'h'
-  | 'd'
-type Mode = 'set' | 'add' | 'substract'
+const avaliableUnits = [
+  'milliseconds',
+  'seconds',
+  'minutes',
+  'hours',
+  'days',
+  'millisecond',
+  'second',
+  'minute',
+  'hour',
+  'day',
+  'ms',
+  's',
+  'm',
+  'h',
+  'd',
+] as const
+type Unit = typeof avaliableUnits[number]
+const avaliableModes = ['set', 'add', 'substract'] as const
+type Mode = typeof avaliableModes[number]
 
 const getTargetUnit = (unit: Unit) => {
   unit = unit.toLowerCase() as Unit
