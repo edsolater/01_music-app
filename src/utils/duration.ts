@@ -19,6 +19,7 @@ type Unit =
 type Mode = 'set' | 'add' | 'substract'
 
 const getTargetUnit = (unit: Unit) => {
+  unit = unit.toLowerCase() as Unit
   if (['milliseconds', 'millisecond', 'ms'].includes(unit)) return 'millisecond'
   else if (['seconds', 'second', 's'].includes(unit)) return 'second'
   else if (['minutes', 'minute', 'm'].includes(unit)) return 'minute'
@@ -27,99 +28,169 @@ const getTargetUnit = (unit: Unit) => {
   else throw new Error(`unknow util: ${unit}`)
 }
 
+type DurationDescription = {
+  day?: number
+  hour?: number
+  minute?: number
+  second?: number
+  millisecond?: number
+  total?: number
+}
 class Duration {
-  #day = 0
-  #hour = 0
-  #minute = 0
-  #second = 0
-  #millisecond = 0
-  #total = 0
+  private _day = 0
+  private _hour = 0
+  private _minute = 0
+  private _second = 0
+  private _millisecond = 0
+  private _total = 0
 
-  constructor(millisecond = 0) {
-    this.#total = millisecond
-    this.#calculateFromTotal()
+  constructor(total?: number)
+  constructor(desciptionObj: DurationDescription)
+  constructor(paramOne: number | DurationDescription = 0) {
+    switch (typeof paramOne) {
+      case 'number':
+        this._total = paramOne
+        this.calculateFromTotal()
+        break
+      case 'object':
+        const durationDescription = paramOne
+        if (isNunNullable(durationDescription.total)) {
+          this._total = durationDescription.total
+          this.calculateFromTotal()
+        } else {
+          this._day = durationDescription.day ?? 0
+          this._hour = durationDescription.hour ?? 0
+          this._minute = durationDescription.minute ?? 0
+          this._second = durationDescription.second ?? 0
+          this._millisecond = durationDescription.millisecond ?? 0
+          this.calculateToTotal()
+        }
+    }
   }
-  #calculateFromTotal = () => {
-    let rest = this.#total
-    this.#millisecond = rest % 1000
+  private calculateFromTotal() {
+    let rest = this._total
+    this._millisecond = rest % 1000
     rest = Math.trunc(rest / 1000)
     if (rest <= 0) return
-    this.#second = rest % 60
+    this._second = rest % 60
     rest = Math.trunc(rest / 60)
     if (rest <= 0) return
-    this.#minute = rest % 60
+    this._minute = rest % 60
     rest = Math.trunc(rest / 60)
     if (rest <= 0) return
-    this.#hour = rest % 24
+    this._hour = rest % 24
     rest = Math.trunc(rest / 24)
     if (rest <= 0) return
-    this.#day = rest
+    this._day = rest
+  }
+  private calculateToTotal() {
+    this._total =
+      (((this._day * 24 + this._hour) * 60 + this._minute) * 60 + this._second) * 1000 +
+      this._millisecond
   }
   clone() {
-    return new Duration(this.#total)
+    return new Duration(this._total)
   }
-  format(format = 'MM:ss') {
-    // TODO 要设计format的机制
-    if (format === 'MM:ss') {
-      return `${this.#minute.toString().padStart(2, '0')}:${this.#second
-        .toString()
-        .padStart(2, '0')}`
+  format(format = 'mm:ss') {
+    format = format.toLowerCase()
+    const dayPlaceholder = format.match(/d+/g)
+    if (dayPlaceholder) {
+      for (const matchedString of dayPlaceholder) {
+        format = format.replace(
+          matchedString,
+          String(this._day).padStart(matchedString.length, '0'),
+        )
+      }
     }
-    return '--:--'
+    const hourPlaceholder = format.match(/h+/g)
+    if (hourPlaceholder) {
+      for (const matchedString of hourPlaceholder) {
+        format = format.replace(
+          matchedString,
+          String(this._hour).padStart(matchedString.length, '0'),
+        )
+      }
+    }
+    const minutePlaceholder = format.match(/m+/g)
+    if (minutePlaceholder) {
+      for (const matchedString of minutePlaceholder) {
+        format = format.replace(
+          matchedString,
+          String(this._minute).padStart(matchedString.length, '0'),
+        )
+      }
+    }
+    const secondPlaceholder = format.match(/s+/g)
+    if (secondPlaceholder) {
+      for (const matchedString of secondPlaceholder) {
+        if (matchedString.length === 3) {
+          format = format.replace(
+            matchedString,
+            String(this._millisecond).padStart(matchedString.length, '0'),
+          )
+        } else {
+          format = format.replace(
+            matchedString,
+            String(this._second).padStart(matchedString.length, '0'),
+          )
+        }
+      }
+    }
+    return format
   }
   millisecond(): number
   millisecond(v: number, mode?: Mode): Duration
   millisecond(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
-      if (mode === 'set') return new Duration(this.#total - this.#millisecond + v)
-      if (mode === 'add') return new Duration(this.#total + v)
-      else return new Duration(this.#total - this.#millisecond - v)
+      if (mode === 'set') return new Duration(this._total - this._millisecond + v)
+      if (mode === 'add') return new Duration(this._total + v)
+      else return new Duration(this._total - this._millisecond - v)
     } else {
-      return this.#millisecond
+      return this._millisecond
     }
   }
   second(): number
   second(v: number, mode?: Mode): Duration
   second(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
-      if (mode === 'set') return new Duration(this.#total - (this.#second + v) * 1000)
-      if (mode === 'add') return new Duration(this.#total + v * 1000)
-      else return new Duration(this.#total - (this.#second - v) * 1000)
+      if (mode === 'set') return new Duration(this._total - (this._second + v) * 1000)
+      if (mode === 'add') return new Duration(this._total + v * 1000)
+      else return new Duration(this._total - (this._second - v) * 1000)
     } else {
-      return this.#second
+      return this._second
     }
   }
   minute(): number
   minute(v: number, mode?: Mode): Duration
   minute(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
-      if (mode === 'set') return new Duration(this.#total - (this.#minute + v) * 1000 * 60)
-      if (mode === 'add') return new Duration(this.#total + v * 1000 * 60)
-      else return new Duration(this.#total - (this.#minute - v) * 1000 * 60)
+      if (mode === 'set') return new Duration(this._total - (this._minute + v) * 1000 * 60)
+      if (mode === 'add') return new Duration(this._total + v * 1000 * 60)
+      else return new Duration(this._total - (this._minute - v) * 1000 * 60)
     } else {
-      return this.#minute
+      return this._minute
     }
   }
   hour(): number
   hour(v: number, mode?: Mode): Duration
   hour(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
-      if (mode === 'set') return new Duration(this.#total - (this.#hour + v) * 1000 * 60 * 60)
-      if (mode === 'add') return new Duration(this.#total + v * 1000 * 60 * 60)
-      else return new Duration(this.#total - (this.#hour - v) * 1000 * 60 * 60)
+      if (mode === 'set') return new Duration(this._total - (this._hour + v) * 1000 * 60 * 60)
+      if (mode === 'add') return new Duration(this._total + v * 1000 * 60 * 60)
+      else return new Duration(this._total - (this._hour - v) * 1000 * 60 * 60)
     } else {
-      return this.#hour
+      return this._hour
     }
   }
   day(): number
   day(v: number, mode?: Mode): Duration
   day(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
-      if (mode === 'set') return new Duration(this.#total - (this.#day + v) * 1000 * 60 * 60 * 24)
-      if (mode === 'add') return new Duration(this.#total + v * 1000 * 60 * 60 * 24)
-      else return new Duration(this.#total - (this.#day - v) * 1000 * 60 * 60 * 24)
+      if (mode === 'set') return new Duration(this._total - (this._day + v) * 1000 * 60 * 60 * 24)
+      if (mode === 'add') return new Duration(this._total + v * 1000 * 60 * 60 * 24)
+      else return new Duration(this._total - (this._day - v) * 1000 * 60 * 60 * 24)
     } else {
-      return this.#day
+      return this._day
     }
   }
   total(): number
@@ -127,10 +198,10 @@ class Duration {
   total(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(v)
-      if (mode === 'add') return new Duration(this.#total + v)
-      else return new Duration(this.#total - v)
+      if (mode === 'add') return new Duration(this._total + v)
+      else return new Duration(this._total - v)
     } else {
-      return this.#total
+      return this._total
     }
   }
   get(unit: Unit) {

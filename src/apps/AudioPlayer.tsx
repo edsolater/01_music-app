@@ -105,9 +105,9 @@ export default function AudioPlayer() {
       <View className='timeSlider'>
         <View className='songTitle'>{playerBar.currentMusicInfo?.songName}</View>
         <View className='timestamp'>
-          <Text ref={currentSecondRef}>{duration(data.currentSecond * 1000).format('MM:ss')}</Text>
+          <Text ref={currentSecondRef}>{duration(data.currentSecond * 1000).format('mm:ss')}</Text>
           <Text className='divider'> / </Text>
-          <Text>{duration(playerBar.currentMusicInfo?.totalSeconds * 1000).format('MM:ss')}</Text>
+          <Text>{duration(playerBar.currentMusicInfo?.totalSeconds * 1000).format('mm:ss')}</Text>
         </View>
         <Slider
           value={data.currentSecond}
@@ -115,7 +115,7 @@ export default function AudioPlayer() {
           onMoveTrigger={(incomeCurrentSecond) => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
-                'MM:ss',
+                'mm:ss',
               )
             }
           }}
