@@ -26,6 +26,7 @@ const getTargetUnit = (unit: Unit) => {
   else if (['days', 'day', 'd'].includes(unit)) return 'day'
   else throw new Error(`unknow util: ${unit}`)
 }
+
 class Duration {
   #day = 0
   #hour = 0
@@ -66,7 +67,9 @@ class Duration {
     }
     return '--:--'
   }
-  millisecend(v?: number, mode: Mode = 'set') {
+  millisecond(): number
+  millisecond(v: number, mode?: Mode): Duration
+  millisecond(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(this.#total - this.#millisecond + v)
       if (mode === 'add') return new Duration(this.#total + v)
@@ -75,6 +78,8 @@ class Duration {
       return this.#millisecond
     }
   }
+  second(): number
+  second(v: number, mode?: Mode): Duration
   second(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(this.#total - (this.#second + v) * 1000)
@@ -84,6 +89,8 @@ class Duration {
       return this.#second
     }
   }
+  minute(): number
+  minute(v: number, mode?: Mode): Duration
   minute(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(this.#total - (this.#minute + v) * 1000 * 60)
@@ -93,6 +100,8 @@ class Duration {
       return this.#minute
     }
   }
+  hour(): number
+  hour(v: number, mode?: Mode): Duration
   hour(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(this.#total - (this.#hour + v) * 1000 * 60 * 60)
@@ -102,6 +111,8 @@ class Duration {
       return this.#hour
     }
   }
+  day(): number
+  day(v: number, mode?: Mode): Duration
   day(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(this.#total - (this.#day + v) * 1000 * 60 * 60 * 24)
@@ -111,6 +122,8 @@ class Duration {
       return this.#day
     }
   }
+  total(): number
+  total(v: number, mode?: Mode): Duration
   total(v?: number, mode: Mode = 'set') {
     if (isNunNullable(v)) {
       if (mode === 'set') return new Duration(v)
@@ -126,7 +139,7 @@ class Duration {
     if (parsedUnit === 'hour') return this.hour()
     if (parsedUnit === 'minute') return this.minute()
     if (parsedUnit === 'second') return this.second()
-    else return this.millisecend()
+    else return this.millisecond()
   }
   set(unit: Unit, value: number) {
     const parsedUnit = getTargetUnit(unit)
@@ -164,3 +177,6 @@ const duration = (value = 0, unit: Unit = 'milliseconds') => {
 }
 
 export default duration
+
+const foo = new Duration().second()
+const hello = dayjs().hour()
