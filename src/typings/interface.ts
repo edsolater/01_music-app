@@ -38,3 +38,52 @@ interface MusicInfo {
   isSQ?: boolean
   /**是否有相关MV */
 }
+
+interface IProfile {
+  description?: string
+  vipType?: number
+  gender?: number
+  accountStatus?: number
+  avatarImgId?: number
+  nickname?: string
+  birthday?: number
+  city?: number
+  djStatus?: number
+  userType?: number
+  backgroundImgId?: number
+  avatarUrl?: PicURL
+  defaultAvatar?: false
+  province?: number
+  // experts?: {}
+  expertTags?: null
+  authStatus?: 0
+  mutual?: false
+  remarkName?: null
+  userId?: number
+  detailDescription?: string
+  backgroundUrl?: PicURL
+  followed?: boolean
+  signature?: string
+  authority?: number
+  followeds?: number
+  follows?: number
+  eventCount?: number
+  playlistCount?: number
+  playlistBeSubscribedCount?: number
+}
+interface IAccount {
+  id?: ID // 账号ID
+  userName?: string // 账号名（非昵称）
+  type?: number // 账号类型
+  status?: number // 账号状态
+  whitelistAuthority?: number //是否是白名单用户
+  createTime?: number //账号创建时间
+  salt?: string //？随机值？
+  tokenVersion?: 1 // token的类型
+  ban?: 0
+  baoyueVersion?: 0
+  donateVersion?: 0
+  vipType?: number //vip类型
+  viptypeVersion?: number //此vip的版本
+  anonimousUser?: boolean //是否是匿名用户
+}

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
@@ -8,17 +8,37 @@ import './initPackage'
 import { store } from 'stores/createStore'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'apps'
 import requestLogin from 'requests/login'
-import requestUserPlaylist from 'requests/user/playlist'
+import useLocalStorage from 'hooks/useLocalStorage'
+import { useTypedDispatch } from 'reducers/createReducer'
 
 /**<App> */
-const App: FC<{}> = () => (
+const App: FC<{}> = () => {
+  const [localStorage, setLocalStorage] = useLocalStorage()
+  const dispatch = useTypedDispatch()
+  useEffect(() => {
+    if (!localStorage.account.id) {
+      requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
+        setLocalStorage('account', data.account)
+        setLocalStorage('profile', data.profile)
+        setLocalStorage('token', data.token)
+        dispatch({
+          type: 'UPDATE_LOGIN_INFO',
+          data: { profile: data.profile, account: data.account, token: data.token },
+        })
+      })
+    }
+  }, [])
+  return (
+    <>
+      <AlbumMenu />
+      <MainAppContent />
+      <AudioPlayer />
+    </>
+  )
+}
+render(
   <Provider store={store}>
-    <AlbumMenu />
-    <MainAppContent />
-    <AudioPlayer />
-  </Provider>
+    <App />
+  </Provider>,
+  document.getElementById('app'),
 )
-// requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then((res) =>
-//   requestUserPlaylist({ uid: res.data.account.id }).then(console.log),
-// )
-render(<App />, document.getElementById('app'))

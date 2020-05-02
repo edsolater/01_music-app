@@ -1,19 +1,18 @@
 import { Dispatch } from 'react'
 import { useDispatch } from 'react-redux'
 /**reducer */
-type IAction =
-  | {
-      type: 'LOAD_NEW_SONG'
-      songUrl: string
-    }
-  | {
-      type: 'SET_SONG_VOLUMN'
-      volumNumber: number
-    }
+type IAction = {
+  type: 'UPDATE_LOGIN_INFO'
+  data: {
+    profile?: IProfile
+    account?: IAccount
+    token?: string
+  }
+}
 export const rootReducer = (state = {}, action: IAction) => {
   switch (action.type) {
-    case 'LOAD_NEW_SONG':
-      return {}
+    case 'UPDATE_LOGIN_INFO':
+      return { ...state } // TODO
     default:
       return state
   }

@@ -3,7 +3,7 @@ import { createStore } from 'redux'
 import audioPlayerData from 'stores/storeAudioPlayer'
 import albumMenuData from 'stores/storeAlbumMenu'
 import mainAppContentData from 'stores/storeMainAppContent'
-import { rootReducer } from './reducer'
+import { rootReducer } from '../reducers/createReducer'
 import userProfile from 'stores/storeShared'
 
 /**store */
