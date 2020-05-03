@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react'
 
-import './AudioPlayer.scss'
+import './PlayerBar.scss'
 import { useElement, useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/lower'
-import { useTypedSelector } from 'redux/createStore'
+import { useTypedSelector } from 'redux/$createStore'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 
@@ -15,7 +15,7 @@ type ComponentData = {
   playStatus: PlayStatus
 }
 
-export default function AudioPlayer() {
+export default function PlayerBar() {
   const playerBar = useTypedSelector((appStore) => appStore.playerBar)
   const audioElement = useElement('audio', (el) => {
     el.volume = playerBar.volumn
@@ -26,12 +26,12 @@ export default function AudioPlayer() {
     (componentData) => ({
       songSecond(
         setter: ((oldSeconds: number) => number) | number,
-        options: { affectAudioPlayer: boolean } = { affectAudioPlayer: false },
+        options: { affectPlayerBar: boolean } = { affectPlayerBar: false },
       ) {
         const newSecond =
           typeof setter === 'function' ? setter(componentData.currentSecond) : setter
         if (newSecond <= playerBar.currentMusicInfo.totalSeconds) {
-          if (options.affectAudioPlayer) audioElement.currentTime = newSecond
+          if (options.affectPlayerBar) audioElement.currentTime = newSecond
           componentData.currentSecond = newSecond
         }
       },
@@ -120,7 +120,7 @@ export default function AudioPlayer() {
             }
           }}
           onMoveTriggerDone={(incomeCurrentSecond) => {
-            dataSetters.songSecond(() => incomeCurrentSecond, { affectAudioPlayer: true })
+            dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayerBar: true })
           }}
         />
       </View>

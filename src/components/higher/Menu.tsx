@@ -20,7 +20,7 @@ type GroupInfo<T> = {
 /**
  * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
  */
-export default function Menu<T extends { label: string }>(
+export default function Menu<T extends { label: string /* TODO 去除对label这个特定值的依赖 */ }>(
   props: ComponentProps<typeof View> & {
     //TODO: generic掉data中的ItemInfo的类型
     /**

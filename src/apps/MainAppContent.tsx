@@ -5,7 +5,7 @@ import { heartIcon } from 'assets/icons'
 import { List } from 'components/higher'
 import { Text, Icon, Avatar, Button, Image } from 'components/lower'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
-import { useTypedSelector } from 'redux/createStore'
+import { useTypedSelector } from 'redux/$createStore'
 import duration from 'utils/duration'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedSelector((state) => state.collectionInfo)
