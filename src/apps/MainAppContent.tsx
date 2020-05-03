@@ -2,10 +2,10 @@ import React from 'react'
 
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
-import { List } from 'baseUI/higher'
-import { Text, Icon, Avatar, Button, Image } from 'baseUI/lower'
-import { View, Figure, Group, Cycle, Item } from 'baseUI/wrappers'
-import { useTypedSelector } from 'stores/createStore'
+import { List } from 'components/higher'
+import { Text, Icon, Avatar, Button, Image } from 'components/lower'
+import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
+import { useTypedSelector } from 'redux/createStore'
 import duration from 'utils/duration'
 export default function MainAppContent() {
   const currentCollectionInfo = useTypedSelector((state) => state.collectionInfo)

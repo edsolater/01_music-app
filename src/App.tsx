@@ -5,11 +5,11 @@ import { Provider } from 'react-redux'
 import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
-import { store } from 'stores/createStore'
+import { store } from 'redux/createStore'
 import { AlbumMenu, MainAppContent, AudioPlayer } from 'apps'
 import requestLogin from 'requests/login'
 import useLocalStorage from 'hooks/useLocalStorage'
-import { useTypedDispatch } from 'reducers/createReducer'
+import { useTypedDispatch } from 'redux/createReducer'
 
 /**<App> */
 const App: FC<{}> = () => {

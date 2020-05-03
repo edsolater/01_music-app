@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 
 import './AudioPlayer.scss'
-import { useElement, useMethods } from 'baseUI/customHooks'
-import { Button, Icon, Slider, Popover, Image, Text } from 'baseUI/lower'
-import { useTypedSelector } from 'stores/createStore'
-import { View, Cycle } from 'baseUI/wrappers'
+import { useElement, useMethods } from 'components/customHooks'
+import { Button, Icon, Slider, Popover, Image, Text } from 'components/lower'
+import { useTypedSelector } from 'redux/createStore'
+import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 
 type PlayStatus = 'paused' | 'playing'

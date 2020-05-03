@@ -1,5 +1,5 @@
 import React, { ReactNode, ComponentProps, useRef, FC } from 'react'
-import { useBoolean } from 'baseUI/customHooks'
+import { useBoolean } from 'components/customHooks'
 import './Popover.scss'
 import { View } from '../wrappers'
 
