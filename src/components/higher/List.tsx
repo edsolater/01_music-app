@@ -1,7 +1,12 @@
-import React, { ReactNode, ComponentProps } from 'react'
+import React, { ReactNode, ComponentProps, useState } from 'react'
 import './List.scss'
-import { useNumber } from '../customHooks'
 import { View, Slot } from '../wrappers'
+
+/* --------------------------------- TODOLIST -------------------------------- */
+// TODO 需要支持头部组件
+// TODO 需要支持尾部组件
+// TODO 需要支持上拉事件
+// TODO 需要支持下拉事件
 
 /* ---------------------------------- 组件约定 ---------------------------------- */
 
@@ -29,7 +34,7 @@ function List<T>({
 } & ComponentProps<typeof View>) {
   /* ---------------------------------- 组件语法 ---------------------------------- */
 
-  const [selectedIndex, selectedIndexManager] = useNumber(initSelectedIndex)
+  const [selectedIndex, setSelectedIndex] = useState(initSelectedIndex)
   return (
     <View {...restProps} $componentName='List' as='ul'>
       {listData?.map((itemInfo, index) => (
@@ -49,7 +54,7 @@ function List<T>({
           }}
           onClick={() => {
             onSelectItem?.(itemInfo, index, listData!)
-            selectedIndexManager.set(index)
+            setSelectedIndex(index)
           }}
         >
           {renderItem?.(itemInfo, index, listData!)}
