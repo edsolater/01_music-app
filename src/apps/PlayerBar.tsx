@@ -3,9 +3,10 @@ import React, { useEffect, useRef } from 'react'
 import './PlayerBar.scss'
 import { useElement, useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/lower'
-import { useTypedSelector } from 'redux/$createStore'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
+import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
+import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -16,7 +17,25 @@ type ComponentData = {
 }
 
 export default function PlayerBar() {
-  const playerBar = useTypedSelector((appStore) => appStore.playerBar)
+  const playerBar = {
+    currentMusicInfo: {
+      isLiked: true,
+      songName: `ezio Family.mp3`,
+      songSubname: '(游戏《刺客信条》配乐)',
+      author: 'Jesper Kyd',
+      albumName: "Assassin's Creed 2 (Original Game Soundtrack)（刺客信条2 原声大碟）",
+      totalSeconds: 144,
+      albumUrl: avatar,
+      soundtrackUrl: soundtrackUrl,
+      isSQ: true,
+    },
+    /**音量大小 */
+    volumn: 1,
+    /**播放模式 */
+    mode: '列表循环' as '单曲循环' | '列表循环' | '随机选取',
+    /**播放列表 */
+    musicList: [],
+  }
   const audioElement = useElement('audio', (el) => {
     el.volume = playerBar.volumn
     el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
