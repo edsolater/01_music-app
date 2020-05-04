@@ -1,8 +1,8 @@
 import React from 'react'
 
 import './Playlist.scss'
-import { Menu, List } from 'components/higher'
-import { Icon, Badge, Text, Avatar } from 'components/lower'
+import { Menu, List } from 'components/structure'
+import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item } from 'components/wrappers'
 import useLocalStorage from 'hooks/useLocalStorage'
 import requestUserPlaylist from 'requests/user/playlist'

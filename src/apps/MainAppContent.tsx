@@ -8,8 +8,8 @@ type PicUrl = string
 
 import './MainAppContent.scss'
 import { heartIcon } from 'assets/icons'
-import { List } from 'components/higher'
-import { Text, Icon, Avatar, Button, Image } from 'components/lower'
+import { List } from 'components/structure'
+import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 export default function MainAppContent() {

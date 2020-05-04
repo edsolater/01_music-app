@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 
 import './PlayerBar.scss'
 import { useElement, useMethods } from 'components/customHooks'
-import { Button, Icon, Slider, Popover, Image, Text } from 'components/lower'
+import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
