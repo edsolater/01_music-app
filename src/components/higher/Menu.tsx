@@ -17,12 +17,8 @@ type GroupInfo<T> = {
   path: [GroupInfo<T>, ItemInfo<T>]
 }
 
-/**
- * TODO： 把不是那么一眼扫过去就明白的逻辑都提出来
- */
 export default function Menu<T extends { label: string /* TODO 去除对label这个特定值的依赖 */ }>(
   props: ComponentProps<typeof View> & {
-    //TODO: generic掉data中的ItemInfo的类型
     /**
      * **必选项**
      * MenuList会使用的具体数据（Template定义渲染的样式）
@@ -65,8 +61,8 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
             <List
-              $noSelfSelected
-              data={groupItems}
+              noSelfSelected
+              listData={groupItems}
               itemKey={(item) => item.label}
               renderItem={(menuItem, itemIndex) => {
                 const itemInfo = {

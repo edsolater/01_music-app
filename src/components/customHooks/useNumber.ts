@@ -9,13 +9,13 @@ import { useState } from 'react'
  * @param onChangeCallback 当值改变
  */
 export default function useNumber(
-  /**初始值，默认或不能解析时均为0 */
+  /**初始值，默认或不能解析时均为NaN */
   init?: unknown,
   /** 值改变时 */
   onChangeCallback?: (newValue: number, oldValue: number) => any,
 ) {
   // 使用原生的useState
-  const [state, set] = useState(Number(init) || 0)
+  const [state, set] = useState(Number(init))
 
   //强化型管理器
   const setters = {
