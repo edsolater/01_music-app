@@ -62,7 +62,7 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
             </Slot>
             <List
               noSelfSelected
-              listData={groupItems}
+              data={groupItems}
               itemKey={(item) => item.label}
               renderItem={(menuItem, itemIndex) => {
                 const itemInfo = {

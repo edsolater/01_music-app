@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './Playlist.scss'
-import { Menu, List } from 'components/structure'
+import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item } from 'components/wrappers'
 import useLocalStorage from 'hooks/useLocalStorage'
@@ -19,10 +19,8 @@ export default function Playlist() {
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
-      {/* TODO - 需要改造这个组件，这个组件不是负责渲染UI的，而是组织更小的UI组件的 */}
-      {/* TODO 不妨吧这里的menu看成一个SectionList */}
-      <List
-        listData={
+      <SectionList
+        data={
           responsePlaylist.playlist?.map((item, index) => ({
             ...item,
             label: index.toString(),

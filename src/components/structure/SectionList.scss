@@ -1,0 +1,14 @@
+/* 示例 */
+// .List {
+//   .Item {
+//     &._selected {}
+//     &._odd {}
+//   }
+// }
+.List {
+  list-style: none;
+  padding: unset;
+  .Item {
+    display: flex;
+  }
+}
