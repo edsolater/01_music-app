@@ -1,4 +1,5 @@
 type AnyFunction = (...args: unknown[]) => unknown
+type Callback = AnyFunction
 
 type UtilFunction = (...args: any[]) => any
 
