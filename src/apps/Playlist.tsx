@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import './Playlist.scss'
 import { SectionList } from 'components/structure'
@@ -11,22 +11,33 @@ import { useResponse } from 'hooks/useResponse'
 export default function Playlist() {
   // TODO 需要创造更通用的 useTypedLocalStorage
   const [loginInfo] = useLocalStorage()
-
   const responsePlaylist = useResponse(requestUserPlaylist, { uid: loginInfo.account.id })
-
+  const parsedPlaylist = useMemo(() => {
+    const resultList = [
+      { title: '创建的歌单', data: [] as NonNullable<typeof responsePlaylist.playlist> },
+      { title: '收藏的歌单', data: [] as NonNullable<typeof responsePlaylist.playlist> },
+    ]
+    if (responsePlaylist.playlist) {
+      for (const list of responsePlaylist.playlist) {
+        if (list.userId === loginInfo.account.id) resultList[0].data.push(list)
+        else resultList[1].data.push(list)
+      }
+    }
+    return resultList
+  }, [responsePlaylist.playlist])
   return (
     <View as='aside' className='album-menu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
       <SectionList
-        sections={[{ title: '创建的音乐', data: responsePlaylist.playlist ?? [] }]}
-        // renderMenuGroup={(groupInfo) => (
-        //   <View className='menu-title'>
-        //     <Text headline>{groupInfo.label}</Text>
-        //     {groupInfo.label === '创建的歌单' && <Icon iconfontName='add' />}
-        //   </View>
-        // )}
+        sections={parsedPlaylist}
+        renderSectionHeader={({ title }) => (
+          <View>
+            <Text headline>{title}</Text>
+            {title === '创建的歌单' && <Icon iconfontName='add' />}
+          </View>
+        )}
         renderItem={(itemInfo) => (
           <Item>
             <Icon iconfontName={/* itemInfo.icon ??  */ 'music-collection'} />

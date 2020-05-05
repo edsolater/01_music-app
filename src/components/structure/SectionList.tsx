@@ -60,7 +60,7 @@ function SectionList<
           <Slot className='SectionList__SectionHeader'>
             {renderSectionHeader?.(sectionInfo, sectionIndex, sections)}
           </Slot>
-          <View {...restProps} $componentName='SectionList__List' as='ul'>
+          <View $componentName='SectionList__List' as='ul'>
             {sectionInfo.data?.map((itemInfo: T, itemIndex, items: T[]) => (
               <Slot
                 as='li'
