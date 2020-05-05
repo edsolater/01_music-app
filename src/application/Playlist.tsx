@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 import './Playlist.scss'
 import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
-import { View, Item } from 'components/wrappers'
+import { View, Item, Header } from 'components/wrappers'
 import useLocalStorage from 'hooks/useLocalStorage'
 import requestUserPlaylist from 'requests/user/playlist'
 import useResponse from 'hooks/useResponse'
@@ -33,10 +33,10 @@ export default function Playlist() {
       <SectionList
         sections={parsedPlaylist}
         renderSectionHeader={({ title }) => (
-          <View>
+          <Header>
             <Text headline>{title}</Text>
             {title === '创建的歌单' && <Icon iconfontName='add' />}
-          </View>
+          </Header>
         )}
         renderItem={(itemInfo) => (
           <Item>
