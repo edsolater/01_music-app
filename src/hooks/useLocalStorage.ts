@@ -1,3 +1,6 @@
+/* --------------------------------- TODOLIST -------------------------------- */
+// TODO - useLocalStorage 与业务逻辑太过耦合了，不方便下个项目重复利用
+
 /**为了避免localhost下的localStorage命名冲突，故加入命名空间前缀 */
 const prefix = 'music_'
 

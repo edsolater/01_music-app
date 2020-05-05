@@ -4,14 +4,14 @@ import './Playlist.scss'
 import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
-import useLocalStorage from 'hooks/useLocalStorage'
 import requestUserPlaylist from 'requests/user/playlist'
 import useResponse from 'hooks/useResponse'
+import { useUserInfo } from 'App'
 
 export default function Playlist() {
   // TODO 需要创造更通用的 useTypedLocalStorage
-  const [loginInfo] = useLocalStorage()
-  const responsePlaylist = useResponse(requestUserPlaylist, { uid: loginInfo.account.id })
+  const userInfo = useUserInfo()
+  const responsePlaylist = useResponse(requestUserPlaylist, { uid: userInfo.account.id })
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {
@@ -39,7 +39,7 @@ export default function Playlist() {
     if (responsePlaylist.playlist) {
       for (const list of responsePlaylist.playlist) {
         //@ts-ignore
-        if (list.userId === loginInfo.account.id) resultList[2].data.push(list)
+        if (list.userId === userInfo.account.id) resultList[2].data.push(list)
         //@ts-ignore
         else resultList[3].data.push(list)
       }
