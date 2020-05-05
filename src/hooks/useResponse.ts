@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 type IRequestFunction = (...anys: any[]) => Promise<AxiosResponse<unknown>>
 type getResponseDataShape<T> = T extends () => Promise<AxiosResponse<infer P>> ? Partial<P> : never
 
+//TODO useResponse 本身要能实现cache，且要能自定义cache的规则，避免无意义的多次请求
 /**
  * 使用某个请求返回的数据，默认值为空对象
  * @param request 用于发出axios请求的函数
