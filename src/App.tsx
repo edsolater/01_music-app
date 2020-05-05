@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
-import { Playlist, MainAppContent, PlayerBar } from 'apps'
+import { Playlist, MainAppContent, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
 import useLocalStorage from 'hooks/useLocalStorage'
 
