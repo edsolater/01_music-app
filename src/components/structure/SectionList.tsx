@@ -57,10 +57,10 @@ function SectionList<
               : sectionInfo[String(senctionKey)] ?? String(senctionKey)
           }
         >
-          <Slot className='SectionList__SectionHeader'>
+          <Slot className='__SectionHeader'>
             {renderSectionHeader?.(sectionInfo, sectionIndex, sections)}
           </Slot>
-          <View $componentName='SectionList__List' as='ul'>
+          <View $componentName='__List' as='ul'>
             {sectionInfo.data?.map((itemInfo: T, itemIndex, items: T[]) => (
               <Slot
                 as='li'
@@ -70,7 +70,7 @@ function SectionList<
                     : itemInfo[String(itemKey)] ?? String(itemKey)
                 }
                 className={[
-                  'SectionList__ListItem',
+                  '__ListItem',
                   {
                     _first: itemIndex === 0,
                     _end: itemIndex === items.length - 1,
