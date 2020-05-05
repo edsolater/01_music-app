@@ -1,14 +1,9 @@
-/* 示例 */
-// .List {
-//   .Item {
-//     &._selected {}
-//     &._odd {}
-//   }
-// }
-.List {
+.SectionList {
   list-style: none;
-  padding: unset;
-  .Item {
-    display: flex;
+  > .group {
+    margin-top: 24px;
+    &:not(:last-child) {
+      margin-bottom: 48px;
+    }
   }
 }

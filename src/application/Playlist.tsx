@@ -6,7 +6,7 @@ import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item } from 'components/wrappers'
 import useLocalStorage from 'hooks/useLocalStorage'
 import requestUserPlaylist from 'requests/user/playlist'
-import { useResponse } from 'hooks/useResponse'
+import useResponse from 'hooks/useResponse'
 
 export default function Playlist() {
   // TODO 需要创造更通用的 useTypedLocalStorage

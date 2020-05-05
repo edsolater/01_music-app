@@ -9,7 +9,7 @@ type getResponseDataShape<T> = T extends () => Promise<AxiosResponse<infer P>> ?
  * @param request 用于发出axios请求的函数
  * @param cb 请求设定成功后的回调
  */
-export const useResponse: {
+const useResponse: {
   <IRequest extends IRequestFunction>(
     request: IRequest,
     params?: Parameters<IRequest>[0],
@@ -28,3 +28,4 @@ export const useResponse: {
     return responseData
   }
 }
+export default useResponse

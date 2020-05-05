@@ -28,15 +28,15 @@ function SectionList<
   /**初始选择的index */
   initSelectedPath?: string
   /**用作Key的对象的属性名 */
-  senctionKey?: ((item: S, index: number, items: S[]) => string) | keyof S
+  senctionKey?: ((section: S, index: number) => string) | keyof S
   /**用作Key的对象的属性名 */
-  itemKey?: ((item: T, index: number, items: T[]) => string) | keyof T
+  itemKey?: ((item: T, index: number, parentSection: S, sectionIndex: number) => string) | keyof T
   /**当用户选择新属性时启用的回调 */
-  onSelectItem?: (item: T, index: number, items: T[]) => any
+  onSelectItem?: (item: T, index: number, parentSection: S, sectionIndex: number) => any
   /**Slot：渲染每一个ListItem */
-  renderItem?: (item: T, index: number, items: T[]) => ReactNode
+  renderItem?: (item: T, index: number, parentSection: S, sectionIndex: number) => ReactNode
   /**Slot：渲染每一个Section的头部（多用于显示分组信息） */
-  renderSectionHeader?: (section: S, index: number, sections: S[]) => ReactNode
+  renderSectionHeader?: (section: S, index: number) => ReactNode
   /**Slot：渲染列表头部 */
   renderHeader?: (sections: S[]) => ReactNode
 } & ComponentProps<typeof View>) {
@@ -49,46 +49,48 @@ function SectionList<
   return (
     // 这里更组件应该是scrollView，而不是View
     <View {...restProps} $componentName='SectionList'>
-      {sections.map((sectionInfo, sectionIndex, sections) => (
-        <Fragment
+      {sections.map((sectionInfo, sectionIndex) => (
+        <View
+          className='group'
           key={
             typeof senctionKey === 'function'
-              ? senctionKey(sectionInfo, sectionIndex, sections)
+              ? senctionKey(sectionInfo, sectionIndex)
               : sectionInfo[String(senctionKey)] ?? String(senctionKey)
           }
         >
           <Slot className='__SectionHeader'>
-            {renderSectionHeader?.(sectionInfo, sectionIndex, sections)}
+            {renderSectionHeader?.(sectionInfo, sectionIndex)}
           </Slot>
-          <View $componentName='__List' as='ul'>
-            {sectionInfo.data?.map((itemInfo: T, itemIndex, items: T[]) => (
-              <Slot
-                as='li'
-                key={
-                  typeof itemKey === 'function'
-                    ? itemKey(itemInfo, itemIndex, items)
-                    : itemInfo[String(itemKey)] ?? String(itemKey)
-                }
-                className={[
-                  '__ListItem',
-                  {
-                    _first: itemIndex === 0,
-                    _end: itemIndex === items.length - 1,
-                    _odd: itemIndex % 2 === 1,
-                    _even: itemIndex % 2 === 0,
-                    _selected: `${sectionIndex}/${itemIndex}` === selectedPath,
-                  },
-                ]}
-                onClick={() => {
-                  onSelectItem?.(itemInfo, itemIndex, items)
-                  setSelectedPath(`${sectionIndex}/${itemIndex}`)
-                }}
-              >
-                {renderItem?.(itemInfo, itemIndex, items)}
-              </Slot>
-            ))}
+          <View $componentName='list' as='ul'>
+            {Array.isArray(sectionInfo.data) &&
+              sectionInfo.data.map((itemInfo: T, itemIndex) => (
+                <Slot
+                  as='li'
+                  key={
+                    typeof itemKey === 'function'
+                      ? itemKey(itemInfo, itemIndex, sectionInfo, sectionIndex)
+                      : itemInfo[String(itemKey)] ?? String(itemKey)
+                  }
+                  className={[
+                    '__ListItem',
+                    {
+                      _first: itemIndex === 0,
+                      _end: itemIndex === sectionInfo.data.length - 1,
+                      _odd: itemIndex % 2 === 1,
+                      _even: itemIndex % 2 === 0,
+                      _selected: `${sectionIndex}/${itemIndex}` === selectedPath,
+                    },
+                  ]}
+                  onClick={() => {
+                    onSelectItem?.(itemInfo, itemIndex, sectionInfo, sectionIndex)
+                    setSelectedPath(`${sectionIndex}/${itemIndex}`)
+                  }}
+                >
+                  {renderItem?.(itemInfo, itemIndex, sectionInfo, sectionIndex)}
+                </Slot>
+              ))}
           </View>
-        </Fragment>
+        </View>
       ))}
     </View>
   )
