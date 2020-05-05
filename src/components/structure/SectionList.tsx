@@ -1,9 +1,8 @@
-import React, { ReactNode, ComponentProps, useState } from 'react'
+import React, { ReactNode, ComponentProps, useState, Fragment } from 'react'
 import './SectionList.scss'
 import { View, Slot } from '../wrappers'
 
 /* --------------------------------- TODOLIST -------------------------------- */
-// FIXME - 待完善
 // TODO 需要支持头部组件
 // TODO 需要支持尾部组件
 // TODO 需要支持上拉事件
@@ -11,55 +10,85 @@ import { View, Slot } from '../wrappers'
 
 /* ---------------------------------- 组件约定 ---------------------------------- */
 
-function SectionList<T extends S extends { data: (infer T)[] } ? T : never, S>({
+function SectionList<
+  T extends S extends { data: (infer T)[] } ? T : never,
+  S extends { data: any[] /* 其实是T，但这里写T会产生循环的错误  */ }
+>({
   sections = [],
-  initSelectedIndex = NaN,
+  initSelectedPath = '',
   senctionKey = (_, idx) => String(idx),
   itemKey = (_, idx) => String(idx),
   onSelectItem,
   renderItem,
+  renderSectionHeader,
   ...restProps
 }: {
   /**存放SectionList数据 */
   sections?: S[]
   /**初始选择的index */
-  initSelectedIndex?: number
+  initSelectedPath?: string
   /**用作Key的对象的属性名 */
   senctionKey?: ((item: S, index: number, items: S[]) => string) | keyof S
   /**用作Key的对象的属性名 */
-  itemKey?: ((item: T, index: number, items: S[]) => string) | keyof S
+  itemKey?: ((item: T, index: number, items: T[]) => string) | keyof T
   /**当用户选择新属性时启用的回调 */
-  onSelectItem?: (item: S, index: number, items: S[]) => any
+  onSelectItem?: (item: T, index: number, items: T[]) => any
   /**Slot：渲染每一个ListItem */
-  renderItem?: (item: S, index: number, items: S[]) => ReactNode
+  renderItem?: (item: T, index: number, items: T[]) => ReactNode
+  /**Slot：渲染每一个Section的头部（多用于显示分组信息） */
+  renderSectionHeader?: (section: S, index: number, sections: S[]) => ReactNode
+  /**Slot：渲染列表头部 */
+  renderHeader?: (sections: S[]) => ReactNode
 } & ComponentProps<typeof View>) {
   /* ---------------------------------- 组件语法 ---------------------------------- */
 
-  const [selectedIndex, setSelectedIndex] = useState(initSelectedIndex)
+  const [selectedPath, setSelectedPath] = useState(initSelectedPath)
+
+  /* ---------------------------------- 组件渲染 ---------------------------------- */
+
   return (
-    <View {...restProps} $componentName='SectionList' as='ul'>
-      {sections?.map((sectionInfo, index) => (
-        <Slot
-          as='li'
+    // 这里更组件应该是scrollView，而不是View
+    <View {...restProps} $componentName='SectionList'>
+      {sections.map((sectionInfo, sectionIndex, sections) => (
+        <Fragment
           key={
             typeof senctionKey === 'function'
-              ? senctionKey(sectionInfo, index, sections!)
-              : sectionInfo[String(senctionKey)]
+              ? senctionKey(sectionInfo, sectionIndex, sections)
+              : sectionInfo[String(senctionKey)] ?? String(senctionKey)
           }
-          className={{
-            _first: index === 0,
-            _end: index === sections.length - 1,
-            _odd: index % 2 === 1,
-            _even: index % 2 === 0,
-            _selected: index === selectedIndex,
-          }}
-          onClick={() => {
-            onSelectItem?.(sectionInfo, index, sections!)
-            setSelectedIndex(index)
-          }}
         >
-          {renderItem?.(sectionInfo, index, sections!)}
-        </Slot>
+          <Slot className='SectionList__SectionHeader'>
+            {renderSectionHeader?.(sectionInfo, sectionIndex, sections)}
+          </Slot>
+          <View {...restProps} $componentName='SectionList__List' as='ul'>
+            {sectionInfo.data?.map((itemInfo: T, itemIndex, items: T[]) => (
+              <Slot
+                as='li'
+                key={
+                  typeof itemKey === 'function'
+                    ? itemKey(itemInfo, itemIndex, items)
+                    : itemInfo[String(itemKey)] ?? String(itemKey)
+                }
+                className={[
+                  'SectionList__ListItem',
+                  {
+                    _first: itemIndex === 0,
+                    _end: itemIndex === items.length - 1,
+                    _odd: itemIndex % 2 === 1,
+                    _even: itemIndex % 2 === 0,
+                    _selected: `${sectionIndex}/${itemIndex}` === selectedPath,
+                  },
+                ]}
+                onClick={() => {
+                  onSelectItem?.(itemInfo, itemIndex, items)
+                  setSelectedPath(`${sectionIndex}/${itemIndex}`)
+                }}
+              >
+                {renderItem?.(itemInfo, itemIndex, items)}
+              </Slot>
+            ))}
+          </View>
+        </Fragment>
       ))}
     </View>
   )

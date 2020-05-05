@@ -19,17 +19,16 @@
   }
 }
 
-.Menu {
+.SectionList {
   flex: 1 1 0;
   width: 100%;
-  @include layout.col(48px);
-  overflow: hidden auto;
+  overflow: auto;
   .Text.headline {
     font-size: 0.8em;
     color: #999;
     margin-left: 12px;
   }
-  .menu-title {
+  .SectionList__SectionHeader {
     display: flex;
     align-items: center;
     .Icon {

@@ -1,4 +1,7 @@
 type AnyFunction = (...args: unknown[]) => unknown
+
+type AnyObject = { [key: string]: unknown }
+
 type Callback = AnyFunction
 
 type UtilFunction = (...args: any[]) => any

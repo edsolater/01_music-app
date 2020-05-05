@@ -8,6 +8,9 @@ body * {
 body [hidden] {
   display: none;
 }
+ul {
+  padding-left: 0;
+}
 
 /* 业务样式 */
 #app {

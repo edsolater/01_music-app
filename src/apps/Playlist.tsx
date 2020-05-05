@@ -20,7 +20,7 @@ export default function Playlist() {
         <Icon iconfontName='menu' />
       </View>
       <SectionList
-        sections={[{ title: '创建的音乐', data: responsePlaylist.playlist! }]}
+        sections={[{ title: '创建的音乐', data: responsePlaylist.playlist ?? [] }]}
         // renderMenuGroup={(groupInfo) => (
         //   <View className='menu-title'>
         //     <Text headline>{groupInfo.label}</Text>
@@ -30,7 +30,7 @@ export default function Playlist() {
         renderItem={(itemInfo) => (
           <Item>
             <Icon iconfontName={/* itemInfo.icon ??  */ 'music-collection'} />
-            <Text>{itemInfo.data?.[0].name}</Text>
+            <Text>{itemInfo.name}</Text>
           </Item>
         )}
         itemKey={(item) => item.name}
