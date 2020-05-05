@@ -11,53 +11,54 @@ import { View, Slot } from '../wrappers'
 
 /* ---------------------------------- 组件约定 ---------------------------------- */
 
-function SectionList<T>({
-  data = [],
+function SectionList<T extends S extends { data: (infer T)[] } ? T : never, S>({
+  sections = [],
   initSelectedIndex = NaN,
+  senctionKey = (_, idx) => String(idx),
   itemKey = (_, idx) => String(idx),
   onSelectItem,
   renderItem,
   ...restProps
 }: {
-  /** 其选择判断逻辑无需自身控制，<Menu>专用 */
-  noSelfSelected?: boolean
-  /**存放List数据 */
-  data?: T[]
+  /**存放SectionList数据 */
+  sections?: S[]
   /**初始选择的index */
   initSelectedIndex?: number
   /**用作Key的对象的属性名 */
-  itemKey?: ((item: T, index: number, items: T[]) => string) | keyof T
+  senctionKey?: ((item: S, index: number, items: S[]) => string) | keyof S
+  /**用作Key的对象的属性名 */
+  itemKey?: ((item: T, index: number, items: S[]) => string) | keyof S
   /**当用户选择新属性时启用的回调 */
-  onSelectItem?: (item: T, index: number, items: T[]) => any
+  onSelectItem?: (item: S, index: number, items: S[]) => any
   /**Slot：渲染每一个ListItem */
-  renderItem?: (item: T, index: number, items: T[]) => ReactNode
+  renderItem?: (item: S, index: number, items: S[]) => ReactNode
 } & ComponentProps<typeof View>) {
   /* ---------------------------------- 组件语法 ---------------------------------- */
 
   const [selectedIndex, setSelectedIndex] = useState(initSelectedIndex)
   return (
     <View {...restProps} $componentName='SectionList' as='ul'>
-      {data?.map((itemInfo, index) => (
+      {sections?.map((sectionInfo, index) => (
         <Slot
           as='li'
           key={
-            typeof itemKey === 'function'
-              ? itemKey(itemInfo, index, data!)
-              : itemInfo[String(itemKey)]
+            typeof senctionKey === 'function'
+              ? senctionKey(sectionInfo, index, sections!)
+              : sectionInfo[String(senctionKey)]
           }
           className={{
             _first: index === 0,
-            _end: index === data.length - 1,
+            _end: index === sections.length - 1,
             _odd: index % 2 === 1,
             _even: index % 2 === 0,
             _selected: index === selectedIndex,
           }}
           onClick={() => {
-            onSelectItem?.(itemInfo, index, data!)
+            onSelectItem?.(sectionInfo, index, sections!)
             setSelectedIndex(index)
           }}
         >
-          {renderItem?.(itemInfo, index, data!)}
+          {renderItem?.(sectionInfo, index, sections!)}
         </Slot>
       ))}
     </View>

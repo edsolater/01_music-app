@@ -20,12 +20,7 @@ export default function Playlist() {
         <Icon iconfontName='menu' />
       </View>
       <SectionList
-        data={
-          responsePlaylist.playlist?.map((item, index) => ({
-            ...item,
-            label: index.toString(),
-          })) ?? []
-        }
+        sections={[{ title: '创建的音乐', data: responsePlaylist.playlist! }]}
         // renderMenuGroup={(groupInfo) => (
         //   <View className='menu-title'>
         //     <Text headline>{groupInfo.label}</Text>
@@ -35,9 +30,10 @@ export default function Playlist() {
         renderItem={(itemInfo) => (
           <Item>
             <Icon iconfontName={/* itemInfo.icon ??  */ 'music-collection'} />
-            <Text>{itemInfo.name}</Text>
+            <Text>{itemInfo.data?.[0].name}</Text>
           </Item>
         )}
+        itemKey={(item) => item.name}
       />
       <View className='user-info'>
         <Avatar src={'userProfile.avatar'} />
