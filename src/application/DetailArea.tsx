@@ -6,13 +6,16 @@ import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠�
 import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 type PicUrl = string
 
-import './MainAppContent.scss'
+import './DetailArea.scss'
 import { heartIcon } from 'assets/icons'
 import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-export default function MainAppContent() {
+import useResponse from 'hooks/useResponse'
+import { requestPlaylistDetail } from 'requests/playlist/detail'
+
+export default function DetailArea() {
   const currentCollectionInfo = {
     label: '我喜欢的音乐',
     creatorInfo: {
@@ -67,8 +70,10 @@ export default function MainAppContent() {
       soundtrackUrl: soundtrackUrl2,
     },
   ]
+  const response = useResponse(requestPlaylistDetail, { id: 463877326 })
+  console.log('response: ', response)
   return (
-    <View as='section' className='main-app-content'>
+    <View as='section' className='detail-area'>
       <View className='title'>
         <Text subhead>歌单</Text>
       </View>

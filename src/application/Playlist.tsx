@@ -10,7 +10,8 @@ import { useUserInfo } from 'App'
 
 export default function Playlist() {
   const userInfo = useUserInfo()
-  const responsePlaylist = useResponse(requestUserPlaylist, { uid: userInfo.account.id })
+  const response = useResponse(requestUserPlaylist, { uid: userInfo.account.id })
+  console.log('response: ', response)
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {
@@ -32,11 +33,11 @@ export default function Playlist() {
           { name: '我的收藏', iconName: 'collection-folder' },
         ],
       },
-      { title: '创建的歌单', data: [] as NonNullable<typeof responsePlaylist.playlist> },
-      { title: '收藏的歌单', data: [] as NonNullable<typeof responsePlaylist.playlist> },
+      { title: '创建的歌单', data: [] as NonNullable<typeof response.playlist> },
+      { title: '收藏的歌单', data: [] as NonNullable<typeof response.playlist> },
     ]
-    if (responsePlaylist.playlist) {
-      for (const list of responsePlaylist.playlist) {
+    if (response.playlist) {
+      for (const list of response.playlist) {
         //@ts-ignore
         if (list.userId === userInfo.account.id) resultList[2].data.push(list)
         //@ts-ignore
@@ -44,7 +45,7 @@ export default function Playlist() {
       }
     }
     return resultList
-  }, [responsePlaylist.playlist])
+  }, [response.playlist])
   return (
     <View as='aside' className='album-menu'>
       <View className='shrink-button'>

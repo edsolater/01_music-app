@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
-import { Playlist, MainAppContent, PlayerBar } from 'application'
+import { Playlist, DetailArea, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
 import useLocalStorage from 'hooks/useLocalStorage'
 
@@ -49,7 +49,7 @@ const App: FC<{}> = () => {
   return (
     <>
       <Playlist />
-      <MainAppContent />
+      <DetailArea />
       <PlayerBar />
     </>
   )
