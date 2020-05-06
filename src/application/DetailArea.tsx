@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
 import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
@@ -12,10 +12,13 @@ import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-import useResponse from 'hooks/useResponse'
+import useResponse, { deRequestReturnType } from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
+import { useGlobalState } from 'App'
 
 export default function DetailArea() {
+  const globalState = useGlobalState()
+  console.log('globalState: ', globalState)
   const currentCollectionInfo = {
     label: '我喜欢的音乐',
     creatorInfo: {
@@ -70,7 +73,16 @@ export default function DetailArea() {
       soundtrackUrl: soundtrackUrl2,
     },
   ]
-  const response = useResponse(requestPlaylistDetail, { id: 463877326 })
+  let response: deRequestReturnType<typeof requestPlaylistDetail> | undefined = undefined
+  useEffect(() => {
+    if (globalState.playlistId) {
+      response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
+    }
+  }, [globalState.playlistId])
+  setTimeout(() => {
+    console.log('globalState.playlistId: ', globalState.playlistId)
+  }, 500)
+  // const response = useResponse(requestPlaylistDetail, { id: 463877326 })
   console.log('response: ', response)
   return (
     <View as='section' className='detail-area'>

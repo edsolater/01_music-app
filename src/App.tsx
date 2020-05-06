@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useContext, createContext, useState, useMemo } from 'react'
 import { render } from 'react-dom'
 
 import 'assets/iconfont/iconfont.css'
@@ -32,10 +32,22 @@ const getter = {
 }
 export const useUserInfo = () => getter
 
+/* ------------------------------ 记录全局状态的 Context ----------------------------- */
+
+const initContextState = {
+  playlistId: NaN,
+}
+const AppContext = createContext({
+  ...initContextState,
+  setState: (() => {}) as React.Dispatch<React.SetStateAction<typeof initContextState>>,
+})
+export const useGlobalState = () => useContext(AppContext)
+
 /* --------------------------------- 导出APP组件 -------------------------------- */
 
 /**<App> */
 const App: FC<{}> = () => {
+  // 储存登录数据
   const [localStorage, setLocalStorage] = useLocalStorage()
   useEffect(() => {
     if (!localStorage.account.id) {
@@ -46,12 +58,26 @@ const App: FC<{}> = () => {
       })
     }
   }, [])
+
+  //全局状态
+  const [currentContextState, setCurrentContextState] = useState(initContextState)
+  const currentContextStateWithSetter = useMemo(
+    () => ({
+      ...currentContextState,
+      setState: (...args) => {
+        console.log('3: ', 3)
+        setCurrentContextState(...args)
+      },
+    }),
+    [currentContextState],
+  )
+
   return (
-    <>
+    <AppContext.Provider value={currentContextStateWithSetter}>
       <Playlist />
       <DetailArea />
       <PlayerBar />
-    </>
+    </AppContext.Provider>
   )
 }
 render(<App />, document.getElementById('app'))
