@@ -9,7 +9,6 @@ import useResponse from 'hooks/useResponse'
 import { useUserInfo } from 'App'
 
 export default function Playlist() {
-  // TODO 需要创造更通用的 useTypedLocalStorage
   const userInfo = useUserInfo()
   const responsePlaylist = useResponse(requestUserPlaylist, { uid: userInfo.account.id })
   const parsedPlaylist = useMemo(() => {

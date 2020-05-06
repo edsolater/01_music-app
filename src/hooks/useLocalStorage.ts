@@ -14,13 +14,13 @@ const cache: {
 /** 每次都返回同一个实例,所以定义在hooks外面就好了 */
 const getter = {
   get profile(): IProfile {
-    return cache.profile ?? JSON.parse(localStorage.getItem(`${prefix}profile`) || '{}')
+    return cache.profile ?? JSON.parse(window.localStorage.getItem(`${prefix}profile`) || '{}')
   },
   get account(): IAccount {
-    return cache.account ?? JSON.parse(localStorage.getItem(`${prefix}account`) || '{}')
+    return cache.account ?? JSON.parse(window.localStorage.getItem(`${prefix}account`) || '{}')
   },
   get token(): string {
-    return cache.token ?? JSON.parse(localStorage.getItem(`${prefix}token`) || '')
+    return cache.token ?? JSON.parse(window.localStorage.getItem(`${prefix}token`) || '')
   },
 }
 const setter: {
