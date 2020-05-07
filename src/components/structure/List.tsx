@@ -23,7 +23,7 @@ function List<T>({
   /**初始选择的index */
   initSelectedIndex?: number
   /**用作Key的对象的属性名 */
-  itemKey?: ((item: T, index: number, items: T[]) => string) | keyof T
+  itemKey?: ((item: T, index: number, items: T[]) => string | number) | keyof T
   /**当用户选择新属性时启用的回调 */
   onSelectItem?: (item: T, index: number, items: T[]) => any
   /**Slot：渲染每一个ListItem */

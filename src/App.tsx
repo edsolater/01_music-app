@@ -7,6 +7,7 @@ import './initPackage'
 import { Playlist, DetailArea, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
 import useLocalStorage from 'hooks/useLocalStorage'
+import requestUserSubcount from 'requests/user/subcount'
 
 /* -------------------------------- 全局可用的一些变量（已包装成hooks） ------------------------------- */
 
@@ -51,11 +52,17 @@ const App: FC<{}> = () => {
   const [localStorage, setLocalStorage] = useLocalStorage()
   useEffect(() => {
     if (!localStorage.account.id) {
-      requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
-        setLocalStorage('account', data.account)
-        setLocalStorage('profile', data.profile)
-        setLocalStorage('token', data.token)
-      })
+      requestLogin({ phone: 18116311669, password: 'Zhgy0330#' })
+        .then(({ data }) => {
+          setLocalStorage('account', data.account)
+          setLocalStorage('profile', data.profile)
+          setLocalStorage('token', data.token)
+        })
+        .then(() => {
+          requestUserSubcount().then(({ data }) => {
+            console.log('data: ', data) //TODO - 要想判定收藏的歌曲ID，肯定又要使用localStorage，于是必须完善useLocalStorage的逻辑
+          })
+        })
     }
   }, [])
 
@@ -64,10 +71,7 @@ const App: FC<{}> = () => {
   const currentContextStateWithSetter = useMemo(
     () => ({
       ...currentContextState,
-      setState: (...args) => {
-        console.log('3: ', 3)
-        setCurrentContextState(...args)
-      },
+      setState: setCurrentContextState,
     }),
     [currentContextState],
   )

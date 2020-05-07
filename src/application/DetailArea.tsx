@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useMemo } from 'react'
 
 import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
 import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
@@ -12,13 +12,13 @@ import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-import useResponse, { deRequestReturnType } from 'hooks/useResponse'
+import useResponse from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
 import { useGlobalState } from 'App'
+import dayjs from 'dayjs'
 
 export default function DetailArea() {
   const globalState = useGlobalState()
-  console.log('globalState: ', globalState)
   const currentCollectionInfo = {
     label: '我喜欢的音乐',
     creatorInfo: {
@@ -74,7 +74,6 @@ export default function DetailArea() {
     },
   ]
   const response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
-  console.log('response: ', response)
   return (
     <View as='section' className='detail-area'>
       <View className='title'>
@@ -82,17 +81,16 @@ export default function DetailArea() {
       </View>
       <View as='header' className='collection-info'>
         <Figure className='thumbnail'>
-          <Image src={currentCollectionInfo.thumbnail} className='bg' />
-          <Icon src={heartIcon} className='cover-icon' />
+          <Image src={response.playlist?.coverImgUrl} className='bg' />
         </Figure>
-        <Text title1>{currentCollectionInfo.label}</Text>
+        <Text title1>{response.playlist?.name}</Text>
         <View className='creator'>
-          <Avatar src={currentCollectionInfo.creatorInfo.avatar} className='avatar' />
+          <Avatar src={response.playlist?.creator.avatarUrl} className='avatar' />
           <Text subhead className='nickname'>
-            {currentCollectionInfo.creatorInfo.nickName}
+            {response.playlist?.creator.nickname}
           </Text>
           <Text footnote className='create-time'>
-            {currentCollectionInfo.createTime} 创建
+            {dayjs(response.playlist?.createTime).format('YYYY-MM-DD')} 创建
           </Text>
         </View>
         <Group className='buttons'>
@@ -133,17 +131,20 @@ export default function DetailArea() {
         </View>
       </Group>
       <List
-        data={currentCollectionMusicList}
-        itemKey={(item) => item.songName}
-        initSelectedIndex={0} //TODO: 属于App数据的一部分，要由AppStore控制
-        renderItem={(itemInfo, index) => (
+        data={response.playlist?.tracks.map((songObj, idx) => ({
+          ...songObj,
+          ...response.privileges[idx],
+        }))}
+        itemKey={(item) => item.id}
+        initSelectedIndex={NaN}
+        renderItem={(item, idx) => (
           <Item>
             <View className='song-index'>
-              <Text>{String(index).padStart(2, '0')}</Text>
+              <Text>{String(idx).padStart(2, '0')}</Text>
             </View>
             <Cycle
               className='indicator-like'
-              initActiveIndex={itemInfo.isLiked ? 0 : 1}
+              initActiveIndex={item.isLiked ? 0 : 1}
               itemList={[
                 {
                   node: <Icon iconfontName='heart' />,
@@ -160,19 +161,21 @@ export default function DetailArea() {
               ]}
             />
             <View className='song-name'>
-              <Text className='main-name'>{itemInfo.songName}</Text>
-              <Text className='sub-name'>{itemInfo.songSubname}</Text>
+              <Text className='main-name'>{item.name}</Text>
+              <Text className='sub-name'>{item.alia}</Text>
             </View>
             <View className='author'>
-              <Text>{itemInfo.author}</Text>
+              <Text>{item.ar[0].name}</Text>
             </View>
             <View className='album-name'>
-              <Text>{itemInfo.albumName}</Text>
+              <Text>{item.al.name}</Text>
             </View>
             <View className='total-seconds'>
-              <Text>{duration(itemInfo.totalSeconds * 1000).format('mm:ss')}</Text>
+              <Text>{duration(item.dt).format('mm:ss')}</Text>
             </View>
-            <Group className='song-badges'>{itemInfo.isSQ && <Icon iconfontName='sq' />}</Group>
+            <Group className='song-badges'>
+              {item.downloadMaxbr >= 999000 && <Icon iconfontName='sq' />}
+            </Group>
           </Item>
         )}
         onSelectItem={() => {
