@@ -1,8 +1,8 @@
 import { AxiosResponse } from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 type IRequestFunction = (...anys: any[]) => Promise<AxiosResponse<unknown>>
-type getResponseDataShape<T> = T extends () => Promise<AxiosResponse<infer P>> ? Partial<P> : never
+type getResponseDataShape<T> = T extends () => Promise<AxiosResponse<infer P>> ? P : never
 export type deRequestReturnType<T> = getResponseDataShape<T>
 
 //TODO useResponse 本身要能实现cache，且要能自定义cache的规则，避免无意义的多次请求
@@ -22,11 +22,17 @@ const useResponse: {
     const request = args[0]
     const params = args[1] ?? {}
     const [responseData, setResponseData] = useState({} as any)
+    const renderByResponse = useRef(false)
     useEffect(() => {
-      request(params ?? {}).then((res) => {
-        setResponseData(res.data as any)
-      })
-    }, [])
+      if (renderByResponse.current) {
+        renderByResponse.current = false
+      } else {
+        request(params).then((res) => {
+          renderByResponse.current = true
+          setResponseData(res.data as any)
+        })
+      }
+    })
     return responseData
   }
 }

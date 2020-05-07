@@ -73,16 +73,7 @@ export default function DetailArea() {
       soundtrackUrl: soundtrackUrl2,
     },
   ]
-  let response: deRequestReturnType<typeof requestPlaylistDetail> | undefined = undefined
-  useEffect(() => {
-    if (globalState.playlistId) {
-      response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
-    }
-  }, [globalState.playlistId])
-  setTimeout(() => {
-    console.log('globalState.playlistId: ', globalState.playlistId)
-  }, 500)
-  // const response = useResponse(requestPlaylistDetail, { id: 463877326 })
+  const response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
   console.log('response: ', response)
   return (
     <View as='section' className='detail-area'>

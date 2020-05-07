@@ -8,9 +8,9 @@ import { axiosInstance } from '../$axiosInstance'
  */
 export const requestPlaylistDetail = (params: { id?: number; s?: number } = {}) =>
   axiosInstance.get<{
-    code: 200
-    relatedVideos: null
-    playlist: {
+    code?: 200
+    relatedVideos?: null
+    playlist?: {
       subscribers: []
       subscribed: false
       creator: {

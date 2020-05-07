@@ -7,8 +7,8 @@ import axiosInstance from '../$axiosInstance'
  */
 const requestUserPlaylist = (params: { uid?: string | number } = {}) =>
   axiosInstance.get<{
-    more: true
-    playlist: {
+    more?: true
+    playlist?: {
       subscribers: []
       subscribed: false
       creator: {
@@ -78,7 +78,7 @@ const requestUserPlaylist = (params: { uid?: string | number } = {}) =>
       id: 463877326
       coverImgId_str: '19111711114380350'
     }[]
-    code: HttpCode
+    code?: HttpCode
   }>('/user/playlist', { params })
 
 export default requestUserPlaylist
