@@ -1,13 +1,13 @@
 /**
  * FIXME - 没写完
  */
-import axiosInstance from '../$axiosInstance'
+import axiosInstance from './$axiosInstance'
 
 /**
  * 获取用户信息 , 歌单，收藏，mv, dj 数量
  * 说明 : 登陆后调用此接口 , 可以获取用户信息
  */
-const requestUserSubcount = (params: {} = {}) =>
+const requestLikelist = (params: { uid?: string | number } = {}) =>
   axiosInstance.get<{
     more?: true
     playlist?: {
@@ -81,6 +81,6 @@ const requestUserSubcount = (params: {} = {}) =>
       coverImgId_str: '19111711114380350'
     }[]
     code?: HttpCode
-  }>('/user/subcount')
+  }>('/likelist', { params })
 
-export default requestUserSubcount
+export default requestLikelist

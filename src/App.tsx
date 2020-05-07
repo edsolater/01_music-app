@@ -7,7 +7,7 @@ import './initPackage'
 import { Playlist, DetailArea, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
 import useLocalStorage from 'hooks/useLocalStorage'
-import requestUserSubcount from 'requests/user/subcount'
+import requestLikelist from 'requests/likelist'
 
 /* -------------------------------- 全局可用的一些变量（已包装成hooks） ------------------------------- */
 
@@ -59,12 +59,15 @@ const App: FC<{}> = () => {
           setLocalStorage('token', data.token)
         })
         .then(() => {
-          requestUserSubcount().then(({ data }) => {
+          requestLikelist({ uid: localStorage.account.id }).then(({ data }) => {
             console.log('data: ', data) //TODO - 要想判定收藏的歌曲ID，肯定又要使用localStorage，于是必须完善useLocalStorage的逻辑
           })
         })
     }
   }, [])
+  requestLikelist({ uid: localStorage.account.id }).then(({ data }) => {
+    console.log('data: ', data) //TODO - 要想判定收藏的歌曲ID，肯定又要使用localStorage，于是必须完善useLocalStorage的逻辑
+  }) // TODO
 
   //全局状态
   const [currentContextState, setCurrentContextState] = useState(initContextState)
