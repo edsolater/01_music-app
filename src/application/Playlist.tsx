@@ -11,7 +11,7 @@ import { useUserInfo, useGlobalState } from 'App'
 export default function Playlist() {
   const userInfo = useUserInfo()
   const globalState = useGlobalState()
-  const response = useResponse(requestUserPlaylist, { uid: userInfo.account.id })
+  const response = useResponse(requestUserPlaylist, { uid: userInfo.account?.id })
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {

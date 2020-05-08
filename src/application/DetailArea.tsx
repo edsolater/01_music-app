@@ -1,78 +1,18 @@
-import React, { useMemo } from 'react'
-
-import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
-import avatar2 from 'assets/whiteEye--small.png' // 这个信息最终要靠后端传过来，现在只是占位
-import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
-import soundtrackUrl2 from 'assets/Aimer - STAND-ALONE.mp3' // 这个信息最终要靠后端传过来，现在只是占位
-type PicUrl = string
+import React from 'react'
+import dayjs from 'dayjs'
 
 import './DetailArea.scss'
-import { heartIcon } from 'assets/icons'
 import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
-import { useGlobalState } from 'App'
-import dayjs from 'dayjs'
+import { useGlobalState, useUserInfo } from 'App'
 
 export default function DetailArea() {
+  const userInfo = useUserInfo()
   const globalState = useGlobalState()
-  const currentCollectionInfo = {
-    label: '我喜欢的音乐',
-    creatorInfo: {
-      avatar: avatar2 as PicUrl,
-      nickName: 'edsolater',
-    },
-    thumbnail: avatar as PicUrl,
-    createTime: '2016-09-13',
-  }
-  const currentCollectionMusicList = [
-    {
-      isLiked: true,
-      songName: `ezio Family.mp3`,
-      songSubname: '(游戏《刺客信条》配乐)',
-      author: 'Jesper Kyd',
-      albumName: "Assassin's Creed 2 (Original Game Soundtrack)（刺客信条2 原声大碟）",
-      totalSeconds: 144,
-      albumUrl: avatar as PicUrl,
-      soundtrackUrl: soundtrackUrl,
-      isSQ: true,
-    },
-    {
-      songName: `Aimer - STAND-ALONE.mp3`,
-      author: 'Aimer',
-      albumName: 'STAND-ALONE',
-      totalSeconds: 240,
-      albumUrl: avatar2 as PicUrl,
-      soundtrackUrl: soundtrackUrl2,
-    },
-    {
-      songName: `Aimer - STAND-ALONE2.mp3`,
-      author: 'Aimer',
-      albumName: 'STAND-ALONE',
-      totalSeconds: 240,
-      albumUrl: avatar2 as PicUrl,
-      soundtrackUrl: soundtrackUrl2,
-    },
-    {
-      songName: `Aimer - STAND-ALONE3.mp3`,
-      author: 'Aimer',
-      albumName: 'STAND-ALONE',
-      totalSeconds: 240,
-      albumUrl: avatar2 as PicUrl,
-      soundtrackUrl: soundtrackUrl2,
-    },
-    {
-      songName: `Aimer - STAND-ALONE4.mp3`,
-      author: 'Aimer',
-      albumName: 'STAND-ALONE',
-      totalSeconds: 240,
-      albumUrl: avatar2 as PicUrl,
-      soundtrackUrl: soundtrackUrl2,
-    },
-  ]
   const response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
   return (
     <View as='section' className='detail-area'>
@@ -144,8 +84,9 @@ export default function DetailArea() {
             </View>
             <Cycle
               className='indicator-like'
-              initActiveIndex={item.isLiked ? 0 : 1}
+              initActiveIndex={userInfo.likeList?.includes(item.id) ? 0 : 1}
               itemList={[
+                // TODO - 为了灵活性需要overload支持单纯传ReactNode的情况
                 {
                   node: <Icon iconfontName='heart' />,
                   onActive: () => {

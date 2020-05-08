@@ -6,29 +6,41 @@ import './App.scss'
 import './initPackage'
 import { Playlist, DetailArea, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
-import useLocalStorage from 'hooks/useLocalStorage'
+import { setToLocalStorage } from 'utils/web/localStorage'
 import requestLikelist from 'requests/likelist'
 
-/* -------------------------------- 全局可用的一些变量（已包装成hooks） ------------------------------- */
+/* ------------------ localStorage 储存 全局可用的一些变量（已包装成hooks） ------------------ */
 
+/**为了避免localhost下的localStorage命名冲突，故加入命名空间前缀 */
+const prefix = 'music_'
+
+// TODO - 这样直接的缓存，一旦有值，就不再使用localStorage的值了
 const cache: {
   profile?: IProfile
   account?: IAccount
   token?: string
+  likeList?: ID[]
 } = {}
 
 const getter = {
-  get profile(): IProfile {
-    if (!cache.profile) cache.profile = JSON.parse(localStorage.getItem(`music_profile`) || '{}')
-    return cache.profile!
+  get profile() {
+    if (!cache.profile)
+      cache.profile = JSON.parse(window.localStorage.getItem(`${prefix}profile`) || '')
+    return cache.profile
   },
-  get account(): IAccount {
-    if (!cache.account) cache.account = JSON.parse(localStorage.getItem(`music_account`) || '{}')
-    return cache.account!
+  get account() {
+    if (!cache.account)
+      cache.account = JSON.parse(window.localStorage.getItem(`${prefix}account`) || '{}')
+    return cache.account
   },
-  get token(): string {
-    if (!cache.token) cache.token = JSON.parse(localStorage.getItem(`music_token`) || '')
-    return cache.token!
+  get token() {
+    if (!cache.token) cache.token = JSON.parse(window.localStorage.getItem(`${prefix}token`) || '')
+    return cache.token
+  },
+  get likeList() {
+    if (!cache.likeList)
+      cache.likeList = JSON.parse(window.localStorage.getItem(`${prefix}likeList`) || '')
+    return cache.likeList
   },
 }
 export const useUserInfo = () => getter
@@ -49,26 +61,22 @@ export const useGlobalState = () => useContext(AppContext)
 /**<App> */
 const App: FC<{}> = () => {
   // 储存登录数据
-  const [localStorage, setLocalStorage] = useLocalStorage()
   useEffect(() => {
     // TODO 需要有个机制在请求失败时自动登录
-    if (!localStorage.account.id) {
+    if (!getter.account?.id) {
       requestLogin({ phone: 18116311669, password: 'Zhgy0330#' })
-        .then(({ data }) => {
-          setLocalStorage('account', data.account)
-          setLocalStorage('profile', data.profile)
-          setLocalStorage('token', data.token)
+        .then(({ data = {} }) => {
+          setToLocalStorage(`${prefix}account`, JSON.stringify(data.account))
+          setToLocalStorage(`${prefix}profile`, JSON.stringify(data.profile))
+          setToLocalStorage(`${prefix}token`, JSON.stringify(data.token))
         })
         .then(() => {
-          requestLikelist({ uid: localStorage.account.id }).then(({ data }) => {
-            console.log('data: ', data) //TODO - 要想判定收藏的歌曲ID，肯定又要使用localStorage，于是必须完善useLocalStorage的逻辑
+          requestLikelist({ uid: getter.account?.id }).then(({ data = {} }) => {
+            setToLocalStorage(`${prefix}likeList`, JSON.stringify(data.ids))
           })
         })
     }
   }, [])
-  requestLikelist({ uid: localStorage.account.id }).then(({ data }) => {
-    console.log('data: ', data) //TODO - 要想判定收藏的歌曲ID，肯定又要使用localStorage，于是必须完善useLocalStorage的逻辑
-  }) // TODO
 
   //全局状态
   const [currentContextState, setCurrentContextState] = useState(initContextState)
