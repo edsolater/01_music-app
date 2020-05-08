@@ -22,7 +22,7 @@
 .SectionList {
   flex: 1 1 0;
   width: 100%;
-  overflow: auto;
+  overflow: hidden auto;
   .Text.headline {
     font-size: 0.8em;
     color: #999;

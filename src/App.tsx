@@ -43,7 +43,7 @@ const getter = {
     return cache.likeList
   },
 }
-export const useUserInfo = () => getter
+export const getUserInfo = () => getter
 
 /* ------------------------------ 记录全局状态的 Context ----------------------------- */
 

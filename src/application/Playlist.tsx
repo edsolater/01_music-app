@@ -6,10 +6,10 @@ import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
 import useResponse from 'hooks/useResponse'
-import { useUserInfo, useGlobalState } from 'App'
+import { getUserInfo, useGlobalState } from 'App'
 
 export default function Playlist() {
-  const userInfo = useUserInfo()
+  const userInfo = getUserInfo()
   const globalState = useGlobalState()
   const response = useResponse(requestUserPlaylist, { uid: userInfo.account?.id })
   const parsedPlaylist = useMemo(() => {
@@ -88,8 +88,8 @@ export default function Playlist() {
         itemKey={(item) => item.name}
       />
       <View className='user-info'>
-        <Avatar src={'userProfile.avatar'} />
-        <Text className='nickname'>{'userProfile.nickname'}</Text>
+        <Avatar src={userInfo.profile?.avatarUrl} />
+        <Text className='nickname'>{userInfo.profile?.nickname}</Text>
         <Badge number={32}>
           <Icon iconfontName='mail' />
         </Badge>

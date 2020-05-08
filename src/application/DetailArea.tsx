@@ -8,10 +8,10 @@ import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
-import { useGlobalState, useUserInfo } from 'App'
+import { useGlobalState, getUserInfo } from 'App'
 
 export default function DetailArea() {
-  const userInfo = useUserInfo()
+  const userInfo = getUserInfo()
   const globalState = useGlobalState()
   const response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
   return (
