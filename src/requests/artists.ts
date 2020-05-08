@@ -2,8 +2,8 @@ import axiosInstance from './$axiosInstance'
 /**
  * 歌手榜热门歌手
  * 说明 : 调用此接口 , 可获取热门歌手数据
- * @param options.limit 取出数量 , 默认为 50
- * @param options.offset 偏移数量 , 用于分页 , 如 :( 页数 -1)*50, 其中 50 为 limit 的值 , 默认 为 0
+ * @param params.limit 取出数量 , 默认为 50
+ * @param params.offset 偏移数量 , 用于分页 , 如 :( 页数 -1)*50, 其中 50 为 limit 的值 , 默认 为 0
  */
 const requestArtists = ({ offset = 0, limit = 50 } = {}) =>
   axiosInstance.get<{

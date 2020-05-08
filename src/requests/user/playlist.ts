@@ -3,7 +3,7 @@ import axiosInstance from '../$axiosInstance'
 /**
  * 获取用户歌单
  * 说明 : 登陆后调用此接口 , 传入用户 id, 可以获取用户歌单
- * @param options.uid  必选项用户 id
+ * @param params.uid  必选项用户 id
  */
 const requestUserPlaylist = (params: { uid?: string | number } = {}) =>
   axiosInstance.get<{

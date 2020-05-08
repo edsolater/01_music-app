@@ -2,7 +2,7 @@ import axiosInstance from './$axiosInstance'
 /**
  * 手机登录
  * 说明 : 调用此接口 , 可获取推荐歌单
- * @param options.phone 取出数量 , 默认为 30 (不支持 offset)
+ * @param params.phone 取出数量 , 默认为 30 (不支持 offset)
  */
 const requestLogin = ({ phone = '' as number | string, password = '' } = {}) =>
   axiosInstance.get<{

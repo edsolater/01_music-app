@@ -64,7 +64,7 @@ export default function Playlist() {
         renderItem={(itemInfo) => (
           <Item
             onClick={() => {
-              globalState.setState({ playlistId: itemInfo.id })
+              globalState.setState((state) => ({ ...state, playlistId: itemInfo.id }))
             }}
           >
             {itemInfo.name.includes('喜欢的音乐') ? (

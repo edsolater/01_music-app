@@ -77,6 +77,10 @@ export default function DetailArea() {
         }))}
         itemKey={(item) => item.id}
         initSelectedIndex={NaN}
+        onSelectItem={(item) => {
+          //@ts-ignore
+          globalState.setState((state) => ({ ...state, songInfo: item }))
+        }}
         renderItem={(item, idx) => (
           <Item>
             <View className='song-index'>
@@ -119,9 +123,6 @@ export default function DetailArea() {
             </Group>
           </Item>
         )}
-        onSelectItem={() => {
-          // TODO:store.playNewMusic(itemInfo)
-        }}
       />
     </View>
   )

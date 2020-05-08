@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, DependencyList } from 'react'
 
 type IRequestFunction = (...anys: any[]) => Promise<AxiosResponse<unknown>>
 type getResponseDataShape<T> = T extends () => Promise<AxiosResponse<infer P>> ? P : never
@@ -15,12 +15,14 @@ const useResponse: {
   <IRequest extends IRequestFunction>(
     request: IRequest,
     params?: Parameters<IRequest>[0],
+    deps?: DependencyList,
   ): getResponseDataShape<IRequest>
   // TODO 为了增加灵活性，需要使用 overload
 } = (...args) => {
   if (typeof args[0] === 'function') {
     const request = args[0]
     const params = args[1] ?? {}
+    const deps = args[2]
     const [responseData, setResponseData] = useState({} as any)
     const renderByResponse = useRef(false)
     useEffect(() => {
@@ -32,7 +34,7 @@ const useResponse: {
           setResponseData(res.data as any)
         })
       }
-    })
+    }, deps)
     return responseData
   }
 }

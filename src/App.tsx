@@ -49,6 +49,7 @@ export const getUserInfo = () => getter
 
 const initContextState = {
   playlistId: NaN,
+  songInfo: {} as MusicInfo,
 }
 const AppContext = createContext({
   ...initContextState,

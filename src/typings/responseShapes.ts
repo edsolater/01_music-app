@@ -14,30 +14,98 @@ interface CollectionItemInfo {
     selectAction?: ActionType
   }
 }
-/**
- * 一首音乐所必须包含的信息
- */
-interface MusicInfo {
-  /**歌曲名称 */
-  songName: string
-  /**歌曲副标题 */
-  songSubname?: string
-  /**专辑封面的URL */
-  albumUrl?: PicUrl
-  /**音频文件的URL */
-  soundtrackUrl?: string
-  /**歌曲的总长度 */
-  totalSeconds: number
-  /**所属专辑的名称 */
-  albumName?: string
-  /**是否已加入 “我喜欢” */
-  isLiked?: boolean
-  /**这首歌的作者 */
-  author: string
-  /**是否是高清版本的音源 */
-  isSQ?: boolean
-  /**是否有相关MV */
-}
+
+type MusicInfoInList = Partial<{
+  name: string
+  id: number
+  pst: number
+  t: number
+  ar: [
+    {
+      id: number
+      name: string
+      tns: []
+      alias: []
+    },
+    {
+      id: number
+      name: string
+      tns: []
+      alias: []
+    },
+  ]
+  alia: []
+  pop: number
+  st: number
+  rt: number
+  fee: number
+  v: string
+  cf: string
+  al: {
+    id: number
+    name: string
+    picUrl: string
+    tns: any[]
+    pic: number
+  }
+  dt: number
+  h: {
+    br: number
+    fid: number
+    size: number
+    vd: number
+  }
+  m: {
+    br: number
+    fid: number
+    size: number
+    vd: number
+  }
+  l: {
+    br: number
+    fid: number
+    size: number
+    vd: number
+  }
+  a: null
+  cd: string
+  no: number
+  rtUrl: null
+  ftype: number
+  rtUrls: []
+  djId: number
+  copyright: number
+  s_id: number
+  mark: number
+  originCoverType: number
+  noCopyrightRcmd: null
+  mst: number
+  cp: number
+  mv: number
+  rtype: number
+  rurl: null
+  publishTime: number
+}>
+type MusicInfoInUrl = Partial<{
+  id: number
+  url: string
+  br: number
+  size: number
+  md5: string
+  code: HttpCode
+  expi: number
+  type: string
+  gain: number
+  fee: number
+  uf: null
+  payed: number
+  flag: number
+  canExtend: boolean
+  freeTrialInfo: null
+  level: string
+  encodeType: string
+}>
+type MusicInfo = MusicInfoInList & MusicInfoInUrl
 
 interface IProfile {
   description?: string
@@ -56,7 +124,7 @@ interface IProfile {
   province?: number
   // experts?: {}
   expertTags?: null
-  authStatus?: 0
+  authStatus?: number
   mutual?: false
   remarkName?: null
   userId?: number
@@ -80,9 +148,9 @@ interface IAccount {
   createTime?: number //账号创建时间
   salt?: string //？随机值？
   tokenVersion?: 1 // token的类型
-  ban?: 0
-  baoyueVersion?: 0
-  donateVersion?: 0
+  ban?: number
+  baoyueVersion?: number
+  donateVersion?: number
   vipType?: number //vip类型
   viptypeVersion?: number //此vip的版本
   anonimousUser?: boolean //是否是匿名用户

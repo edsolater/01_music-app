@@ -5,8 +5,11 @@ import { useElement, useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
-import avatar from 'assets/头像.jpg' // 这个信息最终要靠后端传过来，现在只是占位
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
+import { getUserInfo, useGlobalState } from 'App'
+import useResponse from 'hooks/useResponse'
+import requestUserPlaylist from 'requests/user/playlist'
+import requestSongUrl from 'requests/song/url'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -16,19 +19,22 @@ type ComponentData = {
   playStatus: PlayStatus
 }
 
+// TODO - 要一个胶水层，使 MusicInfoInList 与 MusicInfoInUrl 合并
+
 export default function PlayerBar() {
+  const userInfo = getUserInfo()
+  const globalState = useGlobalState()
+  const response = useResponse(requestSongUrl, { id: globalState.songInfo.id }, [
+    globalState.songInfo.id,
+  ])
+  console.log('response: ', response)
+  // TODO - 这个要成为一个callback
+  // if(response.data) {
+  //   globalState.setState(state => ({
+  //     ...state, songInfo: {...state.songInfo, ...response.data?.[0]}
+  //   }))
+  // }
   const playerBar = {
-    currentMusicInfo: {
-      isLiked: true,
-      songName: `ezio Family.mp3`,
-      songSubname: '(游戏《刺客信条》配乐)',
-      author: 'Jesper Kyd',
-      albumName: "Assassin's Creed 2 (Original Game Soundtrack)（刺客信条2 原声大碟）",
-      totalSeconds: 144,
-      albumUrl: avatar,
-      soundtrackUrl: soundtrackUrl,
-      isSQ: true,
-    },
     /**音量大小 */
     volumn: 1,
     /**播放模式 */
@@ -38,7 +44,7 @@ export default function PlayerBar() {
   }
   const audioElement = useElement('audio', (el) => {
     el.volume = playerBar.volumn
-    el.src = String(playerBar.currentMusicInfo?.soundtrackUrl)
+    el.src = String(response.data?.[0].url)
   })
   const currentSecondRef = useRef<HTMLSpanElement>()
   const [data, dataSetters] = useMethods(
@@ -49,7 +55,7 @@ export default function PlayerBar() {
       ) {
         const newSecond =
           typeof setter === 'function' ? setter(componentData.currentSecond) : setter
-        if (newSecond <= playerBar.currentMusicInfo.totalSeconds) {
+        if (newSecond <= Number(globalState.songInfo.dt) / 1000) {
           if (options.affectPlayerBar) audioElement.currentTime = newSecond
           componentData.currentSecond = newSecond
         }
@@ -100,7 +106,7 @@ export default function PlayerBar() {
   })
   return (
     <View as='section' className='player-bar'>
-      <Image className='album-face' src={playerBar.currentMusicInfo?.albumUrl} />
+      <Image className='album-face' src={globalState.songInfo?.al?.picUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
@@ -122,15 +128,15 @@ export default function PlayerBar() {
         </Button>
       </View>
       <View className='timeSlider'>
-        <View className='songTitle'>{playerBar.currentMusicInfo?.songName}</View>
+        <View className='songTitle'>{globalState.songInfo.name}</View>
         <View className='timestamp'>
           <Text ref={currentSecondRef}>{duration(data.currentSecond * 1000).format('mm:ss')}</Text>
           <Text className='divider'> / </Text>
-          <Text>{duration(playerBar.currentMusicInfo?.totalSeconds * 1000).format('mm:ss')}</Text>
+          <Text>{duration(globalState.songInfo.dt).format('mm:ss')}</Text>
         </View>
         <Slider
           value={data.currentSecond}
-          max={Number(playerBar.currentMusicInfo?.totalSeconds)}
+          max={Number(globalState.songInfo.dt) * 1000}
           onMoveTrigger={(incomeCurrentSecond) => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
