@@ -51,6 +51,7 @@ const App: FC<{}> = () => {
   // 储存登录数据
   const [localStorage, setLocalStorage] = useLocalStorage()
   useEffect(() => {
+    // TODO 需要有个机制在请求失败时自动登录
     if (!localStorage.account.id) {
       requestLogin({ phone: 18116311669, password: 'Zhgy0330#' })
         .then(({ data }) => {
