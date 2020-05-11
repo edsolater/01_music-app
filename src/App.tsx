@@ -25,7 +25,7 @@ const cache: {
 const getter = {
   get profile() {
     if (!cache.profile)
-      cache.profile = JSON.parse(window.localStorage.getItem(`${prefix}profile`) || '')
+      cache.profile = JSON.parse(window.localStorage.getItem(`${prefix}profile`) || '""')
     return cache.profile
   },
   get account() {
@@ -34,12 +34,13 @@ const getter = {
     return cache.account
   },
   get token() {
-    if (!cache.token) cache.token = JSON.parse(window.localStorage.getItem(`${prefix}token`) || '')
+    if (!cache.token)
+      cache.token = JSON.parse(window.localStorage.getItem(`${prefix}token`) || '""')
     return cache.token
   },
   get likeList() {
     if (!cache.likeList)
-      cache.likeList = JSON.parse(window.localStorage.getItem(`${prefix}likeList`) || '')
+      cache.likeList = JSON.parse(window.localStorage.getItem(`${prefix}likeList`) || '[]')
     return cache.likeList
   },
 }

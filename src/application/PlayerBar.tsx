@@ -24,11 +24,16 @@ type ComponentData = {
 export default function PlayerBar() {
   const userInfo = getUserInfo()
   const globalState = useGlobalState()
-  const response = useResponse(requestSongUrl, { id: globalState.songInfo.id }, [
+  const response = useResponse(
+    requestSongUrl,
+    {
+      id: globalState.songInfo.id,
+    } /*  [
     globalState.songInfo.id,
-  ])
-  console.log('response: ', response)
-  // TODO - 这个要成为一个callback
+  ] */ /* FIXME - 这里的deps引起useEffect被忽略的问题，需要理清useEffect的用法 */,
+  )
+  console.log('globalState.songInfo.id,: ', globalState.songInfo.id)
+  // TODO - 这个要成为一个callback，这个callback装载在 useResponse 里
   // if(response.data) {
   //   globalState.setState(state => ({
   //     ...state, songInfo: {...state.songInfo, ...response.data?.[0]}
@@ -42,10 +47,18 @@ export default function PlayerBar() {
     /**播放列表 */
     musicList: [],
   }
+
+  // TODO - useElement做hooks不好，因为这是一个含有副作用的操作，包在useEffect中更好
   const audioElement = useElement('audio', (el) => {
     el.volume = playerBar.volumn
-    el.src = String(response.data?.[0].url)
   })
+
+  const url = String(response.data?.[0].url)
+  useEffect(() => {
+    console.log('load url')
+    audioElement.src = url
+  }, [url])
+
   const currentSecondRef = useRef<HTMLSpanElement>()
   const [data, dataSetters] = useMethods(
     (componentData) => ({
