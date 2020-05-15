@@ -8,12 +8,14 @@ import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
-import { useGlobalState, getUserInfo } from 'App'
+import { getUserInfo } from 'App'
+import { useTypedSelector, useTypedDispatch } from 'redux/store'
 
 export default function DetailArea() {
   const userInfo = getUserInfo()
-  const globalState = useGlobalState()
-  const response = useResponse(requestPlaylistDetail, { id: globalState.playlistId })
+  const dispatch = useTypedDispatch()
+  const playlistId = useTypedSelector((state) => state.playlistId)
+  const response = useResponse(requestPlaylistDetail, { id: playlistId })
   return (
     <View as='section' className='detail-area'>
       <View className='title'>
@@ -80,7 +82,7 @@ export default function DetailArea() {
         onSelectItem={(item) => {
           //@ts-ignore
           // TODO - 这里的修改引起了自APP开始的重渲染，这样开销太大了，得优化
-          globalState.setState((state) => ({ ...state, songInfo: item }))
+          dispatch({ type: 'ADD_SONG_INFO', songInfo: item })
         }}
         renderItem={(item, idx) => (
           <Item>

@@ -6,11 +6,12 @@ import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
 import useResponse from 'hooks/useResponse'
-import { getUserInfo, useGlobalState } from 'App'
+import { getUserInfo } from 'App'
+import { useTypedDispatch } from 'redux/store'
 
 export default function Playlist() {
   const userInfo = getUserInfo()
-  const globalState = useGlobalState()
+  const dispatch = useTypedDispatch()
   const response = useResponse(requestUserPlaylist, { uid: userInfo.account?.id })
   const parsedPlaylist = useMemo(() => {
     const resultList = [
@@ -64,7 +65,7 @@ export default function Playlist() {
         renderItem={(itemInfo) => (
           <Item
             onClick={() => {
-              globalState.setState((state) => ({ ...state, playlistId: itemInfo.id }))
+              dispatch({ type: 'UPDATE_PLAYLIST_ID', playlistId: itemInfo.id })
             }}
           >
             {itemInfo.name.includes('喜欢的音乐') ? (

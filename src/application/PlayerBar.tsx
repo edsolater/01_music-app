@@ -5,11 +5,9 @@ import { useElement, useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
-import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
-import { getUserInfo, useGlobalState } from 'App'
 import useResponse from 'hooks/useResponse'
-import requestUserPlaylist from 'requests/user/playlist'
 import requestSongUrl from 'requests/song/url'
+import { useTypedSelector } from 'redux/store'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -22,15 +20,14 @@ type ComponentData = {
 // TODO - 要一个胶水层，使 MusicInfoInList 与 MusicInfoInUrl 合并
 
 export default function PlayerBar() {
-  const userInfo = getUserInfo()
-  const globalState = useGlobalState()
+  const songInfo = useTypedSelector((state) => state.songInfo)
   const response = useResponse(
     requestSongUrl,
     {
-      id: globalState.songInfo.id,
+      id: songInfo.id,
     },
     // TODO - 如果有callback传参，指里的debug能容易很多
-    [globalState.songInfo.id],
+    [songInfo.id],
   )
   const playerBar = {
     /**音量大小 */
@@ -61,7 +58,7 @@ export default function PlayerBar() {
       ) {
         const newSecond =
           typeof setter === 'function' ? setter(componentData.currentSecond) : setter
-        if (newSecond <= Number(globalState.songInfo.dt) / 1000) {
+        if (newSecond <= Number(songInfo.dt) / 1000) {
           if (options.affectPlayerBar) audioElement.currentTime = newSecond
           componentData.currentSecond = newSecond
         }
@@ -112,7 +109,7 @@ export default function PlayerBar() {
   })
   return (
     <View as='section' className='player-bar'>
-      <Image className='album-face' src={globalState.songInfo?.al?.picUrl} />
+      <Image className='album-face' src={songInfo?.al?.picUrl} />
       <View className='music-buttons'>
         <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
           <Icon iconfontName='music_pre' />
@@ -134,15 +131,15 @@ export default function PlayerBar() {
         </Button>
       </View>
       <View className='timeSlider'>
-        <View className='songTitle'>{globalState.songInfo.name}</View>
+        <View className='songTitle'>{songInfo.name}</View>
         <View className='timestamp'>
           <Text ref={currentSecondRef}>{duration(data.currentSecond * 1000).format('mm:ss')}</Text>
           <Text className='divider'> / </Text>
-          <Text>{duration(globalState.songInfo.dt).format('mm:ss')}</Text>
+          <Text>{duration(songInfo.dt).format('mm:ss')}</Text>
         </View>
         <Slider
           value={data.currentSecond}
-          max={Number(globalState.songInfo.dt) * 1000}
+          max={Number(songInfo.dt) * 1000}
           onMoveTrigger={(incomeCurrentSecond) => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = duration(incomeCurrentSecond * 1000).format(

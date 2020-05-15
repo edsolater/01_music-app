@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useContext, createContext, useState, useMemo } from 'react'
 import { render } from 'react-dom'
+import { Provider } from 'react-redux'
 
 import 'assets/iconfont/iconfont.css'
 import './App.scss'
@@ -8,6 +9,7 @@ import { Playlist, DetailArea, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
 import { setToLocalStorage } from 'utils/web/localStorage'
 import requestLikelist from 'requests/likelist'
+import { store } from 'redux/store'
 
 /* ------------------ localStorage 储存 全局可用的一些变量（已包装成hooks） ------------------ */
 
@@ -46,19 +48,6 @@ const getter = {
 }
 export const getUserInfo = () => getter
 
-/* ------------------------------ 记录全局状态的 Context ----------------------------- */
-
-const initContextState = {
-  playlistId: NaN,
-  songInfo: {} as MusicInfo,
-}
-const AppContext = createContext({
-  ...initContextState,
-  setState: (() => {}) as React.Dispatch<React.SetStateAction<typeof initContextState>>,
-})
-
-export const useGlobalState = () => useContext(AppContext)
-
 /* --------------------------------- 导出APP组件 -------------------------------- */
 
 /**<App> */
@@ -81,22 +70,12 @@ const App: FC<{}> = () => {
     }
   }, [])
 
-  //全局状态
-  const [currentContextState, setCurrentContextState] = useState(initContextState)
-  const currentContextStateWithSetter = useMemo(
-    () => ({
-      ...currentContextState,
-      setState: setCurrentContextState,
-    }),
-    [currentContextState],
-  )
-
   return (
-    <AppContext.Provider value={currentContextStateWithSetter}>
+    <Provider store={store}>
       <Playlist />
       <DetailArea />
       <PlayerBar />
-    </AppContext.Provider>
+    </Provider>
   )
 }
 render(<App />, document.getElementById('app'))

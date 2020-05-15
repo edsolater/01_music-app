@@ -12,4 +12,4 @@ type PicURL = string
 
 type Url = string
 
-type ID = number
+type ID = number | string
