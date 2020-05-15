@@ -52,7 +52,6 @@ function List<T>({
           onClick={() => {
             onSelectItem?.(itemInfo, index, items)
             setSelectedIndex(index)
-            console.log('3: ', 3)
           }}
         >
           {renderItem?.(itemInfo, index, items)}

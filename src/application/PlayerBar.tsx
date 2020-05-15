@@ -7,7 +7,7 @@ import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import { getUserInfo, useGlobalState } from 'App'
-import useResponse from 'hooks/useResponse'
+import useResponse from 'utils/useResponse'
 import requestUserPlaylist from 'requests/user/playlist'
 import requestSongUrl from 'requests/song/url'
 
@@ -28,17 +28,10 @@ export default function PlayerBar() {
     requestSongUrl,
     {
       id: globalState.songInfo.id,
-    } /*  [
-    globalState.songInfo.id,
-  ] */ /* FIXME - 这里的deps引起useEffect被忽略的问题，需要理清useEffect的用法 */,
+    },
+    // TODO - 如果有callback传参，指里的debug能容易很多
+    [globalState.songInfo.id],
   )
-  console.log('globalState.songInfo.id,: ', globalState.songInfo.id)
-  // TODO - 这个要成为一个callback，这个callback装载在 useResponse 里
-  // if(response.data) {
-  //   globalState.setState(state => ({
-  //     ...state, songInfo: {...state.songInfo, ...response.data?.[0]}
-  //   }))
-  // }
   const playerBar = {
     /**音量大小 */
     volumn: 1,

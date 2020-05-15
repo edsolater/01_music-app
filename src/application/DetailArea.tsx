@@ -6,7 +6,7 @@ import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-import useResponse from 'hooks/useResponse'
+import useResponse from 'utils/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
 import { useGlobalState, getUserInfo } from 'App'
 
@@ -79,6 +79,7 @@ export default function DetailArea() {
         initSelectedIndex={NaN}
         onSelectItem={(item) => {
           //@ts-ignore
+          // TODO - 这里的修改引起了自APP开始的重渲染，这样开销太大了，得优化
           globalState.setState((state) => ({ ...state, songInfo: item }))
         }}
         renderItem={(item, idx) => (

@@ -1,12 +1,8 @@
-- 当不传入 props 控制组件的行为时，组件自身保存行为
+异想天开：组件 Fallback，当子组件是 undefined/null 时，启用\<Fallback>组件上的 fallback 属性
+例如：
 
-* popover 等 Wrapper 型元素
-  - 子元素绝对定位是受限制的，要绝对定位的话必须连 Popover 一起绝对定位
+```javascript
+<Fallback fallback={<div>loading...</div>}>{profile?.data.something}</Fallback>
+```
 
-//TODO-: 最后要为所有组件建立一个查阅已有组件的网页
-ComponentList
-
-| name                 | detail | screenshot                   | css variable                     |
-| -------------------- | ------ | ---------------------------- | -------------------------------- |
-| [Badge](./Badge.tsx) | 红点   | ![](2020-01-29-22-57-34.png) | - `--dot-size`: 表示“红点”的大小 |
-| [Badge](./Badge.tsx) | 红点   | ![](2020-01-29-22-57-34.png) | - `--dot-size`: 表示“红点”的大小 |
+Fallback 可以与 ErrorBoundary 结合
