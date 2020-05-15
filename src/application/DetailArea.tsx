@@ -6,7 +6,7 @@ import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-import useResponse from 'utils/useResponse'
+import useResponse from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
 import { useGlobalState, getUserInfo } from 'App'
 

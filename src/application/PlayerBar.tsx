@@ -7,7 +7,7 @@ import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import soundtrackUrl from 'assets/ezio Family.mp3' // 这个信息最终要靠后端传过来，现在只是占位
 import { getUserInfo, useGlobalState } from 'App'
-import useResponse from 'utils/useResponse'
+import useResponse from 'hooks/useResponse'
 import requestUserPlaylist from 'requests/user/playlist'
 import requestSongUrl from 'requests/song/url'
 

@@ -5,7 +5,7 @@ import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
-import useResponse from 'utils/useResponse'
+import useResponse from 'hooks/useResponse'
 import { getUserInfo, useGlobalState } from 'App'
 
 export default function Playlist() {

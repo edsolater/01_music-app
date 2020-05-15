@@ -8,8 +8,6 @@ import { Playlist, DetailArea, PlayerBar } from 'application'
 import requestLogin from 'requests/login'
 import { setToLocalStorage } from 'utils/web/localStorage'
 import requestLikelist from 'requests/likelist'
-import createStatedContext from 'utils/createStatedContext'
-import useStatedProvider from 'utils/useStatedProvider'
 
 /* ------------------ localStorage 储存 全局可用的一些变量（已包装成hooks） ------------------ */
 
@@ -60,8 +58,6 @@ const AppContext = createContext({
 })
 
 export const useGlobalState = () => useContext(AppContext)
-export const PlaylistContext = createStatedContext({ playlistId: NaN })
-export const songContext = createStatedContext({ songInfo: {} as MusicInfo })
 
 /* --------------------------------- 导出APP组件 -------------------------------- */
 
@@ -94,19 +90,13 @@ const App: FC<{}> = () => {
     }),
     [currentContextState],
   )
-  const PlaylistStatedProvider = useStatedProvider(PlaylistContext)
-  const SongStatedProvider = useStatedProvider(songContext)
 
   return (
-    <PlaylistStatedProvider>
-      <SongStatedProvider>
-        <AppContext.Provider value={currentContextStateWithSetter}>
-          <Playlist />
-          <DetailArea />
-          <PlayerBar />
-        </AppContext.Provider>
-      </SongStatedProvider>
-    </PlaylistStatedProvider>
+    <AppContext.Provider value={currentContextStateWithSetter}>
+      <Playlist />
+      <DetailArea />
+      <PlayerBar />
+    </AppContext.Provider>
   )
 }
 render(<App />, document.getElementById('app'))
