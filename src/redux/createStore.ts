@@ -3,59 +3,25 @@ import { createStore, combineReducers } from 'redux'
 import { Dispatch } from 'react'
 
 import {
-  reducer as logininfoReducer,
+  reducer as loginInfo,
   IStore as LoginInfoStore,
   IAction as LoginInfoAction,
 } from './loginInfo'
+import { reducer as inApp, IStore as InAppStore, IAction as InAppAction } from './inApp'
 import {
-  reducer as likeListReducer,
-  IStore as LikeListStore,
-  IAction as LikeListAction,
-} from './likeList'
+  reducer as fromResponse,
+  IStore as FromResponseStore,
+  IAction as FromResponseAction,
+} from './fromResponse'
 
-/* --------------------------------- reducer -------------------------------- */
-type IStore = {
-  userProfile: IProfile
-  playlistId: ID
-  songInfo: MusicInfo
-}
-type IAction =
-  | {
-      type: 'UPDATE_PLAYLIST_ID'
-      playlistId: ID
-    }
-  | {
-      type: 'ADD_SONG_INFO'
-      songInfo: MusicInfo
-    }
-const rootReducer = (
-  state = {
-    userProfile: {} as IProfile,
-    playlistId: NaN as ID,
-    songInfo: {} as MusicInfo,
-  },
-  action: IAction,
-) => {
-  switch (action.type) {
-    case 'ADD_SONG_INFO':
-      return { ...state, songInfo: action.songInfo }
-    case 'UPDATE_PLAYLIST_ID':
-      //TODO - 需要使用immer，简化掉...state
-      return { ...state, playlistId: action.playlistId }
-    default:
-      return state
-  }
-}
-export const useTypedDispatch: () => Dispatch<
-  IAction | LoginInfoAction | LikeListAction
-> = useDispatch
-
-/**store */
-export const store = createStore(
-  combineReducers({ root: rootReducer, loginInfo: logininfoReducer, likelist: likeListReducer }),
-)
-export const useTypedSelector: TypedUseSelectorHook<{
-  root: IStore
+type CombinedAction = LoginInfoAction | FromResponseAction | InAppAction
+type CombinedStore = {
   loginInfo: LoginInfoStore
-  likelist: LikeListStore
-}> = useSelector
+  fromResponse: FromResponseStore
+  inApp: InAppStore
+}
+const combinedReducer = combineReducers({ loginInfo, fromResponse, inApp })
+
+export const store = createStore(combinedReducer)
+export const useTypedDispatch: () => Dispatch<CombinedAction> = useDispatch
+export const useTypedSelector: TypedUseSelectorHook<CombinedStore> = useSelector

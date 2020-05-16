@@ -20,7 +20,7 @@ type ComponentData = {
 // TODO - 要一个胶水层，使 MusicInfoInList 与 MusicInfoInUrl 合并
 
 export default function PlayerBar() {
-  const songInfo = useTypedSelector(s => s.root.songInfo)
+  const songInfo = useTypedSelector(s => s.fromResponse.songInfo)
   const response = useResponse(
     requestSongUrl,
     {

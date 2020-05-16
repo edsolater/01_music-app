@@ -11,8 +11,8 @@ import { requestPlaylistDetail } from 'requests/playlist/detail'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
 export default function DetailArea() {
-  const playlistId = useTypedSelector(s => s.root.playlistId)
-  const likeList = useTypedSelector(s => s.likelist)
+  const playlistId = useTypedSelector(s => s.inApp.playlistId)
+  const likeList = useTypedSelector(s => s.fromResponse.likeList)
   const dispatch = useTypedDispatch()
   const response = useResponse(requestPlaylistDetail, { id: playlistId })
   return (
@@ -80,8 +80,7 @@ export default function DetailArea() {
         initSelectedIndex={NaN}
         onSelectItem={item => {
           //@ts-ignore
-          // TODO - 这里的修改引起了自APP开始的重渲染，这样开销太大了，得优化
-          dispatch({ type: 'ADD_SONG_INFO', songInfo: item })
+          dispatch({ type: 'SET_SONG_INFO', songInfo: item })
         }}
         renderItem={(item, idx) => (
           <Item>
