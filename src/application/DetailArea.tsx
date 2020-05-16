@@ -8,13 +8,12 @@ import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
-import { getUserInfo } from 'App'
-import { useTypedSelector, useTypedDispatch } from 'redux/store'
+import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
 export default function DetailArea() {
-  const userInfo = getUserInfo()
+  const playlistId = useTypedSelector(s => s.root.playlistId)
+  const likeList = useTypedSelector(s => s.likelist)
   const dispatch = useTypedDispatch()
-  const playlistId = useTypedSelector((state) => state.playlistId)
   const response = useResponse(requestPlaylistDetail, { id: playlistId })
   return (
     <View as='section' className='detail-area'>
@@ -77,9 +76,9 @@ export default function DetailArea() {
           ...songObj,
           ...response.privileges[idx],
         }))}
-        itemKey={(item) => item.id}
+        itemKey={item => item.id}
         initSelectedIndex={NaN}
-        onSelectItem={(item) => {
+        onSelectItem={item => {
           //@ts-ignore
           // TODO - 这里的修改引起了自APP开始的重渲染，这样开销太大了，得优化
           dispatch({ type: 'ADD_SONG_INFO', songInfo: item })
@@ -91,7 +90,7 @@ export default function DetailArea() {
             </View>
             <Cycle
               className='indicator-like'
-              initActiveIndex={userInfo.likeList?.includes(item.id) ? 0 : 1}
+              initActiveIndex={likeList.includes(item.id) ? 0 : 1}
               itemList={[
                 // TODO - 为了灵活性需要overload支持单纯传ReactNode的情况
                 {

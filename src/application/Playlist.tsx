@@ -6,13 +6,13 @@ import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
 import useResponse from 'hooks/useResponse'
-import { getUserInfo } from 'App'
-import { useTypedDispatch } from 'redux/store'
+import { useTypedDispatch, useTypedSelector } from 'redux/createStore'
 
 export default function Playlist() {
-  const userInfo = getUserInfo()
+  const loginInfo = useTypedSelector(s => s.loginInfo)
+  console.log('userInfo: ', loginInfo)
   const dispatch = useTypedDispatch()
-  const response = useResponse(requestUserPlaylist, { uid: userInfo.account?.id })
+  const response = useResponse(requestUserPlaylist, { uid: loginInfo.account?.id })
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {
@@ -40,7 +40,7 @@ export default function Playlist() {
     if (response.playlist) {
       for (const list of response.playlist) {
         //@ts-ignore
-        if (list.userId === userInfo.account.id) resultList[2].data.push(list)
+        if (list.userId === loginInfo.account.id) resultList[2].data.push(list)
         //@ts-ignore
         else resultList[3].data.push(list)
       }
@@ -62,7 +62,7 @@ export default function Playlist() {
             </Header>
           )
         }
-        renderItem={(itemInfo) => (
+        renderItem={itemInfo => (
           <Item
             onClick={() => {
               dispatch({ type: 'UPDATE_PLAYLIST_ID', playlistId: itemInfo.id })
@@ -86,11 +86,11 @@ export default function Playlist() {
             )}
           </Item>
         )}
-        itemKey={(item) => item.name}
+        itemKey={item => item.name}
       />
       <View className='user-info'>
-        <Avatar src={userInfo.profile?.avatarUrl} />
-        <Text className='nickname'>{userInfo.profile?.nickname}</Text>
+        <Avatar src={loginInfo.profile?.avatarUrl} />
+        <Text className='nickname'>{loginInfo.profile?.nickname}</Text>
         <Badge number={32}>
           <Icon iconfontName='mail' />
         </Badge>

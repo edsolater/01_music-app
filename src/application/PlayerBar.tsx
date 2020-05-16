@@ -7,7 +7,7 @@ import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import requestSongUrl from 'requests/song/url'
-import { useTypedSelector } from 'redux/store'
+import { useTypedSelector } from 'redux/createStore'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -20,7 +20,7 @@ type ComponentData = {
 // TODO - 要一个胶水层，使 MusicInfoInList 与 MusicInfoInUrl 合并
 
 export default function PlayerBar() {
-  const songInfo = useTypedSelector((state) => state.songInfo)
+  const songInfo = useTypedSelector(s => s.root.songInfo)
   const response = useResponse(
     requestSongUrl,
     {
@@ -39,7 +39,7 @@ export default function PlayerBar() {
   }
 
   // TODO - useElement做hooks不好，因为这是一个含有副作用的操作，包在useEffect中更好
-  const audioElement = useElement('audio', (el) => {
+  const audioElement = useElement('audio', el => {
     el.volume = playerBar.volumn
   })
 
@@ -51,7 +51,7 @@ export default function PlayerBar() {
 
   const currentSecondRef = useRef<HTMLSpanElement>()
   const [data, dataSetters] = useMethods(
-    (componentData) => ({
+    componentData => ({
       songSecond(
         setter: ((oldSeconds: number) => number) | number,
         options: { affectPlayerBar: boolean } = { affectPlayerBar: false },
@@ -102,7 +102,7 @@ export default function PlayerBar() {
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       if (data.playStatus === 'playing') {
-        dataSetters.songSecond((n) => n + 1)
+        dataSetters.songSecond(n => n + 1)
       }
     }, 1000)
     return () => clearTimeout(timeoutId)
@@ -117,7 +117,7 @@ export default function PlayerBar() {
         <Button
           className={data.playStatus}
           onClick={() => {
-            dataSetters.playStatus((old) => (old === 'paused' ? 'playing' : 'paused'))
+            dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
           }}
         >
           {data.playStatus === 'playing' ? (
@@ -140,14 +140,14 @@ export default function PlayerBar() {
         <Slider
           value={data.currentSecond}
           max={Number(songInfo.dt) * 1000}
-          onMoveTrigger={(incomeCurrentSecond) => {
+          onMoveTrigger={incomeCurrentSecond => {
             if (currentSecondRef.current) {
               currentSecondRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
                 'mm:ss',
               )
             }
           }}
-          onMoveTriggerDone={(incomeCurrentSecond) => {
+          onMoveTriggerDone={incomeCurrentSecond => {
             dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayerBar: true })
           }}
         />

@@ -9,7 +9,7 @@ import { axiosInstance } from '../$axiosInstance'
  * @param params.id  歌单 id
  * @param params.s  歌单最近的 s 个收藏者
  */
-export const requestPlaylistDetail = (params: { id?: number; s?: number } = {}) =>
+export const requestPlaylistDetail = (params: { id?: ID; s?: number } = {}) =>
   axiosInstance.get<{
     code?: 200
     relatedVideos?: null
