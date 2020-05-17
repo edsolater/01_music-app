@@ -4,6 +4,8 @@
  *
  **********/
 
+import produce from 'immer'
+
 export type IStore = {
   songInfo: MusicInfo
   likeList: ID[]
@@ -17,19 +19,19 @@ export type IAction =
       type: 'SET_LIKELIST'
       likeList: ID[]
     }
-export const reducer = (
-  state = {
+export const reducer = produce(
+  (draft: IStore, action: IAction) => {
+    switch (action.type) {
+      case 'SET_SONG_INFO':
+        draft.songInfo = action.songInfo
+        return
+      case 'SET_LIKELIST':
+        draft.likeList = action.likeList
+        return
+    }
+  },
+  {
     songInfo: {},
     likeList: JSON.parse(window.localStorage.getItem(`music_likeList`) || '[]'),
   },
-  action: IAction,
-) => {
-  switch (action.type) {
-    case 'SET_SONG_INFO':
-      return { ...state, songInfo: action.songInfo }
-    case 'SET_LIKELIST':
-      return action.likeList
-    default:
-      return state
-  }
-}
+)
