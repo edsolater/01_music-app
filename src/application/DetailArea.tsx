@@ -1,7 +1,7 @@
 import React from 'react'
 import dayjs from 'dayjs'
 
-import './index.scss'
+import './DetailArea.scss'
 import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'

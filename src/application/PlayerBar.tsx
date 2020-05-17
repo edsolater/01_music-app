@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useMemo } from 'react'
 
-import './index.scss'
+import './PlayerBar.scss'
 import { useElement, useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
@@ -45,7 +45,7 @@ export default function PlayerBar() {
     audioElement.src = url
   }, [url])
 
-  const currentSecondRef = useRef<HTMLSpanElement>()
+  const currentSecondSpanRef = useRef<HTMLSpanElement>()
   // TODO -  总觉得这段逻辑过于繁琐了，应该可以把逻辑封装成hooks，但估计现在的实力是做不到的
   const [data, dataSetters] = useMethods(
     draft => ({
@@ -105,50 +105,68 @@ export default function PlayerBar() {
     return () => clearTimeout(timeoutId)
   })
 
+  /* ----------------------------------- 回调 ----------------------------------- */
+
+  // TODO -  最终要合并到useMethod， 现在看有重复
+  const callbacks = useMemo(
+    () => ({
+      // 改变当前时间线显示的数字
+      changingSecondText(incomeCurrentSecond: number) {
+        if (currentSecondSpanRef.current) {
+          currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
+            'mm:ss',
+          )
+        }
+      },
+      // 改变播放进度
+      togglePlayPause() {
+        dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
+      },
+      setSongProcess(incomeCurrentSecond: number) {
+        dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayerBar: true })
+      },
+      setVolumn(currentPercentage: number) {
+        audioElement.volume = currentPercentage
+      },
+    }),
+    [],
+  )
   /* -------------------------------------------------------------------------- */
   return (
     <View as='section' className='player-bar'>
       <Image className='album-face' src={songInfo?.al?.picUrl} />
       <View className='music-buttons'>
-        <Button className='last-song' onClick={() => console.log(`I'm clicked 1`)}>
+        <Button className='last-song'>
           <Icon iconfontName='music_pre' />
         </Button>
-        <Button
-          className={data.playStatus}
-          onClick={() => {
-            dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
-          }}
-        >
+        <Button className={data.playStatus} onClick={callbacks.togglePlayPause}>
           {data.playStatus === 'playing' ? (
             <Icon iconfontName='pause' />
           ) : (
             <Icon iconfontName='play' />
           )}
         </Button>
-        <Button className='next-song' onClick={() => console.log(`I'm clicked 3`)}>
+        <Button className='next-song'>
           <Icon iconfontName='music_next' />
         </Button>
       </View>
       <View className='timeSlider'>
         <View className='songTitle'>{songInfo.name}</View>
         <View className='timestamp'>
-          <Text ref={currentSecondRef}>{duration(data.currentSecond * 1000).format('mm:ss')}</Text>
+          <Text ref={currentSecondSpanRef}>
+            {duration(data.currentSecond * 1000).format('mm:ss')}
+          </Text>
           <Text className='divider'> / </Text>
-          <Text>{duration(songInfo.dt).format('mm:ss')}</Text>
+          <Text>
+            {duration(songInfo.dt).format('mm:ss')}
+            {/* 像这种就是没有改变逻辑，只是改变显示的数据处理，直接写在ReactNode里反而好 */}
+          </Text>
         </View>
         <Slider
           value={data.currentSecond}
           max={Number(songInfo.dt) / 1000}
-          onMoveTrigger={incomeCurrentSecond => {
-            if (currentSecondRef.current) {
-              currentSecondRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
-                'mm:ss',
-              )
-            }
-          }}
-          onMoveTriggerDone={incomeCurrentSecond => {
-            dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayerBar: true })
-          }}
+          onMoveTrigger={callbacks.changingSecondText}
+          onMoveTriggerDone={callbacks.setSongProcess}
         />
       </View>
       <View className='info-panel'>
@@ -178,13 +196,7 @@ export default function PlayerBar() {
         />
         <Popover
           renderPopContent={
-            <Slider
-              defaultValue={playerBar.volumn}
-              onMoveTriggerDone={(currentPercentage: number) => {
-                // TODO appData.setVolumn(currentPercentage) // 这需要建立整个应用的dispatcher
-                audioElement.volume = currentPercentage
-              }}
-            />
+            <Slider defaultValue={playerBar.volumn} onMoveTriggerDone={callbacks.setVolumn} />
           }
         >
           <Button className='volume'>
