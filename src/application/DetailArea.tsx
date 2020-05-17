@@ -12,7 +12,7 @@ import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
 export default function DetailArea() {
   const playlistId = useTypedSelector(s => s.inApp.playlistId)
-  const likeList = useTypedSelector(s => s.fromResponse.likeList)
+  const likeList = useTypedSelector(s => s.cache.likeList)
   const dispatch = useTypedDispatch()
   const response = useResponse(requestPlaylistDetail, { id: playlistId })
   return (

@@ -7,7 +7,7 @@ import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import requestSongUrl from 'requests/song/url'
-import { useTypedSelector } from 'redux/createStore'
+import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -18,47 +18,26 @@ type ComponentData = {
 }
 
 export default function PlayerBar() {
-  const songInfo = useTypedSelector(s => s.fromResponse.songInfo)
+  const songInfo = useTypedSelector(s => s.cache.songInfo)
+  const reduxPlayer = useTypedSelector(s => s.player)
+  const dispatch = useTypedDispatch()
   const response = useResponse(
     requestSongUrl,
-    {
-      id: songInfo.id,
-    },
+    { id: songInfo.id },
     // TODO - 如果有callback传参，指里的debug能容易很多
     [songInfo.id],
   )
-  const playerBar = {
-    /**音量大小 */
-    volumn: 1,
-    /**播放模式 */
-    mode: '列表循环' as '单曲循环' | '列表循环' | '随机选取',
-    /**播放列表 */
-    musicList: [],
-  }
-
+  const indicateSetBySlide = useRef(false)
   const audioElement = useElement('audio', el => {
-    el.volume = playerBar.volumn
+    el.volume = reduxPlayer.volumn
   })
-
   const url = String(response.data?.[0].url)
-  useEffect(() => {
-    audioElement.src = url
-  }, [url])
 
+  // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
-  // TODO -  总觉得这段逻辑过于繁琐了，应该可以把逻辑封装成hooks，但估计现在的实力是做不到的
+  // FIXME  -  要全部干掉
   const [data, dataSetters] = useMethods(
     draft => ({
-      songSecond(
-        setter: ((oldSeconds: number) => number) | number,
-        options: { affectPlayerBar: boolean } = { affectPlayerBar: false },
-      ) {
-        const newSecond = typeof setter === 'function' ? setter(draft.currentSecond) : setter
-        if (newSecond <= Number(songInfo.dt) / 1000) {
-          if (options.affectPlayerBar) audioElement.currentTime = newSecond
-          draft.currentSecond = newSecond
-        }
-      },
       playStatus(setter: ((oldStatus: PlayStatus) => PlayStatus) | PlayStatus) {
         const newStatus = typeof setter === 'function' ? setter(draft.playStatus) : setter
         switch (newStatus) {
@@ -94,12 +73,31 @@ export default function PlayerBar() {
     } as ComponentData,
   )
 
+  /* ---------------------------- webAPI 音乐播放器改变音量 ---------------------------- */
+  useEffect(() => {
+    audioElement.volume = reduxPlayer.volumn
+  }, [reduxPlayer.volumn])
+
+  useEffect(() => {
+    audioElement.src = url
+  }, [url])
+
+  useEffect(() => {
+    //FIXME - 这里触发了2次，导致出现了一卡
+    console.log('1: ', 1)
+    audioElement.currentTime = reduxPlayer.passedMilliseconds / 1000
+    indicateSetBySlide.current = false
+  }, [indicateSetBySlide.current === true])
+
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       if (data.playStatus === 'playing') {
-        dataSetters.songSecond(n => n + 1)
+        dispatch({
+          type: 'SET_PLAYER_PASSED_MILLISECONDS',
+          passedMilliseconds: n => Math.min(n + 1000, Number(songInfo.dt)),
+        })
       }
     }, 1000)
     return () => clearTimeout(timeoutId)
@@ -107,7 +105,7 @@ export default function PlayerBar() {
 
   /* ----------------------------------- 回调 ----------------------------------- */
 
-  // TODO -  最终要合并到useMethod， 现在看有重复
+  // FIXME  -  要全部干掉
   const callbacks = useMemo(
     () => ({
       // 改变当前时间线显示的数字
@@ -121,12 +119,6 @@ export default function PlayerBar() {
       // 改变播放进度
       togglePlayPause() {
         dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
-      },
-      setSongProcess(incomeCurrentSecond: number) {
-        dataSetters.songSecond(() => incomeCurrentSecond, { affectPlayerBar: true })
-      },
-      setVolumn(currentPercentage: number) {
-        audioElement.volume = currentPercentage
       },
     }),
     [],
@@ -154,7 +146,7 @@ export default function PlayerBar() {
         <View className='songTitle'>{songInfo.name}</View>
         <View className='timestamp'>
           <Text ref={currentSecondSpanRef}>
-            {duration(data.currentSecond * 1000).format('mm:ss')}
+            {duration(reduxPlayer.passedMilliseconds).format('mm:ss')}
           </Text>
           <Text className='divider'> / </Text>
           <Text>
@@ -163,10 +155,16 @@ export default function PlayerBar() {
           </Text>
         </View>
         <Slider
-          value={data.currentSecond}
+          value={reduxPlayer.passedMilliseconds / 1000}
           max={Number(songInfo.dt) / 1000}
           onMoveTrigger={callbacks.changingSecondText}
-          onMoveTriggerDone={callbacks.setSongProcess}
+          onMoveTriggerDone={n => {
+            dispatch({
+              type: 'SET_PLAYER_PASSED_MILLISECONDS',
+              passedMilliseconds: n * 1000,
+            })
+            indicateSetBySlide.current = true
+          }}
         />
       </View>
       <View className='info-panel'>
@@ -196,7 +194,10 @@ export default function PlayerBar() {
         />
         <Popover
           renderPopContent={
-            <Slider defaultValue={playerBar.volumn} onMoveTriggerDone={callbacks.setVolumn} />
+            <Slider
+              defaultValue={reduxPlayer.volumn}
+              onMoveTriggerDone={n => dispatch({ type: 'SET_PLAYER_VOLUMN', volumn: n })}
+            />
           }
         >
           <Button className='volume'>
