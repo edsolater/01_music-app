@@ -5,8 +5,10 @@ import { Provider } from 'react-redux'
 import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
-import { Playlist, DetailArea, PlayerBar } from 'application'
 import { store } from 'redux/createStore'
+import Playlist from 'application/Playlist'
+import DetailArea from 'application/DetailArea'
+import PlayerBar from 'application/PlayerBar'
 
 /**<App> */
 function App() {

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 
-import './Playlist.scss'
+import './index.scss'
 import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
