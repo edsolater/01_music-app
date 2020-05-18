@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo } from 'react'
+import React, { useEffect, useRef, useMemo, useCallback } from 'react'
 
 import './PlayerBar.scss'
 import { useElement, useMethods } from 'components/customHooks'
@@ -21,21 +21,22 @@ export default function PlayerBar() {
   const songInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const dispatch = useTypedDispatch()
+  //TODO - useResponse 作为异步操作，需要支持回调函数的option
   const response = useResponse(
     requestSongUrl,
     { id: songInfo.id },
     // TODO - 如果有callback传参，指里的debug能容易很多
     [songInfo.id],
   )
-  const indicateSetBySlide = useRef(false)
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
   })
+
   const url = String(response.data?.[0].url)
 
   // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
-  // FIXME  -  要全部干掉
+  // FIXME  -  要全部干掉（把逻辑放到redux种）（不对，redux是存储结果的仓库，结果间互相干涉的逻辑也在redux，但产主结果的逻辑就放在组件本身，不要给redux的好）
   const [data, dataSetters] = useMethods(
     draft => ({
       playStatus(setter: ((oldStatus: PlayStatus) => PlayStatus) | PlayStatus) {
@@ -74,20 +75,15 @@ export default function PlayerBar() {
   )
 
   /* ---------------------------- webAPI 音乐播放器改变音量 ---------------------------- */
-  useEffect(() => {
-    audioElement.volume = reduxPlayer.volumn
-  }, [reduxPlayer.volumn])
+
+  // TODO 等useResponse支持回调了才行
+  const setSrcOfAudioElement = useCallback((src: string) => {
+    audioElement.src = src
+  }, [])
 
   useEffect(() => {
     audioElement.src = url
   }, [url])
-
-  useEffect(() => {
-    //FIXME - 这里触发了2次，导致出现了一卡
-    console.log('1: ', 1)
-    audioElement.currentTime = reduxPlayer.passedMilliseconds / 1000
-    indicateSetBySlide.current = false
-  }, [indicateSetBySlide.current === true])
 
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
@@ -158,12 +154,13 @@ export default function PlayerBar() {
           value={reduxPlayer.passedMilliseconds / 1000}
           max={Number(songInfo.dt) / 1000}
           onMoveTrigger={callbacks.changingSecondText}
-          onMoveTriggerDone={n => {
+          //TODO 这里不应该是百分比更合理吗
+          onMoveTriggerDone={seconds => {
             dispatch({
               type: 'SET_PLAYER_PASSED_MILLISECONDS',
-              passedMilliseconds: n * 1000,
+              passedMilliseconds: seconds * 1000,
             })
-            indicateSetBySlide.current = true
+            audioElement.currentTime = seconds
           }}
         />
       </View>
@@ -196,7 +193,10 @@ export default function PlayerBar() {
           renderPopContent={
             <Slider
               defaultValue={reduxPlayer.volumn}
-              onMoveTriggerDone={n => dispatch({ type: 'SET_PLAYER_VOLUMN', volumn: n })}
+              onMoveTriggerDone={volumn => {
+                dispatch({ type: 'SET_PLAYER_VOLUMN', volumn: volumn })
+                audioElement.volume = volumn
+              }}
             />
           }
         >
