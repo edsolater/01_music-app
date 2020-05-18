@@ -11,10 +11,17 @@ import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
-type ComponentData = {
+type ComponentState = {
   currentSecond: number
   playMode: PlayMode
   playStatus: PlayStatus
+}
+type ComponentMethod = {
+  play(): void
+  pause(): void
+  toggle(): void
+  togglePlayMode(): void
+  setPlayMode(): void
 }
 
 export default function PlayerBar() {
@@ -36,50 +43,69 @@ export default function PlayerBar() {
 
   // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
-  // FIXME  -  要全部干掉（把逻辑放到redux种）（不对，redux是存储结果的仓库，结果间互相干涉的逻辑也在redux，但产主结果的逻辑就放在组件本身，不要给redux的好）
-  const [data, dataSetters] = useMethods(
-    draft => ({
-      playStatus(setter: ((oldStatus: PlayStatus) => PlayStatus) | PlayStatus) {
-        const newStatus = typeof setter === 'function' ? setter(draft.playStatus) : setter
-        switch (newStatus) {
-          case 'playing':
-            audioElement.play()
-            break
-          case 'paused':
-            audioElement.pause()
-            break
-        }
-        draft.playStatus = newStatus
-      },
-      playMode(setter: ((oldStatus: PlayMode) => PlayMode) | PlayMode) {
-        const newMode = typeof setter === 'function' ? setter(draft.playMode) : setter
-        switch (newMode) {
-          case 'random-mode':
-            audioElement.loop = false
-            break
-          case 'infinit-mode':
-            audioElement.loop = true
-            break
-          case 'recursive-mode':
-            audioElement.loop = false
-            break
-        }
-        draft.playMode = newMode
-      },
-    }),
+  // 不对，redux是存储结果的仓库，结果间互相干涉的逻辑也在redux，但产主结果的逻辑就放在组件本身，不要给redux的好）
+  // TODO - 这里是把数据处理后交给自身的方法，应该也有把数据交给redux的传参方式
+  const [state, methods] = useMethods(
+    draft => {
+      const methods = {
+        play() {
+          methods.setPlayState('playing')
+        },
+        pause() {
+          methods.setPlayState('paused')
+        },
+        toggle() {
+          if (draft.playStatus === 'paused') methods.play()
+          else methods.pause()
+        },
+        setPlayState(newStatus: PlayStatus) {
+          switch (newStatus) {
+            case 'playing': {
+              audioElement.play()
+              draft.playStatus = 'playing'
+              return
+            }
+            case 'paused': {
+              audioElement.pause()
+              draft.playStatus = 'paused'
+              return
+            }
+          }
+        },
+        setPlayMode(setter: ((oldStatus: PlayMode) => PlayMode) | PlayMode) {
+          const newMode = typeof setter === 'function' ? setter(draft.playMode) : setter
+          switch (newMode) {
+            case 'random-mode':
+              audioElement.loop = false
+              break
+            case 'infinit-mode':
+              audioElement.loop = true
+              break
+            case 'recursive-mode':
+              audioElement.loop = false
+              break
+          }
+          draft.playMode = newMode
+        },
+        // 改变当前时间线显示的数字
+        changingSecondText(incomeCurrentSecond: number) {
+          if (currentSecondSpanRef.current) {
+            currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
+              'mm:ss',
+            )
+          }
+        },
+      }
+      return methods
+    },
     {
       currentSecond: 0,
       playStatus: 'paused',
       playMode: 'random-mode',
-    } as ComponentData,
+    } as ComponentState,
   )
 
   /* ---------------------------- webAPI 音乐播放器改变音量 ---------------------------- */
-
-  // TODO 等useResponse支持回调了才行
-  const setSrcOfAudioElement = useCallback((src: string) => {
-    audioElement.src = src
-  }, [])
 
   useEffect(() => {
     audioElement.src = url
@@ -89,7 +115,7 @@ export default function PlayerBar() {
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
-      if (data.playStatus === 'playing') {
+      if (state.playStatus === 'playing') {
         dispatch({
           type: 'SET_PLAYER_PASSED_MILLISECONDS',
           passedMilliseconds: n => Math.min(n + 1000, Number(songInfo.dt)),
@@ -99,26 +125,6 @@ export default function PlayerBar() {
     return () => clearTimeout(timeoutId)
   })
 
-  /* ----------------------------------- 回调 ----------------------------------- */
-
-  // FIXME  -  要全部干掉
-  const callbacks = useMemo(
-    () => ({
-      // 改变当前时间线显示的数字
-      changingSecondText(incomeCurrentSecond: number) {
-        if (currentSecondSpanRef.current) {
-          currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
-            'mm:ss',
-          )
-        }
-      },
-      // 改变播放进度
-      togglePlayPause() {
-        dataSetters.playStatus(old => (old === 'paused' ? 'playing' : 'paused'))
-      },
-    }),
-    [],
-  )
   /* -------------------------------------------------------------------------- */
   return (
     <View as='section' className='player-bar'>
@@ -127,8 +133,8 @@ export default function PlayerBar() {
         <Button className='last-song'>
           <Icon iconfontName='music_pre' />
         </Button>
-        <Button className={data.playStatus} onClick={callbacks.togglePlayPause}>
-          {data.playStatus === 'playing' ? (
+        <Button className={state.playStatus} onClick={methods.toggle}>
+          {state.playStatus === 'playing' ? (
             <Icon iconfontName='pause' />
           ) : (
             <Icon iconfontName='play' />
@@ -153,8 +159,8 @@ export default function PlayerBar() {
         <Slider
           value={reduxPlayer.passedMilliseconds / 1000}
           max={Number(songInfo.dt) / 1000}
-          onMoveTrigger={callbacks.changingSecondText}
-          //TODO 这里不应该是百分比更合理吗
+          onMoveTrigger={methods.changingSecondText}
+          //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）
           onMoveTriggerDone={seconds => {
             dispatch({
               type: 'SET_PLAYER_PASSED_MILLISECONDS',
@@ -175,17 +181,17 @@ export default function PlayerBar() {
             {
               node: <Icon iconfontName='random-mode' />,
               activeName: 'random-mode',
-              onActive: () => dataSetters.playMode('random-mode'),
+              onActive: () => methods.setPlayMode('random-mode'),
             },
             {
               node: <Icon iconfontName='infinit-mode' />,
               activeName: 'infinit-mode',
-              onActive: () => dataSetters.playMode('infinit-mode'),
+              onActive: () => methods.setPlayMode('infinit-mode'),
             },
             {
               node: <Icon iconfontName='recursive-mode' />,
               activeName: 'recursive-mode',
-              onActive: () => dataSetters.playMode('recursive-mode'),
+              onActive: () => methods.setPlayMode('recursive-mode'),
             },
           ]}
         />
