@@ -19,9 +19,11 @@ type ComponentState = {
 type ComponentMethod = {
   play(): void
   pause(): void
-  toggle(): void
+  togglePlayState(): void
   togglePlayMode(): void
-  setPlayMode(): void
+  setPlayState(newState: PlayStatus): void
+  setPlayMode(newMode: PlayMode): void
+  changingSecondText(seconds: number): void
 }
 
 export default function PlayerBar() {
@@ -47,16 +49,21 @@ export default function PlayerBar() {
   // TODO - 这里是把数据处理后交给自身的方法，应该也有把数据交给redux的传参方式
   const [state, methods] = useMethods(
     draft => {
-      const methods = {
+      const methods: ComponentMethod = {
         play() {
           methods.setPlayState('playing')
         },
         pause() {
           methods.setPlayState('paused')
         },
-        toggle() {
-          if (draft.playStatus === 'paused') methods.play()
-          else methods.pause()
+        togglePlayState() {
+          const playStates: PlayStatus[] = ['paused', 'playing']
+          methods.setPlayState(
+            playStates[
+              (playStates.findIndex(currentState => draft.playStatus === currentState) + 1) %
+                playStates.length
+            ],
+          )
         },
         setPlayState(newStatus: PlayStatus) {
           switch (newStatus) {
@@ -72,8 +79,16 @@ export default function PlayerBar() {
             }
           }
         },
-        setPlayMode(setter: ((oldStatus: PlayMode) => PlayMode) | PlayMode) {
-          const newMode = typeof setter === 'function' ? setter(draft.playMode) : setter
+        togglePlayMode() {
+          const playModes: PlayMode[] = ['infinit-mode', 'recursive-mode', 'random-mode']
+          methods.setPlayMode(
+            playModes[
+              (playModes.findIndex(currentMode => draft.playMode === currentMode) + 1) %
+                playModes.length
+            ],
+          )
+        },
+        setPlayMode(newMode: PlayMode) {
           switch (newMode) {
             case 'random-mode':
               audioElement.loop = false
@@ -134,7 +149,7 @@ export default function PlayerBar() {
         <Button className='last-song'>
           <Icon iconfontName='music_pre' />
         </Button>
-        <Button className={state.playStatus} onClick={methods.toggle}>
+        <Button className={state.playStatus} onClick={methods.togglePlayState}>
           {state.playStatus === 'playing' ? (
             <Icon iconfontName='pause' />
           ) : (
