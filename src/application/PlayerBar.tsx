@@ -39,7 +39,7 @@ export default function PlayerBar() {
     el.volume = reduxPlayer.volumn
   })
 
-  const url = String(response.data?.[0].url)
+  // TODO 突发奇想：创造useCache，用以代替useCallback与 useMemo在缓存方面的作用
 
   // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
@@ -107,6 +107,7 @@ export default function PlayerBar() {
 
   /* ---------------------------- webAPI 音乐播放器改变音量 ---------------------------- */
 
+  const url = String(response.data?.[0].url)
   useEffect(() => {
     audioElement.src = url
   }, [url])
