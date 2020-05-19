@@ -8,6 +8,7 @@ import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
+import { useStore } from 'react-redux'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -48,6 +49,7 @@ export default function PlayerBar() {
   // 不对，redux是存储结果的仓库，结果间互相干涉的逻辑也在redux，但产主结果的逻辑就放在组件本身，不要给redux的好）
   // TODO - 这里是把数据处理后交给自身的方法，应该也有把数据交给redux的传参方式
   const [state, methods] = useMethods(
+    //TODO 我觉得这个 draft 得是store才好。store能获取redux的数据，dispatch能向redux发射值
     draft => {
       const methods: ComponentMethod = {
         play() {
@@ -120,6 +122,16 @@ export default function PlayerBar() {
       playMode: 'random-mode',
     } as ComponentState,
   )
+
+  // 载入新音乐时，就暂停播放，并且指针回到初始位置。
+  // 由数据驱动的IO操作这么写，那由事件驱动的呢？
+  useEffect(() => {
+    methods.pause() //FIXME - 指令式，而且会引起重渲染，不好
+    dispatch({
+      type: 'SET_PLAYER_PASSED_MILLISECONDS',
+      passedMilliseconds: 0,
+    }) // FIXME 典型错误：在这里发射信息给redux，不是地方
+  }, [songInfo])
 
   /* ---------------------------- webAPI 音乐播放器相关 ---------------------------- */
 
