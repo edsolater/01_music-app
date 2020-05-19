@@ -40,6 +40,15 @@ export default function PlayerBar() {
   )
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
+    // UI驱动的事件写在这儿
+    el.addEventListener('ended', () => {
+      console.log('UI事件：播放到结束')
+      methods.pause()
+      dispatch({
+        type: 'SET_PLAYER_PASSED_MILLISECONDS',
+        passedMilliseconds: 0,
+      })
+    })
   })
 
   // TODO 突发奇想：创造useCache，用以代替useCallback与 useMemo在缓存方面的作用
