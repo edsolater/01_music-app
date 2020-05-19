@@ -113,6 +113,7 @@ export default function PlayerBar() {
       }
       return methods
     },
+    // TODO 利用setters实现，更改这里的值，相当于向redux dispatch
     {
       currentSecond: 0,
       playStatus: 'paused',
@@ -120,7 +121,7 @@ export default function PlayerBar() {
     } as ComponentState,
   )
 
-  /* ---------------------------- webAPI 音乐播放器改变音量 ---------------------------- */
+  /* ---------------------------- webAPI 音乐播放器相关 ---------------------------- */
 
   const url = String(response.data?.[0].url)
   useEffect(() => {
