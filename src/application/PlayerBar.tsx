@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import './PlayerBar.scss'
-import { useElement, useMethods } from 'components/customHooks'
+import { useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
+import useElement from 'hooks/useElement'
+import useEffectIfTrue from 'hooks/useEffectIfTrue'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -37,6 +39,7 @@ export default function PlayerBar() {
     // TODO - 如果有callback传参，指里的debug能容易很多
     [songInfo.id],
   )
+  const shouldChangeAudio = useRef(false)
   const audioElement = useElement(
     'audio',
     el => {
@@ -44,6 +47,7 @@ export default function PlayerBar() {
     },
     {
       ended() {
+        shouldChangeAudio.current = true
         methods.pause()
         dispatch({
           type: 'SET_PLAYER_PASSED_MILLISECONDS',
@@ -150,6 +154,10 @@ export default function PlayerBar() {
   useEffect(() => {
     audioElement.src = url
   }, [url])
+  useEffectIfTrue(() => {
+    audioElement.currentTime = reduxPlayer.passedMilliseconds / 1000
+    shouldChangeAudio.current = false
+  }, [shouldChangeAudio.current])
 
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
@@ -202,11 +210,11 @@ export default function PlayerBar() {
           onMoveTrigger={methods.changingSecondText}
           //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）
           onMoveTriggerDone={seconds => {
+            shouldChangeAudio.current = true
             dispatch({
               type: 'SET_PLAYER_PASSED_MILLISECONDS',
               passedMilliseconds: seconds * 1000,
             })
-            audioElement.currentTime = seconds
           }}
         />
       </View>
