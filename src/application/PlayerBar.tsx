@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import './PlayerBar.scss'
 import { useElement, useMethods } from 'components/customHooks'
@@ -8,7 +8,6 @@ import duration from 'utils/duration'
 import useResponse from 'hooks/useResponse'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
-import { useStore } from 'react-redux'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -38,18 +37,21 @@ export default function PlayerBar() {
     // TODO - 如果有callback传参，指里的debug能容易很多
     [songInfo.id],
   )
-  const audioElement = useElement('audio', el => {
-    el.volume = reduxPlayer.volumn
-    // UI驱动的事件写在这儿
-    el.addEventListener('ended', () => {
-      console.log('UI事件：播放到结束')
-      methods.pause()
-      dispatch({
-        type: 'SET_PLAYER_PASSED_MILLISECONDS',
-        passedMilliseconds: 0,
-      })
-    })
-  })
+  const audioElement = useElement(
+    'audio',
+    el => {
+      el.volume = reduxPlayer.volumn
+    },
+    {
+      ended() {
+        methods.pause()
+        dispatch({
+          type: 'SET_PLAYER_PASSED_MILLISECONDS',
+          passedMilliseconds: 0,
+        })
+      },
+    },
+  )
 
   // TODO 突发奇想：创造useCache，用以代替useCallback与 useMemo在缓存方面的作用
 
