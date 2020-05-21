@@ -10,6 +10,7 @@ import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 import useElement from 'hooks/useElement'
 import useEffectIfTrue from 'hooks/useEffectIfTrue'
+import useFlag from 'hooks/useFlag'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
@@ -37,9 +38,9 @@ export default function PlayerBar() {
     requestSongUrl,
     { id: songInfo.id },
     // TODO - 如果有callback传参，指里的debug能容易很多
-    [songInfo.id],
+    [songInfo.id]
   )
-  const shouldChangeAudio = useRef(false)
+  const shouldChangeAudio = useFlag(false)
   const audioElement = useElement(
     'audio',
     el => {
@@ -47,14 +48,14 @@ export default function PlayerBar() {
     },
     {
       ended() {
-        shouldChangeAudio.current = true
+        shouldChangeAudio.falsfy()
         methods.pause()
         dispatch({
           type: 'SET_PLAYER_PASSED_MILLISECONDS',
-          passedMilliseconds: 0,
+          passedMilliseconds: 0
         })
-      },
-    },
+      }
+    }
   )
 
   // TODO 突发奇想：创造useCache，用以代替useCallback与 useMemo在缓存方面的作用
@@ -79,7 +80,7 @@ export default function PlayerBar() {
             playStates[
               (playStates.findIndex(currentState => draft.playStatus === currentState) + 1) %
                 playStates.length
-            ],
+            ]
           )
         },
         setPlayState(newStatus: PlayStatus) {
@@ -102,7 +103,7 @@ export default function PlayerBar() {
             playModes[
               (playModes.findIndex(currentMode => draft.playMode === currentMode) + 1) %
                 playModes.length
-            ],
+            ]
           )
         },
         setPlayMode(newMode: PlayMode) {
@@ -123,10 +124,10 @@ export default function PlayerBar() {
         changingSecondText(incomeCurrentSecond: number) {
           if (currentSecondSpanRef.current) {
             currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
-              'mm:ss',
+              'mm:ss'
             )
           }
-        },
+        }
       }
       return methods
     },
@@ -134,8 +135,8 @@ export default function PlayerBar() {
     {
       currentSecond: 0,
       playStatus: 'paused',
-      playMode: 'random-mode',
-    } as ComponentState,
+      playMode: 'random-mode'
+    } as ComponentState
   )
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
@@ -144,7 +145,7 @@ export default function PlayerBar() {
     methods.pause() //FIXME - 指令式，而且会引起重渲染，不好
     dispatch({
       type: 'SET_PLAYER_PASSED_MILLISECONDS',
-      passedMilliseconds: 0,
+      passedMilliseconds: 0
     }) // FIXME 典型错误：在这里发射信息给redux，不是地方
   }, [songInfo])
 
@@ -156,7 +157,7 @@ export default function PlayerBar() {
   }, [url])
   useEffectIfTrue(() => {
     audioElement.currentTime = reduxPlayer.passedMilliseconds / 1000
-    shouldChangeAudio.current = false
+    shouldChangeAudio.falsfy()
   }, [shouldChangeAudio.current])
 
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
@@ -166,7 +167,7 @@ export default function PlayerBar() {
       if (state.playStatus === 'playing') {
         dispatch({
           type: 'SET_PLAYER_PASSED_MILLISECONDS',
-          passedMilliseconds: n => Math.min(n + 1000, Number(songInfo.dt)),
+          passedMilliseconds: n => Math.min(n + 1000, Number(songInfo.dt))
         })
       }
     }, 1000)
@@ -210,10 +211,10 @@ export default function PlayerBar() {
           onMoveTrigger={methods.changingSecondText}
           //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）
           onMoveTriggerDone={seconds => {
-            shouldChangeAudio.current = true
+            shouldChangeAudio.truify()
             dispatch({
               type: 'SET_PLAYER_PASSED_MILLISECONDS',
-              passedMilliseconds: seconds * 1000,
+              passedMilliseconds: seconds * 1000
             })
           }}
         />
@@ -229,18 +230,18 @@ export default function PlayerBar() {
             {
               node: <Icon iconfontName='random-mode' />,
               activeName: 'random-mode',
-              onActive: () => methods.setPlayMode('random-mode'),
+              onActive: () => methods.setPlayMode('random-mode')
             },
             {
               node: <Icon iconfontName='infinit-mode' />,
               activeName: 'infinit-mode',
-              onActive: () => methods.setPlayMode('infinit-mode'),
+              onActive: () => methods.setPlayMode('infinit-mode')
             },
             {
               node: <Icon iconfontName='recursive-mode' />,
               activeName: 'recursive-mode',
-              onActive: () => methods.setPlayMode('recursive-mode'),
-            },
+              onActive: () => methods.setPlayMode('recursive-mode')
+            }
           ]}
         />
         <Popover
