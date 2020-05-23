@@ -49,8 +49,6 @@ export default function PlayerBar() {
     })
   })
 
-  // TODO 突发奇想：创造useCache，用以代替useCallback与 useMemo在缓存方面的作用
-
   // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
   // 不对，redux是存储结果的仓库，结果间互相干涉的逻辑也在redux，但产主结果的逻辑就放在组件本身，不要给redux的好）
