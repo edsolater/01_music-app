@@ -37,22 +37,17 @@ export default function PlayerBar() {
     deps: [songInfo.id]
   })
   console.log('response: ', response) // FIXME - 每秒重渲染，这里重渲染了2次，有一次是没有必要的，另一次仔细想来，必要性不大
-  const audioElement = useElement(
-    'audio',
-    el => {
-      el.volume = reduxPlayer.volumn
-    },
-    {
-      ended() {
-        shouldChangeAudio.trigger()
-        methods.pause()
-        dispatch({
-          type: 'SET_PLAYER_PASSED_MILLISECONDS',
-          passedMilliseconds: 0
-        })
-      }
-    }
-  )
+  const audioElement = useElement('audio', el => {
+    el.volume = reduxPlayer.volumn
+    el.addEventListener('ended', () => {
+      shouldChangeAudio.trigger()
+      methods.pause()
+      dispatch({
+        type: 'SET_PLAYER_PASSED_MILLISECONDS',
+        passedMilliseconds: 0
+      })
+    })
+  })
 
   // TODO 突发奇想：创造useCache，用以代替useCallback与 useMemo在缓存方面的作用
 
