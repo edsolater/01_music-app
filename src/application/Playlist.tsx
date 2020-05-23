@@ -5,14 +5,14 @@ import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
-import useResponse from 'hooks/useResponse'
+import useRequest from 'hooks/useRequest'
 import { useTypedDispatch, useTypedSelector } from 'redux/createStore'
 
 export default function Playlist() {
   const loginInfo = useTypedSelector(s => s.loginInfo)
   console.log('userInfo: ', loginInfo)
   const dispatch = useTypedDispatch()
-  const response = useResponse(requestUserPlaylist, { uid: loginInfo.account?.id })
+  const response = useRequest(() => requestUserPlaylist({ uid: loginInfo.account?.id }))
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {
@@ -20,8 +20,8 @@ export default function Playlist() {
           { name: '搜索', iconName: 'search', id: 0 },
           { name: '发现音乐', iconName: 'music-note', id: 1 },
           { name: 'MV', iconName: 'mv', id: 2 },
-          { name: '朋友', iconName: 'friends', id: 3 },
-        ],
+          { name: '朋友', iconName: 'friends', id: 3 }
+        ]
       },
       {
         title: '我的音乐',
@@ -31,11 +31,11 @@ export default function Playlist() {
           { name: '最近播放', iconName: 'history', id: 6 },
           { name: '我的音乐云盘', iconName: 'cloud-disk', id: 7 },
           { name: '我的电台', iconName: 'music-station', id: 8 },
-          { name: '我的收藏', iconName: 'collection-folder', id: 9 },
-        ],
+          { name: '我的收藏', iconName: 'collection-folder', id: 9 }
+        ]
       },
       { title: '创建的歌单', data: [] as NonNullable<typeof response.playlist> },
-      { title: '收藏的歌单', data: [] as NonNullable<typeof response.playlist> },
+      { title: '收藏的歌单', data: [] as NonNullable<typeof response.playlist> }
     ]
     if (response.playlist) {
       for (const list of response.playlist) {

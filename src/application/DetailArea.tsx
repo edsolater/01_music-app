@@ -6,7 +6,7 @@ import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-import useResponse from 'hooks/useResponse'
+import useRequest from 'hooks/useRequest'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
@@ -14,7 +14,7 @@ export default function DetailArea() {
   const playlistId = useTypedSelector(s => s.inApp.playlistId)
   const likeList = useTypedSelector(s => s.cache.likeList)
   const dispatch = useTypedDispatch()
-  const response = useResponse(requestPlaylistDetail, { id: playlistId })
+  const response = useRequest(() => requestPlaylistDetail({ id: playlistId }))
   return (
     <View as='section' className='detail-area'>
       <View className='title'>
@@ -74,7 +74,7 @@ export default function DetailArea() {
       <List
         data={response.playlist?.tracks.map((songObj, idx) => ({
           ...songObj,
-          ...response.privileges[idx],
+          ...response.privileges[idx]
         }))}
         itemKey={item => item.id}
         initSelectedIndex={NaN}
@@ -96,14 +96,14 @@ export default function DetailArea() {
                   node: <Icon iconfontName='heart' />,
                   onActive: () => {
                     console.log('full')
-                  },
+                  }
                 },
                 {
                   node: <Icon iconfontName='heart_empty' />,
                   onActive: () => {
                     console.log('heart_empty')
-                  },
-                },
+                  }
+                }
               ]}
             />
             <View className='song-name'>

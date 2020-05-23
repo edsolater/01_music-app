@@ -5,7 +5,7 @@ import { useMethods } from 'components/customHooks'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
-import useResponse from 'hooks/useResponse'
+import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 import useElement from 'hooks/useElement'
@@ -32,13 +32,11 @@ export default function PlayerBar() {
   const songInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const dispatch = useTypedDispatch()
-  //TODO - useResponse 作为异步操作，需要支持回调函数的option
-  const response = useResponse(
-    requestSongUrl,
-    { id: songInfo.id },
-    // TODO - 如果有callback传参，指里的debug能容易很多
-    [songInfo.id]
-  )
+  const response = useRequest(requestSongUrl, {
+    params: { id: songInfo.id },
+    deps: [songInfo.id]
+  })
+  console.log('response: ', response) // FIXME - 每秒重渲染，这里重渲染了2次，有一次是没有必要的，另一次仔细想来，必要性不大
   const audioElement = useElement(
     'audio',
     el => {
