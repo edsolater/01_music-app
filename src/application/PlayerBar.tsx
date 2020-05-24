@@ -9,27 +9,24 @@ import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 import useElement from 'hooks/useElement'
-import useEffectTrigger from 'hooks/useEffectTrigger'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
 
 export default function PlayerBar() {
   const songInfo = useTypedSelector(s => s.cache.songInfo)
-  const reduxPlayer = useTypedSelector(s => s.player) //FIXME - 这种state类型的hooks太多了，需要合并
+  const reduxPlayer = useTypedSelector(s => s.player)
   const dispatch = useTypedDispatch()
   const response = useRequest(requestSongUrl, {
     params: { id: songInfo.id },
     deps: [songInfo.id]
   })
-  console.log('response: ', response) // FIXME - 每秒重渲染，这里重渲染了2次，有一次是没有必要的，另一次仔细想来，必要性不大
+  //TODO - 需要一个记录渲染次数的hooks，顺便利用它实现强行重渲染。
+  console.log('重渲染次数: ', 1) // FIXME - 每秒重渲染，这里重渲染了4次，有3次是没有必要的。（推测多1倍是因为useMethod中的方法即使返回void，也会导致重渲染）
 
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
-    el.addEventListener('ended', () => {
-      shouldChangeAudio.trigger()
-      methods.resetPlayer()
-    })
+    el.addEventListener('ended', () => methods.resetPlayer())
   })
 
   // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
@@ -39,10 +36,7 @@ export default function PlayerBar() {
     draft => ({
       resetPlayer() {
         this.pause()
-        dispatch({
-          type: 'SET_PLAYER_PASSED_MILLISECONDS',
-          passedMilliseconds: 0
-        })
+        this.setPassedMillseconds(0, { affectAudioElemenet: true })
       },
       play() {
         this.setPlayState('playing')
@@ -67,7 +61,6 @@ export default function PlayerBar() {
             return
           }
           case 'paused': {
-            console.log('audioElement: ', 3)
             audioElement.pause()
             draft.playStatus = 'paused'
             return
@@ -104,11 +97,18 @@ export default function PlayerBar() {
             'mm:ss'
           )
         }
+      },
+      setPassedMillseconds(passedMilliseconds: number, options?: { affectAudioElemenet: boolean }) {
+        if (options?.affectAudioElemenet) {
+          audioElement.currentTime = passedMilliseconds / 1000
+        }
+        dispatch({
+          type: 'SET_PLAYER_PASSED_MILLISECONDS',
+          passedMilliseconds: passedMilliseconds
+        })
       }
     }),
-    // TODO 利用setters实现，更改这里的值，相当于向redux dispatch
     {
-      currentSecond: 0,
       playStatus: 'paused' as PlayStatus,
       playMode: 'random-mode' as PlayMode
     }
@@ -125,19 +125,15 @@ export default function PlayerBar() {
   useEffect(() => {
     audioElement.src = url
   }, [url])
-  const shouldChangeAudio = useEffectTrigger(() => {
-    audioElement.currentTime = reduxPlayer.passedMilliseconds / 1000
-  })
 
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
       if (state.playStatus === 'playing') {
-        dispatch({
-          type: 'SET_PLAYER_PASSED_MILLISECONDS',
-          passedMilliseconds: n => Math.min(n + 1000, Number(songInfo.dt))
-        })
+        methods.setPassedMillseconds(
+          Math.min(reduxPlayer.passedMilliseconds + 1000, Number(songInfo.dt))
+        )
       }
     }, 1000)
     return () => clearTimeout(timeoutId)
@@ -180,11 +176,7 @@ export default function PlayerBar() {
           onMoveTrigger={methods.changingSecondText}
           //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）
           onMoveTriggerDone={seconds => {
-            shouldChangeAudio.trigger()
-            dispatch({
-              type: 'SET_PLAYER_PASSED_MILLISECONDS',
-              passedMilliseconds: seconds * 1000
-            })
+            methods.setPassedMillseconds(seconds * 1000, { affectAudioElemenet: true })
           }}
         />
       </View>
