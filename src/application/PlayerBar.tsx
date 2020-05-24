@@ -9,133 +9,114 @@ import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 import useElement from 'hooks/useElement'
-import useEffectFlag from 'hooks/useEffectFlag'
+import useEffectTrigger from 'hooks/useEffectTrigger'
 
 type PlayStatus = 'paused' | 'playing'
 type PlayMode = 'random-mode' | 'infinit-mode' | 'recursive-mode'
-type ComponentState = {
-  currentSecond: number
-  playMode: PlayMode
-  playStatus: PlayStatus
-}
-type ComponentMethod = {
-  play(): void
-  pause(): void
-  togglePlayState(): void
-  togglePlayMode(): void
-  setPlayState(newState: PlayStatus): void
-  setPlayMode(newMode: PlayMode): void
-  changingSecondText(seconds: number): void
-}
 
 export default function PlayerBar() {
   const songInfo = useTypedSelector(s => s.cache.songInfo)
-  const reduxPlayer = useTypedSelector(s => s.player)
+  const reduxPlayer = useTypedSelector(s => s.player) //FIXME - 这种state类型的hooks太多了，需要合并
   const dispatch = useTypedDispatch()
   const response = useRequest(requestSongUrl, {
     params: { id: songInfo.id },
     deps: [songInfo.id]
   })
   console.log('response: ', response) // FIXME - 每秒重渲染，这里重渲染了2次，有一次是没有必要的，另一次仔细想来，必要性不大
+
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
     el.addEventListener('ended', () => {
       shouldChangeAudio.trigger()
-      methods.pause()
-      dispatch({
-        type: 'SET_PLAYER_PASSED_MILLISECONDS',
-        passedMilliseconds: 0
-      })
+      methods.resetPlayer()
     })
   })
 
   // 要做拖动滑块，快速改变数值，需要绕过react，所以不得不通过ref直接改变节点了
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
   // 不对，redux是存储结果的仓库，结果间互相干涉的逻辑也在redux，但产主结果的逻辑就放在组件本身，不要给redux的好）
-  // TODO - 这里是把数据处理后交给自身的方法，应该也有把数据交给redux的传参方式
   const [state, methods] = useMethods(
-    //TODO 我觉得这个 draft 得是store才好。store能获取redux的数据，dispatch能向redux发射值
-    draft => {
-      const methods: ComponentMethod = {
-        play() {
-          methods.setPlayState('playing')
-        },
-        pause() {
-          methods.setPlayState('paused')
-        },
-        togglePlayState() {
-          const playStates: PlayStatus[] = ['paused', 'playing']
-          methods.setPlayState(
-            playStates[
-              (playStates.findIndex(currentState => draft.playStatus === currentState) + 1) %
-                playStates.length
-            ]
-          )
-        },
-        setPlayState(newStatus: PlayStatus) {
-          switch (newStatus) {
-            case 'playing': {
-              audioElement.play()
-              draft.playStatus = 'playing'
-              return
-            }
-            case 'paused': {
-              audioElement.pause()
-              draft.playStatus = 'paused'
-              return
-            }
+    draft => ({
+      resetPlayer() {
+        this.pause()
+        dispatch({
+          type: 'SET_PLAYER_PASSED_MILLISECONDS',
+          passedMilliseconds: 0
+        })
+      },
+      play() {
+        this.setPlayState('playing')
+      },
+      pause() {
+        this.setPlayState('paused')
+      },
+      togglePlayState() {
+        const playStates: PlayStatus[] = ['paused', 'playing']
+        this.setPlayState(
+          playStates[
+            (playStates.findIndex(currentState => draft.playStatus === currentState) + 1) %
+              playStates.length
+          ]
+        )
+      },
+      setPlayState(newStatus: PlayStatus) {
+        switch (newStatus) {
+          case 'playing': {
+            audioElement.play()
+            draft.playStatus = 'playing'
+            return
           }
-        },
-        togglePlayMode() {
-          const playModes: PlayMode[] = ['infinit-mode', 'recursive-mode', 'random-mode']
-          methods.setPlayMode(
-            playModes[
-              (playModes.findIndex(currentMode => draft.playMode === currentMode) + 1) %
-                playModes.length
-            ]
-          )
-        },
-        setPlayMode(newMode: PlayMode) {
-          switch (newMode) {
-            case 'random-mode':
-              audioElement.loop = false
-              break
-            case 'infinit-mode':
-              audioElement.loop = true
-              break
-            case 'recursive-mode':
-              audioElement.loop = false
-              break
-          }
-          draft.playMode = newMode
-        },
-        // 改变当前时间线显示的数字
-        changingSecondText(incomeCurrentSecond: number) {
-          if (currentSecondSpanRef.current) {
-            currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
-              'mm:ss'
-            )
+          case 'paused': {
+            console.log('audioElement: ', 3)
+            audioElement.pause()
+            draft.playStatus = 'paused'
+            return
           }
         }
+      },
+      togglePlayMode() {
+        const playModes: PlayMode[] = ['infinit-mode', 'recursive-mode', 'random-mode']
+        this.setPlayMode(
+          playModes[
+            (playModes.findIndex(currentMode => draft.playMode === currentMode) + 1) %
+              playModes.length
+          ]
+        )
+      },
+      setPlayMode(newMode: PlayMode) {
+        switch (newMode) {
+          case 'random-mode':
+            audioElement.loop = false
+            break
+          case 'infinit-mode':
+            audioElement.loop = true
+            break
+          case 'recursive-mode':
+            audioElement.loop = false
+            break
+        }
+        draft.playMode = newMode
+      },
+      // 改变当前时间线显示的数字
+      changingSecondText(incomeCurrentSecond: number) {
+        if (currentSecondSpanRef.current) {
+          currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
+            'mm:ss'
+          )
+        }
       }
-      return methods
-    },
+    }),
     // TODO 利用setters实现，更改这里的值，相当于向redux dispatch
     {
       currentSecond: 0,
-      playStatus: 'paused',
-      playMode: 'random-mode'
-    } as ComponentState
+      playStatus: 'paused' as PlayStatus,
+      playMode: 'random-mode' as PlayMode
+    }
   )
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
-  // 由数据驱动的IO操作这么写，那由事件驱动的呢？
   useEffect(() => {
-    methods.pause() //FIXME - 指令式，而且会引起重渲染，不好
-    dispatch({
-      type: 'SET_PLAYER_PASSED_MILLISECONDS',
-      passedMilliseconds: 0
-    }) // FIXME 典型错误：在这里发射信息给redux，不是地方
+    methods.resetPlayer()
   }, [songInfo])
 
   /* ---------------------------- webAPI 音乐播放器相关 ---------------------------- */
@@ -144,7 +125,7 @@ export default function PlayerBar() {
   useEffect(() => {
     audioElement.src = url
   }, [url])
-  const shouldChangeAudio = useEffectFlag(() => {
+  const shouldChangeAudio = useEffectTrigger(() => {
     audioElement.currentTime = reduxPlayer.passedMilliseconds / 1000
   })
 

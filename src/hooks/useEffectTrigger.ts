@@ -39,7 +39,7 @@ function useEffectWhenTrue(effect: EffectCallback, deps?: DependencyList) {
 /**
  * 组合，返回控制是否触发回调的控制器
  */
-export default function useEffectFlag(
+export default function useEffectTrigger(
   callback: EffectCallback
 ): { readonly current: boolean; trigger(): void } {
   const flag = useFlag(false)
