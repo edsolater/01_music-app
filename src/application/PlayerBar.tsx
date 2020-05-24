@@ -76,6 +76,7 @@ export default function PlayerBar() {
     setPlayState(newStatus: LocalState['playStatus']) {
       switch (newStatus) {
         case 'playing':
+          // TODO 虽然是play了，但数据的改变应该在播放的乐曲加载完成之后
           audioElement.play()
           break
         case 'paused':
