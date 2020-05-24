@@ -53,6 +53,7 @@ export default function PlayerBar() {
   })
 
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
+  // TODO 感觉这里回调的逻辑跟useReducer的作用重叠了，会语义不清晰的。得放到useReducer里
   const methods = {
     resetPlayer() {
       methods.pause()
