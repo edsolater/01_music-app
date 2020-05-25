@@ -32,10 +32,7 @@ export default function PlayerBar() {
         }
       }
     },
-    {
-      playStatus: 'paused',
-      playMode: 'random-mode'
-    }
+    { playStatus: 'paused', playMode: 'random-mode' }
   )
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
@@ -45,7 +42,6 @@ export default function PlayerBar() {
     deps: [reduxSongInfo.id]
   })
   //TODO - 需要一个记录渲染次数的hooks，顺便利用它实现强行重渲染。
-  console.log('重渲染次数: ', 1) // FIXME - 每秒重渲染，这里重渲染了4次，有3次是没有必要的。（推测多1倍是因为useMethod中的方法即使返回void，也会导致重渲染）
 
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
@@ -143,14 +139,16 @@ export default function PlayerBar() {
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
-      if (localState.playStatus === 'playing') {
-        methods.setPassedMillseconds(
-          Math.min(reduxPlayer.passedMilliseconds + 1000, Number(reduxSongInfo.dt))
-        )
-      }
-    }, 1000)
-    return () => clearTimeout(timeoutId)
+    if (localState.playStatus === 'playing') {
+      const timeoutId = window.setTimeout(() => {
+        if (localState.playStatus === 'playing') {
+          methods.setPassedMillseconds(
+            Math.min(reduxPlayer.passedMilliseconds + 1000, Number(reduxSongInfo.dt))
+          )
+        }
+      }, 1000)
+      return () => clearTimeout(timeoutId)
+    }
   })
 
   /* -------------------------------------------------------------------------- */

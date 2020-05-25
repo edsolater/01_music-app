@@ -35,19 +35,22 @@ const useRequest: {
   const callback = args[1]?.callback
 
   const [responseData, setResponseData] = useState({} as any)
-  const isSetByResponse = useRef(false)
-  const prevDeps = useRef<typeof deps>()
-  if (!isSetByResponse.current && shallowEqualArray(deps, prevDeps.current)) return responseData
+  const isSetByResponse = useRef(false) // 指示当前渲染是否是由上一次的请求引起的，如果是，就不再setData。存在时为了阻断无限请求
+  const prevDeps = useRef<typeof deps>(undefined)
   if (isSetByResponse.current) {
-    isSetByResponse.current = false // deps 可能在第二次渲染时，根本不进入这里
+    //是由上次请求导致的重渲染，无需再进入到请求
+    isSetByResponse.current = false
   } else {
-    request(params)
-      .then(res => {
-        isSetByResponse.current = true
-        setResponseData(res.data as any)
-        return res.data
-      })
-      .then(data => callback?.(data))
+    if (!shallowEqualArray(deps, prevDeps.current)) {
+      request(params)
+        .then(res => {
+          isSetByResponse.current = true // 设定为true，下一次重渲染就不会再进入到请求了
+          prevDeps.current = deps
+          setResponseData(res.data as any)
+          return res.data
+        })
+        .then(data => callback?.(data))
+    }
   }
   return responseData
 }
