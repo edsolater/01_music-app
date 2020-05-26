@@ -6,34 +6,24 @@ import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
-import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
+import { useTypedSelector, useTypedDispatch, CombinedAction } from 'redux/createStore'
 import useElement from 'hooks/useElement'
 
 type LocalState = {
   playStatus: 'paused' | 'playing'
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode'
+  passedMilliseconds: number
 }
 type LocalAction =
   | { type: 'set playMode'; playMode: LocalState['playMode'] }
   | { type: 'set playStatus'; playStatus: LocalState['playStatus'] }
+  | { type: 'play' }
+  | { type: 'pause' }
+  | { type: 'toggle' }
+  | { type: 'reset' }
+  | { type: 'set passed milliseconds'; milliseconds: LocalState['passedMilliseconds'] }
 
 export default function PlayerBar() {
-  const [localState, localDispatch] = useReducer(
-    (state: LocalState, action: LocalAction) => {
-      switch (action.type) {
-        case 'set playMode': {
-          return { ...state, playMode: action.playMode }
-        }
-        case 'set playStatus': {
-          return { ...state, playStatus: action.playStatus }
-        }
-        default: {
-          throw new Error(`unknow local dispatch in ${PlayerBar.name}`)
-        }
-      }
-    },
-    { playStatus: 'paused', playMode: 'random-mode' }
-  )
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
@@ -45,43 +35,12 @@ export default function PlayerBar() {
 
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
-    el.addEventListener('ended', () => methods.resetPlayer())
+    el.addEventListener('ended', () => dispatch({ type: 'reset' }))
   })
 
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
   // TODO 感觉这里回调的逻辑跟useReducer的作用重叠了，会语义不清晰的。得放到useReducer里
   const methods = {
-    resetPlayer() {
-      methods.pause()
-      methods.setPassedMillseconds(0, { affectAudioElemenet: true })
-    },
-    play() {
-      methods.setPlayState('playing')
-    },
-    pause() {
-      methods.setPlayState('paused')
-    },
-    togglePlayState() {
-      const playStates: LocalState['playStatus'][] = ['paused', 'playing']
-      methods.setPlayState(
-        playStates[
-          (playStates.findIndex(currentState => localState.playStatus === currentState) + 1) %
-            playStates.length
-        ]
-      )
-    },
-    setPlayState(newStatus: LocalState['playStatus']) {
-      switch (newStatus) {
-        case 'playing':
-          // TODO 虽然是play了，但数据的改变应该在播放的乐曲加载完成之后
-          audioElement.play()
-          break
-        case 'paused':
-          audioElement.pause()
-          break
-      }
-      localDispatch({ type: 'set playStatus', playStatus: newStatus })
-    },
     togglePlayMode() {
       const playModes: LocalState['playMode'][] = ['infinit-mode', 'recursive-mode', 'random-mode']
       methods.setPlayMode(
@@ -103,7 +62,7 @@ export default function PlayerBar() {
           audioElement.loop = false
           break
       }
-      localDispatch({ type: 'set playMode', playMode: newMode })
+      dispatch({ type: 'set playMode', playMode: newMode })
     },
     // 改变当前时间线显示的数字
     changingSecondText(incomeCurrentSecond: number) {
@@ -123,10 +82,37 @@ export default function PlayerBar() {
       })
     }
   }
+  const [localState, dispatch] = useReducer(
+    (state: LocalState, action: LocalAction | CombinedAction) => {
+      switch (action.type) {
+        case 'reset':
+          return { ...state, playStatus: 'paused', passedMilliseconds: 0 } as LocalState
+        case 'play':
+          return { ...state, playStatus: 'playing' } as LocalState
+        case 'pause':
+          return { ...state, playStatus: 'paused' } as LocalState
+        case 'toggle':
+          return {
+            ...state,
+            playStatus: state.playStatus === 'paused' ? 'playing' : 'paused'
+          } as LocalState
+        case 'set playStatus':
+          return { ...state, playStatus: action.playStatus } as LocalState
+        case 'set playMode':
+          return { ...state, playMode: action.playMode } as LocalState
+        case 'set passed milliseconds':
+          return { ...state, passedMilliseconds: action.milliseconds } as LocalState
+        default:
+          reduxDispatch(action)
+          return state // 返回相同的引用，没有重渲染
+      }
+    },
+    { playStatus: 'paused', playMode: 'random-mode', passedMilliseconds: 0 }
+  )
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
   useEffect(() => {
-    methods.resetPlayer()
+    dispatch({ type: 'reset' })
   }, [reduxSongInfo])
 
   /* ---------------------------- webAPI 音乐播放器相关 ---------------------------- */
@@ -136,15 +122,34 @@ export default function PlayerBar() {
     audioElement.src = url
   }, [url])
 
+  useEffect(() => {
+    if (localState.playStatus === 'playing') {
+      audioElement.play()
+    }
+  })
+  useEffect(() => {
+    if (localState.playStatus === 'paused') {
+      audioElement.pause()
+    }
+  })
+  useEffect(() => {
+    // if (localState.playStatus === 'paused') {
+    // FIXME : 比较特殊：状态改变用不着驱动AudioElement，因此需要一个条件判断
+    audioElement.currentTime = localState.passedMilliseconds / 1000
+    // }
+  }, [localState.passedMilliseconds])
+  // TODO - 异想天开： useFlag在读取过一次值之后就转变（成false）
+
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
   useEffect(() => {
     if (localState.playStatus === 'playing') {
       const timeoutId = window.setTimeout(() => {
         if (localState.playStatus === 'playing') {
-          methods.setPassedMillseconds(
-            Math.min(reduxPlayer.passedMilliseconds + 1000, Number(reduxSongInfo.dt))
-          )
+          dispatch({
+            type: 'set passed milliseconds',
+            milliseconds: Math.min(localState.passedMilliseconds + 1000, Number(reduxSongInfo.dt))
+          })
         }
       }, 1000)
       return () => clearTimeout(timeoutId)
@@ -159,7 +164,7 @@ export default function PlayerBar() {
         <Button className='last-song'>
           <Icon iconfontName='music_pre' />
         </Button>
-        <Button className={localState.playStatus} onClick={methods.togglePlayState}>
+        <Button className={localState.playStatus} onClick={() => dispatch({ type: 'toggle' })}>
           {localState.playStatus === 'playing' ? (
             <Icon iconfontName='pause' />
           ) : (
@@ -174,7 +179,7 @@ export default function PlayerBar() {
         <View className='songTitle'>{reduxSongInfo.name}</View>
         <View className='timestamp'>
           <Text ref={currentSecondSpanRef}>
-            {duration(reduxPlayer.passedMilliseconds).format('mm:ss')}
+            {duration(localState.passedMilliseconds).format('mm:ss')}
           </Text>
           <Text className='divider'> / </Text>
           <Text>
@@ -183,7 +188,7 @@ export default function PlayerBar() {
           </Text>
         </View>
         <Slider
-          value={reduxPlayer.passedMilliseconds / 1000}
+          value={localState.passedMilliseconds / 1000}
           max={Number(reduxSongInfo.dt) / 1000}
           onMoveTrigger={methods.changingSecondText}
           //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）

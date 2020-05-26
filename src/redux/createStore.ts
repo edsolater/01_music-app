@@ -11,8 +11,8 @@ import { reducer as inApp, IStore as InAppState, IAction as InAppAction } from '
 import { reducer as cache, IStore as CacheState, IAction as CacheAction } from './cache'
 import { reducer as player, IStore as PlayerState, IAction as PlayerAction } from './player'
 
-type CombinedAction = LoginInfoAction | CacheAction | InAppAction | PlayerAction
-type Store = {
+export type CombinedAction = LoginInfoAction | CacheAction | InAppAction | PlayerAction
+export type Store = {
   loginInfo: LoginInfoState
   cache: CacheState
   inApp: InAppState
@@ -25,7 +25,3 @@ const combinedReducer = combineReducers({ loginInfo, cache, inApp, player } as {
 export const store = createStore(combinedReducer)
 export const useTypedDispatch: () => Dispatch<CombinedAction> = useDispatch
 export const useTypedSelector: TypedUseSelectorHook<Store> = useSelector
-export const useTypeStore: () => Store = () => {
-  const reduxStore = useStore()
-  return reduxStore.getState()
-}
