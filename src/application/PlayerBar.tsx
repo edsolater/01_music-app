@@ -9,6 +9,7 @@ import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch, CombinedAction } from 'redux/createStore'
 import useElement from 'hooks/useElement'
 import { clamp } from 'utils/number'
+import useFlag from 'hooks/useFlag'
 
 type LocalState = {
   playStatus: 'paused' | 'playing'
@@ -19,7 +20,11 @@ type LocalState = {
 type LocalAction =
   | { type: 'set playMode'; playMode: LocalState['playMode'] }
   | { type: 'set playStatus'; playStatus: LocalState['playStatus'] }
-  | { type: 'set passed milliseconds'; milliseconds: LocalState['passedMilliseconds'] }
+  | {
+      type: 'set passed milliseconds'
+      milliseconds: LocalState['passedMilliseconds']
+      needAffactAudioElement?: boolean
+    }
   | { type: 'play audio' }
   | { type: 'pause audio' }
   | { type: 'toggle audio' }
@@ -47,11 +52,13 @@ export default function PlayerBar() {
     el.volume = reduxPlayer.volumn
     el.addEventListener('ended', () => dispatch({ type: 'reset audio' }))
   })
+  const needAffactAudioElementFlag = useFlag()
 
   const [localState, dispatch] = useReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
       switch (action.type) {
         case 'reset audio':
+          needAffactAudioElementFlag.trigger()
           return { ...state, playStatus: 'paused', passedMilliseconds: 0 } as LocalState
         case 'play audio':
           return { ...state, playStatus: 'playing' } as LocalState
@@ -67,9 +74,10 @@ export default function PlayerBar() {
         case 'set playMode':
           return { ...state, playMode: action.playMode } as LocalState
         case 'set passed milliseconds':
+          if (action.needAffactAudioElement) needAffactAudioElementFlag.trigger()
           return { ...state, passedMilliseconds: action.milliseconds } as LocalState
         case 'set audio volumn':
-          return { ...state, volumn: action.volumn } as LocalState
+          return { ...state, volumn: clamp(action.volumn) } as LocalState
         case 'increase audio volumn by 5':
           return { ...state, volumn: clamp(state.volumn + 0.05) } as LocalState
         case 'decrease audio volumn by 5':
@@ -100,7 +108,6 @@ export default function PlayerBar() {
   useEffect(() => {
     audioElement.volume = localState.volumn
   }, [localState.volumn])
-
   useEffect(() => {
     if (localState.playStatus === 'playing') {
       audioElement.play()
@@ -112,16 +119,13 @@ export default function PlayerBar() {
     }
   })
   useEffect(() => {
-    // if (localState.playStatus === 'paused') {
-    // FIXME : 比较特殊：状态改变用不着驱动AudioElement，因此需要一个条件判断
-    audioElement.currentTime = localState.passedMilliseconds / 1000
-    // }
+    if (needAffactAudioElementFlag.current) {
+      audioElement.currentTime = localState.passedMilliseconds / 1000
+    }
   }, [localState.passedMilliseconds])
-  // TODO - 异想天开： useFlag在读取过一次值之后就转变（成false）
 
-  /* --------------------------------- callback： 时间指示器函数 -------------------------------- */
+  /* --------------------------------- callback： 时间指示器 -------------------------------- */
 
-  // 改变当前时间线显示的数字
   const changingSecondText = useCallback((incomeCurrentSecond: number) => {
     if (currentSecondSpanRef.current) {
       currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
@@ -186,7 +190,11 @@ export default function PlayerBar() {
           onMoveTrigger={changingSecondText}
           //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）
           onMoveTriggerDone={seconds => {
-            dispatch({ type: 'set passed milliseconds', milliseconds: seconds * 1000 })
+            dispatch({
+              type: 'set passed milliseconds',
+              milliseconds: seconds * 1000,
+              needAffactAudioElement: true
+            })
           }}
         />
       </View>
