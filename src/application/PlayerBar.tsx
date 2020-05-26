@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer, useCallback } from 'react'
+import React, { useEffect, useRef, useReducer, useCallback, useMemo } from 'react'
 
 import './PlayerBar.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
@@ -8,48 +8,56 @@ import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch, CombinedAction } from 'redux/createStore'
 import useElement from 'hooks/useElement'
+import { clamp } from 'utils/number'
 
 type LocalState = {
   playStatus: 'paused' | 'playing'
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode'
-  passedMilliseconds: number
+  passedMilliseconds: number /* 播放了多少毫秒 */
+  volumn: number // 0~1， 默认1，即全音量
 }
 type LocalAction =
   | { type: 'set playMode'; playMode: LocalState['playMode'] }
   | { type: 'set playStatus'; playStatus: LocalState['playStatus'] }
-  | { type: 'play' }
-  | { type: 'pause' }
-  | { type: 'toggle' }
-  | { type: 'reset' }
   | { type: 'set passed milliseconds'; milliseconds: LocalState['passedMilliseconds'] }
+  | { type: 'play audio' }
+  | { type: 'pause audio' }
+  | { type: 'toggle audio' }
+  | { type: 'reset audio' }
+  | { type: 'set audio volumn'; volumn: LocalState['volumn'] }
+  | { type: 'increase audio volumn by 5' }
+  | { type: 'decrease audio volumn by 5' }
+
+//TODO 异想天开，将各个功能性大组件的dispatch，保存起来，各localState用useRef保存起来，从而丢弃掉redux。
 
 export default function PlayerBar() {
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
+  // TODO 异想天开 response 专门在App成立一个超级useReducer，并deps，以满足某些情况时自动进行请求行为。而不是手动维护在组件里
   const response = useRequest(requestSongUrl, {
     params: { id: reduxSongInfo.id },
     deps: [reduxSongInfo.id]
   })
-  const url = String(response.data?.[0].url)
+  const url = useMemo(() => String(response.data?.[0].url), [response])
   //TODO - 需要一个记录渲染次数的hooks，顺便利用它实现强行重渲染。
 
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
-    el.addEventListener('ended', () => dispatch({ type: 'reset' }))
+    el.addEventListener('ended', () => dispatch({ type: 'reset audio' }))
   })
 
   const [localState, dispatch] = useReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
       switch (action.type) {
-        case 'reset':
+        case 'reset audio':
           return { ...state, playStatus: 'paused', passedMilliseconds: 0 } as LocalState
-        case 'play':
+        case 'play audio':
           return { ...state, playStatus: 'playing' } as LocalState
-        case 'pause':
+        case 'pause audio':
           return { ...state, playStatus: 'paused' } as LocalState
-        case 'toggle':
+        case 'toggle audio':
           return {
             ...state,
             playStatus: state.playStatus === 'paused' ? 'playing' : 'paused'
@@ -60,24 +68,38 @@ export default function PlayerBar() {
           return { ...state, playMode: action.playMode } as LocalState
         case 'set passed milliseconds':
           return { ...state, passedMilliseconds: action.milliseconds } as LocalState
+        case 'set audio volumn':
+          return { ...state, volumn: action.volumn } as LocalState
+        case 'increase audio volumn by 5':
+          return { ...state, volumn: clamp(state.volumn + 0.05) } as LocalState
+        case 'decrease audio volumn by 5':
+          return { ...state, volumn: clamp(state.volumn - 0.05) } as LocalState
         default:
           reduxDispatch(action)
           return state // 返回相同的引用，没有重渲染
       }
     },
-    { playStatus: 'paused', playMode: 'random-mode', passedMilliseconds: 0 }
+    {
+      playStatus: 'paused',
+      playMode: 'random-mode',
+      passedMilliseconds: 0,
+      volumn: 1
+    } as LocalState
   )
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
   useEffect(() => {
-    dispatch({ type: 'reset' })
+    dispatch({ type: 'reset audio' })
   }, [reduxSongInfo])
 
-  /* ---------------------------- webAPI 音乐播放器相关 ---------------------------- */
+  /* ---------------------------- effect： webAPI 音乐播放器相关 ---------------------------- */
 
   useEffect(() => {
     audioElement.src = url
   }, [url])
+  useEffect(() => {
+    audioElement.volume = localState.volumn
+  }, [localState.volumn])
 
   useEffect(() => {
     if (localState.playStatus === 'playing') {
@@ -97,7 +119,7 @@ export default function PlayerBar() {
   }, [localState.passedMilliseconds])
   // TODO - 异想天开： useFlag在读取过一次值之后就转变（成false）
 
-  /* --------------------------------- 时间指示器方法 -------------------------------- */
+  /* --------------------------------- callback： 时间指示器函数 -------------------------------- */
 
   // 改变当前时间线显示的数字
   const changingSecondText = useCallback((incomeCurrentSecond: number) => {
@@ -132,7 +154,10 @@ export default function PlayerBar() {
         <Button className='last-song'>
           <Icon iconfontName='music_pre' />
         </Button>
-        <Button className={localState.playStatus} onClick={() => dispatch({ type: 'toggle' })}>
+        <Button
+          className={localState.playStatus}
+          onClick={() => dispatch({ type: 'toggle audio' })}
+        >
           {localState.playStatus === 'playing' ? (
             <Icon iconfontName='pause' />
           ) : (
@@ -195,8 +220,7 @@ export default function PlayerBar() {
             <Slider
               defaultValue={reduxPlayer.volumn}
               onMoveTriggerDone={volumn => {
-                reduxDispatch({ type: 'SET_PLAYER_VOLUMN', volumn: volumn })
-                audioElement.volume = volumn
+                dispatch({ type: 'set audio volumn', volumn: volumn })
               }}
             />
           }

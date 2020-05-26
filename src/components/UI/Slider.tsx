@@ -3,7 +3,7 @@ import React, { ComponentProps, useEffect, useReducer } from 'react'
 import './Slider.scss'
 import { useDomStyle } from '../customHooks'
 import { View } from '../wrappers'
-import between from 'utils/between'
+import { clamp } from 'utils/number'
 
 /**
  * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次）IDEA： 加个函数防抖能轻松解决？
@@ -33,13 +33,13 @@ function Slider(
      * 只在最后触发一次
      */
     onMoveTriggerDone?: (currentSecond: number) => unknown
-  },
+  }
 ) {
-  const [isDragging, toggleDragStatus] = useReducer((v) => !v, false)
-  const [triggerRef, setTriggerLeft] = useDomStyle((style) => (percentage: number) => {
+  const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
+  const [triggerRef, setTriggerLeft] = useDomStyle(style => (percentage: number) => {
     style.left = `${percentage * 100}%`
   })
-  const [tailTrackRef, setTrackPassWidth] = useDomStyle((style) => (percentage: number) => {
+  const [tailTrackRef, setTrackPassWidth] = useDomStyle(style => (percentage: number) => {
     style.width = `${percentage * 100}%`
   })
   const setStyleByMove = (percentage: number = 0) => {
@@ -60,7 +60,7 @@ function Slider(
     <View
       {...props}
       $componentName='Slider'
-      onClick={(e) => {
+      onClick={e => {
         if (isDragging) return
         const slider = (e.target as HTMLDivElement).parentElement!
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
@@ -73,7 +73,7 @@ function Slider(
         className='Trigger'
         ref={triggerRef}
         html={{
-          onPointerDown: (e) => {
+          onPointerDown: e => {
             toggleDragStatus()
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!
             const trigger = (slider.querySelector('.Trigger') as HTMLDivElement)!
@@ -85,7 +85,7 @@ function Slider(
              * document 绑定拖拽事件
              */
             const handleMove = (e: PointerEvent) => {
-              const percentage = between((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
+              const percentage = clamp((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
               setStyleByMove(percentage)
               props.onMoveTrigger?.(percentage * (props.max ?? 1))
             }
@@ -98,7 +98,7 @@ function Slider(
               }, 0)
               trigger.style.transition = ''
               passedTrack.style.transition = ''
-              const percentage = between((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
+              const percentage = clamp((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
               setStyleByMove(percentage)
               props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
               document.removeEventListener('pointermove', handleMove)
@@ -106,7 +106,7 @@ function Slider(
             }
             document.addEventListener('pointermove', handleMove)
             document.addEventListener('pointerup', handleDone)
-          },
+          }
         }}
       />
       <View className='Track'>
