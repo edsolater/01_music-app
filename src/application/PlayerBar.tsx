@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer } from 'react'
+import React, { useEffect, useRef, useReducer, useCallback } from 'react'
 
 import './PlayerBar.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
@@ -31,57 +31,15 @@ export default function PlayerBar() {
     params: { id: reduxSongInfo.id },
     deps: [reduxSongInfo.id]
   })
+  const url = String(response.data?.[0].url)
   //TODO - 需要一个记录渲染次数的hooks，顺便利用它实现强行重渲染。
 
+  const currentSecondSpanRef = useRef<HTMLSpanElement>()
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
     el.addEventListener('ended', () => dispatch({ type: 'reset' }))
   })
 
-  const currentSecondSpanRef = useRef<HTMLSpanElement>()
-  // TODO 感觉这里回调的逻辑跟useReducer的作用重叠了，会语义不清晰的。得放到useReducer里
-  const methods = {
-    togglePlayMode() {
-      const playModes: LocalState['playMode'][] = ['infinit-mode', 'recursive-mode', 'random-mode']
-      methods.setPlayMode(
-        playModes[
-          (playModes.findIndex(currentMode => localState.playMode === currentMode) + 1) %
-            playModes.length
-        ]
-      )
-    },
-    setPlayMode(newMode: LocalState['playMode']) {
-      switch (newMode) {
-        case 'random-mode':
-          audioElement.loop = false
-          break
-        case 'infinit-mode':
-          audioElement.loop = true
-          break
-        case 'recursive-mode':
-          audioElement.loop = false
-          break
-      }
-      dispatch({ type: 'set playMode', playMode: newMode })
-    },
-    // 改变当前时间线显示的数字
-    changingSecondText(incomeCurrentSecond: number) {
-      if (currentSecondSpanRef.current) {
-        currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
-          'mm:ss'
-        )
-      }
-    },
-    setPassedMillseconds(passedMilliseconds: number, options?: { affectAudioElemenet: boolean }) {
-      if (options?.affectAudioElemenet) {
-        audioElement.currentTime = passedMilliseconds / 1000
-      }
-      reduxDispatch({
-        type: 'SET_PLAYER_PASSED_MILLISECONDS',
-        passedMilliseconds: passedMilliseconds
-      })
-    }
-  }
   const [localState, dispatch] = useReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
       switch (action.type) {
@@ -117,7 +75,6 @@ export default function PlayerBar() {
 
   /* ---------------------------- webAPI 音乐播放器相关 ---------------------------- */
 
-  const url = String(response.data?.[0].url)
   useEffect(() => {
     audioElement.src = url
   }, [url])
@@ -139,6 +96,17 @@ export default function PlayerBar() {
     // }
   }, [localState.passedMilliseconds])
   // TODO - 异想天开： useFlag在读取过一次值之后就转变（成false）
+
+  /* --------------------------------- 时间指示器方法 -------------------------------- */
+
+  // 改变当前时间线显示的数字
+  const changingSecondText = useCallback((incomeCurrentSecond: number) => {
+    if (currentSecondSpanRef.current) {
+      currentSecondSpanRef.current.textContent = duration(incomeCurrentSecond * 1000).format(
+        'mm:ss'
+      )
+    }
+  }, [])
 
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
@@ -190,10 +158,10 @@ export default function PlayerBar() {
         <Slider
           value={localState.passedMilliseconds / 1000}
           max={Number(reduxSongInfo.dt) / 1000}
-          onMoveTrigger={methods.changingSecondText}
+          onMoveTrigger={changingSecondText}
           //TODO 这里不应该是百分比更合理吗，中间商应该是个比值（比如物理中的速度就是个出色的中间商）
           onMoveTriggerDone={seconds => {
-            methods.setPassedMillseconds(seconds * 1000, { affectAudioElemenet: true })
+            dispatch({ type: 'set passed milliseconds', milliseconds: seconds * 1000 })
           }}
         />
       </View>
@@ -208,17 +176,17 @@ export default function PlayerBar() {
             {
               node: <Icon iconfontName='random-mode' />,
               activeName: 'random-mode',
-              onActive: () => methods.setPlayMode('random-mode')
+              onActive: () => dispatch({ type: 'set playMode', playMode: 'random-mode' })
             },
             {
               node: <Icon iconfontName='infinit-mode' />,
               activeName: 'infinit-mode',
-              onActive: () => methods.setPlayMode('infinit-mode')
+              onActive: () => dispatch({ type: 'set playMode', playMode: 'infinit-mode' })
             },
             {
               node: <Icon iconfontName='recursive-mode' />,
               activeName: 'recursive-mode',
-              onActive: () => methods.setPlayMode('recursive-mode')
+              onActive: () => dispatch({ type: 'set playMode', playMode: 'recursive-mode' })
             }
           ]}
         />
