@@ -35,6 +35,8 @@ export type LocalAction =
   | { type: 'decrease audio volumn by 5' }
 
 export default function PlayerBar() {
+  /* --------------------------- 状态（redux+response） --------------------------- */
+
   useRenderCounter(PlayerBar.name)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
@@ -46,12 +48,16 @@ export default function PlayerBar() {
   })
   const url = useMemo(() => String(response.data?.[0].url), [response])
 
+  /* ---------------------------------- 元素相关 ---------------------------------- */
+
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
   const audioElement = useElement('audio', el => {
     el.volume = reduxPlayer.volumn
     el.addEventListener('ended', () => dispatch({ type: 'reset audio' }))
   })
   const needAffactAudioElementFlag = useFlag()
+
+  /* --------------------------------- 状态（本组件） -------------------------------- */
 
   const [localState, dispatch] = useReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
@@ -94,29 +100,33 @@ export default function PlayerBar() {
     } as LocalState
   )
 
+  /* ------------------------------ 副作用操作（UI回调等） ------------------------------ */
+
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
   useEffect(() => {
     dispatch({ type: 'reset audio' })
   }, [reduxSongInfo])
 
-  /* ---------------------------- effect： webAPI 音乐播放器相关 ---------------------------- */
-
   useEffect(() => {
     audioElement.src = url
   }, [url])
+
   useEffect(() => {
     audioElement.volume = localState.volumn
   }, [localState.volumn])
+
   useEffect(() => {
     if (localState.playStatus === 'playing') {
       audioElement.play()
     }
   })
+
   useEffect(() => {
     if (localState.playStatus === 'paused') {
       audioElement.pause()
     }
   })
+
   useEffect(() => {
     if (needAffactAudioElementFlag.current) {
       audioElement.currentTime = localState.passedMilliseconds / 1000
