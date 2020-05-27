@@ -41,7 +41,9 @@ export default function PlayerBar() {
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
-  // TODO 异想天开 response 专门在App成立一个超级useReducer，并deps，以满足某些情况时自动进行请求行为。而不是手动维护在组件里
+  // TODO 建立一个专用于拷贝的模板文件夹
+  // TODO 想想 EventBus 怎么实现？
+  // TODO 异想天开 response 使用一个useReducer的插件系统。而不是手动维护在组件里
   const response = useRequest(requestSongUrl, {
     params: { id: reduxSongInfo.id },
     deps: [reduxSongInfo.id]
