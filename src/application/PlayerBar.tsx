@@ -10,6 +10,7 @@ import { useTypedSelector, useTypedDispatch, CombinedAction } from 'redux/create
 import useElement from 'hooks/useElement'
 import { clamp } from 'utils/number'
 import useFlag from 'hooks/useFlag'
+import useRenderCounter from 'hooks/useRenderCounter'
 
 type LocalState = {
   playStatus: 'paused' | 'playing'
@@ -36,6 +37,7 @@ type LocalAction =
 //TODO 异想天开，将各个功能性大组件的dispatch，保存起来，各localState用useRef保存起来，从而丢弃掉redux。
 
 export default function PlayerBar() {
+  useRenderCounter(PlayerBar.name)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
@@ -45,7 +47,6 @@ export default function PlayerBar() {
     deps: [reduxSongInfo.id]
   })
   const url = useMemo(() => String(response.data?.[0].url), [response])
-  //TODO - 需要一个记录渲染次数的hooks，顺便利用它实现强行重渲染。
 
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
   const audioElement = useElement('audio', el => {
