@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useReducer, useCallback, useMemo } from 'reac
 import './PlayerBar.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
-import duration from 'utils/duration'
+import duration, { indicateMilliseconds } from 'utils/duration'
 import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch, CombinedAction } from 'redux/createStore'
@@ -177,13 +177,10 @@ export default function PlayerBar() {
         <View className='songTitle'>{reduxSongInfo.name}</View>
         <View className='timestamp'>
           <Text ref={currentSecondSpanRef}>
-            {duration(localState.passedMilliseconds).format('mm:ss')}
+            {indicateMilliseconds(localState.passedMilliseconds)}
           </Text>
           <Text className='divider'> / </Text>
-          <Text>
-            {duration(reduxSongInfo.dt).format('mm:ss')}
-            {/* 像这种就是没有改变逻辑，只是改变显示的数据处理，直接写在ReactNode里反而好 */}
-          </Text>
+          <Text>{indicateMilliseconds(reduxSongInfo.dt)}</Text>
         </View>
         <Slider
           value={localState.passedMilliseconds / 1000}

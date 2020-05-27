@@ -1,5 +1,4 @@
 import { isNunNullable } from './judger'
-import dayjs from 'dayjs'
 const availableUnits = [
   'milliseconds',
   'seconds',
@@ -15,7 +14,7 @@ const availableUnits = [
   's',
   'm',
   'h',
-  'd',
+  'd'
 ] as const
 type Unit = typeof availableUnits[number]
 const availableModes = ['set', 'add', 'substract'] as const
@@ -101,7 +100,7 @@ class Duration {
       for (const matchedString of dayPlaceholder) {
         format = format.replace(
           matchedString,
-          String(this._day).padStart(matchedString.length, '0'),
+          String(this._day).padStart(matchedString.length, '0')
         )
       }
     }
@@ -110,7 +109,7 @@ class Duration {
       for (const matchedString of hourPlaceholder) {
         format = format.replace(
           matchedString,
-          String(this._hour).padStart(matchedString.length, '0'),
+          String(this._hour).padStart(matchedString.length, '0')
         )
       }
     }
@@ -119,7 +118,7 @@ class Duration {
       for (const matchedString of minutePlaceholder) {
         format = format.replace(
           matchedString,
-          String(this._minute).padStart(matchedString.length, '0'),
+          String(this._minute).padStart(matchedString.length, '0')
         )
       }
     }
@@ -129,12 +128,12 @@ class Duration {
         if (matchedString.length === 3) {
           format = format.replace(
             matchedString,
-            String(this._millisecond).padStart(matchedString.length, '0'),
+            String(this._millisecond).padStart(matchedString.length, '0')
           )
         } else {
           format = format.replace(
             matchedString,
-            String(this._second).padStart(matchedString.length, '0'),
+            String(this._second).padStart(matchedString.length, '0')
           )
         }
       }
@@ -252,5 +251,5 @@ const duration = (value = 0, unit: Unit = 'milliseconds') => {
 
 export default duration
 
-const foo = new Duration().second()
-const hello = dayjs().hour()
+export const indicateMilliseconds = (milliseconds: Parameters<typeof duration>[0]) =>
+  duration(milliseconds).format('mm:ss')
