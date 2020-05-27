@@ -11,14 +11,15 @@ import useElement from 'hooks/useElement'
 import { clamp } from 'utils/number'
 import useFlag from 'hooks/useFlag'
 import useRenderCounter from 'hooks/useRenderCounter'
+import { createUseCachedReducer } from 'hooks/useCachedReducer'
 
-type LocalState = {
+export type LocalState = {
   playStatus: 'paused' | 'playing'
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode'
   passedMilliseconds: number /* 播放了多少毫秒 */
   volumn: number // 0~1， 默认1，即全音量
 }
-type LocalAction =
+export type LocalAction =
   | { type: 'set playMode'; playMode: LocalState['playMode'] }
   | { type: 'set playStatus'; playStatus: LocalState['playStatus'] }
   | {
@@ -34,7 +35,7 @@ type LocalAction =
   | { type: 'increase audio volumn by 5' }
   | { type: 'decrease audio volumn by 5' }
 
-//TODO 异想天开，将各个功能性大组件的dispatch，保存起来，各localState用useRef保存起来，从而丢弃掉redux。
+const useCachedReducer = createUseCachedReducer('playerbar')
 
 export default function PlayerBar() {
   useRenderCounter(PlayerBar.name)
@@ -55,7 +56,7 @@ export default function PlayerBar() {
   })
   const needAffactAudioElementFlag = useFlag()
 
-  const [localState, dispatch] = useReducer(
+  const [localState, dispatch] = useCachedReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
       switch (action.type) {
         case 'reset audio':
