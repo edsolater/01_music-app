@@ -11,7 +11,6 @@ import useElement from 'hooks/useElement'
 import { clamp } from 'utils/number'
 import useFlag from 'hooks/useFlag'
 import useRenderCounter from 'hooks/useRenderCounter'
-import { createUseCachedReducer } from 'hooks/useCachedReducer'
 
 export type LocalState = {
   playStatus: 'paused' | 'playing'
@@ -35,8 +34,6 @@ export type LocalAction =
   | { type: 'increase audio volumn by 5' }
   | { type: 'decrease audio volumn by 5' }
 
-const useCachedReducer = createUseCachedReducer('playerbar')
-
 export default function PlayerBar() {
   useRenderCounter(PlayerBar.name)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
@@ -56,7 +53,7 @@ export default function PlayerBar() {
   })
   const needAffactAudioElementFlag = useFlag()
 
-  const [localState, dispatch] = useCachedReducer(
+  const [localState, dispatch] = useReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
       switch (action.type) {
         case 'reset audio':
