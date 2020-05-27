@@ -250,6 +250,3 @@ const duration = (value = 0, unit: Unit = 'milliseconds') => {
 }
 
 export default duration
-
-export const indicateMilliseconds = (milliseconds: Parameters<typeof duration>[0]) =>
-  duration(milliseconds).format('mm:ss')
