@@ -11,6 +11,7 @@ import useElement from 'hooks/useElement'
 import { clamp } from 'utils/number'
 import useFlag from 'hooks/useFlag'
 import useRenderCounter from 'hooks/useRenderCounter'
+import { switchState } from 'utils/string'
 
 export type LocalState = {
   playStatus: 'paused' | 'playing'
@@ -74,7 +75,7 @@ export default function PlayerBar() {
         case 'toggle audio':
           return {
             ...state,
-            playStatus: state.playStatus === 'paused' ? 'playing' : 'paused'
+            playStatus: switchState(state.playStatus, ['playing', 'paused'])
           } as LocalState
         case 'set playStatus':
           return { ...state, playStatus: action.playStatus } as LocalState

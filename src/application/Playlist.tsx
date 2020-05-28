@@ -10,7 +10,6 @@ import { useTypedDispatch, useTypedSelector } from 'redux/createStore'
 
 export default function Playlist() {
   const loginInfo = useTypedSelector(s => s.loginInfo)
-  console.log('userInfo: ', loginInfo)
   const dispatch = useTypedDispatch()
   const response = useRequest(() => requestUserPlaylist({ uid: loginInfo.account?.id }))
   const parsedPlaylist = useMemo(() => {

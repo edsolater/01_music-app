@@ -7,6 +7,7 @@
 import produce from 'immer'
 
 export type IStore = {
+  // 这是跨组件注入，必须足够地约法三章，能对跨组件状态使用另一个redux就好了。思想上认为他是与组件树无关的状态，就更好理解了
   playlistId: ID
 }
 export type IAction = {
@@ -22,6 +23,6 @@ export const reducer = produce(
     }
   },
   {
-    playlistId: NaN,
-  },
+    playlistId: NaN
+  }
 )
