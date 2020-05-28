@@ -12,18 +12,21 @@ import { clamp } from 'utils/number'
 import useFlag from 'hooks/useFlag'
 import useRenderCounter from 'hooks/useRenderCounter'
 import { switchState } from 'utils/string'
+import requestLike from 'requests/like'
 
 export type State = {
   playStatus: 'paused' | 'playing'
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode'
   passedMilliseconds: number /* 播放了多少毫秒 */
   volumn: number // 0~1， 默认1，即全音量
+  isLike: boolean // 在 “我喜欢” 的列表中
 }
 export const initState: State = {
   playStatus: 'paused',
   playMode: 'random-mode',
   passedMilliseconds: 0,
-  volumn: 1
+  volumn: 1,
+  isLike: false
 } as State
 
 export type Action =
@@ -41,17 +44,25 @@ export type Action =
   | { type: 'set audio volumn'; volumn: State['volumn'] }
   | { type: 'increase audio volumn by 5' }
   | { type: 'decrease audio volumn by 5' }
+  | { type: 'toggle like the song' }
+  | { type: 'like the song'; isInit?: boolean }
+  | { type: 'dislike the song'; isInit?: boolean }
 
 export default function PlayerBar() {
-  /* --------------------------- 状态（redux+response） --------------------------- */
+  /* ---------------------------------- temp ---------------------------------- */
 
   const renderTimeCounter = useRenderCounter()
   useEffect(() => {
     console.log(`${PlayerBar.name} 渲染了 ${renderTimeCounter.current} 次`)
   })
+
+  /* --------------------------- 状态（redux+response） --------------------------- */
+
+  const reduxLikeList = useTypedSelector(s => s.cache.likeList)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
+  // TODO 因为useRequest会在一些hooks中用到，作为不能嵌套的hooks，是不是不合适，可能作为一个func更好
   const response = useRequest(requestSongUrl, {
     params: { id: reduxSongInfo.id },
     deps: [reduxSongInfo.id],
@@ -72,6 +83,28 @@ export default function PlayerBar() {
 
   const [localState, dispatch] = useReducer((state: State, action: Action) => {
     switch (action.type) {
+      case 'like the song': {
+        // TODO
+        const newState = { ...state, isLike: true } as State
+        reduxDispatch({ type: 'UPDATE_PLAYER_DATA', state: newState })
+        return newState
+      }
+      case 'dislike the song': {
+        // TODO
+        const newState = { ...state, isLike: false } as State
+        reduxDispatch({ type: 'UPDATE_PLAYER_DATA', state: newState })
+        return newState
+      }
+      case 'toggle like the song': {
+        const newState = { ...state, isLike: switchState(state.isLike, [true, false]) } as State
+        if (newState.isLike) {
+          requestLike({ id: reduxSongInfo.id, like: true }) // FIXME - 需要从网易云音乐的官方应用抓个包看看
+        } else {
+          requestLike({ id: reduxSongInfo.id, like: false })
+        }
+        reduxDispatch({ type: 'UPDATE_PLAYER_DATA', state: newState })
+        return newState
+      }
       case 'reset audio': {
         needAffactAudioElementFlag.trigger()
         const newState = { ...state, playStatus: 'paused', passedMilliseconds: 0 } as State
@@ -135,6 +168,15 @@ export default function PlayerBar() {
 
   /* ------------------------------ 副作用操作（UI回调等） ------------------------------ */
 
+  // 切换音乐时 判断该音乐是否是我喜欢的音乐
+  useEffect(() => {
+    if (reduxLikeList.includes(reduxSongInfo.id ?? NaN)) {
+      dispatch({ type: 'like the song', isInit: true })
+    } else {
+      dispatch({ type: 'dislike the song', isInit: true })
+    }
+  }, [reduxSongInfo])
+
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
   useEffect(() => {
     dispatch({ type: 'reset audio' })
@@ -191,7 +233,6 @@ export default function PlayerBar() {
   })
 
   /* -------------------------------------------------------------------------- */
-  // TODO - 播放器进度条旁边加入，添加我喜欢的按钮
   return (
     <View as='section' className='player-bar'>
       <Image className='album-face' src={reduxSongInfo?.al?.picUrl} />
@@ -235,8 +276,13 @@ export default function PlayerBar() {
         />
       </View>
       <View className='info-panel'>
-        <Button className='favorite'>
-          <Icon iconfontName='heart_empty' />
+        <Button
+          className='favorite'
+          onClick={() => {
+            dispatch({ type: 'toggle like the song' })
+          }}
+        >
+          <Icon iconfontName={localState.isLike ? 'heart' : 'heart_empty'} />
         </Button>
         <Cycle
           className='indicator-like'
