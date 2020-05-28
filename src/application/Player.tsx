@@ -98,7 +98,7 @@ export default function PlayerBar() {
       case 'toggle like the song': {
         const newState = { ...state, isLike: switchState(state.isLike, [true, false]) } as State
         if (newState.isLike) {
-          requestLike({ id: reduxSongInfo.id, like: true }) // FIXME - 需要从网易云音乐的官方应用抓个包看看
+          requestLike({ id: reduxSongInfo.id, like: true }) // FIXME - 需要从网易云音乐的官方应用抓个包看看 //还需要克服接口的缓存机制
         } else {
           requestLike({ id: reduxSongInfo.id, like: false })
         }
