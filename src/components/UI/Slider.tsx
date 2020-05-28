@@ -6,14 +6,13 @@ import { View } from '../wrappers'
 import { clamp } from 'utils/number'
 
 /**
- * TODO: 这个Slider会导致两次触发onMoveTriggerDone（click事件、PointerUp事件分别会触发一次）IDEA： 加个函数防抖能轻松解决？
- * TODO：此组件的 逻辑过于混乱，要重写
+ * TODO - 这个组件考虑地不够全面，当完成度有80%时要重写
  * 注意它只能理解数字
  */
 function Slider(
   props: ComponentProps<typeof View> & {
     /**
-     * 当前所在位置 (初始值)
+     * 当前所在位置 (百分比，初始值)
      */
     defaultValue?: number
     /**
@@ -21,12 +20,11 @@ function Slider(
      */
     value?: number
     /**
-     * !容易引起性能问题！
-     * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
+     * 处于拖动的过程就连续触发
      */
     onMoveTrigger?: (percent: number) => void
     /**
-     * 只在最后触发一次
+     *  只在最后触发一次
      */
     onMoveTriggerDone?: (percent: number) => void
   }
