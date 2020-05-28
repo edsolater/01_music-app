@@ -43,7 +43,6 @@ export default function PlayerBar() {
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
   // TODO 建立一个专用于拷贝的模板文件夹
-  // TODO 想想 EventBus 怎么实现？
   // TODO 异想天开 response 使用一个useReducer的插件系统。而不是手动维护在组件里
   const response = useRequest(requestSongUrl, {
     params: { id: reduxSongInfo.id },
@@ -62,6 +61,7 @@ export default function PlayerBar() {
 
   /* --------------------------------- 状态（本组件） -------------------------------- */
 
+  // TODO 把更改上传到redux，保证redux储存的状态能完整地复现应用的所有状态
   const [localState, dispatch] = useReducer(
     (state: LocalState, action: LocalAction | CombinedAction) => {
       switch (action.type) {
