@@ -45,7 +45,10 @@ export type Action =
 export default function PlayerBar() {
   /* --------------------------- 状态（redux+response） --------------------------- */
 
-  useRenderCounter(PlayerBar.name)
+  const renderTimeCounter = useRenderCounter()
+  useEffect(() => {
+    console.log(`${PlayerBar.name} 渲染了 ${renderTimeCounter.current} 次`)
+  })
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()

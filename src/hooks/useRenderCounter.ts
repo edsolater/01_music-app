@@ -6,15 +6,7 @@ import { useRef, useEffect } from 'react'
  * TODO - 能使用它强行重渲染吗？
  * TODO - 它能记录组件重渲染的原因吗？
  */
-function createRandomID(length = 6) {
-  const availableChars = '0123456789abcdefghijklmnopqrstuvwxyz'
-  return Array.from(
-    { length: length },
-    _ => availableChars[Math.floor(Math.random() * availableChars.length)]
-  ).join('')
-}
-
-function useRenderCounter(name?: string) {
+function useRenderCounter() {
   const count = useRef(0)
   useEffect(() => {
     count.current += 1
