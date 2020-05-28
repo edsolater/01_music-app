@@ -8,7 +8,7 @@ import './initPackage'
 import { store } from 'redux/createStore'
 import Playlist from 'application/Playlist'
 import DetailArea from 'application/DetailArea'
-import PlayerBar from 'application/PlayerBar'
+import PlayerBar from 'application/Player'
 
 /**<App> */
 function App() {

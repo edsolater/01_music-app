@@ -13,26 +13,22 @@ import { clamp } from 'utils/number'
 function Slider(
   props: ComponentProps<typeof View> & {
     /**
-     * 总长度
-     */
-    max?: number
-    /**
      * 当前所在位置 (初始值)
      */
     defaultValue?: number
     /**
-     * 当前所在位置
+     * 当前所在位置（百分比）
      */
     value?: number
     /**
      * !容易引起性能问题！
      * 只要拖动trigger的手柄就会触发这个事件，所以这个事件会触发多次
      */
-    onMoveTrigger?: (currentSecond: number) => unknown
+    onMoveTrigger?: (percent: number) => void
     /**
      * 只在最后触发一次
      */
-    onMoveTriggerDone?: (currentSecond: number) => unknown
+    onMoveTriggerDone?: (percent: number) => void
   }
 ) {
   const [isDragging, toggleDragStatus] = useReducer(v => !v, false)
@@ -51,8 +47,8 @@ function Slider(
     setStyleByMove(props.defaultValue ?? props.value)
   }, [])
   useEffect(() => {
-    if (!isDragging && props.max && typeof props.value === 'number') {
-      setStyleByMove(props.value / props.max)
+    if (!isDragging && typeof props.value === 'number') {
+      setStyleByMove(props.value)
     }
   }, [props.value])
 
@@ -66,7 +62,7 @@ function Slider(
         const { left: trackClientLeft, width: trackWidth } = slider.getBoundingClientRect()
         const percentage = (e.clientX - trackClientLeft) / trackWidth
         setStyleByMove(percentage)
-        props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
+        props.onMoveTriggerDone?.(percentage)
       }}
     >
       <View
@@ -87,7 +83,7 @@ function Slider(
             const handleMove = (e: PointerEvent) => {
               const percentage = clamp((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
               setStyleByMove(percentage)
-              props.onMoveTrigger?.(percentage * (props.max ?? 1))
+              props.onMoveTrigger?.(percentage)
             }
             /**
              * 清理 document 上述事件
@@ -100,7 +96,7 @@ function Slider(
               passedTrack.style.transition = ''
               const percentage = clamp((e.clientX - sliderClientLeft) / sliderWidth, [0, 1])
               setStyleByMove(percentage)
-              props.onMoveTriggerDone?.(percentage * (props.max ?? 1))
+              props.onMoveTriggerDone?.(percentage)
               document.removeEventListener('pointermove', handleMove)
               document.removeEventListener('pointerup', handleDone)
             }

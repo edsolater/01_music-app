@@ -15,11 +15,9 @@ function createRandomID(length = 6) {
 }
 
 function useRenderCounter(name?: string) {
-  const componentName = useRef(name ?? createRandomID())
   const count = useRef(0)
   useEffect(() => {
     count.current += 1
-    console.log(`${componentName.current} is Render ${count.current} times`)
   })
   return count
 }

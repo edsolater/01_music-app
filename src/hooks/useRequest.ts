@@ -25,7 +25,7 @@ const useRequest: {
     options?: {
       params?: Parameters<T>[0]
       deps?: unknown[]
-      callback?: Callback
+      callback?: (data: ResponseData<T>) => void
     }
   ): ResponseData<T>
 } = (...args) => {
