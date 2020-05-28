@@ -191,6 +191,7 @@ export default function PlayerBar() {
   })
 
   /* -------------------------------------------------------------------------- */
+  // TODO - 播放器进度条旁边加入，添加我喜欢的按钮
   return (
     <View as='section' className='player-bar'>
       <Image className='album-face' src={reduxSongInfo?.al?.picUrl} />
