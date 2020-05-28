@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import dayjs from 'dayjs'
 
 import './DetailArea.scss'
@@ -10,11 +10,28 @@ import useRequest from 'hooks/useRequest'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 
+type State = {
+  selectedIndex: number
+}
+const initState: State = {
+  selectedIndex: NaN
+}
+type Action = { type: 'set selected list index'; index: State['selectedIndex'] }
+
 export default function DetailArea() {
   const playlistId = useTypedSelector(s => s.inApp.playlistId)
   const likeList = useTypedSelector(s => s.cache.likeList)
-  const dispatch = useTypedDispatch()
+  const reduxDispatch = useTypedDispatch()
   const response = useRequest(() => requestPlaylistDetail({ id: playlistId }))
+
+  const [state, dispatch] = useReducer((state: State, action: Action) => {
+    switch (action.type) {
+      case 'set selected list index':
+        return { ...state, selectedIndex: action.index } as State
+      default:
+        return state
+    }
+  }, initState)
   return (
     <View as='section' className='detail-area'>
       <View className='title'>
@@ -77,10 +94,11 @@ export default function DetailArea() {
           ...response.privileges[idx]
         }))}
         itemKey={item => item.id}
-        initSelectedIndex={NaN}
-        onSelectItem={item => {
+        initSelectedIndex={state.selectedIndex}
+        onSelectItem={(item, index) => {
+          dispatch({ type: 'set selected list index', index })
           //@ts-ignore
-          dispatch({ type: 'SET_SONG_INFO', songInfo: item })
+          reduxDispatch({ type: 'SET_SONG_INFO', songInfo: item })
         }}
         renderItem={(item, idx) => (
           <Item>

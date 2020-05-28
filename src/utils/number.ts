@@ -1,4 +1,4 @@
-export const clamp = (num: number, between = [0, 1]) => {
+export const clamp = (num = NaN, between = [0, 1]) => {
   const max = Math.max(...between)
   const min = Math.min(...between)
   if (num < min) num = min

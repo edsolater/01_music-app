@@ -38,9 +38,12 @@ function Slider(
   const [tailTrackRef, setTrackPassWidth] = useDomStyle(style => (percentage: number) => {
     style.width = `${percentage * 100}%`
   })
-  const setStyleByMove = (percentage: number = 0) => {
-    setTriggerLeft(percentage)
-    setTrackPassWidth(percentage)
+
+  const setStyleByMove = (percentage: number | undefined) => {
+    if (percentage === undefined) return
+    const clampedPercent = clamp(percentage)
+    setTriggerLeft(clampedPercent)
+    setTrackPassWidth(clampedPercent)
   }
 
   useEffect(() => {
