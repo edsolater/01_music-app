@@ -8,58 +8,9 @@ const requestLogin = ({ phone = '' as number | string, password = '' } = {}) =>
   axiosInstance.get<{
     loginType: 1
     code: 200
-    account: {
-      id: 332094633
-      userName: '1_18116311669'
-      type: 1
-      status: 0
-      whitelistAuthority: 0
-      createTime: 1477486940747
-      salt: '[B@71aa5eb0'
-      tokenVersion: 1
-      ban: 0
-      baoyueVersion: 0
-      donateVersion: 0
-      vipType: 0
-      viptypeVersion: 0
-      anonimousUser: false
-    }
+    account: IAccount
     token: '7eb0de6e4d56dee68cda47d59a220801b37abf62c42f0e4ef7812704a0f09d5a1c6356423c4672268714e6f02f498a06719111a94fb470b4'
-    profile: {
-      description: ''
-      vipType: 0
-      gender: 1
-      accountStatus: 0
-      avatarImgId: 18930291695769540
-      nickname: 'desolaters'
-      birthday: 859651200000
-      city: 310101
-      djStatus: 0
-      userType: 0
-      backgroundImgId: 2002210674180203
-      avatarUrl: 'https://p4.music.126.net/dojDWGioRe3yRnecOy-Yog==/18930291695769539.jpg'
-      defaultAvatar: false
-      province: 310000
-      avatarImgIdStr: '18930291695769539'
-      backgroundImgIdStr: '2002210674180203'
-      experts: {}
-      expertTags: null
-      authStatus: 0
-      mutual: false
-      remarkName: null
-      userId: 332094633
-      detailDescription: ''
-      backgroundUrl: 'https://p1.music.126.net/bmA_ablsXpq3Tk9HlEg9sA==/2002210674180203.jpg'
-      followed: false
-      signature: '-。-'
-      authority: 0
-      avatarImgId_str: '18930291695769539'
-      followeds: 1
-      follows: 3
-      eventCount: 0
-      playlistCount: 23
-      playlistBeSubscribedCount: 1
-    }
+    profile: IProfile
     bindings: [
       {
         expired: false
@@ -115,7 +66,7 @@ const requestLogin = ({ phone = '' as number | string, password = '' } = {}) =>
         bindingTime: 1489479910607
         id: 2990697772
         type: 11
-      },
+      }
     ]
   }>('/login/cellphone', { params: { phone, password } })
 
