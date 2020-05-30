@@ -4,16 +4,14 @@ import './Player.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
-import requestSongUrl, { ResponseDataSongUrl } from 'requests/song/url'
+import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 import useElement from 'hooks/useElement'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import requestLike from 'requests/like'
 import { PlayerContext } from './PlayerContext'
-import useForceRender from 'hooks/useForceRender'
 
 export default function PlayerBar() {
-  const forceRender = useForceRender()
   /* ---------------------------------- dev ---------------------------------- */
 
   const renderTimeCounter = useDevRenderCounter()
@@ -25,28 +23,16 @@ export default function PlayerBar() {
   const [localState, dispatch] = useContext(PlayerContext)
   const reduxLikelist = useTypedSelector(s => s.cache.likelist)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
-  // const reduxResonseSongUrl = useTypedSelector(s => s.response.songUrl)
+  const reduxResonseSongUrl = useTypedSelector(s => s.response.songUrl[reduxSongInfo.id || ''])
   const reduxDispatch = useTypedDispatch()
-  // const response = useRequest(requestSongUrl, {
-  //   params: { id: reduxSongInfo.id },
-  //   deps: [reduxSongInfo.id],
-  //   callback: ({ data }) => {
-  //     if (reduxSongInfo.id) {
-  //       reduxDispatch({ type: '[RESPONSE]_SET_A_SONG_URL', songId: reduxSongInfo.id, data })
-  //     }
-  //   }
-  // })
-  const response = useRef<ResponseDataSongUrl>()
   useEffect(() => {
-    requestSongUrl({ id: reduxSongInfo.id }).then(({ data: { data } }) => {
-      if (reduxSongInfo.id) {
-        reduxDispatch({ type: '[RESPONSE]_SET_A_SONG_URL', songId: reduxSongInfo.id, data })
-      }
-      response.current = data
-      forceRender.trigger()
-    })
+    if (!reduxResonseSongUrl) {
+      requestSongUrl({ id: reduxSongInfo.id }).then(({ data: { data } }) => {
+        reduxDispatch({ type: '[RESPONSE]_SET_A_SONG_URL', songId: reduxSongInfo.id || '', data })
+      })
+    }
   }, [reduxSongInfo.id])
-  const url = useMemo(() => response.current?.[0].url, [response.current])
+  const url = useMemo(() => reduxResonseSongUrl?.[0].url, [reduxResonseSongUrl])
 
   /* ---------------------------------- 元素相关 ---------------------------------- */
 
