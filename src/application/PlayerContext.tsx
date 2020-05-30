@@ -1,17 +1,7 @@
-import React, { useEffect, useRef, useReducer, useCallback, useMemo, createContext } from 'react'
+import React, { useReducer, createContext } from 'react'
 
-import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
-import { View, Cycle } from 'components/wrappers'
-import duration from 'utils/duration'
-import useRequest from 'hooks/useRequest'
-import requestSongUrl from 'requests/song/url'
-import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
-import useElement from 'hooks/useElement'
 import { clamp } from 'utils/number'
-import useFlag from 'hooks/useFlag'
-import useDevRenderCounter from 'hooks/useDevRenderCounter'
-import { switchState } from 'utils/string'
-import requestLike from 'requests/like'
+import switchValue from 'utils/switchValue'
 import createCounterTrigger, { CounterTrigger } from 'utils/createCounterTrigger'
 
 export type State = {
@@ -66,7 +56,7 @@ const reducer = (state: State, action: Action) => {
       return newState
     }
     case 'toggle like the song': {
-      const newState = { ...state, isLike: switchState(state.isLike, [true, false]) } as State
+      const newState = { ...state, isLike: switchValue(state.isLike, [true, false]) } as State
       return newState
     }
     case 'reset audio': {
@@ -89,7 +79,7 @@ const reducer = (state: State, action: Action) => {
     case 'toggle audio': {
       const newState = {
         ...state,
-        playStatus: switchState(state.playStatus, ['playing', 'paused'])
+        playStatus: switchValue(state.playStatus, ['playing', 'paused'])
       } as State
       return newState
     }
@@ -128,7 +118,7 @@ const reducer = (state: State, action: Action) => {
     }
   }
 }
-export const PlayerStore = ({ children }) => {
+export const PlayerProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initState)
   return <PlayerContext.Provider value={[state, dispatch]}>{children}</PlayerContext.Provider>
 }

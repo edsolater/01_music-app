@@ -12,7 +12,7 @@ import PlayerBar from 'application/Player'
 import requestLogin from 'requests/login'
 import requestLikelist from 'requests/likelist'
 import { storage } from './accessLocalStorage'
-import { PlayerStore } from 'application/PlayerStore'
+import { PlayerProvider } from 'application/PlayerContext'
 
 /**<App> */
 function App() {
@@ -29,11 +29,11 @@ function App() {
   }, [])
   return (
     <Provider store={store}>
-      <PlayerStore>
+      <PlayerProvider>
         <Playlist />
         <DetailArea />
         <PlayerBar />
-      </PlayerStore>
+      </PlayerProvider>
     </Provider>
   )
 }

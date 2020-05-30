@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useReducer, useCallback, useMemo, useContext } from 'react'
+import React, { useEffect, useRef, useCallback, useMemo, useContext } from 'react'
 
 import './Player.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
@@ -8,13 +8,9 @@ import useRequest from 'hooks/useRequest'
 import requestSongUrl from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
 import useElement from 'hooks/useElement'
-import { clamp } from 'utils/number'
-import useFlag from 'hooks/useFlag'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
-import { switchState } from 'utils/string'
 import requestLike from 'requests/like'
-import createCounterTrigger, { CounterTrigger } from 'utils/createCounterTrigger'
-import { PlayerContext } from './PlayerStore'
+import { PlayerContext } from './PlayerContext'
 
 export default function PlayerBar() {
   /* ---------------------------------- dev ---------------------------------- */
