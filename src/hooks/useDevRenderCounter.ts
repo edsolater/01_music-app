@@ -6,11 +6,11 @@ import { useRef, useEffect } from 'react'
  * TODO - 能使用它强行重渲染吗？
  * TODO - 它能记录组件重渲染的原因吗？
  */
-function useRenderCounter() {
+function useDevRenderCounter() {
   const count = useRef(0)
   useEffect(() => {
     count.current += 1
   })
   return count
 }
-export default useRenderCounter
+export default useDevRenderCounter

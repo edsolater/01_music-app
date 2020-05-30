@@ -13,3 +13,5 @@ type PicURL = string
 type Url = string
 
 type ID = number | string
+
+type Counter = number

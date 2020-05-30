@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 
 /**
  * 返回一个HTMLElemt，利用useRef，避免每次重渲染都返回不一样的实例
@@ -11,9 +11,11 @@ function useElement<K extends keyof HTMLElementTagNameMap>(
   const refObject = useRef<HTMLElementTagNameMap[K]>()
   if (!refObject.current) {
     const element = document.createElement(elementTag)
-    callback?.(element)
     refObject.current = element
   }
+  useEffect(() => {
+    if (refObject.current) callback?.(refObject.current)
+  })
   return refObject.current
 }
 export default useElement
