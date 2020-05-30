@@ -25,7 +25,6 @@ export default function PlayerBar() {
   const reduxLikelist = useTypedSelector(s => s.cache.likelist)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxDispatch = useTypedDispatch()
-  // TODO 因为useRequest会在一些hooks中用到，作为不能嵌套的hooks，是不是不合适，可能作为一个func更好
   const response = useRequest(requestSongUrl, {
     params: { id: reduxSongInfo.id },
     deps: [reduxSongInfo.id],

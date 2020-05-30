@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 
 /**
- * 返回一个HTMLElemt，利用useRef，避免每次重渲染都返回不一样的实例
+ * 返回一个HTMLElemt，callback位于useEffect，且只会渲染一次
  */
 // FIXME - 还没有支持传入reactNode呢
 function useElement<K extends keyof HTMLElementTagNameMap>(
@@ -15,7 +15,7 @@ function useElement<K extends keyof HTMLElementTagNameMap>(
   }
   useEffect(() => {
     if (refObject.current) callback?.(refObject.current)
-  })
+  }, [])
   return refObject.current
 }
 export default useElement
