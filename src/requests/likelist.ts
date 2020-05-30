@@ -9,6 +9,6 @@ const requestLikelist = (params: { uid?: string | number } = {}) =>
     ids: ID[]
     checkPoint: 1588864548387
     code: 200
-  }>('/likeList', { params })
+  }>('/likelist', { params })
 
 export default requestLikelist

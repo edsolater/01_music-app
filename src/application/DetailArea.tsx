@@ -20,7 +20,7 @@ type Action = { type: 'set selected list index'; index: State['selectedIndex'] }
 
 export default function DetailArea() {
   const playlistId = useTypedSelector(s => s.inApp.playlistId)
-  const likeList = useTypedSelector(s => s.cache.likeList)
+  const likelist = useTypedSelector(s => s.cache.likelist)
   const reduxDispatch = useTypedDispatch()
   const response = useRequest(() => requestPlaylistDetail({ id: playlistId }))
 
@@ -107,7 +107,7 @@ export default function DetailArea() {
             </View>
             <Cycle
               className='indicator-like'
-              initActiveIndex={likeList.includes(item.id) ? 0 : 1}
+              initActiveIndex={likelist.includes(item.id) ? 0 : 1}
               itemList={[
                 // TODO - 为了灵活性需要overload支持单纯传ReactNode的情况
                 {

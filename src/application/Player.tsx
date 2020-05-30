@@ -58,7 +58,7 @@ export default function PlayerBar() {
 
   /* --------------------------- 状态（redux+response） --------------------------- */
 
-  const reduxLikeList = useTypedSelector(s => s.cache.likeList)
+  const reduxLikelist = useTypedSelector(s => s.cache.likelist)
   const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
   const reduxPlayer = useTypedSelector(s => s.player)
   const reduxDispatch = useTypedDispatch()
@@ -84,6 +84,7 @@ export default function PlayerBar() {
   const [localState, dispatch] = useReducer((state: State, action: Action) => {
     switch (action.type) {
       case 'like the song': {
+        // 需要再次请求喜欢音乐列表，但这个逻辑无关乎当前组件，应该把逻辑写在redux里
         // TODO
         const newState = { ...state, isLike: true } as State
         reduxDispatch({ type: 'UPDATE_PLAYER_DATA', state: newState })
@@ -170,7 +171,7 @@ export default function PlayerBar() {
 
   // 切换音乐时 判断该音乐是否是我喜欢的音乐
   useEffect(() => {
-    if (reduxLikeList.includes(reduxSongInfo.id ?? NaN)) {
+    if (reduxLikelist.includes(reduxSongInfo.id ?? NaN)) {
       dispatch({ type: 'like the song', isInit: true })
     } else {
       dispatch({ type: 'dislike the song', isInit: true })

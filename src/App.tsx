@@ -22,14 +22,14 @@ interface ICache {
   likelist: ID[]
 }
 
-type WrapperToChangeProperties<O extends AnyObject> = {
+type GetWithSet<O extends AnyObject> = {
   [T in keyof O]: { (data: O[T]): void; (): O[T] }
 }
 
 /**为了避免localhost下的localStorage命名冲突，故加入命名空间前缀 */
 const prefix = 'music_'
 const cache: ICache = { profile: {}, account: {}, token: '', likelist: [] }
-const storage: WrapperToChangeProperties<ICache> = {
+const storage: GetWithSet<ICache> = {
   //@ts-ignore
   profile(data?: IProfile) {
     if (data) {
@@ -81,7 +81,6 @@ function App() {
   // FIXME - 似乎过段时间登录信息就会失效，不会带入cookie，导致301错误
   useEffect(() => {
     requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
-      storage.account(data.account)
       storage.account(data.account)
       storage.profile(data.profile)
       storage.token(data.token)
