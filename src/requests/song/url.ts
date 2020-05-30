@@ -1,12 +1,11 @@
 import axiosInstance from '../$axiosInstance'
-import { AxiosResponse } from 'axios'
 
-type ResponseContent = {
-  data: ResponseSongUrl
+type Response = {
+  data: ResponseDataSongUrl
   code: number
 }
 
-export type ResponseSongUrl = {
+export type ResponseDataSongUrl = {
   id: 39224533
   url: 'http://m7.music.126.net/20200508164504/c6e9fab7b29308e96c6704cff8cf1647/ymusic/82b7/664a/69c1/86954fdc2bd9b0789925f50b84e4ac79.mp3'
   br: 320000
@@ -33,6 +32,6 @@ export type ResponseSongUrl = {
  * @param params.br  码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
  */
 const requestSongUrl = (params: { id?: ID; br?: number }) =>
-  axiosInstance.get<ResponseContent>('/song/url', { params })
+  axiosInstance.get<Response>('/song/url', { params })
 
 export default requestSongUrl

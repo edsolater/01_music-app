@@ -11,7 +11,9 @@ const shallowEqualArray = (arr1?: unknown[], arr2?: unknown[]) => {
 }
 
 type RequestFunction = (...anys: any[]) => Promise<AxiosResponse<unknown>>
-type ResponseData<T> = T extends (...any: any[]) => Promise<AxiosResponse<infer P>> ? P : never
+export type GetResponse<T> = T extends (...any: any[]) => Promise<AxiosResponse<infer P>>
+  ? P
+  : never
 
 //TODO 这个hook还不能100%地放心食用，因为它假定请求是正常返回的。但如果中断了，并没有考虑。
 /**
@@ -19,15 +21,15 @@ type ResponseData<T> = T extends (...any: any[]) => Promise<AxiosResponse<infer 
  * @param request 用于发出axios请求的函数
  */
 const useRequest: {
-  <T extends RequestFunction>(request: T, deps?: unknown[]): ResponseData<T>
+  <T extends RequestFunction>(request: T, deps?: unknown[]): GetResponse<T>
   <T extends RequestFunction>(
     request: T,
     options?: {
       params?: Parameters<T>[0]
       deps?: unknown[]
-      callback?: (data: ResponseData<T>) => void
+      callback?: (data: GetResponse<T>) => void
     }
-  ): ResponseData<T>
+  ): GetResponse<T>
 } = (...args) => {
   const request = args[0]
   const params = args[1]?.params

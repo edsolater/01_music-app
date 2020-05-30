@@ -1,8 +1,5 @@
-function assert(condition: any, msg?: string): asserts condition {
-  if (!condition) {
-    throw new Error(msg)
-  }
-}
+import { assert } from './assert'
+
 function switchValue(param1: boolean): boolean
 function switchValue<T extends {}>(param1: T, range: readonly T[]): T
 function switchValue<T extends {}>(param1: T, range?: readonly T[]) {
