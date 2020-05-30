@@ -28,9 +28,13 @@ export default function PlayerBar() {
   const response = useRequest(requestSongUrl, {
     params: { id: reduxSongInfo.id },
     deps: [reduxSongInfo.id],
-    callback: data => reduxDispatch({ type: 'SET_RESPONSE_SONG_URL', data })
+    callback: ({ data }) => {
+      if (reduxSongInfo.id) {
+        reduxDispatch({ type: '[RESPONSE]_SET_A_SONG_URL', songId: reduxSongInfo.id, data })
+      }
+    }
   })
-  const url = useMemo(() => String(response.data?.[0].url), [response])
+  const url = useMemo(() => String(response.data[0].url), [response])
 
   /* ---------------------------------- 元素相关 ---------------------------------- */
 

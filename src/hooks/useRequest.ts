@@ -11,7 +11,7 @@ const shallowEqualArray = (arr1?: unknown[], arr2?: unknown[]) => {
 }
 
 type RequestFunction = (...anys: any[]) => Promise<AxiosResponse<unknown>>
-type ResponseData<T> = T extends () => Promise<AxiosResponse<infer P>> ? P : never
+type ResponseData<T> = T extends (...any: any[]) => Promise<AxiosResponse<infer P>> ? P : never
 
 //TODO 这个hook还不能100%地放心食用，因为它假定请求是正常返回的。但如果中断了，并没有考虑。
 /**

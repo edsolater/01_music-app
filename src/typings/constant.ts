@@ -2,7 +2,7 @@ type AnyFunction = (...args: any[]) => any
 
 type AnyObject = { [key: string]: any }
 
-type Callback = AnyFunction
+type Callback = (...args: any[]) => void
 
 type UtilFunction = (...args: any[]) => any
 
