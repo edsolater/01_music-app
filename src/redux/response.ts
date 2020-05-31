@@ -1,4 +1,4 @@
-import { ResponseDataSongUrl } from 'requests/song/url'
+import { ResponseSongUrl } from 'requests/song/url'
 import produce from 'immer'
 
 type StateAdaptor<T> = ((oldVlaue: T | undefined) => T) | T
@@ -9,19 +9,19 @@ type StateAdaptor<T> = ((oldVlaue: T | undefined) => T) | T
  *
  **********/
 export type State = {
-  songUrl: { [id: string]: ResponseDataSongUrl | undefined }
+  songUrl: { [id: string]: ResponseSongUrl | undefined }
 }
 
 export type Action = {
-  type: '[RESPONSE]_SET_A_SONG_URL'
+  type: '[RESPONSE]_CACH_A_SONG_URL'
   songId: ID
-  data: StateAdaptor<ResponseDataSongUrl>
+  data: StateAdaptor<ResponseSongUrl>
 }
 
 export const reducer = produce(
   (draft: State, action: Action) => {
     switch (action.type) {
-      case '[RESPONSE]_SET_A_SONG_URL': {
+      case '[RESPONSE]_CACH_A_SONG_URL': {
         const newResponseData =
           typeof action.data === 'function'
             ? action.data(draft.songUrl[action.songId])

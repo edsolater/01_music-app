@@ -3,6 +3,8 @@ import React, { useReducer, createContext } from 'react'
 import { clamp } from 'utils/number'
 import switchValue from 'utils/switchValue'
 import createCounterTrigger, { CounterTrigger } from 'utils/createCounterTrigger'
+import { ResponseSongUrl } from 'requests/song/url'
+import produce from 'immer'
 
 export type State = {
   playStatus: 'paused' | 'playing'
@@ -11,6 +13,7 @@ export type State = {
   volumn: number // 0~1， 默认1，即全音量
   isLike: boolean // 在 “我喜欢” 的列表中
   affectAudioElement: CounterTrigger
+  responseSongUrl?: ResponseSongUrl
 }
 export const initState: State = {
   playStatus: 'paused',
@@ -39,21 +42,30 @@ export type Action =
   | { type: 'toggle like the song' }
   | { type: 'like the song'; isInit?: boolean }
   | { type: 'dislike the song'; isInit?: boolean }
+  | {
+      type: 'set a song url'
+      songId: ID
+      data: ResponseSongUrl
+    }
 
 export const PlayerContext = createContext<[State, (action: Action) => void]>([initState, () => {}])
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
+    case 'set a song url': {
+      return produce(state, draft => {
+        draft.responseSongUrl = action.data
+      })
+    }
     case 'like the song': {
-      // 需要再次请求喜欢音乐列表，但这个逻辑无关乎当前组件，应该把逻辑写在redux里
-      // TODO
-      const newState = { ...state, isLike: true } as State
-      return newState
+      return produce(state, draft => {
+        draft.isLike = true
+      })
     }
     case 'dislike the song': {
-      // TODO
-      const newState = { ...state, isLike: false } as State
-      return newState
+      return produce(state, draft => {
+        draft.isLike = false
+      })
     }
     case 'toggle like the song': {
       const newState = { ...state, isLike: switchValue(state.isLike, [true, false]) } as State

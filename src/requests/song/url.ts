@@ -1,11 +1,11 @@
 import axiosInstance from '../$axiosInstance'
 
 type Response = {
-  data: ResponseDataSongUrl
+  data: ResponseSongUrl
   code: number
 }
 
-export type ResponseDataSongUrl = {
+export type ResponseSongUrl = {
   id: 39224533
   url: 'http://m7.music.126.net/20200508164504/c6e9fab7b29308e96c6704cff8cf1647/ymusic/82b7/664a/69c1/86954fdc2bd9b0789925f50b84e4ac79.mp3'
   br: 320000

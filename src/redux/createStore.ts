@@ -1,4 +1,4 @@
-import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
+import { useSelector, TypedUseSelectorHook, useDispatch, useStore } from 'react-redux'
 import { createStore, combineReducers } from 'redux'
 import { Dispatch, Reducer } from 'react'
 
@@ -9,7 +9,12 @@ import {
 } from './loginInfo'
 import { reducer as inApp, IStore as InAppState, IAction as InAppAction } from './inApp'
 import { reducer as cache, IStore as CacheState, IAction as CacheAction } from './cache'
-import { reducer as response, State as ResponseState, Action as ResponseAction } from './response'
+import {
+  reducer as response,
+  State as ResponseState,
+  Action as ResponseAction,
+  Action
+} from './response'
 
 export type CombinedAction = LoginInfoAction | CacheAction | InAppAction | ResponseAction
 export type Store = {
@@ -29,3 +34,4 @@ export const store = createStore(
 )
 export const useTypedDispatch: () => Dispatch<CombinedAction> = useDispatch
 export const useTypedSelector: TypedUseSelectorHook<Store> = useSelector
+export const useReduxState = () => useStore<Store, Action>().getState()
