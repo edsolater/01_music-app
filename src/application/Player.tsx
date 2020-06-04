@@ -1,15 +1,114 @@
-import React, { useEffect, useRef, useCallback, useMemo, useContext } from 'react'
+import React, { useEffect, useRef, useCallback, useMemo, useReducer } from 'react'
 
 import './Player.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
-import requestSongUrl from 'requests/song/url'
+import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
 import { useTypedSelector, useTypedDispatch, useReduxState } from 'redux/createStore'
 import useElement from 'hooks/useElement'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import requestLike from 'requests/like'
-import { PlayerContext } from './PlayerContext'
+import switchValue from 'utils/switchValue'
+import { clamp } from 'utils/number'
+
+type State = {
+  playStatus: 'paused' | 'playing' // 播放、暂停
+  playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
+  passedMilliseconds: number /* 播放了多少毫秒 */
+  volumn: number // 0~1， 默认1，即全音量
+  isLike: boolean // 在 “我喜欢” 的列表中
+  affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
+  responseSongUrl?: ResponseSongUrl // 储存response
+}
+
+type Action =
+  | { type: 'set playMode'; playMode: State['playMode'] }
+  | { type: 'set playStatus'; playStatus: State['playStatus'] }
+  | {
+      type: 'set passed milliseconds'
+      milliseconds: State['passedMilliseconds']
+      needAffactAudioElement?: boolean
+    }
+  | { type: 'play audio' }
+  | { type: 'pause audio' }
+  | { type: 'toggle audio' }
+  | { type: 'reset audio' }
+  | { type: 'set audio volumn'; volumn: State['volumn'] }
+  | { type: 'toggle like the song' }
+  | { type: 'like the song'; isInit?: boolean }
+  | { type: 'dislike the song'; isInit?: boolean }
+  | {
+      type: 'set a song url'
+      songId: ID
+      data: ResponseSongUrl
+    }
+
+const initState: State = {
+  playStatus: 'paused',
+  playMode: 'random-mode',
+  passedMilliseconds: 0,
+  volumn: 1,
+  isLike: false,
+  affectAudioElementCounter: 1
+}
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case 'set a song url': {
+      return { ...state, responseSongUrl: action.data } as State
+    }
+    case 'like the song': {
+      return { ...state, isLike: true } as State
+    }
+    case 'dislike the song': {
+      return { ...state, isLike: false } as State
+    }
+    case 'toggle like the song': {
+      return { ...state, isLike: !state.isLike } as State
+    }
+    case 'reset audio': {
+      return {
+        ...state,
+        playStatus: 'paused',
+        passedMilliseconds: 0,
+        affectAudioElementCounter: state.affectAudioElementCounter + 1
+      } as State
+    }
+    case 'play audio': {
+      return { ...state, playStatus: 'playing' } as State
+    }
+    case 'pause audio': {
+      return { ...state, playStatus: 'paused' } as State
+    }
+    case 'toggle audio': {
+      return {
+        ...state,
+        playStatus: switchValue(state.playStatus, ['playing', 'paused'])
+      } as State
+    }
+    case 'set playStatus': {
+      return { ...state, playStatus: action.playStatus } as State
+    }
+    case 'set playMode': {
+      return { ...state, playMode: action.playMode } as State
+    }
+    case 'set passed milliseconds': {
+      return {
+        ...state,
+        passedMilliseconds: action.milliseconds,
+        affectAudioElementCounter: action.needAffactAudioElement
+          ? state.affectAudioElementCounter + 1
+          : state.affectAudioElementCounter
+      } as State
+    }
+    case 'set audio volumn': {
+      return { ...state, volumn: clamp(action.volumn) } as State
+    }
+    default: {
+      throw new Error(`${PlayerBar.name} 的 localState 无法初始化`)
+    }
+  }
+}
 
 export default function PlayerBar() {
   /* ---------------------------------- dev ---------------------------------- */
@@ -20,11 +119,12 @@ export default function PlayerBar() {
   })
 
   /* --------------------------- 状态（redux+response） --------------------------- */
-  const [localState, dispatch] = useContext(PlayerContext)
-  const reduxLikelist = useTypedSelector(s => s.cache.likelist)
-  const reduxSongInfo = useTypedSelector(s => s.cache.songInfo)
-  const redux = useReduxState()
-  const reduxDispatch = useTypedDispatch()
+  const [localState, dispatch] = useReducer(reducer, initState)
+  const reduxLikelist = useTypedSelector(s => s.cache.likelist) //FIXME 把这四个去掉，就用context
+  const reduxSongInfo = useTypedSelector(s => s.cache.songInfo) //FIXME 把这四个去掉，就用context
+  const redux = useReduxState() //FIXME 把这四个去掉，就用context
+  const reduxDispatch = useTypedDispatch() //FIXME 把这四个去掉，就用context
+
   useEffect(() => {
     const reduxResponseSongUrl = redux.response.songUrl[reduxSongInfo.id || '']
     if (reduxResponseSongUrl) {
@@ -54,7 +154,7 @@ export default function PlayerBar() {
   // 喜欢/取消喜欢音乐时发出请求
   useEffect(() => {
     if (localState.isLike) {
-      requestLike({ id: reduxSongInfo.id, like: true }) // FIXME - 需要从网易云音乐的官方应用抓个包看看 //还需要克服接口的缓存机制
+      requestLike({ id: reduxSongInfo.id, like: true })
     } else {
       requestLike({ id: reduxSongInfo.id, like: false })
     }
@@ -98,7 +198,7 @@ export default function PlayerBar() {
 
   useEffect(() => {
     audioElement.currentTime = localState.passedMilliseconds / 1000
-  }, [localState.affectAudioElement])
+  }, [localState.affectAudioElementCounter])
 
   /* --------------------------------- callback： 时间指示器 -------------------------------- */
 
