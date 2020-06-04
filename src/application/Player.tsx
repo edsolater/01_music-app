@@ -52,19 +52,19 @@ const initState: State = {
   isLike: false,
   affectAudioElementCounter: 1
 }
-const reducer = (state: State, action: Action) => {
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set a song url': {
-      return { ...state, responseSongUrl: action.data } as State
+      return { ...state, responseSongUrl: action.data }
     }
     case 'like the song': {
-      return { ...state, isLike: true } as State
+      return { ...state, isLike: true }
     }
     case 'dislike the song': {
-      return { ...state, isLike: false } as State
+      return { ...state, isLike: false }
     }
     case 'toggle like the song': {
-      return { ...state, isLike: !state.isLike } as State
+      return { ...state, isLike: !state.isLike }
     }
     case 'reset audio': {
       return {
@@ -72,25 +72,25 @@ const reducer = (state: State, action: Action) => {
         playStatus: 'paused',
         passedMilliseconds: 0,
         affectAudioElementCounter: state.affectAudioElementCounter + 1
-      } as State
+      }
     }
     case 'play audio': {
-      return { ...state, playStatus: 'playing' } as State
+      return { ...state, playStatus: 'playing' }
     }
     case 'pause audio': {
-      return { ...state, playStatus: 'paused' } as State
+      return { ...state, playStatus: 'paused' }
     }
     case 'toggle audio': {
       return {
         ...state,
         playStatus: switchValue(state.playStatus, ['playing', 'paused'])
-      } as State
+      }
     }
     case 'set playStatus': {
-      return { ...state, playStatus: action.playStatus } as State
+      return { ...state, playStatus: action.playStatus }
     }
     case 'set playMode': {
-      return { ...state, playMode: action.playMode } as State
+      return { ...state, playMode: action.playMode }
     }
     case 'set passed milliseconds': {
       return {
@@ -99,10 +99,10 @@ const reducer = (state: State, action: Action) => {
         affectAudioElementCounter: action.needAffactAudioElement
           ? state.affectAudioElementCounter + 1
           : state.affectAudioElementCounter
-      } as State
+      }
     }
     case 'set audio volumn': {
-      return { ...state, volumn: clamp(action.volumn) } as State
+      return { ...state, volumn: clamp(action.volumn) }
     }
     default: {
       throw new Error(`${PlayerBar.name} 的 localState 无法初始化`)
