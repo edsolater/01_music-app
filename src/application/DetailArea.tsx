@@ -8,32 +8,39 @@ import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 import useRequest from 'hooks/useRequest'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
-import { useTypedSelector } from 'redux/createStore'
 import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
+import { PlaylistIdContext } from 'appContext/playlistId'
 
 type State = {
   selectedIndex: number
 }
+type Action = { type: 'set selected list index'; index: State['selectedIndex'] }
+
 const initState: State = {
   selectedIndex: NaN
 }
-type Action = { type: 'set selected list index'; index: State['selectedIndex'] }
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'set selected list index':
+      return { ...state, selectedIndex: action.index }
+    default:
+      return state
+  }
+}
 
 export default function DetailArea() {
-  const playlistId = useTypedSelector(s => s.inApp.playlistId)
+  /* ----------------------------------- 状态 ----------------------------------- */
+
+  const [playlistId] = useContext(PlaylistIdContext)
   const [likelist] = useContext(LikelistContext)
   const [, songInfoDispatch] = useContext(SongInfoContext)
+
+  /* ----------------------------------- 请求 ----------------------------------- */
+
   const response = useRequest(() => requestPlaylistDetail({ id: playlistId }))
 
-  const [state, dispatch] = useReducer((state: State, action: Action) => {
-    switch (action.type) {
-      case 'set selected list index':
-        return { ...state, selectedIndex: action.index } as State
-      default:
-        return state
-    }
-  }, initState)
+  const [state, dispatch] = useReducer(reducer, initState)
   return (
     <View as='section' className='detail-area'>
       <View className='title'>

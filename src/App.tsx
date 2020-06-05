@@ -14,6 +14,7 @@ import requestLikelist from 'requests/likelist'
 import { storage } from './accessLocalStorage'
 import LikelistProvider, { LikelistContext } from 'appContext/likelist'
 import SongInfoProvider from 'appContext/SongInfo'
+import PlaylistIdProvider from 'appContext/playlistId'
 
 /**<App> */
 function App() {
@@ -39,9 +40,11 @@ function App() {
 }
 render(
   <LikelistProvider>
-    <SongInfoProvider>
-      <App />
-    </SongInfoProvider>
+    <PlaylistIdProvider>
+      <SongInfoProvider>
+        <App />
+      </SongInfoProvider>
+    </PlaylistIdProvider>
   </LikelistProvider>,
   document.getElementById('app')
 )

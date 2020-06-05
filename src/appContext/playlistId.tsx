@@ -1,23 +1,25 @@
 import React, { useReducer } from 'react'
 
-type State = MusicInfo
+type State = ID
 
-type Action = { type: 'set'; songInfo: State }
+type Action = { type: 'set'; playlistId: State }
 
-const initState: State = {}
+const initState = '' as State
 const reducer = (_state: State, action: Action): State => {
   switch (action.type) {
     case 'set': {
-      return action.songInfo
+      return action.playlistId
     }
     default: {
-      throw new Error(`${SongInfoProvider.name} 的 reducer 报错`)
+      throw new Error(`${PlaylistIdProvider.name} 的 reducer 报错`)
     }
   }
 }
 
-export const SongInfoContext = React.createContext([initState, (_action: Action) => {}] as const)
-export default function SongInfoProvider({ children }) {
+export const PlaylistIdContext = React.createContext([initState, (_action: Action) => {}] as const)
+export default function PlaylistIdProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
-  return <SongInfoContext.Provider value={[state, dispatch]}>{children}</SongInfoContext.Provider>
+  return (
+    <PlaylistIdContext.Provider value={[state, dispatch]}>{children}</PlaylistIdContext.Provider>
+  )
 }

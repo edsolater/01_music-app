@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useContext } from 'react'
 
 import './Playlist.scss'
 import { SectionList } from 'components/structure'
@@ -6,11 +6,12 @@ import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
 import useRequest from 'hooks/useRequest'
-import { useTypedDispatch, useTypedSelector } from 'redux/createStore'
+import { useTypedSelector } from 'redux/createStore'
+import { PlaylistIdContext } from 'appContext/playlistId'
 
 export default function Playlist() {
   const loginInfo = useTypedSelector(s => s.loginInfo)
-  const dispatch = useTypedDispatch()
+  const [, playlistIdDispatch] = useContext(PlaylistIdContext)
   const response = useRequest(() => requestUserPlaylist({ uid: loginInfo.account?.id }))
   const parsedPlaylist = useMemo(() => {
     const resultList = [
@@ -64,7 +65,7 @@ export default function Playlist() {
         renderItem={itemInfo => (
           <Item
             onClick={() => {
-              dispatch({ type: 'UPDATE_PLAYLIST_ID', playlistId: itemInfo.id })
+              playlistIdDispatch({ type: 'set', playlistId: itemInfo.id })
             }}
           >
             {itemInfo.name.includes('喜欢的音乐') ? (
