@@ -6,13 +6,13 @@ import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist from 'requests/user/playlist'
 import useRequest from 'hooks/useRequest'
-import { useTypedSelector } from 'redux/createStore'
 import { PlaylistIdContext } from 'appContext/playlistId'
+import { UserInfoContext } from 'appContext/UserInfo'
 
 export default function Playlist() {
-  const loginInfo = useTypedSelector(s => s.loginInfo)
+  const [userInfo] = useContext(UserInfoContext)
   const [, playlistIdDispatch] = useContext(PlaylistIdContext)
-  const response = useRequest(() => requestUserPlaylist({ uid: loginInfo.account?.id }))
+  const response = useRequest(() => requestUserPlaylist({ uid: userInfo.account?.id }))
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {
@@ -40,7 +40,7 @@ export default function Playlist() {
     if (response.playlist) {
       for (const list of response.playlist) {
         //@ts-ignore
-        if (list.userId === loginInfo.account.id) resultList[2].data.push(list)
+        if (list.userId === userInfo.account.id) resultList[2].data.push(list)
         //@ts-ignore
         else resultList[3].data.push(list)
       }
@@ -89,8 +89,8 @@ export default function Playlist() {
         itemKey={item => item.name}
       />
       <View className='user-info'>
-        <Avatar src={loginInfo.profile?.avatarUrl} />
-        <Text className='nickname'>{loginInfo.profile?.nickname}</Text>
+        <Avatar src={userInfo.profile?.avatarUrl} />
+        <Text className='nickname'>{userInfo.profile?.nickname}</Text>
         <Badge number={32}>
           <Icon iconfontName='mail' />
         </Badge>

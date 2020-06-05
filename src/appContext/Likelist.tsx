@@ -11,12 +11,13 @@ const reducer = (_state: State, action: Action): State => {
       return action.newLikelist
     }
     default: {
-      throw new Error(`${LikelistProvider.name} 的 reducer 报错`)
+      throw new Error(`from ${LikelistProvider.name}'s reducer`)
     }
   }
 }
 
 export const LikelistContext = React.createContext([initState, (_action: Action) => {}] as const)
+
 export default function LikelistProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
   return <LikelistContext.Provider value={[state, dispatch]}>{children}</LikelistContext.Provider>

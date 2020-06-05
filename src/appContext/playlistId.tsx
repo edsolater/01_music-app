@@ -11,12 +11,13 @@ const reducer = (_state: State, action: Action): State => {
       return action.playlistId
     }
     default: {
-      throw new Error(`${PlaylistIdProvider.name} 的 reducer 报错`)
+      throw new Error(`from ${PlaylistIdProvider.name}'s reducer`)
     }
   }
 }
 
 export const PlaylistIdContext = React.createContext([initState, (_action: Action) => {}] as const)
+
 export default function PlaylistIdProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
   return (

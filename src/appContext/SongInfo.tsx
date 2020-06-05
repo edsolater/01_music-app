@@ -11,12 +11,13 @@ const reducer = (_state: State, action: Action): State => {
       return action.songInfo
     }
     default: {
-      throw new Error(`${SongInfoProvider.name} 的 reducer 报错`)
+      throw new Error(`from ${SongInfoProvider.name}'s reducer`)
     }
   }
 }
 
 export const SongInfoContext = React.createContext([initState, (_action: Action) => {}] as const)
+
 export default function SongInfoProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
   return <SongInfoContext.Provider value={[state, dispatch]}>{children}</SongInfoContext.Provider>

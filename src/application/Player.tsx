@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useMemo, useReducer, useContext } from 'react'
+import React, { useEffect, useRef, useCallback, useReducer, useContext } from 'react'
 
 import './Player.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
@@ -120,9 +120,9 @@ export default function PlayerBar() {
   })
 
   /* ----------------------------------- 状态 ----------------------------------- */
-  const [localState, dispatch] = useReducer(reducer, initState)
   const [likelist] = useContext(LikelistContext) //FIXME 把这四个去掉，就用context
   const [songInfo] = useContext(SongInfoContext)
+  const [localState, dispatch] = useReducer(reducer, initState)
 
   /* ----------------------------------- 请求 ----------------------------------- */
   useEffect(() => {
