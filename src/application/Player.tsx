@@ -1,16 +1,17 @@
-import React, { useEffect, useRef, useCallback, useMemo, useReducer } from 'react'
+import React, { useEffect, useRef, useCallback, useMemo, useReducer, useContext } from 'react'
 
 import './Player.scss'
 import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
 import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
-import { useTypedSelector, useTypedDispatch, useReduxState } from 'redux/createStore'
 import useElement from 'hooks/useElement'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import requestLike from 'requests/like'
 import switchValue from 'utils/switchValue'
 import { clamp } from 'utils/number'
+import { LikelistContext } from 'appContext/likelist'
+import { SongInfoContext } from 'appContext/SongInfo'
 
 type State = {
   playStatus: 'paused' | 'playing' // 播放、暂停
@@ -118,29 +119,17 @@ export default function PlayerBar() {
     console.log(`${PlayerBar.name} 渲染了 ${renderTimeCounter.current} 次`)
   })
 
-  /* --------------------------- 状态（redux+response） --------------------------- */
+  /* ----------------------------------- 状态 ----------------------------------- */
   const [localState, dispatch] = useReducer(reducer, initState)
-  const reduxLikelist = useTypedSelector(s => s.cache.likelist) //FIXME 把这四个去掉，就用context
-  const reduxSongInfo = useTypedSelector(s => s.cache.songInfo) //FIXME 把这四个去掉，就用context
-  const redux = useReduxState() //FIXME 把这四个去掉，就用context
-  const reduxDispatch = useTypedDispatch() //FIXME 把这四个去掉，就用context
+  const [likelist] = useContext(LikelistContext) //FIXME 把这四个去掉，就用context
+  const [songInfo] = useContext(SongInfoContext)
 
+  /* ----------------------------------- 请求 ----------------------------------- */
   useEffect(() => {
-    const reduxResponseSongUrl = redux.response.songUrl[reduxSongInfo.id || '']
-    if (reduxResponseSongUrl) {
-      dispatch({
-        type: 'set a song url',
-        songId: reduxSongInfo.id || '',
-        data: reduxResponseSongUrl
-      })
-    } else {
-      requestSongUrl({ id: reduxSongInfo.id }).then(({ data: { data } }) => {
-        reduxDispatch({ type: '[RESPONSE]_CACH_A_SONG_URL', songId: reduxSongInfo.id || '', data })
-        dispatch({ type: 'set a song url', songId: reduxSongInfo.id || '', data })
-      })
-    }
-  }, [reduxSongInfo.id])
-  const url = useMemo(() => localState.responseSongUrl?.[0].url, [localState.responseSongUrl])
+    requestSongUrl({ id: songInfo.id }).then(({ data: { data } }) => {
+      dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
+    })
+  }, [songInfo.id])
 
   /* ---------------------------------- 元素相关 ---------------------------------- */
 
@@ -154,31 +143,29 @@ export default function PlayerBar() {
   // 喜欢/取消喜欢音乐时发出请求
   useEffect(() => {
     if (localState.isLike) {
-      requestLike({ id: reduxSongInfo.id, like: true })
+      requestLike({ id: songInfo.id, like: true })
     } else {
-      requestLike({ id: reduxSongInfo.id, like: false })
+      requestLike({ id: songInfo.id, like: false })
     }
   }, [localState.isLike])
 
   // 切换音乐时 判断该音乐是否是我喜欢的音乐
   useEffect(() => {
-    if (reduxLikelist.includes(reduxSongInfo.id ?? NaN)) {
+    if (likelist.includes(songInfo.id ?? NaN)) {
       dispatch({ type: 'like the song', isInit: true })
     } else {
       dispatch({ type: 'dislike the song', isInit: true })
     }
-  }, [reduxSongInfo])
+  }, [songInfo])
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
   useEffect(() => {
     dispatch({ type: 'reset audio' })
-  }, [reduxSongInfo])
+  }, [songInfo])
 
   useEffect(() => {
-    if (url) {
-      audioElement.src = url
-    }
-  }, [url])
+    audioElement.src = localState.responseSongUrl?.[0].url ?? ''
+  }, [localState.responseSongUrl])
 
   useEffect(() => {
     audioElement.volume = localState.volumn
@@ -216,7 +203,7 @@ export default function PlayerBar() {
         if (localState.playStatus === 'playing') {
           dispatch({
             type: 'set passed milliseconds',
-            milliseconds: Math.min(localState.passedMilliseconds + 1000, Number(reduxSongInfo.dt))
+            milliseconds: Math.min(localState.passedMilliseconds + 1000, Number(songInfo.dt))
           })
         }
       }, 1000)
@@ -227,7 +214,7 @@ export default function PlayerBar() {
   /* -------------------------------------------------------------------------- */
   return (
     <View as='section' className='player-bar'>
-      <Image className='album-face' src={reduxSongInfo?.al?.picUrl} />
+      <Image className='album-face' src={songInfo?.al?.picUrl} />
       <View className='music-buttons'>
         <Button className='last-song'>
           <Icon iconfontName='music_pre' />
@@ -247,21 +234,21 @@ export default function PlayerBar() {
         </Button>
       </View>
       <View className='timeSlider'>
-        <View className='songTitle'>{reduxSongInfo.name}</View>
+        <View className='songTitle'>{songInfo.name}</View>
         <View className='timestamp'>
           <Text ref={currentSecondSpanRef}>
             {duration(localState.passedMilliseconds).format('mm:ss')}
           </Text>
           <Text className='divider'> / </Text>
-          <Text>{duration(reduxSongInfo.dt).format('mm:ss')}</Text>
+          <Text>{duration(songInfo.dt).format('mm:ss')}</Text>
         </View>
         <Slider
-          value={localState.passedMilliseconds / (reduxSongInfo.dt ?? 0)}
-          onMoveTrigger={percent => changingSecondText(percent * (reduxSongInfo.dt ?? 0))}
+          value={localState.passedMilliseconds / (songInfo.dt ?? 0)}
+          onMoveTrigger={percent => changingSecondText(percent * (songInfo.dt ?? 0))}
           onMoveTriggerDone={percent => {
             dispatch({
               type: 'set passed milliseconds',
-              milliseconds: (reduxSongInfo.dt ?? NaN) * percent,
+              milliseconds: (songInfo.dt ?? NaN) * percent,
               needAffactAudioElement: true
             })
           }}

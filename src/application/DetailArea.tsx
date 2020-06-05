@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useContext } from 'react'
 import dayjs from 'dayjs'
 
 import './DetailArea.scss'
@@ -8,7 +8,9 @@ import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
 import useRequest from 'hooks/useRequest'
 import { requestPlaylistDetail } from 'requests/playlist/detail'
-import { useTypedSelector, useTypedDispatch } from 'redux/createStore'
+import { useTypedSelector } from 'redux/createStore'
+import { LikelistContext } from 'appContext/likelist'
+import { SongInfoContext } from 'appContext/SongInfo'
 
 type State = {
   selectedIndex: number
@@ -20,8 +22,8 @@ type Action = { type: 'set selected list index'; index: State['selectedIndex'] }
 
 export default function DetailArea() {
   const playlistId = useTypedSelector(s => s.inApp.playlistId)
-  const likelist = useTypedSelector(s => s.cache.likelist)
-  const reduxDispatch = useTypedDispatch()
+  const [likelist] = useContext(LikelistContext)
+  const [, songInfoDispatch] = useContext(SongInfoContext)
   const response = useRequest(() => requestPlaylistDetail({ id: playlistId }))
 
   const [state, dispatch] = useReducer((state: State, action: Action) => {
@@ -98,7 +100,7 @@ export default function DetailArea() {
         onSelectItem={(item, index) => {
           dispatch({ type: 'set selected list index', index })
           //@ts-ignore
-          reduxDispatch({ type: 'SET_SONG_INFO', songInfo: item })
+          songInfoDispatch({ type: 'set', songInfo: item })
         }}
         renderItem={(item, idx) => (
           <Item>

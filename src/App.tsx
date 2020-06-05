@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 
@@ -12,9 +12,12 @@ import PlayerBar from 'application/Player'
 import requestLogin from 'requests/login'
 import requestLikelist from 'requests/likelist'
 import { storage } from './accessLocalStorage'
+import LikelistProvider, { LikelistContext } from 'appContext/likelist'
+import SongInfoProvider from 'appContext/SongInfo'
 
 /**<App> */
 function App() {
+  const [, likelistDispatch] = useContext(LikelistContext)
   // FIXME - 似乎过段时间登录信息就会失效，不会带入cookie，导致301错误
   useEffect(() => {
     requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
@@ -22,7 +25,7 @@ function App() {
       storage.profile(data.profile)
       storage.token(data.token)
       requestLikelist({ uid: storage.account().id }).then(({ data }) => {
-        storage.likelist(data.ids)
+        likelistDispatch({ type: 'set', newLikelist: data.ids })
       })
     })
   }, [])
@@ -34,4 +37,11 @@ function App() {
     </Provider>
   )
 }
-render(<App />, document.getElementById('app'))
+render(
+  <LikelistProvider>
+    <SongInfoProvider>
+      <App />
+    </SongInfoProvider>
+  </LikelistProvider>,
+  document.getElementById('app')
+)
