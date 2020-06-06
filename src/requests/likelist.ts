@@ -1,12 +1,12 @@
 import axiosInstance from './$axiosInstance'
-import { exist } from 'utils/judger'
+import { isMeaningful } from 'utils/judger'
 
 /**
  * 获取用户信息 , 歌单，收藏，mv, dj 数量
  * 说明 : 登陆后调用此接口 , 可以获取用户信息
  */
 const requestLikelist = (params: { uid: ID | undefined }) => {
-  if (exist(params.uid)) {
+  if (isMeaningful(params.uid)) {
     return axiosInstance.get<{
       ids: ID[]
       checkPoint: 1588864548387

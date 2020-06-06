@@ -1,4 +1,4 @@
-import { assert } from './assert'
+import { assert } from './judger'
 
 function switchValue(param1: boolean): boolean
 function switchValue<T extends {}>(param1: T, range: readonly T[]): T

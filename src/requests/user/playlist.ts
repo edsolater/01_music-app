@@ -1,5 +1,5 @@
 import axiosInstance from '../$axiosInstance'
-import { exist } from 'utils/judger'
+import { isMeaningful } from 'utils/judger'
 
 export type ResponseUserPlaylist = {
   more?: true
@@ -81,7 +81,7 @@ export type ResponseUserPlaylist = {
  * @param params.uid  必选项用户 id
  */
 const requestUserPlaylist = (params: { uid: ID | undefined }) => {
-  if (exist(params.uid)) {
+  if (isMeaningful(params.uid)) {
     return axiosInstance.get<ResponseUserPlaylist>('/user/playlist', { params })
   } else {
     return undefined

@@ -4,7 +4,7 @@ import axiosInstance from './$axiosInstance'
  * 说明 : 调用此接口 , 可获取推荐歌单
  * @param params.limit 取出数量 , 默认为 30 (不支持 offset)
  */
-const requestPersonalized = ({ limit = 30 } = {}) =>
+const requestPersonalized = (params?: { limit?: number }) =>
   axiosInstance.get<{
     hasTaste: boolean
     category: number
@@ -21,6 +21,6 @@ const requestPersonalized = ({ limit = 30 } = {}) =>
       highQuality: boolean
       alg: 'featured'
     }[]
-  }>('/personalized', { params: { limit } })
+  }>('/personalized', { params })
 
 export default requestPersonalized
