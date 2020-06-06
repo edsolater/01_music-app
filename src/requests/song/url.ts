@@ -1,4 +1,5 @@
 import axiosInstance from '../$axiosInstance'
+import { exist } from 'utils/judger'
 
 type Response = {
   data: ResponseSongUrl
@@ -31,7 +32,12 @@ export type ResponseSongUrl = {
  * @param params.id  必选项 音乐 id
  * @param params.br  码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
  */
-const requestSongUrl = (params: { id?: ID; br?: number }) =>
-  axiosInstance.get<Response>('/song/url', { params })
+const requestSongUrl = (params: { id: ID | undefined; br?: number }) => {
+  if (exist(params.id)) {
+    return axiosInstance.get<Response>('/song/url', { params })
+  } else {
+    return undefined
+  }
+}
 
 export default requestSongUrl

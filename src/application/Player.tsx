@@ -21,6 +21,20 @@ type State = {
   isLike: boolean // 在 “我喜欢” 的列表中
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
   responseSongUrl?: ResponseSongUrl // 储存response
+  songId?: ID
+}
+
+const effects = {
+  likeSong(songId: ID | undefined) {
+    requestLike({ id: songId, like: true })?.then(res => {
+      console.log('res: ', res)
+    })
+  },
+  dislikeSong(songId: ID | undefined) {
+    requestLike({ id: songId, like: false })?.then(res => {
+      console.log('res: ', res)
+    })
+  }
 }
 
 type Action =
@@ -56,16 +70,20 @@ const initState: State = {
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set a song url': {
-      return { ...state, responseSongUrl: action.data }
+      return { ...state, songId: action.songId, responseSongUrl: action.data }
     }
     case 'like the song': {
+      if (!action.isInit) effects.likeSong(state.songId)
       return { ...state, isLike: true }
     }
     case 'dislike the song': {
+      if (!action.isInit) effects.dislikeSong(state.songId)
       return { ...state, isLike: false }
     }
     case 'toggle like the song': {
-      return { ...state, isLike: !state.isLike }
+      const isLike = !state.isLike
+      isLike ? effects.likeSong(state.songId) : effects.dislikeSong(state.songId)
+      return { ...state, isLike }
     }
     case 'reset audio': {
       return {
@@ -126,7 +144,7 @@ export default function PlayerBar() {
 
   /* ----------------------------------- 请求 ----------------------------------- */
   useEffect(() => {
-    requestSongUrl({ id: songInfo.id }).then(({ data: { data } }) => {
+    requestSongUrl({ id: songInfo.id })?.then(({ data: { data } }) => {
       dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
     })
   }, [songInfo.id])

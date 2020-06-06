@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react'
+import React, { useReducer, useContext, useState, useEffect } from 'react'
 import dayjs from 'dayjs'
 
 import './DetailArea.scss'
@@ -6,8 +6,7 @@ import { List } from 'components/structure'
 import { Text, Icon, Avatar, Button, Image } from 'components/UI'
 import { View, Figure, Group, Cycle, Item } from 'components/wrappers'
 import duration from 'utils/duration'
-import useRequest from 'hooks/useRequest'
-import { requestPlaylistDetail } from 'requests/playlist/detail'
+import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
 import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import { PlaylistIdContext } from 'appContext/playlistId'
@@ -38,7 +37,12 @@ export default function DetailArea() {
 
   /* ----------------------------------- 请求 ----------------------------------- */
 
-  const response = useRequest(() => requestPlaylistDetail({ id: playlistId }))
+  const [response, setResponse] = useState<ResponsePlaylistDetail>({})
+  useEffect(() => {
+    requestPlaylistDetail({ id: playlistId })?.then(({ data }) => {
+      setResponse(data)
+    })
+  }, [playlistId])
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (
@@ -98,10 +102,7 @@ export default function DetailArea() {
         </View>
       </Group>
       <List
-        data={response.playlist?.tracks.map((songObj, idx) => ({
-          ...songObj,
-          ...response.privileges[idx]
-        }))}
+        data={response.playlist?.tracks}
         itemKey={item => item.id}
         initSelectedIndex={state.selectedIndex}
         onSelectItem={(item, index) => {
@@ -147,7 +148,9 @@ export default function DetailArea() {
               <Text>{duration(item.dt).format('mm:ss')}</Text>
             </View>
             <Group className='song-badges'>
-              {item.downloadMaxbr >= 999000 && <Icon iconfontName='sq' />}
+              {Number(response.privileges?.[idx].downloadMaxbr) >= 999000 && (
+                <Icon iconfontName='sq' />
+              )}
             </Group>
           </Item>
         )}

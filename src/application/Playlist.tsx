@@ -1,18 +1,22 @@
-import React, { useMemo, useContext } from 'react'
+import React, { useMemo, useContext, useState, useEffect } from 'react'
 
 import './Playlist.scss'
 import { SectionList } from 'components/structure'
 import { Icon, Badge, Text, Avatar } from 'components/UI'
 import { View, Item, Header } from 'components/wrappers'
-import requestUserPlaylist from 'requests/user/playlist'
-import useRequest from 'hooks/useRequest'
+import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
 import { PlaylistIdContext } from 'appContext/playlistId'
 import { UserInfoContext } from 'appContext/UserInfo'
 
 export default function Playlist() {
   const [userInfo] = useContext(UserInfoContext)
   const [, playlistIdDispatch] = useContext(PlaylistIdContext)
-  const response = useRequest(() => requestUserPlaylist({ uid: userInfo.account?.id }))
+  const [response, setResponse] = useState<ResponseUserPlaylist>({})
+  useEffect(() => {
+    requestUserPlaylist({ uid: userInfo.account?.id })?.then(({ data }) => {
+      setResponse(data)
+    })
+  }, [userInfo.account?.id])
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {

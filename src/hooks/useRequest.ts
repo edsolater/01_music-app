@@ -1,3 +1,8 @@
+/**
+ *
+ * !!!Deprecated
+ * 不再使用，因为此API不够健壮的情况下会导致不敢改组件逻辑（但又不得不改，因此抛弃）
+ */
 import { AxiosResponse } from 'axios'
 import { useState, useRef } from 'react'
 
@@ -13,7 +18,7 @@ const shallowEqualArray = (arr1?: unknown[], arr2?: unknown[]) => {
 type RequestFunction = (...anys: any[]) => Promise<AxiosResponse<unknown>>
 export type GetResponse<T> = T extends (...any: any[]) => Promise<AxiosResponse<infer P>>
   ? P
-  : never
+  : undefined
 
 //TODO 这个hook还不能100%地放心食用，因为它假定请求是正常返回的。但如果中断了，并没有考虑。
 /**
@@ -21,11 +26,11 @@ export type GetResponse<T> = T extends (...any: any[]) => Promise<AxiosResponse<
  * @param request 用于发出axios请求的函数
  */
 const useRequest: {
-  <T extends RequestFunction>(request: T, deps?: unknown[]): GetResponse<T>
-  <T extends RequestFunction>(
+  <T extends RequestFunction | undefined>(request: T, deps?: unknown[]): GetResponse<T>
+  <T extends RequestFunction | undefined>(
     request: T,
     options?: {
-      params?: Parameters<T>[0]
+      params?: Parameters<NonNullable<T>>[0]
       deps?: unknown[]
       callback?: (data: GetResponse<T>) => void
     }
