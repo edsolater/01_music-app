@@ -58,6 +58,7 @@ type Action =
       data: ResponseSongUrl
     }
 
+// TODO - 感觉这玩意儿是脏代码会引起逻辑混乱的。不妨干脆就造个垃圾场，专门存放IO操作等脏代码，进行统一管理
 const effects = {
   /**
    * 喜欢某个音乐
