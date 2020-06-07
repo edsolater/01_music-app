@@ -5,7 +5,7 @@ import { useRef } from 'react'
  * 专用于交互（改变Style）
  */
 export default function useDomStyle<T extends (...any: any[]) => any>(
-  styleCallback: (style: CSSStyleDeclaration) => T,
+  styleCallback: (style: CSSStyleDeclaration) => T
 ) {
   const refObject = useRef<HTMLElement>()
   const styleSetter = ((...args) => {

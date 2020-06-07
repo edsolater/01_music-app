@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps, useState } from 'react'
 import './SectionList.scss'
-import View from 'components/UI/View'
-import Slot from 'components/UI/Slot'
+import View from 'baseUI/UI/View'
+import Slot from 'baseUI/UI/Slot'
 
 /* --------------------------------- TODOLIST -------------------------------- */
 // TODO 需要支持头部组件

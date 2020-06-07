@@ -14,7 +14,7 @@ export default function useQueue<T extends unknown[]>(
   /**初始值，默认为 [] */
   init?: T,
   /** 值改变时 */
-  onChangeCallback?: (newValue: T, oldValue: T) => any,
+  onChangeCallback?: (newValue: T, oldValue: T) => any
 ) {
   // 使用原生的useState
   const [state, set] = useState(init ?? (([] as unknown) as T))
@@ -25,7 +25,7 @@ export default function useQueue<T extends unknown[]>(
       const parsedNewValue = typeof userNewValue === 'function' ? userNewValue(state) : userNewValue
       onChangeCallback?.(parsedNewValue, state)
       set(parsedNewValue)
-    },
+    }
   }
   //返回特化过的（强化版）useState
   return [state, setters] as const

@@ -4,7 +4,7 @@ export default function useBoolean(
   /**初始值，默认或不能解析均为false */
   init?: unknown,
   /** 值改变时 */
-  onChangeCallback?: (newValue: boolean, oldValue: boolean) => any,
+  onChangeCallback?: (newValue: boolean, oldValue: boolean) => any
 ) {
   // 使用原生的useState
   const [state, set] = useState(Boolean(init))
@@ -25,7 +25,7 @@ export default function useBoolean(
     },
     off() {
       if (state !== false) setters.set(false)
-    },
+    }
   }
   //返回特化过的（强化版）useState
   return [state, setters] as const

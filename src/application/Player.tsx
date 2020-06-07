@@ -12,15 +12,15 @@ import { LikelistContext, LikelistDispatch } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import requestLikelist from 'requests/likelist'
 import { storage } from 'webClientLocalStorage'
-import Text from 'components/UI/Text'
-import Image from 'components/UI/Image'
-import Togger from 'components/UI/Togger'
-import View from 'components/UI/View'
-import Button from 'components/UI/Button'
-import Icon from 'components/UI/Icon'
-import Slider from 'components/UI/Slider'
-import Cycle from 'components/UI/Cycle'
-import Popover from 'components/UI/Popover'
+import Text from 'baseUI/UI/Text'
+import Image from 'baseUI/UI/Image'
+import Togger from 'baseUI/UI/Togger'
+import View from 'baseUI/UI/View'
+import Button from 'baseUI/UI/Button'
+import Icon from 'baseUI/UI/Icon'
+import Slider from 'baseUI/UI/Slider'
+import Cycle from 'baseUI/UI/Cycle'
+import Popover from 'baseUI/UI/Popover'
 
 const componentName = 'Player'
 let likelistDispatch: LikelistDispatch | undefined = undefined
@@ -71,7 +71,6 @@ const effects = {
           from: componentName,
           force: true
         })?.then(({ data: { ids } }) => {
-          console.log(`包含${ids.includes(Number(songId))}`)
           likelistDispatch?.({ type: 'set', newLikelist: ids })
         })
       }
@@ -90,7 +89,6 @@ const effects = {
           from: componentName,
           force: true
         })?.then(({ data: { ids } }) => {
-          console.log(`包含${ids.includes(Number(songId))}`)
           likelistDispatch?.({ type: 'set', newLikelist: ids })
         })
       }
@@ -175,7 +173,7 @@ export default function PlayerBar() {
 
   const renderTimeCounter = useDevRenderCounter()
   useEffect(() => {
-    console.log(`${PlayerBar.name} 渲染了 ${renderTimeCounter.current} 次`)
+    console.info(`${PlayerBar.name} 渲染了 ${renderTimeCounter.current} 次`)
   })
 
   /* ----------------------------------- 状态 ----------------------------------- */
@@ -316,10 +314,7 @@ export default function PlayerBar() {
           active={localState.isLike}
           trusyNode={<Icon iconfontName='heart' />}
           falsyNode={<Icon iconfontName='heart_empty' />}
-          onToggle={() => {
-            console.log(5)
-            return dispatch({ type: 'toggle like the song' })
-          }}
+          onToggle={() => dispatch({ type: 'toggle like the song' })}
         />
         <Cycle
           className='indicator-like'

@@ -1,8 +1,8 @@
 import React, { ReactNode, ComponentProps } from 'react'
 
 import { useQueue } from '../customHooks'
-import Slot from 'components/UI/Slot'
-import View from 'components/UI/View'
+import Slot from 'baseUI/UI/Slot'
+import View from 'baseUI/UI/View'
 import List from './List'
 
 //TODO：是时候将类型文件单独提出一个.d.ts了，不然复杂度太高
