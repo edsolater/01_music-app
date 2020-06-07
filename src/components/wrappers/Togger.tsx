@@ -2,6 +2,7 @@ import React, { ComponentProps, ReactNode, useMemo, useEffect, useState } from '
 import { View } from '.'
 import { exist } from 'utils/judger'
 import { Button } from 'components/UI'
+import { mergeCallback } from 'utils/reactComponent'
 
 /**
  *  循环切换
@@ -35,11 +36,10 @@ export default function Togger(
       <Button
         {...props}
         $componentName={`${Togger.name}`}
-        onClick={e => {
+        onClick={mergeCallback(e => {
           if (!props.justShow) setActive(s => !s)
           props.onToggle?.(active, active ? props.trusyNode : props.falsyNode)
-          props.onClick?.(e)
-        }}
+        }, props.onClick)}
       >
         {active ? props.trusyNode : props.falsyNode}
       </Button>

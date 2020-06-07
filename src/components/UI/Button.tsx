@@ -1,6 +1,7 @@
 import React, { ComponentProps, ReactNode } from 'react'
 import './Button.scss'
 import { View } from '../wrappers'
+import { mergeClass } from 'utils/reactComponent'
 
 //TODO： 常规操作：定义各种按钮样式
 export default function Button(
@@ -19,8 +20,7 @@ export default function Button(
     <View
       as='button'
       {...props}
-      $componentName={[
-        props.$componentName,
+      $componentName={mergeClass(props.$componentName, [
         'Button',
         {
           _disabled: props.disabled,
@@ -28,7 +28,7 @@ export default function Button(
           _small: props.size === 'small',
           _large: props.size === 'large'
         }
-      ]}
+      ])}
       html={
         {
           type: 'button',
