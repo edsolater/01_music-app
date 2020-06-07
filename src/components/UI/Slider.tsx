@@ -2,7 +2,7 @@ import React, { ComponentProps, useEffect, useReducer } from 'react'
 
 import './Slider.scss'
 import { useDomStyle } from '../customHooks'
-import { View } from '../wrappers'
+import View from './View'
 import { clamp } from 'utils/number'
 
 /**

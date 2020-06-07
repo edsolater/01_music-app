@@ -1,8 +1,9 @@
 import React, { ReactNode, ComponentProps } from 'react'
 
-import { View, Slot } from '../wrappers'
-import { List } from '.'
 import { useQueue } from '../customHooks'
+import Slot from 'components/UI/Slot'
+import View from 'components/UI/View'
+import List from './List'
 
 //TODO：是时候将类型文件单独提出一个.d.ts了，不然复杂度太高
 type ItemInfo<T> = T & {
@@ -37,11 +38,11 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
      * 菜单组的标头
      */
     renderMenuGroup?: (groupInfo: GroupInfo<T>, index: number) => ReactNode
-  },
+  }
 ) {
   const [currentMenuPath, pathSetters] = useQueue([{ label: '' }, { label: '' }] as [
     GroupInfo<T>,
-    ItemInfo<T>,
+    ItemInfo<T>
   ])
   return (
     <View {...props} $componentName='Menu'>
@@ -51,7 +52,7 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
           label: groupName,
           index: groupIndex,
           children: groupItems,
-          path: currentMenuPath,
+          path: currentMenuPath
         }
         return (
           <View className='Groupbox' key={groupName}>
@@ -61,15 +62,14 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
             <List
-              noSelfSelected
               data={groupItems}
-              itemKey={(item) => item.label}
+              itemKey={item => item.label}
               renderItem={(menuItem, itemIndex) => {
                 const itemInfo = {
                   ...menuItem,
                   group: groupInfo,
                   index: itemIndex,
-                  siblings: groupItems,
+                  siblings: groupItems
                 }
                 return (
                   <Slot
@@ -77,10 +77,10 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
                       {
                         _selected:
                           currentMenuPath[0].label === groupInfo.label &&
-                          currentMenuPath[1].label === itemInfo.label,
-                      },
+                          currentMenuPath[1].label === itemInfo.label
+                      }
                     ]}
-                    onClick={(event) => {
+                    onClick={event => {
                       pathSetters.set([groupInfo, itemInfo])
                       props.onSelectItem?.(itemInfo, event)
                     }}

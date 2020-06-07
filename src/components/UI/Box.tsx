@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Box.scss'
-import { View } from '.'
+import View from './View'
 
 export default function Box(
   props: ComponentProps<typeof View> & {
@@ -8,7 +8,7 @@ export default function Box(
     gapSize?: 'normal' | 'large' | 'small' | 'none'
     /**方向 */
     direction?: 'row' | 'col'
-  },
+  }
 ) {
   return (
     <View {...props} $componentName={[props.direction, props.gapSize]}>

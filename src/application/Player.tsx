@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useCallback, useReducer, useContext } from 'react'
 
 import './Player.scss'
-import { Button, Icon, Slider, Popover, Image, Text } from 'components/UI'
-import { View, Cycle } from 'components/wrappers'
 import duration from 'utils/duration'
 import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
 import useElement from 'hooks/useElement'
@@ -14,7 +12,16 @@ import { LikelistContext, LikelistDispatch } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import requestLikelist from 'requests/likelist'
 import { storage } from 'webClientLocalStorage'
-import Togger from 'components/wrappers/Togger'
+import Text from 'components/UI/Text'
+import Image from 'components/UI/Image'
+import Togger from 'components/UI/Togger'
+import View from 'components/UI/View'
+import Button from 'components/UI/Button'
+import Icon from 'components/UI/Icon'
+import Slider from 'components/UI/Slider'
+import Cycle from 'components/UI/Cycle'
+import Popover from 'components/UI/Popover'
+
 const componentName = 'Player'
 let likelistDispatch: LikelistDispatch | undefined = undefined
 

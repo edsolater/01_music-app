@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode } from 'react'
 import './Button.scss'
-import { View } from '../wrappers'
+import View from './View'
 import { mergeClass } from 'utils/reactComponent'
 
 //TODO： 常规操作：定义各种按钮样式

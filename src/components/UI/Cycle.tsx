@@ -1,5 +1,5 @@
 import React, { ComponentProps, ReactNode, useMemo, useEffect, useState } from 'react'
-import { View } from '.'
+import View from './View'
 import { exist } from 'utils/judger'
 
 /**

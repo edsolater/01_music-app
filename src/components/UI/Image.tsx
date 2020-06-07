@@ -1,5 +1,5 @@
 import React, { ComponentProps } from 'react'
-import { View } from '../wrappers'
+import View from './View'
 import './Image.scss'
 
 type IProps = ComponentProps<typeof View> & {

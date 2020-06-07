@@ -1,6 +1,6 @@
 import React, { ComponentProps, forwardRef } from 'react'
 import './Text.scss'
-import { View } from '../wrappers'
+import View from './View'
 
 function Text(
   props: ComponentProps<typeof View> & {
@@ -54,7 +54,7 @@ function Text(
      */
     caption3?: boolean
   },
-  ref,
+  ref
 ) {
   return (
     <View
@@ -73,8 +73,8 @@ function Text(
           footnote: props.footnote,
           caption1: props.caption1,
           caption2: props.caption2,
-          caption3: props.caption3,
-        },
+          caption3: props.caption3
+        }
       ]}
       {...props}
       ref={ref}

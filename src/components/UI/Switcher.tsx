@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react'
 
 import './Switcher.scss'
-import { View } from '../wrappers'
+import View from './View'
 
 function Switcher(
   props: ComponentProps<typeof View> & {
@@ -25,7 +25,7 @@ function Switcher(
      * 只在最后触发一次
      */
     onMoveTriggerDone?: (currentSecond: number) => any
-  },
+  }
 ) {
   return (
     <View {...props} $componentName='Switcher'>

@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
 import './Badge.scss'
-import { View } from '../wrappers'
+import View from './View'
 
 export default function Badge(
   props: ComponentProps<typeof View> & {
@@ -12,7 +12,7 @@ export default function Badge(
      * 红点上显式的数量
      */
     number?: number | string
-  },
+  }
 ) {
   return (
     <View {...props} $componentName='Badge'>

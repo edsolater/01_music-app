@@ -1,6 +1,7 @@
-import React, { ReactNode, ComponentProps, useState, Fragment } from 'react'
+import React, { ReactNode, ComponentProps, useState } from 'react'
 import './SectionList.scss'
-import { View, Slot } from '../wrappers'
+import View from 'components/UI/View'
+import Slot from 'components/UI/Slot'
 
 /* --------------------------------- TODOLIST -------------------------------- */
 // TODO 需要支持头部组件
@@ -78,8 +79,8 @@ function SectionList<
                       _end: itemIndex === sectionInfo.data.length - 1,
                       _odd: itemIndex % 2 === 1,
                       _even: itemIndex % 2 === 0,
-                      _selected: `${sectionIndex}/${itemIndex}` === selectedPath,
-                    },
+                      _selected: `${sectionIndex}/${itemIndex}` === selectedPath
+                    }
                   ]}
                   onClick={() => {
                     onSelectItem?.(itemInfo, itemIndex, sectionInfo, sectionIndex)

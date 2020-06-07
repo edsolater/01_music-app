@@ -1,9 +1,15 @@
 import React, { useMemo, useContext, useState, useEffect } from 'react'
 
+import SectionList from 'components/structure/SectionList'
+import View from 'components/UI/View'
+import Text from 'components/UI/Text'
+import Icon from 'components/UI/Icon'
+import Header from 'components/UI/Header'
+import Item from 'components/UI/Item'
+import Avatar from 'components/UI/Avatar'
+import Badge from 'components/UI/Badge'
+
 import './Playlist.scss'
-import { SectionList } from 'components/structure'
-import { Icon, Badge, Text, Avatar } from 'components/UI'
-import { View, Item, Header } from 'components/wrappers'
 import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
 import { PlaylistIdContext } from 'appContext/playlistId'
 import { UserInfoContext } from 'appContext/UserInfo'

@@ -1,7 +1,7 @@
 import React, { ComponentProps } from 'react'
 import './Icon.scss'
-import { Image } from '.'
-import { View } from '../wrappers'
+import Image from './Image'
+import View from './View'
 
 export default function Icon(
   props: ComponentProps<typeof View> & {

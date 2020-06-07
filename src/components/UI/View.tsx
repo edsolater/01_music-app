@@ -47,9 +47,9 @@ const View: ForwardRefRenderFunction<
       style: props.style,
       onClick: props.onClick,
       hidden: Boolean(props.hidden),
-      ...props.html,
+      ...props.html
     },
-    props.children,
+    props.children
   )
 }
 export default React.forwardRef(View) // TOFIX：为了有generic的智能推断，出此下策。这是react的锅我不背。实际上也只要在最根本的View这么写就行了

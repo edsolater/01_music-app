@@ -1,6 +1,7 @@
 import React, { ReactNode, ComponentProps, useState } from 'react'
 import './List.scss'
-import { View, Slot } from '../wrappers'
+import View from 'components/UI/View'
+import Slot from 'components/UI/Slot'
 
 /* --------------------------------- TODOLIST -------------------------------- */
 // TODO 需要支持头部组件
@@ -47,7 +48,7 @@ function List<T>({
             _end: index === data.length - 1,
             _odd: index % 2 === 1,
             _even: index % 2 === 0,
-            _selected: index === selectedIndex,
+            _selected: index === selectedIndex
           }}
           onClick={() => {
             onSelectItem?.(itemInfo, index, items)

@@ -1,7 +1,7 @@
 import React, { ReactNode, ComponentProps, useRef, FC } from 'react'
 import { useBoolean } from 'components/customHooks'
 import './Popover.scss'
-import { View } from '../wrappers'
+import View from './View'
 
 /**
  * TODO:要使用react的新ProtalsAPI
@@ -19,7 +19,7 @@ const Popover: FC<
     /** 绘制 Popover 的内部内容*/
     renderPopContent?: ReactNode
   }
-> = (props) => {
+> = props => {
   const timeoutRef = useRef(NaN)
   const setTimeoutId = (newId: number) => (timeoutRef.current = newId)
   const [isOpen, setters] = useBoolean(props.defaultOpen)
@@ -35,7 +35,7 @@ const Popover: FC<
         setters.off()
       }, props.delayTime ?? 600)
       setTimeoutId(id)
-    },
+    }
   }
   return (
     <View
@@ -43,27 +43,27 @@ const Popover: FC<
       $componentName={['Popover', 'wrapper-part', { on: props.open ?? isOpen === true }]}
       html={{
         ...props.html,
-        onPointerEnter: (event) => {
+        onPointerEnter: event => {
           props.html?.onPointerEnter?.(event)
           triggerCallback.on()
         },
-        onPointerLeave: (event) => {
+        onPointerLeave: event => {
           props.html?.onPointerLeave?.(event)
           triggerCallback.off()
-        },
+        }
       }}
     >
       <View //content不一定得是card形式，Card单独提成一个组件
         className={['Popover', 'content-part', { on: props.open ?? isOpen === true }]}
         html={{
-          onPointerEnter: (e) => {
+          onPointerEnter: e => {
             e.stopPropagation() //因为 content-part 在 wrapper-part 内部，所以会触发2次
             return triggerCallback.on()
           },
-          onPointerLeave: (e) => {
+          onPointerLeave: e => {
             e.stopPropagation()
             return triggerCallback.off()
-          },
+          }
         }}
       >
         {props.renderPopContent}

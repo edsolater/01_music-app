@@ -1,9 +1,9 @@
 import React, { ComponentProps } from 'react'
-import { View } from '.'
+import View from './View'
 
 const mergeTwoProps = <T extends AnyObject, U extends AnyObject>(
   propsA: T,
-  propsB: U,
+  propsB: U
 ): (T & U) | undefined => {
   const mergedProps: any = { ...propsA }
   for (const [key, valueB] of Object.entries(propsB)) {
@@ -24,7 +24,7 @@ const mergeTwoProps = <T extends AnyObject, U extends AnyObject>(
 
 const mergeTwoPropsWithoutChildren = <T extends AnyObject, U extends AnyObject>(
   propsA: T,
-  propsB: U,
+  propsB: U
 ): (T & U) | undefined => {
   const mergedProps: any = mergeTwoProps(propsA, propsB)
   delete mergedProps.children
@@ -39,7 +39,7 @@ export default function Slot(props: ComponentProps<typeof View> & {}) {
     return React.cloneElement(
       props.children,
       mergeTwoPropsWithoutChildren(props.children.props, props as AnyObject),
-      props.children.props.children,
+      props.children.props.children
     )
   } else {
     // TODO 如果是String，这样返回是不是不合适

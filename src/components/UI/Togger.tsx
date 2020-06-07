@@ -1,8 +1,8 @@
 import React, { ComponentProps, ReactNode, useMemo, useEffect, useState } from 'react'
-import { View } from '.'
 import { exist } from 'utils/judger'
-import { Button } from 'components/UI'
 import { mergeCallback } from 'utils/reactComponent'
+import View from './View'
+import Button from './Button'
 
 /**
  *  循环切换
