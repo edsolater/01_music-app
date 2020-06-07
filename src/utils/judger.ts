@@ -14,7 +14,7 @@ export function exist(val): val is {} {
  * （typescript限制不能使用rest parameter，进行类型推断。故此函数只是判断单个值）
  * @param val 值
  */
-export function isMeaningful(val): val is {} {
+export function meaningful(val): val is {} {
   if (val === 0 || val === false) {
     return true
   } else {

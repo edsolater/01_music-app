@@ -9,7 +9,7 @@ import DetailArea from 'application/DetailArea'
 import PlayerBar from 'application/Player'
 import requestLogin from 'requests/login'
 import requestLikelist from 'requests/likelist'
-import { storage } from './accessLocalStorage'
+import { storage } from './webClientLocalStorage'
 import LikelistProvider, { LikelistContext } from 'appContext/likelist'
 import SongInfoProvider from 'appContext/SongInfo'
 import PlaylistIdProvider from 'appContext/playlistId'
@@ -31,7 +31,7 @@ function App() {
         profile: data.profile,
         token: data.token
       })
-      requestLikelist({ uid: storage.account().id }).then(({ data }) => {
+      requestLikelist({ params: { uid: storage.account().id } })?.then(({ data }) => {
         likelistDispatch({ type: 'set', newLikelist: data.ids })
       })
     })

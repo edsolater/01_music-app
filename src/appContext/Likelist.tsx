@@ -4,6 +4,8 @@ type State = ID[]
 
 type Action = { type: 'set'; newLikelist: State }
 
+export type LikelistDispatch = React.Dispatch<Action>
+
 const initState: State = []
 const reducer = (_state: State, action: Action): State => {
   switch (action.type) {

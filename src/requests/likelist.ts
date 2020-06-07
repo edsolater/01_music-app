@@ -1,19 +1,26 @@
 import axiosInstance from './$axiosInstance'
-import { isMeaningful } from 'utils/judger'
+import { meaningful } from 'utils/judger'
 
 /**
  * 获取用户信息 , 歌单，收藏，mv, dj 数量
  * 说明 : 登陆后调用此接口 , 可以获取用户信息
  */
-const requestLikelist = (params: { uid: ID | undefined }) => {
-  if (isMeaningful(params.uid)) {
+const requestLikelist = (options: {
+  params?: { uid?: ID | undefined }
+  from?: string
+  force?: boolean
+}) => {
+  if (meaningful(options?.params?.uid)) {
+    console.info(`来自：${options.from ?? '（未知来源）'} 的 /likelist 请求`)
     return axiosInstance.get<{
       ids: ID[]
       checkPoint: 1588864548387
       code: 200
-    }>('/likelist', { params })
+    }>('/likelist', {
+      params: { ...options.params, timestamp: options.force ? Date.now() : undefined }
+    })
   } else {
-    return Promise.reject()
+    return undefined
   }
 }
 

@@ -2,7 +2,7 @@
  * FIXME - 顶好是如果判断条件不满足，就不要请求d
  */
 import { axiosInstance } from '../$axiosInstance'
-import { isMeaningful } from 'utils/judger'
+import { meaningful } from 'utils/judger'
 
 export type ResponsePlaylistDetail = {
   code?: 200
@@ -179,7 +179,7 @@ export type ResponsePlaylistDetail = {
  * @param params.s  歌单最近的 s 个收藏者
  */
 export const requestPlaylistDetail = (params: { id: ID | undefined; s?: number }) => {
-  if (isMeaningful(params.id)) {
+  if (meaningful(params.id)) {
     return axiosInstance.get<ResponsePlaylistDetail>(`/playlist/detail`, { params })
   } else {
     return undefined

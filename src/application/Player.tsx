@@ -10,8 +10,12 @@ import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import requestLike from 'requests/like'
 import switchValue from 'utils/switchValue'
 import { clamp } from 'utils/number'
-import { LikelistContext } from 'appContext/likelist'
+import { LikelistContext, LikelistDispatch } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
+import requestLikelist from 'requests/likelist'
+import { storage } from 'webClientLocalStorage'
+const componentName = 'Player'
+let likelistDispatch: LikelistDispatch | undefined = undefined
 
 type State = {
   playStatus: 'paused' | 'playing' // 播放、暂停
@@ -22,19 +26,6 @@ type State = {
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
   responseSongUrl?: ResponseSongUrl // 储存response
   songId?: ID
-}
-
-const effects = {
-  likeSong(songId: ID | undefined) {
-    requestLike({ id: songId, like: true })?.then(res => {
-      console.log('res: ', res)
-    })
-  },
-  dislikeSong(songId: ID | undefined) {
-    requestLike({ id: songId, like: false })?.then(res => {
-      console.log('res: ', res)
-    })
-  }
 }
 
 type Action =
@@ -59,6 +50,46 @@ type Action =
       data: ResponseSongUrl
     }
 
+const effects = {
+  /**
+   * 喜欢某个音乐
+   * @param songId 乐曲ID
+   */
+  likeSong(songId: ID | undefined) {
+    requestLike({ params: { id: songId, like: true }, from: componentName, force: true })?.then(
+      res => {
+        requestLikelist({
+          params: { uid: storage.account().id /* FIXME - 应该是类似likelistDispatch 的上抛 */ },
+          from: componentName,
+          force: true
+        })?.then(({ data: { ids } }) => {
+          console.log(`包含${ids.includes(Number(songId))}`)
+          likelistDispatch?.({ type: 'set', newLikelist: ids })
+        })
+      }
+    )
+  },
+
+  /**
+   * 取消喜欢某个音乐
+   * @param songId 乐曲ID
+   */
+  dislikeSong(songId: ID | undefined) {
+    requestLike({ params: { id: songId, like: false }, from: componentName, force: true })?.then(
+      res => {
+        requestLikelist({
+          params: { uid: storage.account().id },
+          from: componentName,
+          force: true
+        })?.then(({ data: { ids } }) => {
+          console.log(`包含${ids.includes(Number(songId))}`)
+          likelistDispatch?.({ type: 'set', newLikelist: ids })
+        })
+      }
+    )
+  }
+}
+
 const initState: State = {
   playStatus: 'paused',
   playMode: 'random-mode',
@@ -73,7 +104,9 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, songId: action.songId, responseSongUrl: action.data }
     }
     case 'like the song': {
-      if (!action.isInit) effects.likeSong(state.songId)
+      if (!action.isInit) {
+        effects.likeSong(state.songId)
+      }
       return { ...state, isLike: true }
     }
     case 'dislike the song': {
@@ -138,9 +171,14 @@ export default function PlayerBar() {
   })
 
   /* ----------------------------------- 状态 ----------------------------------- */
-  const [likelist] = useContext(LikelistContext) //FIXME 把这四个去掉，就用context
+  const [likelist, innerLikelistDispatch] = useContext(LikelistContext)
   const [songInfo] = useContext(SongInfoContext)
   const [localState, dispatch] = useReducer(reducer, initState)
+
+  // 外抛 dispatch
+  useEffect(() => {
+    likelistDispatch = innerLikelistDispatch
+  }, [])
 
   /* ----------------------------------- 请求 ----------------------------------- */
   useEffect(() => {
@@ -158,14 +196,6 @@ export default function PlayerBar() {
   })
 
   /* ------------------------------ 副作用操作（UI回调等） ------------------------------ */
-  // 喜欢/取消喜欢音乐时发出请求
-  useEffect(() => {
-    if (localState.isLike) {
-      requestLike({ id: songInfo.id, like: true })
-    } else {
-      requestLike({ id: songInfo.id, like: false })
-    }
-  }, [localState.isLike])
 
   // 切换音乐时 判断该音乐是否是我喜欢的音乐
   useEffect(() => {

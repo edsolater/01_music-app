@@ -34,6 +34,7 @@ export default function DetailArea() {
   const [playlistId] = useContext(PlaylistIdContext)
   const [likelist] = useContext(LikelistContext)
   const [, songInfoDispatch] = useContext(SongInfoContext)
+  console.log(likelist.length)
 
   /* ----------------------------------- 请求 ----------------------------------- */
 
@@ -117,7 +118,7 @@ export default function DetailArea() {
             </View>
             <Cycle
               className='indicator-like'
-              initActiveIndex={likelist.includes(item.id) ? 0 : 1}
+              activeIndex={likelist.includes(item.id) ? 0 : 1}
               itemList={[
                 // TODO - 为了灵活性需要overload支持单纯传ReactNode的情况
                 {
