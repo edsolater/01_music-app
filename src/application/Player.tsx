@@ -14,6 +14,7 @@ import { LikelistContext, LikelistDispatch } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import requestLikelist from 'requests/likelist'
 import { storage } from 'webClientLocalStorage'
+import Togger from 'components/wrappers/Togger'
 const componentName = 'Player'
 let likelistDispatch: LikelistDispatch | undefined = undefined
 
@@ -303,17 +304,19 @@ export default function PlayerBar() {
         />
       </View>
       <View className='info-panel'>
-        <Button
-          className='favorite'
-          onClick={() => {
-            dispatch({ type: 'toggle like the song' })
+        <Togger
+          className='favourite'
+          active={localState.isLike}
+          trusyNode={<Icon iconfontName='heart' />}
+          falsyNode={<Icon iconfontName='heart_empty' />}
+          onToggle={() => {
+            console.log(5)
+            return dispatch({ type: 'toggle like the song' })
           }}
-        >
-          <Icon iconfontName={localState.isLike ? 'heart' : 'heart_empty'} />
-        </Button>
+        />
         <Cycle
           className='indicator-like'
-          itemList={[
+          nodeList={[
             <Icon iconfontName='random-mode' />,
             <Icon iconfontName='infinit-mode' />,
             <Icon iconfontName='recursive-mode' />

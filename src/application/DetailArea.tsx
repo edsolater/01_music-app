@@ -10,6 +10,7 @@ import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist
 import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import { PlaylistIdContext } from 'appContext/playlistId'
+import Togger from 'components/wrappers/togger'
 
 type State = {
   selectedIndex: number
@@ -115,10 +116,12 @@ export default function DetailArea() {
             <View className='song-index'>
               <Text>{String(idx).padStart(2, '0')}</Text>
             </View>
-            <Cycle
+            <Togger
               className='indicator-like'
-              active={likelist.includes(item.id) ? 0 : 1}
-              itemList={[<Icon iconfontName='heart' />, <Icon iconfontName='heart_empty' />]}
+              justShow
+              active={likelist.includes(item.id)}
+              trusyNode={<Icon iconfontName='heart' />}
+              falsyNode={<Icon iconfontName='heart_empty' />}
             />
             <View className='song-name'>
               <Text className='main-name'>{item.name}</Text>

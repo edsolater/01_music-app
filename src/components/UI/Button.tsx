@@ -13,25 +13,26 @@ export default function Button(
     size?: 'small' | 'large'
     /** icon位置渲染 */
     renderIcon?: ReactNode
-  },
+  }
 ) {
   return (
     <View
       as='button'
+      {...props}
       $componentName={[
+        props.$componentName,
         'Button',
         {
           _disabled: props.disabled,
           _hasBorder: props.styleType === 'has-border',
           _small: props.size === 'small',
-          _large: props.size === 'large',
-        },
+          _large: props.size === 'large'
+        }
       ]}
-      {...props}
       html={
         {
           type: 'button',
-          ...props.html,
+          ...props.html
         } as any
       }
     />
