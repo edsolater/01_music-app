@@ -34,7 +34,6 @@ export default function DetailArea() {
   const [playlistId] = useContext(PlaylistIdContext)
   const [likelist] = useContext(LikelistContext)
   const [, songInfoDispatch] = useContext(SongInfoContext)
-  console.log(likelist.length)
 
   /* ----------------------------------- 请求 ----------------------------------- */
 
@@ -118,22 +117,8 @@ export default function DetailArea() {
             </View>
             <Cycle
               className='indicator-like'
-              activeIndex={likelist.includes(item.id) ? 0 : 1}
-              itemList={[
-                // TODO - 为了灵活性需要overload支持单纯传ReactNode的情况
-                {
-                  node: <Icon iconfontName='heart' />,
-                  onActive: () => {
-                    console.log('full')
-                  }
-                },
-                {
-                  node: <Icon iconfontName='heart_empty' />,
-                  onActive: () => {
-                    console.log('heart_empty')
-                  }
-                }
-              ]}
+              active={likelist.includes(item.id) ? 0 : 1}
+              itemList={[<Icon iconfontName='heart' />, <Icon iconfontName='heart_empty' />]}
             />
             <View className='song-name'>
               <Text className='main-name'>{item.name}</Text>

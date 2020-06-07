@@ -313,24 +313,19 @@ export default function PlayerBar() {
         </Button>
         <Cycle
           className='indicator-like'
-          initActiveName='random-mode'
           itemList={[
-            {
-              node: <Icon iconfontName='random-mode' />,
-              activeName: 'random-mode',
-              onActive: () => dispatch({ type: 'set playMode', playMode: 'random-mode' })
-            },
-            {
-              node: <Icon iconfontName='infinit-mode' />,
-              activeName: 'infinit-mode',
-              onActive: () => dispatch({ type: 'set playMode', playMode: 'infinit-mode' })
-            },
-            {
-              node: <Icon iconfontName='recursive-mode' />,
-              activeName: 'recursive-mode',
-              onActive: () => dispatch({ type: 'set playMode', playMode: 'recursive-mode' })
-            }
+            <Icon iconfontName='random-mode' />,
+            <Icon iconfontName='infinit-mode' />,
+            <Icon iconfontName='recursive-mode' />
           ]}
+          onChange={index => {
+            dispatch({
+              type: 'set playMode',
+              playMode:
+                // TODO 选择值的逻辑可以提取出来
+                index === 0 ? 'random-mode' : index === 1 ? 'infinit-mode' : 'recursive-mode'
+            })
+          }}
         />
         <Popover
           renderPopContent={

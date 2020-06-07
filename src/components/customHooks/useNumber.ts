@@ -1,3 +1,8 @@
+/**
+ * deprecated
+ * 别用，理解困难
+ */
+
 import { useState } from 'react'
 
 /**
@@ -12,7 +17,7 @@ export default function useNumber(
   /**初始值，默认或不能解析时均为NaN */
   init?: unknown,
   /** 值改变时 */
-  onChangeCallback?: (newValue: number, oldValue: number) => any,
+  onChangeCallback?: (newValue: number, oldValue: number) => any
 ) {
   // 使用原生的useState
   const [state, set] = useState(Number(init))
@@ -29,7 +34,7 @@ export default function useNumber(
       const newValue = typeof newNumber === 'function' ? newNumber(state) : newNumber
       onChangeCallback?.(newValue, state)
       set(newValue)
-    },
+    }
   }
   //返回特化过的（强化版）useState
   return [state, setters] as const
