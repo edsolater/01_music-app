@@ -1,7 +1,7 @@
 import { useRef, useEffect } from 'react'
 
 /**
- * 返回一个HTMLElemt，callback位于useEffect，且只会渲染一次
+ * 立即返回一个HTMLElemt，不存在元素还未创建值为null的情况
  */
 // FIXME - 还没有支持传入reactNode呢
 function useElement<K extends keyof HTMLElementTagNameMap>(

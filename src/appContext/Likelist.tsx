@@ -1,13 +1,11 @@
 import React, { useReducer } from 'react'
 
-type State = ID[]
+export type LikelistState = ID[]
 
-type Action = { type: 'set'; newLikelist: State }
+export type LikelistAction = { type: 'set'; newLikelist: LikelistState }
 
-export type LikelistDispatch = React.Dispatch<Action>
-
-const initState: State = []
-const reducer = (_state: State, action: Action): State => {
+const initState: LikelistState = []
+const reducer = (_state: LikelistState, action: LikelistAction): LikelistState => {
   switch (action.type) {
     case 'set': {
       return action.newLikelist
@@ -18,7 +16,10 @@ const reducer = (_state: State, action: Action): State => {
   }
 }
 
-export const LikelistContext = React.createContext([initState, (_action: Action) => {}] as const)
+export const LikelistContext = React.createContext([
+  initState,
+  (_action: LikelistAction) => {}
+] as const)
 
 export default function LikelistProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
