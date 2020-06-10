@@ -11,7 +11,7 @@ const requestLike = (options: {
   force?: boolean
 }) => {
   if (meaningful(options.params?.id)) {
-    console.info(`来自：${options.from || '（未知来源）'} 的 /like 请求`)
+    console.debug(`来自：${options.from || '（未知来源）'} 的 /like 请求`)
     return axiosInstance.get<{}>('/like', {
       params: { ...options.params, timestamp: options.force ? Date.now() : undefined }
     })

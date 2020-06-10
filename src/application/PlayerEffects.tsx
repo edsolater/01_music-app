@@ -22,40 +22,33 @@ import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
 
-const componentName = 'Player'
-
-function PlayerEffect(props: {
-  state: State
-  dispatch: React.Dispatch<Action>
-  audioElement: HTMLAudioElement
-}) {
+function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> }) {
+  /* ---------------------------------- 元素相关 ---------------------------------- */
+  const audioElement = useElement('audio')
   const [likelist, likelistDispatch] = useContext(LikelistContext)
   const [songInfo] = useContext(SongInfoContext)
-
-  // /* ----------------------------------- 请求 ----------------------------------- */
-
-  useEffect(() => {
-    requestSongUrl({ id: songInfo.id })?.then(({ data: { data } }) => {
-      props.dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
-    })
-  }, [songInfo.id])
 
   // /* ---------------------------------- 元素相关 ---------------------------------- */
 
   useEffect(() => {
-    props.audioElement.volume = props.state.volumn
-    props.audioElement.addEventListener('ended', () => props.dispatch({ type: 'reset audio' }))
+    audioElement.volume = props.state.volumn
+    audioElement.addEventListener('ended', () => props.dispatch({ type: 'reset audio' }))
   }, [])
 
   // /* ------------------------------ 副作用操作（UI回调等） ------------------------------ */
+  // 请求一首歌的URL
+  useEffect(() => {
+    requestSongUrl({ id: songInfo.id })?.then(({ data: { data } }) => {
+      props.dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
+    })
+  }, [songInfo])
 
   // 切换音乐时 判断该音乐是否是我喜欢的音乐
   useEffect(() => {
-    if (likelist.includes(songInfo.id ?? NaN)) {
-      props.dispatch({ type: 'like the song', isInit: true })
-    } else {
-      props.dispatch({ type: 'dislike the song', isInit: true })
-    }
+    props.dispatch({
+      type: likelist.includes(songInfo.id ?? NaN) ? 'like the song' : 'dislike the song',
+      isInit: true
+    })
   }, [songInfo])
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
@@ -63,29 +56,47 @@ function PlayerEffect(props: {
     props.dispatch({ type: 'reset audio' })
   }, [songInfo])
 
+  // 喜欢、取消喜欢音乐
+  useEffect(() => {
+    if (props.state.isInit) return
+    requestLike({
+      params: { id: props.state.songId, like: props.state.isLike },
+      from: PlayerEffect.name,
+      force: true
+    })?.then(() => {
+      requestLikelist({
+        params: { uid: storage.account().id /* FIXME - 应该是类似likelistDispatch 的上抛 */ },
+        from: PlayerEffect.name,
+        force: true
+      })?.then(({ data: { ids } }) => {
+        likelistDispatch?.({ type: 'set', newLikelist: ids })
+      })
+    })
+  }, [props.state.isLike])
+
   // 载入音乐的URL
   useEffect(() => {
-    props.audioElement.src = props.state.responseSongUrl?.[0].url ?? ''
+    audioElement.src = props.state.responseSongUrl?.[0].url ?? ''
   }, [props.state.responseSongUrl])
 
   // 设定音乐音量
   useEffect(() => {
-    props.audioElement.volume = props.state.volumn
+    audioElement.volume = props.state.volumn
   }, [props.state.volumn])
 
   // 播放/暂停
   useEffect(() => {
     if (props.state.playStatus === 'playing') {
-      props.audioElement.play()
+      audioElement.play()
     }
     if (props.state.playStatus === 'paused') {
-      props.audioElement.pause()
+      audioElement.pause()
     }
   }, [props.state.playStatus])
 
   // 设定播放进度条
   useEffect(() => {
-    props.audioElement.currentTime = props.state.passedMilliseconds / 1000
+    audioElement.currentTime = props.state.passedMilliseconds / 1000
   }, [props.state.affectAudioElementCounter])
 
   // /* --------------------------------- callback： 时间指示器 -------------------------------- */

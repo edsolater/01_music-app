@@ -11,7 +11,7 @@ const requestLikelist = (options: {
   force?: boolean
 }) => {
   if (meaningful(options?.params?.uid)) {
-    console.info(`来自：${options.from ?? '（未知来源）'} 的 /likelist 请求`)
+    console.debug(`来自：${options.from ?? '（未知来源）'} 的 /likelist 请求`)
     return axiosInstance.get<{
       ids: ID[]
       checkPoint: 1588864548387

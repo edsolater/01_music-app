@@ -24,15 +24,9 @@ import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
 
-const componentName = 'Player'
-const hatch = {
-  localDispatch: undefined as React.Dispatch<Action> | undefined,
-  likelistDispatch: undefined as React.Dispatch<LikelistAction> | undefined,
-  audioElement: undefined as HTMLAudioElement | undefined
-}
-
 // export 给 PlayerEffect
 export type State = {
+  isInit: boolean // 标识是否是出次渲染
   playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
   passedMilliseconds: number /* 播放了多少毫秒 */
@@ -45,6 +39,7 @@ export type State = {
 
 // export 给 PlayerEffect
 export type Action =
+  | { type: 'done init' }
   | { type: 'set playMode'; playMode: State['playMode'] }
   | { type: 'set playStatus'; playStatus: State['playStatus'] }
   | {
@@ -65,51 +60,8 @@ export type Action =
       data: ResponseSongUrl
     }
 
-// FIXME - 还没把effects的代码迁移到 PlayerEffect 中，且如下代码是指令式代码，不利于管理、拓展
-const effects = {
-  /**
-   * 喜欢某个音乐
-   * @param songId 乐曲ID
-   */
-  likeSong(songId: ID | undefined) {
-    requestLike({ params: { id: songId, like: true }, from: componentName, force: true })?.then(
-      res => {
-        requestLikelist({
-          params: { uid: storage.account().id /* FIXME - 应该是类似likelistDispatch 的上抛 */ },
-          from: componentName,
-          force: true
-        })?.then(({ data: { ids } }) => {
-          hatch.likelistDispatch?.({ type: 'set', newLikelist: ids })
-        })
-      }
-    )
-  },
-
-  /**
-   * 取消喜欢某个音乐
-   * @param songId 乐曲ID
-   */
-  dislikeSong(songId: ID | undefined) {
-    requestLike({ params: { id: songId, like: false }, from: componentName, force: true })?.then(
-      res => {
-        requestLikelist({
-          params: { uid: storage.account().id },
-          from: componentName,
-          force: true
-        })?.then(({ data: { ids } }) => {
-          hatch.likelistDispatch?.({ type: 'set', newLikelist: ids })
-        })
-      }
-    )
-  },
-
-  /**
-   * 读取音乐url
-   */
-  loadSongUrl() {}
-}
-
 const initState: State = {
+  isInit: true,
   playStatus: 'paused',
   playMode: 'random-mode',
   passedMilliseconds: 0,
@@ -119,23 +71,20 @@ const initState: State = {
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'done init': {
+      return { ...state, isInit: false }
+    }
     case 'set a song url': {
       return { ...state, songId: action.songId, responseSongUrl: action.data }
     }
     case 'like the song': {
-      if (!action.isInit) {
-        effects.likeSong(state.songId)
-      }
       return { ...state, isLike: true }
     }
     case 'dislike the song': {
-      if (!action.isInit) effects.dislikeSong(state.songId)
       return { ...state, isLike: false }
     }
     case 'toggle like the song': {
-      const isLike = !state.isLike
-      isLike ? effects.likeSong(state.songId) : effects.dislikeSong(state.songId)
-      return { ...state, isLike }
+      return { ...state, isLike: !state.isLike }
     }
     case 'reset audio': {
       return {
@@ -161,9 +110,8 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         passedMilliseconds: action.milliseconds,
-        affectAudioElementCounter: action.needAffactAudioElement
-          ? state.affectAudioElementCounter + 1
-          : state.affectAudioElementCounter
+        affectAudioElementCounter:
+          state.affectAudioElementCounter + Number(action.needAffactAudioElement)
       }
     }
     case 'set audio volumn': {
@@ -177,27 +125,11 @@ const reducer = (state: State, action: Action): State => {
 
 export default function PlayerBar() {
   /* ---------------------------------- dev ---------------------------------- */
-
-  const renderTimeCounter = useDevRenderCounter()
-  useEffect(() => {
-    console.info(`${PlayerBar.name} 渲染了 ${renderTimeCounter.current} 次`)
-  })
+  useDevRenderCounter(PlayerBar.name)
 
   /* ----------------------------------- 状态 ----------------------------------- */
-  const [likelist, likelistDispatch] = useContext(LikelistContext)
   const [songInfo] = useContext(SongInfoContext)
-  const [localState, localDispatch] = useReducer(reducer, initState)
-
-  // 外抛 dispatch
-  useEffect(() => {
-    hatch.likelistDispatch = likelistDispatch
-    hatch.localDispatch = localDispatch
-  }, [])
-
-  /* ---------------------------------- 元素相关 ---------------------------------- */
-  const audioElement = useElement('audio', el => {
-    hatch.audioElement = el
-  })
+  const [state, dispatch] = useReducer(reducer, initState)
 
   /* --------------------------------- callback： 时间指示器 -------------------------------- */
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
@@ -210,12 +142,12 @@ export default function PlayerBar() {
   /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
 
   useEffect(() => {
-    if (localState.playStatus === 'playing') {
+    if (state.playStatus === 'playing') {
       const timeoutId = window.setTimeout(() => {
-        if (localState.playStatus === 'playing') {
-          localDispatch({
+        if (state.playStatus === 'playing') {
+          dispatch({
             type: 'set passed milliseconds',
-            milliseconds: Math.min(localState.passedMilliseconds + 1000, Number(songInfo.dt))
+            milliseconds: Math.min(state.passedMilliseconds + 1000, Number(songInfo.dt))
           })
         }
       }, 1000)
@@ -223,10 +155,15 @@ export default function PlayerBar() {
     }
   })
 
+  // 内部元素的初始化都完成了
+  useEffect(() => {
+    dispatch({ type: 'done init' })
+  }, [])
+
   /* -------------------------------------------------------------------------- */
   return (
     <>
-      <Effect dispatch={localDispatch} audioElement={audioElement} state={localState} />
+      <Effect dispatch={dispatch} state={state} />
       <View as='section' className='player-bar'>
         <Image className='album-face' src={songInfo?.al?.picUrl} />
         <View className='music-buttons'>
@@ -234,17 +171,17 @@ export default function PlayerBar() {
             <Icon iconfontName='music_pre' />
           </Button>
           <Button
-            className={localState.playStatus}
+            className={state.playStatus}
             onClick={() => {
-              switch (localState.playStatus) {
+              switch (state.playStatus) {
                 case 'playing':
-                  return localDispatch({ type: 'pause audio' })
+                  return dispatch({ type: 'pause audio' })
                 case 'paused':
-                  return localDispatch({ type: 'play audio' })
+                  return dispatch({ type: 'play audio' })
               }
             }}
           >
-            {localState.playStatus === 'playing' ? (
+            {state.playStatus === 'playing' ? (
               <Icon iconfontName='pause' />
             ) : (
               <Icon iconfontName='play' />
@@ -258,16 +195,16 @@ export default function PlayerBar() {
           <View className='songTitle'>{songInfo.name}</View>
           <View className='timestamp'>
             <Text ref={currentSecondSpanRef}>
-              {duration(localState.passedMilliseconds).format('mm:ss')}
+              {duration(state.passedMilliseconds).format('mm:ss')}
             </Text>
             <Text className='divider'> / </Text>
             <Text>{duration(songInfo.dt).format('mm:ss')}</Text>
           </View>
           <Slider
-            value={localState.passedMilliseconds / (songInfo.dt ?? 0)}
+            value={state.passedMilliseconds / (songInfo.dt ?? 0)}
             onMoveTrigger={percent => changingSecondText(percent * (songInfo.dt ?? 0))}
             onMoveTriggerDone={percent => {
-              localDispatch({
+              dispatch({
                 type: 'set passed milliseconds',
                 milliseconds: (songInfo.dt ?? NaN) * percent,
                 needAffactAudioElement: true
@@ -278,10 +215,10 @@ export default function PlayerBar() {
         <View className='info-panel'>
           <Togger
             className='favourite'
-            active={localState.isLike}
+            active={state.isLike}
             trusyNode={<Icon iconfontName='heart' />}
             falsyNode={<Icon iconfontName='heart_empty' />}
-            onToggle={() => localDispatch({ type: 'toggle like the song' })}
+            onToggle={() => dispatch({ type: 'toggle like the song' })}
           />
           <Cycle
             className='indicator-like'
@@ -291,7 +228,7 @@ export default function PlayerBar() {
               <Icon iconfontName='recursive-mode' />
             ]}
             onChange={index => {
-              localDispatch({
+              dispatch({
                 type: 'set playMode',
                 playMode:
                   // TODO 选择值的逻辑可以提取出来
@@ -302,9 +239,9 @@ export default function PlayerBar() {
           <Popover
             renderPopContent={
               <Slider
-                defaultValue={localState.volumn}
+                defaultValue={state.volumn}
                 onMoveTriggerDone={volumn => {
-                  localDispatch({ type: 'set audio volumn', volumn: volumn })
+                  dispatch({ type: 'set audio volumn', volumn: volumn })
                 }}
               />
             }
