@@ -111,7 +111,7 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         passedMilliseconds: action.milliseconds,
         affectAudioElementCounter:
-          state.affectAudioElementCounter + Number(action.needAffactAudioElement)
+          state.affectAudioElementCounter + Number(action.needAffactAudioElement ?? false)
       }
     }
     case 'set audio volumn': {
