@@ -4,7 +4,7 @@ import { Action, State } from './Player'
 import requestLike from 'requests/like'
 import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
 import requestLikelist from 'requests/likelist'
-import useElement from 'hooks/useElement'
+import useDomNode from 'hooks/useDomNode'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import switchValue from 'utils/switchValue'
 import { clamp } from 'utils/number'
@@ -24,7 +24,7 @@ import Popover from 'baseUI/UI/Popover'
 
 function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> }) {
   /* ---------------------------------- 元素相关 ---------------------------------- */
-  const audioElement = useElement('audio')
+  const audioElement = useDomNode('audio')
   const [likelist, likelistDispatch] = useContext(LikelistContext)
   const [songInfo] = useContext(SongInfoContext)
 
