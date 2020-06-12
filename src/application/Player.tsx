@@ -1,19 +1,13 @@
-import React, { useEffect, useRef, useCallback, useReducer, useContext } from 'react'
+import React, { useRef, useReducer, useContext } from 'react'
 
 import './Player.scss'
 import Effect from './PlayerEffects'
 
-import requestLike from 'requests/like'
-import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
-import requestLikelist from 'requests/likelist'
-import useDomNode from 'hooks/useDomNode'
+import { ResponseSongUrl } from 'requests/song/url'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
-import switchValue from 'utils/switchValue'
 import { clamp } from 'utils/number'
 import duration from 'utils/duration'
-import { LikelistContext, LikelistAction } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
-import { storage } from 'webAPI/localStorage'
 import Text from 'baseUI/UI/Text'
 import Image from 'baseUI/UI/Image'
 import Togger from 'baseUI/UI/Togger'
@@ -30,6 +24,7 @@ export type State = {
   playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
   passedMilliseconds: number /* 播放了多少毫秒 */
+  canPlay: boolean // 允许开始播放
   volumn: number // 0~1， 默认1，即全音量
   isLike: boolean // 在 “我喜欢” 的列表中
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
@@ -39,8 +34,13 @@ export type State = {
 
 // export 给 PlayerEffect
 export type Action =
+  | {
+      type: 'init'
+      isLike?: boolean /* 指示新音乐是否属于我喜欢 */
+      same?: boolean /* 指示是否是同一首歌 */
+    }
   | { type: 'set playMode'; playMode: State['playMode'] }
-  | { type: 'set playStatus'; playStatus: State['playStatus'] }
+  | { type: 'ready to play' }
   | {
       type: 'set passed milliseconds'
       milliseconds: State['passedMilliseconds']
@@ -48,7 +48,6 @@ export type Action =
     }
   | { type: 'play audio' }
   | { type: 'pause audio' }
-  | { type: 'reset audio' }
   | { type: 'set audio volumn'; volumn: State['volumn'] }
   | { type: 'like/dislike the song'; isLike: boolean; byUI?: boolean }
   | {
@@ -59,17 +58,22 @@ export type Action =
 
 const initState: State = {
   userActionCounter: 0,
+  affectAudioElementCounter: 1,
+  canPlay: false,
   playStatus: 'paused',
   playMode: 'random-mode',
   passedMilliseconds: 0,
   volumn: 1,
-  isLike: false,
-  affectAudioElementCounter: 1
+  isLike: false
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set a song url': {
       return { ...state, songId: action.songId, responseSongUrl: action.data }
+    }
+    case 'ready to play': {
+      console.log('3: ', 3)
+      return { ...state, canPlay: true }
     }
     case 'like/dislike the song': {
       return {
@@ -78,23 +82,25 @@ const reducer = (state: State, action: Action): State => {
         userActionCounter: state.userActionCounter + (action.byUI ? 1 : 0)
       }
     }
-    case 'reset audio': {
+    case 'init': {
       return {
         ...state,
-        playStatus: 'paused',
-        passedMilliseconds: 0,
-        affectAudioElementCounter: state.affectAudioElementCounter + 1
+        canPlay: Boolean(action.same), // 除非指定，不然就还没准备好播放
+        isLike: action.isLike ?? state.isLike, // 判断该音乐是否是我喜欢的音乐
+        playStatus: 'paused', // 暂停播放
+        passedMilliseconds: 0, // 指针回到初始位置
+        affectAudioElementCounter: state.affectAudioElementCounter + 1 // 影响到Audio控件
       }
     }
     case 'play audio': {
-      // TODO - play 和 pause 没必要分开来，分开的维护成本过大，而好处几乎没有
-      return { ...state, playStatus: 'playing' }
+      if (state.canPlay) {
+        return { ...state, playStatus: 'playing' }
+      } else {
+        return state
+      }
     }
     case 'pause audio': {
       return { ...state, playStatus: 'paused' }
-    }
-    case 'set playStatus': {
-      return { ...state, playStatus: action.playStatus }
     }
     case 'set playMode': {
       return { ...state, playMode: action.playMode }
@@ -126,27 +132,11 @@ export default function PlayerBar() {
 
   /* --------------------------------- callback： 时间指示器 -------------------------------- */
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
-  const changingSecondText = useCallback((incomeCurrentMillisecond: number) => {
+  const changingSecondText = (incomeCurrentMillisecond: number) => {
     if (currentSecondSpanRef.current) {
       currentSecondSpanRef.current.textContent = duration(incomeCurrentMillisecond).format('mm:ss')
     }
-  }, [])
-
-  /* -------------------------------- 进度条数值每秒递增 ------------------------------- */
-
-  useEffect(() => {
-    if (state.playStatus === 'playing') {
-      const timeoutId = window.setTimeout(() => {
-        if (state.playStatus === 'playing') {
-          dispatch({
-            type: 'set passed milliseconds',
-            milliseconds: Math.min(state.passedMilliseconds + 1000, Number(songInfo.dt))
-          })
-        }
-      }, 1000)
-      return () => clearTimeout(timeoutId)
-    }
-  })
+  }
 
   /* -------------------------------------------------------------------------- */
   return (

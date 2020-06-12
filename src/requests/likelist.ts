@@ -8,7 +8,7 @@ import { meaningful } from 'utils/judger'
 const requestLikelist = (options: {
   params?: { uid?: ID | undefined }
   from?: string
-  force?: boolean
+  ignoreCache?: boolean
 }) => {
   if (meaningful(options?.params?.uid)) {
     console.debug(`来自：${options.from ?? '（未知来源）'} 的 /likelist 请求`)
@@ -17,7 +17,7 @@ const requestLikelist = (options: {
       checkPoint: 1588864548387
       code: 200
     }>('/likelist', {
-      params: { ...options.params, timestamp: options.force ? Date.now() : undefined }
+      params: { ...options.params, timestamp: options.ignoreCache ? Date.now() : undefined }
     })
   } else {
     return undefined
