@@ -26,7 +26,6 @@ import Popover from 'baseUI/UI/Popover'
 
 // export 给 PlayerEffect
 export type State = {
-  isInit: boolean // 标识是否是出次渲染
   playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
   passedMilliseconds: number /* 播放了多少毫秒 */
@@ -39,7 +38,6 @@ export type State = {
 
 // export 给 PlayerEffect
 export type Action =
-  | { type: 'done init' }
   | { type: 'set playMode'; playMode: State['playMode'] }
   | { type: 'set playStatus'; playStatus: State['playStatus'] }
   | {
@@ -51,9 +49,7 @@ export type Action =
   | { type: 'pause audio' }
   | { type: 'reset audio' }
   | { type: 'set audio volumn'; volumn: State['volumn'] }
-  | { type: 'toggle like the song' }
-  | { type: 'like the song'; isInit?: boolean }
-  | { type: 'dislike the song'; isInit?: boolean }
+  | { type: 'like/dislike the song'; isLike: boolean }
   | {
       type: 'set a song url'
       songId: ID
@@ -61,7 +57,6 @@ export type Action =
     }
 
 const initState: State = {
-  isInit: true,
   playStatus: 'paused',
   playMode: 'random-mode',
   passedMilliseconds: 0,
@@ -71,20 +66,14 @@ const initState: State = {
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'done init': {
-      return { ...state, isInit: false }
-    }
     case 'set a song url': {
       return { ...state, songId: action.songId, responseSongUrl: action.data }
     }
-    case 'like the song': {
-      return { ...state, isLike: true }
-    }
-    case 'dislike the song': {
-      return { ...state, isLike: false }
-    }
-    case 'toggle like the song': {
-      return { ...state, isLike: !state.isLike }
+    case 'like/dislike the song': {
+      return {
+        ...state,
+        isLike: true
+      }
     }
     case 'reset audio': {
       return {
@@ -155,11 +144,6 @@ export default function PlayerBar() {
     }
   })
 
-  // 内部元素的初始化都完成了
-  useEffect(() => {
-    dispatch({ type: 'done init' })
-  }, [])
-
   /* -------------------------------------------------------------------------- */
   return (
     <>
@@ -172,14 +156,9 @@ export default function PlayerBar() {
           </Button>
           <Button
             className={state.playStatus}
-            onClick={() => {
-              switch (state.playStatus) {
-                case 'playing':
-                  return dispatch({ type: 'pause audio' })
-                case 'paused':
-                  return dispatch({ type: 'play audio' })
-              }
-            }}
+            onClick={() =>
+              dispatch({ type: state.playStatus === 'playing' ? 'pause audio' : 'play audio' })
+            }
           >
             {state.playStatus === 'playing' ? (
               <Icon iconfontName='pause' />
@@ -218,7 +197,7 @@ export default function PlayerBar() {
             active={state.isLike}
             trusyNode={<Icon iconfontName='heart' />}
             falsyNode={<Icon iconfontName='heart_empty' />}
-            onToggle={() => dispatch({ type: 'toggle like the song' })}
+            onToggle={() => dispatch({ type: 'like/dislike the song', isLike: !state.isLike })}
           />
           <Cycle
             className='indicator-like'

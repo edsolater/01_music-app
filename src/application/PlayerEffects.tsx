@@ -46,8 +46,8 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
   // 切换音乐时 判断该音乐是否是我喜欢的音乐
   useEffect(() => {
     props.dispatch({
-      type: likelist.includes(songInfo.id ?? NaN) ? 'like the song' : 'dislike the song',
-      isInit: true
+      type: 'like/dislike the song',
+      isLike: likelist.includes(songInfo.id ?? NaN)
     })
   }, [songInfo])
 
@@ -58,7 +58,6 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
 
   // 喜欢、取消喜欢音乐
   useEffect(() => {
-    if (props.state.isInit) return
     requestLike({
       params: { id: props.state.songId, like: props.state.isLike },
       from: PlayerEffect.name,
@@ -72,7 +71,7 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
         likelistDispatch?.({ type: 'set', newLikelist: ids })
       })
     })
-  }, [props.state.isLike])
+  }, [props.state.isLike]) //TODO - 两个依赖都改变时才触发
 
   // 载入音乐的URL
   useEffect(() => {
