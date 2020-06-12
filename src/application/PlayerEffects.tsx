@@ -1,28 +1,17 @@
-import React, { useEffect, useRef, useCallback, useReducer, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 
 import { Action, State } from './Player'
 import requestLike from 'requests/like'
-import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
+import requestSongUrl from 'requests/song/url'
 import requestLikelist from 'requests/likelist'
 import useDomNode from 'hooks/useDomNode'
-import useDevRenderCounter from 'hooks/useDevRenderCounter'
-import switchValue from 'utils/switchValue'
-import { clamp } from 'utils/number'
-import duration from 'utils/duration'
-import { LikelistContext, LikelistAction } from 'appContext/likelist'
+import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import { storage } from 'webAPI/localStorage'
-import Text from 'baseUI/UI/Text'
-import Image from 'baseUI/UI/Image'
-import Togger from 'baseUI/UI/Togger'
-import View from 'baseUI/UI/View'
-import Button from 'baseUI/UI/Button'
-import Icon from 'baseUI/UI/Icon'
-import Slider from 'baseUI/UI/Slider'
-import Cycle from 'baseUI/UI/Cycle'
-import Popover from 'baseUI/UI/Popover'
+import useStatedEffect from 'hooks/useStatedEffect'
 
 function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> }) {
+  console.log(999)
   /* ---------------------------------- 元素相关 ---------------------------------- */
   const audioElement = useDomNode('audio')
   const [likelist, likelistDispatch] = useContext(LikelistContext)
@@ -38,6 +27,7 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
   // /* ------------------------------ 副作用操作（UI回调等） ------------------------------ */
   // 请求一首歌的URL
   useEffect(() => {
+    console.log(8)
     requestSongUrl({ id: songInfo.id })?.then(({ data: { data } }) => {
       props.dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
     })
@@ -45,6 +35,7 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
 
   // 切换音乐时 判断该音乐是否是我喜欢的音乐
   useEffect(() => {
+    console.log(9)
     props.dispatch({
       type: 'like/dislike the song',
       isLike: likelist.includes(songInfo.id ?? NaN)
@@ -53,25 +44,32 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
 
   // 载入新音乐时，就暂停播放，并且指针回到初始位置。
   useEffect(() => {
+    console.log(0)
     props.dispatch({ type: 'reset audio' })
   }, [songInfo])
 
   // 喜欢、取消喜欢音乐
-  useEffect(() => {
-    requestLike({
-      params: { id: props.state.songId, like: props.state.isLike },
-      from: PlayerEffect.name,
-      force: true
-    })?.then(() => {
-      requestLikelist({
-        params: { uid: storage.account().id /* FIXME - 应该是类似likelistDispatch 的上抛 */ },
+  useStatedEffect(
+    prev => {
+      if (props.state.userActionCounter === prev.userActionCounter) return
+      console.log('props.state.userActionCounter: ', props.state.userActionCounter)
+      console.log('prev.userActionCounter: ', prev.userActionCounter)
+      requestLike({
+        params: { id: props.state.songId, like: props.state.isLike },
         from: PlayerEffect.name,
         force: true
-      })?.then(({ data: { ids } }) => {
-        likelistDispatch?.({ type: 'set', newLikelist: ids })
+      })?.then(() => {
+        requestLikelist({
+          params: { uid: storage.account().id /* FIXME - 应该是类似likelistDispatch 的上抛 */ },
+          from: PlayerEffect.name,
+          force: true
+        })?.then(({ data: { ids } }) => {
+          likelistDispatch?.({ type: 'set', newLikelist: ids })
+        })
       })
-    })
-  }, [props.state.isLike]) //TODO - 两个依赖都改变时才触发
+    },
+    { userActionCounter: props.state.userActionCounter, isLike: props.state.isLike }
+  ) //TODO - 两个依赖都改变时才触发
 
   // 载入音乐的URL
   useEffect(() => {

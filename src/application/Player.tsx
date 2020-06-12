@@ -26,6 +26,7 @@ import Popover from 'baseUI/UI/Popover'
 
 // export 给 PlayerEffect
 export type State = {
+  userActionCounter: number // 记录用户事件
   playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
   passedMilliseconds: number /* 播放了多少毫秒 */
@@ -49,7 +50,7 @@ export type Action =
   | { type: 'pause audio' }
   | { type: 'reset audio' }
   | { type: 'set audio volumn'; volumn: State['volumn'] }
-  | { type: 'like/dislike the song'; isLike: boolean }
+  | { type: 'like/dislike the song'; isLike: boolean; byUI?: boolean }
   | {
       type: 'set a song url'
       songId: ID
@@ -57,6 +58,7 @@ export type Action =
     }
 
 const initState: State = {
+  userActionCounter: 0,
   playStatus: 'paused',
   playMode: 'random-mode',
   passedMilliseconds: 0,
@@ -72,7 +74,8 @@ const reducer = (state: State, action: Action): State => {
     case 'like/dislike the song': {
       return {
         ...state,
-        isLike: true
+        isLike: action.isLike,
+        userActionCounter: state.userActionCounter + (action.byUI ? 1 : 0)
       }
     }
     case 'reset audio': {
@@ -84,6 +87,7 @@ const reducer = (state: State, action: Action): State => {
       }
     }
     case 'play audio': {
+      // TODO - play 和 pause 没必要分开来，分开的维护成本过大，而好处几乎没有
       return { ...state, playStatus: 'playing' }
     }
     case 'pause audio': {
@@ -197,7 +201,9 @@ export default function PlayerBar() {
             active={state.isLike}
             trusyNode={<Icon iconfontName='heart' />}
             falsyNode={<Icon iconfontName='heart_empty' />}
-            onToggle={() => dispatch({ type: 'like/dislike the song', isLike: !state.isLike })}
+            onToggle={() =>
+              dispatch({ type: 'like/dislike the song', isLike: !state.isLike, byUI: true })
+            }
           />
           <Cycle
             className='indicator-like'
