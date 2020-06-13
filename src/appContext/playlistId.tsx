@@ -4,7 +4,7 @@ type State = ID
 
 type Action = { type: 'set'; playlistId: State }
 
-const initState = '' as State
+const initState = 1 as State
 const reducer = (_state: State, action: Action): State => {
   switch (action.type) {
     case 'set': {

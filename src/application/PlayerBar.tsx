@@ -1,7 +1,7 @@
-import React, { useRef, useReducer, useContext } from 'react'
+import React, { useRef, useReducer, useContext, ComponentProps } from 'react'
 
-import './Player.scss'
-import Effect from './PlayerEffects'
+import './PlayerBar.scss'
+import Effect from './PlayerBarEffects'
 
 import { ResponseSongUrl } from 'requests/song/url'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
@@ -17,7 +17,6 @@ import Icon from 'baseUI/UI/Icon'
 import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
-import { stat } from 'fs'
 
 // export 给 PlayerEffect
 export type State = {
@@ -122,7 +121,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export default function PlayerBar() {
+export default function PlayerBar(props: ComponentProps<typeof View>) {
   /* ---------------------------------- dev ---------------------------------- */
   useDevRenderCounter(PlayerBar.name)
 
@@ -142,7 +141,7 @@ export default function PlayerBar() {
   return (
     <>
       <Effect dispatch={dispatch} state={state} />
-      <View as='section' className='player-bar'>
+      <View as='section' className='player-bar' {...props}>
         <Image className='album-face' src={songInfo?.al?.picUrl} />
         <View className='music-buttons'>
           <Button className='last-song'>

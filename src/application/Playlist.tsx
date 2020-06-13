@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useState, useEffect } from 'react'
+import React, { useMemo, useContext, useState, useEffect, ComponentProps } from 'react'
 
 import SectionList from 'baseUI/structure/SectionList'
 import View from 'baseUI/UI/View'
@@ -14,7 +14,7 @@ import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlis
 import { PlaylistIdContext } from 'appContext/playlistId'
 import { UserInfoContext } from 'appContext/UserInfo'
 
-export default function Playlist() {
+export default function Playlist(props: ComponentProps<typeof View>) {
   const [userInfo] = useContext(UserInfoContext)
   const [, playlistIdDispatch] = useContext(PlaylistIdContext)
   const [response, setResponse] = useState<ResponseUserPlaylist>({})
@@ -58,12 +58,13 @@ export default function Playlist() {
     return resultList
   }, [response.playlist])
   return (
-    <View as='aside' className='album-menu'>
+    <View as='aside' className='playlist-menu' {...props}>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
       <SectionList
         sections={parsedPlaylist}
+        initSelectedPath='0/1'
         renderSectionHeader={({ title }) =>
           title && (
             <Header>

@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 
-import { Action, State } from './Player'
+import { Action, State } from './PlayerBar'
 import requestSongUrl from 'requests/song/url'
 import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'appContext/likelist'

@@ -26,14 +26,23 @@ ul {
     'c c' auto
     / 226px 1fr;
 }
-.album-menu {
+.area-a {
   grid-area: a;
 }
-.detail-area {
+.area-b {
   grid-area: b;
 }
-.player-bar {
+.area-c {
   grid-area: c;
+}
+.area-d {
+  grid-area: d;
+}
+.area-e {
+  grid-area: e;
+}
+.area-f {
+  grid-area: f;
 }
 
 .collections-list {

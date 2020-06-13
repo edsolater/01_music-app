@@ -26,7 +26,8 @@ function SectionList<
 }: {
   /**存放SectionList数据 */
   sections?: S[]
-  /**初始选择的index */
+  /** 初始选择的index。例如：'0/1'序号0组的序号1条 */
+  /** TODO - 这个简直是魔法字符串，这个约定绝对记不住的 */
   initSelectedPath?: string
   /**用作Key的对象的属性名 */
   senctionKey?: ((section: S, index: number) => string) | keyof S

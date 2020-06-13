@@ -5,8 +5,7 @@ import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
 import Playlist from 'application/Playlist'
-import DetailArea from 'application/DetailArea'
-import PlayerBar from 'application/Player'
+import PlayerBar from 'application/PlayerBar'
 import requestLogin from 'requests/login'
 import requestLikelist from 'requests/likelist'
 import { storage } from './api/localStorage'
@@ -14,12 +13,11 @@ import LikelistProvider, { LikelistContext } from 'appContext/likelist'
 import SongInfoProvider from 'appContext/SongInfo'
 import PlaylistIdProvider from 'appContext/playlistId'
 import UserInfoProvider, { UserInfoContext } from 'appContext/UserInfo'
+import Router from 'application/Details/Router'
 
-/**<App> */
 function App() {
   const [, likelistDispatch] = useContext(LikelistContext)
   const [, userInfoDispatch] = useContext(UserInfoContext)
-  // FIXME - 似乎过段时间登录信息就会失效，不会带入cookie，导致301错误
   useEffect(() => {
     requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
       storage.account(data.account)
@@ -38,9 +36,9 @@ function App() {
   }, [])
   return (
     <>
-      <Playlist />
-      <DetailArea />
-      <PlayerBar />
+      <Playlist parentClassName='area-a' />
+      <Router parentClassName='area-b' />
+      <PlayerBar parentClassName='area-c' />
     </>
   )
 }

@@ -20,6 +20,10 @@ const View: ForwardRefRenderFunction<
      */
     className?: ClassValue
     /**
+     * 父级组件赋予的className, (只在非baseUI上使用)
+     */
+    parentClassName?: ClassValue
+    /**
      * 内联样式
      */
     style?: CSSProperties
@@ -43,7 +47,7 @@ const View: ForwardRefRenderFunction<
     props.as ?? 'div',
     {
       ref: ref,
-      className: classnames(props.$componentName, props.className),
+      className: classnames(props.$componentName, props.parentClassName, props.className),
       style: props.style,
       onClick: props.onClick,
       hidden: Boolean(props.hidden),

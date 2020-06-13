@@ -1,7 +1,7 @@
-import React, { useReducer, useContext, useState, useEffect } from 'react'
+import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
 import dayjs from 'dayjs'
 
-import './DetailArea.scss'
+import './index.scss'
 import duration from 'utils/duration'
 import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
 import { LikelistContext } from 'appContext/likelist'
@@ -36,7 +36,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export default function DetailArea() {
+export default function NormalPlaylist(props: ComponentProps<typeof View>) {
   /* ----------------------------------- 状态 ----------------------------------- */
 
   const [playlistId] = useContext(PlaylistIdContext)
@@ -54,7 +54,7 @@ export default function DetailArea() {
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (
-    <View as='section' className='detail-area'>
+    <View as='section' className='detail-area' {...props}>
       <View className='title'>
         <Text subhead>歌单</Text>
       </View>
