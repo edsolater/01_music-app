@@ -30,13 +30,8 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
 
   // 喜欢、取消喜欢音乐
   useAndEffect(() => {
-    console.log('fetch invoke')
-    fetch(
-      '/like',
-      { id: props.state.songId, like: props.state.isLike },
-      { from: PlayerEffect.name }
-    )?.then(() => {
-      fetch('/likelist', {}, { from: PlayerEffect.name })?.then(({ data: { ids } }) => {
+    fetch('/like', { id: props.state.songId, like: props.state.isLike })?.then(() => {
+      fetch('/likelist')?.then(({ data: { ids } }) => {
         likelistDispatch?.({ type: 'set', newLikelist: ids })
       })
     })

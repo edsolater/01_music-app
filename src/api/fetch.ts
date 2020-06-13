@@ -44,7 +44,7 @@ const requestTable: {
           params: { ...params, timestamp: Date.now() }
         })
       : undefined,
-  '/likelist': (params, options) =>
+  '/likelist': params =>
     axiosInstance.get('/likelist', {
       params: {
         ...params,
@@ -61,19 +61,7 @@ function fetch<T extends keyof RequestParams>(
   params?: RequestParams[T]['params'],
   options?: RequestOptions
 ): Promise<AxiosResponse<RequestParams[T]['response']>> | undefined {
-  const result = requestTable[url](params, options)
-  if (result) {
-    log({ from: options?.from, url: url, ok: true })
-    return result
-  } else {
-    log({ from: options?.from, url: url, ok: false })
-    return undefined
-  }
-}
-function log(args?: { from?: string; url: keyof RequestParams; ok: boolean }) {
-  console.debug(
-    `来自：${args?.from || '（未知来源）'} 的 ${args?.url} 请求.${args?.ok ? '' : '拦截'}`
-  )
+  return requestTable[url](params, options)
 }
 
 export default fetch

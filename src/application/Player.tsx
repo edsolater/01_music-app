@@ -73,7 +73,6 @@ const reducer = (state: State, action: Action): State => {
       return { ...state, songId: action.songId, responseSongUrl: action.data }
     }
     case 'ready to play': {
-      console.log('3: ', 3)
       return { ...state, canPlay: true }
     }
     case 'like/dislike the song': {
