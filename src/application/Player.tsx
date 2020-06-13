@@ -17,6 +17,7 @@ import Icon from 'baseUI/UI/Icon'
 import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
+import { stat } from 'fs'
 
 // export 给 PlayerEffect
 export type State = {
@@ -149,8 +150,9 @@ export default function PlayerBar() {
             <Icon iconfontName='music_pre' />
           </Button>
           <Button
-            className={state.playStatus}
+            className={['play', state.canPlay && 'can-play']}
             onClick={() =>
+              state.canPlay &&
               dispatch({ type: state.playStatus === 'playing' ? 'pause audio' : 'play audio' })
             }
           >

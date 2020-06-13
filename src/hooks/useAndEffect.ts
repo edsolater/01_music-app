@@ -8,8 +8,8 @@ function useAndEffect(effectCallback: EffectCallback, deps: DependencyList) {
   useEffect(() => {
     if (prevDeps.current.every((prev, idx) => prev !== deps[idx])) {
       effectCallback()
-      prevDeps.current = deps
     }
+    prevDeps.current = deps
   }, deps)
 }
 export default useAndEffect

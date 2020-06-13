@@ -1,14 +1,12 @@
 import React, { useEffect, useContext } from 'react'
 
 import { Action, State } from './Player'
-import requestLike from 'requests/like'
 import requestSongUrl from 'requests/song/url'
-import requestLikelist from 'requests/likelist'
 import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
-import { storage } from 'webAPI/localStorage'
 import useAndEffect from 'hooks/useAndEffect'
+import fetch from 'api/fetch'
 
 function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> }) {
   const audioElement = useDomNode('audio')
@@ -32,17 +30,13 @@ function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> })
 
   // 喜欢、取消喜欢音乐
   useAndEffect(() => {
-    // TODO - 这里应该模仿dispatch的语法，使API的语法更一致
-    requestLike({
-      params: { id: props.state.songId, like: props.state.isLike },
-      from: PlayerEffect.name,
-      ignoreCache: true
-    })?.then(() => {
-      requestLikelist({
-        params: { uid: storage.account().id /* FIXME - 应该是类似likelistDispatch 的上抛 */ },
-        from: PlayerEffect.name,
-        ignoreCache: true
-      })?.then(({ data: { ids } }) => {
+    console.log('fetch invoke')
+    fetch(
+      '/like',
+      { id: props.state.songId, like: props.state.isLike },
+      { from: PlayerEffect.name }
+    )?.then(() => {
+      fetch('/likelist', {}, { from: PlayerEffect.name })?.then(({ data: { ids } }) => {
         likelistDispatch?.({ type: 'set', newLikelist: ids })
       })
     })

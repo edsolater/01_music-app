@@ -33,14 +33,8 @@
         padding-bottom: 3px;
         padding-right: 1.5px;
       }
-      &.play .Text {
-        padding-bottom: 0.5px;
-        padding-left: 2.5px;
-        transform: scale(1.5);
-      }
-      &.pause .Text {
-        padding-bottom: 3px;
-        transform: scale(1.5);
+      &.play:not(.can-play) {
+        cursor: not-allowed;
       }
       &.next-song .Text {
         padding-bottom: 3px;
