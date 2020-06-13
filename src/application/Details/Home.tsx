@@ -1,7 +1,7 @@
 import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
 import dayjs from 'dayjs'
 
-import './index.scss'
+import './Home.scss'
 import duration from 'utils/duration'
 import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
 import { LikelistContext } from 'appContext/likelist'
@@ -43,7 +43,7 @@ export default function Home(props: ComponentProps<typeof View>) {
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (
-    <View as='section' className='detail-area' {...props}>
+    <View as='section' className='home' {...props}>
       this is home
     </View>
   )

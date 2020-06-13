@@ -1,7 +1,7 @@
 import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
 import dayjs from 'dayjs'
 
-import './index.scss'
+import './NormalPlaylist.scss'
 import duration from 'utils/duration'
 import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
 import { LikelistContext } from 'appContext/likelist'
