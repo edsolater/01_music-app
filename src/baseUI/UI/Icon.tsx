@@ -14,15 +14,15 @@ export default function Icon(
   return props.iconfontName ? (
     <View
       as='i'
-      $componentName={[
+      {...props}
+      className={[
+        props.className,
         'Icon',
         props.iconfontName && `${props.iconfontName} iconfont icon-${props.iconfontName}`
       ]}
-      {...props}
     />
   ) : (
     <Image
-      $componentName='Icon'
       src={props.src}
       {...props}
       html={{
@@ -30,6 +30,7 @@ export default function Icon(
         srcSet: props.srcSet,
         ...(props.html as JSX.IntrinsicElements['img'])
       }}
+      className={[props.className, 'Icon']}
     />
   )
 }

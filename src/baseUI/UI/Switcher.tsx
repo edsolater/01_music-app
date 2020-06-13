@@ -28,7 +28,7 @@ function Switcher(
   }
 ) {
   return (
-    <View {...props} $componentName='Switcher'>
+    <View {...props} className={[props.className, 'Switcher']}>
       <View className='slot'>
         <View className='trigger' />
       </View>

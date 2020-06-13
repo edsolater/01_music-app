@@ -40,7 +40,12 @@ const Popover: FC<
   return (
     <View
       {...props}
-      $componentName={['Popover', 'wrapper-part', { on: props.open ?? isOpen === true }]}
+      className={[
+        props.className,
+        'Popover',
+        'wrapper-part',
+        { on: props.open ?? isOpen === true }
+      ]}
       html={{
         ...props.html,
         onPointerEnter: event => {

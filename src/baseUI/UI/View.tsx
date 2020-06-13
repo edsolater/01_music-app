@@ -8,29 +8,14 @@ const View: ForwardRefRenderFunction<
   any,
   {
     /**
-     * 专为了创建组件使用的属性
-     */
-    $componentName?: ClassValue
-    /**
      * html使用的标签明
      */
     as?: HTMLTag
-    /**
-     * 连接 css
-     */
     className?: ClassValue
-    /**
-     * 父级组件赋予的className, (只在非baseUI上使用)
-     */
-    parentClassName?: ClassValue
     /**
      * 内联样式
      */
     style?: CSSProperties
-    /**
-     * html5 标签属性，可以实现类似v-if的条件渲染
-     */
-    hidden?: unknown
     /**
      * 基础交互
      */
@@ -47,10 +32,9 @@ const View: ForwardRefRenderFunction<
     props.as ?? 'div',
     {
       ref: ref,
-      className: classnames(props.$componentName, props.parentClassName, props.className),
+      className: classnames(props.className),
       style: props.style,
       onClick: props.onClick,
-      hidden: Boolean(props.hidden),
       ...props.html
     },
     props.children

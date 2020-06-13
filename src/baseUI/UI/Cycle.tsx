@@ -30,7 +30,7 @@ export default function Cycle(
     () => (
       <View
         {...props}
-        $componentName={`${Cycle.name}`}
+        className={[`${Cycle.name}`, props.className]}
         onClick={e => {
           // TODO 按照思维模型来说，要提取成 looplyIncrease 工具函数
           setActiveIndex(n => (n + 1) % (props.nodeList?.length ?? NaN))

@@ -9,7 +9,7 @@ export default function Group(
   }
 ) {
   return (
-    <View {...props} $componentName={['Group', props.gapSize]}>
+    <View {...props} className={[props.className, 'Group', props.gapSize]}>
       {props.children}
     </View>
   )

@@ -35,7 +35,7 @@ export default function Togger(
     () => (
       <Button
         {...props}
-        $componentName={`${Togger.name}`}
+        className={[props.className, 'Togger']}
         onClick={mergeCallback(e => {
           if (!props.justShow) setActive(s => !s)
           props.onToggle?.(active, active ? props.trusyNode : props.falsyNode)

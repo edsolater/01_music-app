@@ -13,7 +13,12 @@ type IProps = ComponentProps<typeof View> & {
 }
 
 const Audio = React.forwardRef((props: IProps, ref: any) => (
-  <View ref={ref} as='audio' html={{ src: props.src, ...props.html } as any}>
+  <View
+    ref={ref}
+    as='audio'
+    className={[props.className, 'Audio']}
+    html={{ src: props.src, ...props.html } as any}
+  >
     {props.children}
   </View>
 ))

@@ -45,7 +45,7 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
     ItemInfo<T>
   ])
   return (
-    <View {...props} $componentName='Menu'>
+    <View {...props} className={[props.className, 'Menu']}>
       {props.children}
       {Object.entries(props.data).map(([groupName, groupItems], groupIndex) => {
         const groupInfo = {

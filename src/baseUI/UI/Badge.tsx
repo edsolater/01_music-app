@@ -15,7 +15,7 @@ export default function Badge(
   }
 ) {
   return (
-    <View {...props} $componentName='Badge'>
+    <View {...props} className={[props.className, 'Badge']}>
       <View
         className={['Dot', { _dot: !Number(props.number), _hidden: Boolean(props.transparent) }]}
       >

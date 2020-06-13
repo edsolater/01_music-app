@@ -19,6 +19,7 @@ const Image = React.forwardRef((props: IProps, ref: any) => (
     as='img'
     {...props}
     html={{ src: props.src, ...props.html } as any /* 强行不type推断，以提升速度 */}
+    className={[props.className, 'Image']}
   >
     {props.children}
   </View>

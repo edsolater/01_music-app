@@ -34,7 +34,7 @@ function List<T>({
 
   const [selectedIndex, setSelectedIndex] = useState(initSelectedIndex)
   return (
-    <View {...restProps} $componentName='List' as='ul'>
+    <View {...restProps} className={[restProps.className, 'List']} as='ul'>
       {data?.map((itemInfo, index, items) => (
         <Slot
           as='li'

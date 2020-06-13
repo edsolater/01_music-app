@@ -50,7 +50,7 @@ function SectionList<
 
   return (
     // 这里更组件应该是scrollView，而不是View
-    <View {...restProps} $componentName='SectionList'>
+    <View {...restProps} className={[restProps.className, 'SectionList']}>
       {sections.map((sectionInfo, sectionIndex) => (
         <View
           className='group'
@@ -63,7 +63,7 @@ function SectionList<
           <Slot className='__SectionHeader'>
             {renderSectionHeader?.(sectionInfo, sectionIndex)}
           </Slot>
-          <View $componentName='list' as='ul'>
+          <View className='list' as='ul'>
             {Array.isArray(sectionInfo.data) &&
               sectionInfo.data.map((itemInfo: T, itemIndex) => (
                 <Slot

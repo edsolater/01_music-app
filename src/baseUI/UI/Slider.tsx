@@ -56,7 +56,7 @@ function Slider(
   return (
     <View
       {...props}
-      $componentName='Slider'
+      className={[props.className, 'Slider']}
       onClick={e => {
         if (isDragging) return
         const slider = (e.target as HTMLDivElement).parentElement!

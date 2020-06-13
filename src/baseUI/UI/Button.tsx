@@ -20,7 +20,8 @@ export default function Button(
     <View
       as='button'
       {...props}
-      $componentName={mergeClass(props.$componentName, [
+      className={[
+        props.className,
         'Button',
         {
           _disabled: props.disabled,
@@ -28,7 +29,7 @@ export default function Button(
           _small: props.size === 'small',
           _large: props.size === 'large'
         }
-      ])}
+      ]}
       html={
         {
           type: 'button',

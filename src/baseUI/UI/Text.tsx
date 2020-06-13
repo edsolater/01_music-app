@@ -59,7 +59,9 @@ function Text(
   return (
     <View
       as='span'
-      $componentName={[
+      {...props}
+      className={[
+        props.className,
         'Text',
         {
           largeTitle: props.largeTitle,
@@ -76,7 +78,6 @@ function Text(
           caption3: props.caption3
         }
       ]}
-      {...props}
       ref={ref}
     />
   )

@@ -11,7 +11,7 @@ export default function Figure(
   }
 ) {
   return (
-    <View {...props} $componentName={['Figure', props.type]}>
+    <View {...props} className={[props.className, 'Figure', props.type]}>
       {props.children}
     </View>
   )

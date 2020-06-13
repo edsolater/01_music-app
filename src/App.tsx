@@ -36,9 +36,9 @@ function App() {
   }, [])
   return (
     <>
-      <Playlist parentClassName='area-a' />
-      <Router parentClassName='area-b' />
-      <PlayerBar parentClassName='area-c' />
+      <Playlist className='area-a' />
+      <Router className='area-b' />
+      <PlayerBar className='area-c' />
     </>
   )
 }

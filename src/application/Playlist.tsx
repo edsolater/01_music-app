@@ -58,7 +58,7 @@ export default function Playlist(props: ComponentProps<typeof View>) {
     return resultList
   }, [response.playlist])
   return (
-    <View as='aside' className='playlist-menu' {...props}>
+    <View as='aside' {...props} className={['playlist-menu', props.className]}>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
