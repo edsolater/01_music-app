@@ -1,5 +1,5 @@
 import axiosInstance from './$axiosInstance'
-import { meaningful } from 'utils/judger'
+import { meaningful } from 'functions/judger'
 
 /**
  * 获取用户信息 , 歌单，收藏，mv, dj 数量

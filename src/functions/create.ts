@@ -5,3 +5,7 @@ export function createRandomID(length = 6) {
     _ => availableChars[Math.floor(Math.random() * availableChars.length)]
   ).join('')
 }
+
+export function createIndexArray(length: number) {
+  return Array.from({ length: length }, (_, idx) => idx)
+}

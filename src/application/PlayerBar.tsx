@@ -5,8 +5,8 @@ import Effect from './PlayerBarEffects'
 
 import { ResponseSongUrl } from 'requests/song/url'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
-import { clamp } from 'utils/number'
-import duration from 'utils/duration'
+import { clamp } from 'functions/number'
+import duration from 'functions/duration'
 import { SongInfoContext } from 'appContext/SongInfo'
 import Text from 'baseUI/UI/Text'
 import Image from 'baseUI/UI/Image'
@@ -141,7 +141,7 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
   return (
     <>
       <Effect dispatch={dispatch} state={state} />
-      <View as='section' {...props} className={['player-bar', props.className]}>
+      <View as='section' {...props} className={[props.className, 'player-bar']}>
         <Image className='album-face' src={songInfo?.al?.picUrl} />
         <View className='music-buttons'>
           <Button className='last-song'>

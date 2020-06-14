@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
-import { meaningful } from './node_modules/functions/judger'
-import { storage } from './node_modules/api/localStorage'
+import { meaningful } from 'functions/judger'
+import { storage } from 'utils/localStorage'
 
 // TODO - 这不是旧时代，gg要使用原生fetch，抛弃axios
 const axiosInstance = axios.create({

@@ -6,7 +6,7 @@ import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
 import useAndEffect from 'hooks/useAndEffect'
-import fetch from 'api/fetch'
+import fetch from 'utils/fetch'
 
 function PlayerEffect(props: { state: State; dispatch: React.Dispatch<Action> }) {
   const audioElement = useDomNode('audio')

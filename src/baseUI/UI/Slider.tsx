@@ -3,7 +3,7 @@ import React, { ComponentProps, useEffect, useReducer } from 'react'
 import './Slider.scss'
 import { useDomStyle } from '../customHooks'
 import View from './View'
-import { clamp } from 'utils/number'
+import { clamp } from 'functions/number'
 
 /**
  * TODO - 这个组件考虑地不够全面，当完成度有80%时要重写

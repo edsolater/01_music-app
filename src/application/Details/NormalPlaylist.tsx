@@ -2,7 +2,7 @@ import React, { useReducer, useContext, useState, useEffect, ComponentProps } fr
 import dayjs from 'dayjs'
 
 import './NormalPlaylist.scss'
-import duration from 'utils/duration'
+import duration from 'functions/duration'
 import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
 import { LikelistContext } from 'appContext/likelist'
 import { SongInfoContext } from 'appContext/SongInfo'
@@ -54,7 +54,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View>) {
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (
-    <View as='section' {...props} className={['detail-area', props.className]}>
+    <View as='section' {...props} className={[props.className, 'detail-area']}>
       <View className='title'>
         <Text subhead>歌单</Text>
       </View>

@@ -2,7 +2,7 @@
  * FIXME - 顶好是如果判断条件不满足，就不要请求d
  */
 import { axiosInstance } from '../$axiosInstance'
-import { meaningful } from 'utils/judger'
+import { meaningful } from 'functions/judger'
 
 export type ResponsePlaylistDetail = {
   code?: 200

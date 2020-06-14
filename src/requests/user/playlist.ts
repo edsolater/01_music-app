@@ -1,5 +1,5 @@
 import axiosInstance from '../$axiosInstance'
-import { meaningful } from 'utils/judger'
+import { meaningful } from 'functions/judger'
 
 export type ResponseUserPlaylist = {
   more?: true

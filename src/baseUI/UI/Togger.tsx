@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode, useMemo, useEffect, useState } from 'react'
-import { exist } from 'utils/judger'
-import { mergeCallback } from 'utils/reactComponent'
+import { exist } from 'functions/judger'
+import { mergeCallback } from 'functions/reactComponent'
 import View from './View'
 import Button from './Button'
 
