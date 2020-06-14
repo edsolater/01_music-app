@@ -26,6 +26,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   const [state, dispatch] = useReducer(reducer, {
     banners: []
   })
+
   useEffect(() => {
     fetch('/banner')?.then(({ data }) => dispatch({ type: 'set', banners: data.banners }))
   }, [])
@@ -33,6 +34,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   return (
     <View as='section' {...props} className={[props.className, 'home']}>
       <Swiper
+        autoPlay
         renderList={state.banners.map(banner => (
           <Image
             key={banner.imageUrl.slice(24, 29)}
@@ -43,7 +45,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       />
 
       {/* 推荐歌单 */}
-      <View className='grid row'>
+      <View className='grid row space-between'>
         <Text>推荐歌单</Text>
         <Button className='detail'>
           <Text>更多</Text>

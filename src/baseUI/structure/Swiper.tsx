@@ -33,20 +33,46 @@ const reducer = (state: State, action: Action): State => {
       return state
   }
 }
-function Swiper(
-  props: ComponentProps<typeof View> & { renderList: ReactNode[]; activeIndex?: number }
+export default function Swiper(
+  props: ComponentProps<typeof View> & {
+    renderList: ReactNode[]
+    activeIndex?: number
+    /**
+     * 自动播放
+     */
+    autoPlay?: boolean
+    /**
+     * 自动播放时间间隔（单位：毫秒）
+     * 只在autoPlay为true时生效
+     * 默认5000
+     */
+    autoPlayInterval?: number
+  }
 ) {
-  // TODO  autoPlay属性，为了能随时打断，使用 setTimeout 实现
   const [state, dispatch] = useReducer(reducer, {
     activeIndex: props.activeIndex ?? 0,
     total: props.renderList.length
   })
+
   useEffect(() => {
     dispatch({ type: 'set', total: props.renderList.length })
   }, [props.renderList.length])
+
   useEffect(() => {
     dispatch({ type: 'set', activeIndex: props.activeIndex })
   }, [props.activeIndex])
+
+  // 自动播放
+  useEffect(() => {
+    if (props.autoPlay) {
+      const timeoutId = window.setTimeout(() => {
+        dispatch({ type: 'go forward' })
+      }, props.autoPlayInterval ?? 5000)
+      return () => {
+        window.clearTimeout(timeoutId)
+      }
+    }
+  })
 
   return useMemo(
     () => (
@@ -77,5 +103,3 @@ function Swiper(
     [state]
   )
 }
-
-export default React.memo(Swiper) as typeof Swiper

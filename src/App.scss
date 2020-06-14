@@ -54,7 +54,9 @@ ul {
   grid-auto-rows: 1fr;
   grid-auto-flow: column;
 }
-
+.space-between {
+  justify-content: space-between;
+}
 .collections-list {
   .MenuList {
     .Image {
