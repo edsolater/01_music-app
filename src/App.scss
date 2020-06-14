@@ -47,6 +47,13 @@ ul {
 .hidden {
   display: none;
 }
+.grid {
+  display: grid;
+}
+.grid.row {
+  grid-auto-rows: 1fr;
+  grid-auto-flow: column;
+}
 
 .collections-list {
   .MenuList {

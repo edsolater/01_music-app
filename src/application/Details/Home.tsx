@@ -5,6 +5,8 @@ import View from 'baseUI/UI/View'
 import Swiper from 'baseUI/structure/Swiper'
 import fetch from 'utils/fetch'
 import Image from 'baseUI/UI/Image'
+import Text from 'baseUI/UI/Text'
+import Button from 'baseUI/UI/Button'
 
 type State = {
   banners: Banner[]
@@ -27,6 +29,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   useEffect(() => {
     fetch('/banner')?.then(({ data }) => dispatch({ type: 'set', banners: data.banners }))
   }, [])
+
   return (
     <View as='section' {...props} className={[props.className, 'home']}>
       <Swiper
@@ -38,6 +41,15 @@ const Home = (props: ComponentProps<typeof View>) => {
           />
         ))}
       />
+
+      {/* 推荐歌单 */}
+      <View className='grid row'>
+        <Text>推荐歌单</Text>
+        <Button className='detail'>
+          <Text>更多</Text>
+          <Text>{'>'}</Text>
+        </Button>
+      </View>
     </View>
   )
 }

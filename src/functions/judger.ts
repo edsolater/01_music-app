@@ -27,3 +27,26 @@ export function assert(condition: any, msg?: string): asserts condition {
     throw new Error(msg)
   }
 }
+
+/**
+ * 浅比较2个对象是否相同
+ * @param a
+ * @param b
+ */
+export function isShallowEqual(a: any, b: any): boolean {
+  const typeA = typeof a
+  const typeB = typeof b
+  if (typeA === 'object' && typeB === 'object') {
+    const countA = Object.values(a).length
+    const countB = Object.values(b).length
+    if (countA === countB) {
+      return Object.keys(a).every(key => a[key] === b[key])
+    } else {
+      return false
+    }
+  } else if (typeA === typeB) {
+    return typeA === typeB
+  } else {
+    return false
+  }
+}
