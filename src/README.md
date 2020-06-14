@@ -1,3 +1,3 @@
 约定
 
-- 所有，/application 文件夹下的组件都组件同名的 className。例如：[PlayerlistMenu](./application/PlaylistMenu.tsx)
+- 所有组件都有同名的 className， （baseUI 的 calssName 是大写开头的）
