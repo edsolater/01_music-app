@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import 'assets/iconfont/iconfont.css'
 import './App.scss'
 import './initPackage'
-import Playlist from 'application/Playlist'
+import PlaylistMenu from 'application/PlaylistMenu'
 import PlayerBar from 'application/PlayerBar'
 import requestLogin from 'requests/login'
 import requestLikelist from 'requests/likelist'
@@ -13,7 +13,7 @@ import LikelistProvider, { LikelistContext } from 'appContext/likelist'
 import SongInfoProvider from 'appContext/SongInfo'
 import PlaylistIdProvider from 'appContext/playlistId'
 import UserInfoProvider, { UserInfoContext } from 'appContext/UserInfo'
-import Router from 'application/Details/Router'
+import DetailRouter from 'application/Details/DetailRouter'
 
 function App() {
   const [, likelistDispatch] = useContext(LikelistContext)
@@ -36,9 +36,9 @@ function App() {
   }, [])
   return (
     <>
-      <Playlist className='area-a' />
-      <Router className='area-b' />
-      <PlayerBar className='area-c' />
+      <PlaylistMenu />
+      <DetailRouter />
+      <PlayerBar />
     </>
   )
 }

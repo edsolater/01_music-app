@@ -9,12 +9,12 @@ import Item from 'baseUI/UI/Item'
 import Avatar from 'baseUI/UI/Avatar'
 import Badge from 'baseUI/UI/Badge'
 
-import './Playlist.scss'
+import './PlaylistMenu.scss'
 import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
 import { PlaylistIdContext } from 'appContext/playlistId'
 import { UserInfoContext } from 'appContext/UserInfo'
 
-export default function Playlist(props: ComponentProps<typeof View>) {
+export default function PlaylistMenu(props: ComponentProps<typeof View>) {
   const [userInfo] = useContext(UserInfoContext)
   const [, playlistIdDispatch] = useContext(PlaylistIdContext)
   const [response, setResponse] = useState<ResponseUserPlaylist>({})
@@ -58,7 +58,7 @@ export default function Playlist(props: ComponentProps<typeof View>) {
     return resultList
   }, [response.playlist])
   return (
-    <View as='aside' {...props} className={[props.className, 'playlist-menu']}>
+    <View as='aside' className='playlist-menu' {...props}>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
@@ -68,7 +68,7 @@ export default function Playlist(props: ComponentProps<typeof View>) {
         renderSectionHeader={({ title }) =>
           title && (
             <Header>
-              <Text headline>{title}</Text>
+              <Text h4>{title}</Text>
               {title.includes('创建的歌单') && <Icon iconfontName='add' />}
             </Header>
           )

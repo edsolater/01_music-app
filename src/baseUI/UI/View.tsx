@@ -11,6 +11,10 @@ const View: ForwardRefRenderFunction<
      * html使用的标签明
      */
     as?: HTMLTag
+    /**
+     * 其实也是className， 只是专用于排版
+     */
+    layoutClass?: ClassValue
     className?: ClassValue
     /**
      * 内联样式
@@ -21,6 +25,7 @@ const View: ForwardRefRenderFunction<
      */
     onClick?: JSX.IntrinsicElements['div']['onClick']
     children?: ReactNode
+    hidden?: boolean
     /**
      * 原生html属性
      */
@@ -32,9 +37,10 @@ const View: ForwardRefRenderFunction<
     props.as ?? 'div',
     {
       ref: ref,
-      className: classnames(props.className),
+      className: classnames(props.className, props.layoutClass) || undefined,
       style: props.style,
       onClick: props.onClick,
+      hidden: props.hidden,
       ...props.html
     },
     props.children

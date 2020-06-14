@@ -32,7 +32,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   }, [])
 
   return (
-    <View as='section' {...props} className={[props.className, 'home']}>
+    <View as='section' {...props} className='home'>
       <Swiper
         autoPlay
         renderList={state.banners.map(banner => (
@@ -45,12 +45,25 @@ const Home = (props: ComponentProps<typeof View>) => {
       />
 
       {/* 推荐歌单 */}
-      <View className='grid row space-between'>
-        <Text>推荐歌单</Text>
+      {/* TODO 提取成<Grid>组件 */}
+      <View as='header' hidden>
+        <Text h2>推荐歌单</Text>
         <Button className='detail'>
           <Text>更多</Text>
           <Text>{'>'}</Text>
         </Button>
+      </View>
+      <View className='content'>
+        <Text>1</Text>
+        <Text>2</Text>
+        <Text>3</Text>
+        <Text>4</Text>
+        <Text>5</Text>
+        <Text>6</Text>
+        <Text>7</Text>
+        <Text>8</Text>
+        <Text>9</Text>
+        <Text>10</Text>
       </View>
     </View>
   )

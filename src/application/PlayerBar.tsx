@@ -141,7 +141,7 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
   return (
     <>
       <Effect dispatch={dispatch} state={state} />
-      <View as='section' {...props} className={[props.className, 'player-bar']}>
+      <View as='section' className='player-bar' {...props}>
         <Image className='album-face' src={songInfo?.al?.picUrl} />
         <View className='music-buttons'>
           <Button className='last-song'>

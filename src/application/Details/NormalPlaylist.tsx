@@ -54,7 +54,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View>) {
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (
-    <View as='section' {...props} className={[props.className, 'detail-area']}>
+    <View as='section' {...props} className='normal-playlist'>
       <View className='title'>
         <Text subhead>歌单</Text>
       </View>
@@ -62,7 +62,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View>) {
         <Figure className='thumbnail'>
           <Image src={response.playlist?.coverImgUrl} className='bg' />
         </Figure>
-        <Text title1>{response.playlist?.name}</Text>
+        <Text h1>{response.playlist?.name}</Text>
         <View className='creator'>
           <Avatar src={response.playlist?.creator.avatarUrl} className='avatar' />
           <Text subhead className='nickname'>

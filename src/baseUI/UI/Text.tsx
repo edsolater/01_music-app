@@ -11,19 +11,19 @@ function Text(
     /**
      * 标题一
      */
-    title1?: boolean
+    h1?: boolean
     /**
      * 标题二
      */
-    title2?: boolean
+    h2?: boolean
     /**
      * 标题三
      */
-    title3?: boolean
+    h3?: boolean
     /**
      * 头条
      */
-    headline?: boolean
+    h4?: boolean
     /**
      * 正文
      * 为了对称性这里写着，其实完全没有效果，相当于没写
@@ -65,10 +65,10 @@ function Text(
         'Text',
         {
           largeTitle: props.largeTitle,
-          title1: props.title1,
-          title2: props.title2,
-          title3: props.title3,
-          headline: props.headline,
+          h1: props.h1,
+          h2: props.h2,
+          h3: props.h3,
+          h4: props.h4,
           body: props.body, //为了对称性这里写着，其实完全没有效果，相当于没写
           callout: props.callout,
           subhead: props.subhead,

@@ -6,7 +6,7 @@ body * {
   box-sizing: border-box;
 }
 body [hidden] {
-  display: none;
+  display: none !important;
 }
 ul {
   padding-left: 0;
@@ -25,43 +25,13 @@ ul {
     'a b' 1fr
     'c c' auto
     / 226px 1fr;
-}
-.area-a {
-  grid-area: a;
-}
-.area-b {
-  grid-area: b;
-}
-.area-c {
-  grid-area: c;
-}
-.area-d {
-  grid-area: d;
-}
-.area-e {
-  grid-area: e;
-}
-.area-f {
-  grid-area: f;
-}
-.hidden {
-  display: none;
-}
-.grid {
-  display: grid;
-}
-.grid.row {
-  grid-auto-rows: 1fr;
-  grid-auto-flow: column;
-}
-.space-between {
-  justify-content: space-between;
-}
-.collections-list {
-  .MenuList {
-    .Image {
-      width: 40px;
-      height: 40px;
-    }
+  .playlist-menu {
+    grid-area: a;
+  }
+  .detail-router {
+    grid-area: b;
+  }
+  .player-bar {
+    grid-area: c;
   }
 }
