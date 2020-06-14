@@ -32,7 +32,7 @@ type MusicInfoInList = Partial<{
       name: string
       tns: []
       alias: []
-    },
+    }
   ]
   alia: []
   pop: number
@@ -154,4 +154,8 @@ interface IAccount {
   vipType?: number //vip类型
   viptypeVersion?: number //此vip的版本
   anonimousUser?: boolean //是否是匿名用户
+}
+interface Banner {
+  imageUrl: Url
+  url: Url // 表示点击后的跳转链接
 }

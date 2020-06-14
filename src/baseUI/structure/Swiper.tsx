@@ -33,6 +33,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 function Swiper(props: ComponentProps<typeof View> & { renderList: ReactNode[] }) {
+  // TODO  autoPlay属性，为了能随时打断，使用 setTimeout 实现
   const [state, dispatch] = useReducer(reducer, { activeIndex: 0, total: props.renderList.length })
   return (
     <View {...props} className={[props.className, 'Swiper']}>

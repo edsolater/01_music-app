@@ -14,6 +14,7 @@ type RequestOptions = {
   ignoreCache?: boolean
   /* 是否强行请求？默认会3分钟缓存 */ from?: string /* 由哪个组件发起？ */
 }
+
 type RequestParams = {
   /**
    * 喜欢音乐
@@ -29,6 +30,23 @@ type RequestParams = {
     response: {
       ids: ID[]
       checkPoint: 1588864548387
+      code: 200
+    }
+  }
+  /**
+   * 获取用户信息 , 歌单，收藏，mv, dj 数量
+   * 说明 : 登陆后调用此接口 , 可以获取用户信息
+   */
+  '/banner': {
+    params: {
+      type?: number /* type:资源类型,对应以下类型,默认为 0 即 PC
+      0: pc
+      1: android
+      2: iphone
+      3: ipad */
+    }
+    response: {
+      banners: Banner[]
       code: 200
     }
   }
@@ -52,7 +70,8 @@ const requestTable: {
         uid: storage.account().id,
         timestamp: Date.now()
       }
-    })
+    }),
+  '/banner': params => axiosInstance.get('/banner', { params })
 }
 
 //#endregion
