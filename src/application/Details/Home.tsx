@@ -53,7 +53,15 @@ const Home = (props: ComponentProps<typeof View>) => {
           <Text>{'>'}</Text>
         </Button>
       </View>
-      <View className='content'>
+      <View className='recommand-playlists'>
+        <View className='daily-playlist'>
+          <View className='picture-box'>
+            <Image src='' className='thumbnail' />
+            <Text className='day'>星期三</Text>
+            <Text className='date'>17</Text>
+          </View>
+          <Text className='legend'>每日歌曲推荐</Text>
+        </View>
         <Text>1</Text>
         <Text>2</Text>
         <Text>3</Text>

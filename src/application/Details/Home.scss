@@ -18,8 +18,42 @@
     grid-auto-flow: column;
     justify-content: space-between;
   }
-  .content {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
+}
+
+.recommand-playlists {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  .daily-playlist {
+    .picture-box {
+      width: 100%;
+      background-color: white;
+      // border: 1px solid;
+      margin: auto;
+      position: relative;
+      .thumbnail {
+        display: block;
+        background-color: white;
+        width: 100%;
+        padding-bottom: 100%;
+      }
+      .day {
+        position: absolute;
+        top: 20%;
+        left: 0;
+        right: 0;
+        color: #666;
+        font-size: 1.4em;
+        text-align: center;
+      }
+      .date {
+        position: absolute;
+        top: 22%;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: #c62f2f;
+        font-size: 136px;
+      }
+    }
   }
 }
