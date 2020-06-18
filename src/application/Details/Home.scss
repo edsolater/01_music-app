@@ -4,9 +4,12 @@
   padding: 16px;
   .Swiper {
     margin: -16px;
-    margin-bottom: unset;
+    height: 30vw;
+    margin-bottom: 32px;
     .Image {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
   header {
@@ -33,10 +36,14 @@
       position: relative;
       .play-count {
         position: absolute;
-        top: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        top: 20%;
         right: 0;
         .Icon {
           width: 8px;
+        }
+        .number {
+          color: white;
         }
       }
       .hover-legend {
