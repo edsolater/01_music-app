@@ -50,6 +50,17 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 获取每日推荐歌单
+   * 说明 : 调用此接口 , 可获得每日推荐歌单 ( 需要登录 )
+   */
+  '/recommend/resource': {
+    params: {}
+    response: {
+      recommend: RecommendResource[]
+      code: 200
+    }
+  }
 }
 const requestTable: {
   [T in keyof RequestParams]: (
@@ -71,9 +82,9 @@ const requestTable: {
         timestamp: Date.now()
       }
     }),
-  '/banner': params => axiosInstance.get('/banner', { params })
+  '/banner': params => axiosInstance.get('/banner', { params }),
+  '/recommend/resource': params => axiosInstance.get('/recommend/resource', { params })
 }
-
 //#endregion
 
 function fetch<T extends keyof RequestParams>(

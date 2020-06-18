@@ -5,6 +5,10 @@ import View from './View'
 function Text(
   props: ComponentProps<typeof View> & {
     /**
+     * 是否单行显示
+     */
+    singleLine?: boolean
+    /**
      * 大标题
      */
     largeTitle?: boolean
@@ -64,6 +68,7 @@ function Text(
         props.className,
         'Text',
         {
+          singleLine: props.singleLine,
           largeTitle: props.largeTitle,
           h1: props.h1,
           h2: props.h2,

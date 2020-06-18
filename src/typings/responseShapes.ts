@@ -159,3 +159,10 @@ interface Banner {
   imageUrl: Url
   url: Url // 表示点击后的跳转链接
 }
+interface RecommendResource {
+  id: ID // 歌单Id
+  copywriter: string // 推荐理由，例：根据你喜欢的单曲《ロストワンの号哭》推荐
+  name: string // legend 话术 例：私人雷达|根据听歌记录为你打造
+  picUrl: Url // 显示的封面图片
+  playcount: number // 播放量
+}

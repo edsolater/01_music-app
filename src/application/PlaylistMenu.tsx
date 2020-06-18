@@ -92,7 +92,7 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
                       .iconName ?? 'music-collection'
                   }
                 />
-                <Text>{itemInfo.name}</Text>
+                <Text singleLine>{itemInfo.name}</Text>
               </>
             )}
           </Item>

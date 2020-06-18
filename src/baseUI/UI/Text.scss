@@ -1,9 +1,11 @@
 /* ---------------------------------- 原始样式 ---------------------------------- */
 .Text {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   cursor: default;
+  &.singleLine {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 .Text.h1 {
   margin-bottom: 0.5em;

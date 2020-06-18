@@ -1,7 +1,6 @@
 .home {
   width: 100%;
   height: 100%;
-  overflow: hidden;
   padding: 16px;
   .Swiper {
     margin: -16px;
@@ -23,18 +22,37 @@
 .recommand-playlists {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  .daily-playlist {
+  // grid-auto-rows: 200px;
+  gap: 20px;
+  .recommend-playlist-item {
     .picture-box {
       width: 100%;
       background-color: white;
       // border: 1px solid;
       margin: auto;
       position: relative;
+      .play-count {
+        position: absolute;
+        top: 0;
+        right: 0;
+        .Icon {
+          width: 8px;
+        }
+      }
+      .hover-legend {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.582);
+        color: white;
+      }
       .thumbnail {
         display: block;
-        background-color: white;
         width: 100%;
-        padding-bottom: 100%;
+        &.recommand {
+          background-color: white;
+          padding-bottom: 100%;
+        }
       }
       .day {
         position: absolute;
@@ -54,6 +72,9 @@
         color: #c62f2f;
         font-size: 136px;
       }
+    }
+    .legend {
+      // display: none;
     }
   }
 }

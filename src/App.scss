@@ -30,6 +30,7 @@ ul {
   }
   .detail-router {
     grid-area: b;
+    overflow: auto;
   }
   .player-bar {
     grid-area: c;

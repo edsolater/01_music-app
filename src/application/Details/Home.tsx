@@ -7,16 +7,27 @@ import fetch from 'api/fetch'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Button from 'baseUI/UI/Button'
+import Icon from 'baseUI/UI/Icon'
+import { headset } from 'assets/icons'
 
 type State = {
   banners: Banner[]
+  recommendResource: RecommendResource[]
 }
-type Action = { type: 'set'; banners?: State['banners'] }
+type Action = {
+  type: 'set'
+  banners?: State['banners']
+  recommendResource?: State['recommendResource']
+}
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set':
-      return { ...state, banners: action.banners ?? state.banners }
+      return {
+        ...state,
+        banners: action.banners ?? state.banners,
+        recommendResource: action.recommendResource ?? state.recommendResource
+      }
     default:
       return state
   }
@@ -24,11 +35,19 @@ const reducer = (state: State, action: Action): State => {
 
 const Home = (props: ComponentProps<typeof View>) => {
   const [state, dispatch] = useReducer(reducer, {
-    banners: []
+    banners: [],
+    recommendResource: []
   })
 
   useEffect(() => {
     fetch('/banner')?.then(({ data }) => dispatch({ type: 'set', banners: data.banners }))
+  }, [])
+
+  useEffect(() => {
+    fetch('/recommend/resource')?.then(({ data }) => {
+      console.log(data.recommend)
+      return dispatch({ type: 'set', recommendResource: data.recommend })
+    })
   }, [])
 
   return (
@@ -54,24 +73,27 @@ const Home = (props: ComponentProps<typeof View>) => {
         </Button>
       </View>
       <View className='recommand-playlists'>
-        <View className='daily-playlist'>
+        <View className='recommend-playlist-item'>
           <View className='picture-box'>
-            <Image src='' className='thumbnail' />
+            <View className='thumbnail recommand' />
             <Text className='day'>星期三</Text>
             <Text className='date'>17</Text>
           </View>
           <Text className='legend'>每日歌曲推荐</Text>
         </View>
-        <Text>1</Text>
-        <Text>2</Text>
-        <Text>3</Text>
-        <Text>4</Text>
-        <Text>5</Text>
-        <Text>6</Text>
-        <Text>7</Text>
-        <Text>8</Text>
-        <Text>9</Text>
-        <Text>10</Text>
+        {state.recommendResource.slice(0, 9).map(resource => (
+          <View className='recommend-playlist-item'>
+            <View className='picture-box'>
+              <View className='hover-legend'>{resource.copywriter}</View>
+              <View className='play-count'>
+                <Icon src={headset} />
+                <View className='number'>{resource.playcount}</View>
+              </View>
+              <Image src={resource.picUrl} className='thumbnail' />
+            </View>
+            <Text className='legend'>{resource.name}</Text>
+          </View>
+        ))}
       </View>
     </View>
   )
