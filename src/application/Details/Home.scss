@@ -12,13 +12,17 @@
       object-fit: cover;
     }
   }
-  header {
+  .section-header {
     margin-top: 24px;
+    margin-bottom: 16px;
     border-bottom: 1px solid lightgrey;
     display: grid;
     grid-auto-rows: 1fr;
     grid-auto-flow: column;
     justify-content: space-between;
+    & + * {
+      margin-bottom: 48px;
+    }
   }
 }
 
@@ -27,85 +31,95 @@
   grid-template-columns: repeat(5, 1fr);
   // grid-auto-rows: 200px;
   gap: 20px;
-  > * {
-    .picture {
-      width: 100%;
-      background-color: white;
-      // border: 1px solid;
-      overflow: hidden;
-      margin: auto;
-      position: relative;
-      .count {
-        position: absolute;
-        background-color: rgba(0, 0, 0, 0.5);
-        top: 0;
-        right: 0;
-        opacity: 0.8;
-        transition: 300ms;
-        padding: 4px;
-        display: flex;
-        align-items: center;
-        > *:not(:last-child) {
-          margin-right: 4px;
-        }
-        .Icon {
-          width: 16px;
-          height: 16px;
-          background-color: white;
-        }
-        .number {
-          color: white;
-        }
+  .picture {
+    width: 100%;
+    background-color: white;
+    // border: 1px solid;
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+    .count {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      top: 0;
+      right: 0;
+      opacity: 0.8;
+      transition: 300ms;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      > *:not(:last-child) {
+        margin-right: 4px;
       }
-      &:hover .count {
-        opacity: 0;
+      .Icon {
+        width: 16px;
+        height: 16px;
+        background-color: white;
       }
-      .legend {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.582);
+      .number {
         color: white;
-        transform: translateY(-100%);
-        transition: 300ms;
-        padding: 4px;
-        font-size: 0.8em;
-        line-height: 1.6;
-      }
-      &:hover .legend {
-        transform: translateY(0);
-      }
-      .thumbnail {
-        display: block;
-        width: 100%;
-        &.recommand {
-          background-color: white;
-          padding-bottom: 100%;
-        }
-      }
-      .day {
-        position: absolute;
-        top: 20%;
-        left: 0;
-        right: 0;
-        color: #666;
-        font-size: 1.4em;
-        text-align: center;
-      }
-      .date {
-        position: absolute;
-        top: 22%;
-        left: 0;
-        right: 0;
-        text-align: center;
-        color: #c62f2f;
-        font-size: 136px;
       }
     }
+    &:hover .count {
+      opacity: 0;
+    }
     .legend {
-      // display: none;
-      padding-top: 8px;
-      padding-bottom: 8px;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.582);
+      color: white;
+      transform: translateY(-100%);
+      transition: 300ms;
+      padding: 4px;
+      font-size: 0.8em;
+      line-height: 1.6;
+    }
+    &:hover .legend {
+      transform: translateY(0);
+    }
+    .thumbnail {
+      display: block;
+      width: 100%;
+      &.recommand {
+        background-color: white;
+        padding-bottom: 100%;
+      }
+    }
+    .day {
+      position: absolute;
+      top: 20%;
+      left: 0;
+      right: 0;
+      color: #666;
+      font-size: 1.4em;
+      text-align: center;
+    }
+    .date {
+      position: absolute;
+      top: 22%;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: #c62f2f;
+      font-size: 136px;
+    }
+  }
+  .legend {
+    // display: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
+.exclusive-contents {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  .picture {
+    width: 100%;
+    .thumbnail {
+      width: 100%;
     }
   }
 }

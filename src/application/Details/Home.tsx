@@ -13,11 +13,13 @@ import { headset } from 'assets/icons'
 type State = {
   banners: Banner[]
   recommendResource: RecommendResource[]
+  exclusiveContent: ExclusiveContent[]
 }
 type Action = {
   type: 'set'
   banners?: State['banners']
   recommendResource?: State['recommendResource']
+  exclusiveContent?: State['exclusiveContent']
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -26,7 +28,8 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         banners: action.banners ?? state.banners,
-        recommendResource: action.recommendResource ?? state.recommendResource
+        recommendResource: action.recommendResource ?? state.recommendResource,
+        exclusiveContent: action.exclusiveContent ?? state.exclusiveContent
       }
     default:
       return state
@@ -36,7 +39,8 @@ const reducer = (state: State, action: Action): State => {
 const Home = (props: ComponentProps<typeof View>) => {
   const [state, dispatch] = useReducer(reducer, {
     banners: [],
-    recommendResource: []
+    recommendResource: [],
+    exclusiveContent: []
   })
 
   useEffect(() => {
@@ -45,8 +49,13 @@ const Home = (props: ComponentProps<typeof View>) => {
 
   useEffect(() => {
     fetch('/recommend/resource')?.then(({ data }) => {
-      console.log(data.recommend)
       return dispatch({ type: 'set', recommendResource: data.recommend })
+    })
+  }, [])
+
+  useEffect(() => {
+    fetch('/personalized/privatecontent')?.then(({ data }) => {
+      return dispatch({ type: 'set', exclusiveContent: data.result })
     })
   }, [])
 
@@ -65,7 +74,7 @@ const Home = (props: ComponentProps<typeof View>) => {
 
       {/* 推荐歌单 */}
       {/* TODO 提取成<Grid>组件 */}
-      <View as='header' hidden>
+      <View className='section-header'>
         <Text h2>推荐歌单</Text>
         <Button className='detail'>
           <Text>更多</Text>
@@ -82,7 +91,7 @@ const Home = (props: ComponentProps<typeof View>) => {
           <Text className='legend'>每日歌曲推荐</Text>
         </View>
         {state.recommendResource.slice(0, 9).map(resource => (
-          <View>
+          <View key={resource.name.slice(0, 6)}>
             <View className='picture'>
               <View className='legend'>
                 <Text>{resource.copywriter}</Text>
@@ -92,6 +101,25 @@ const Home = (props: ComponentProps<typeof View>) => {
                 <Text className='number'>{resource.playcount}</Text>
               </View>
               <Image src={resource.picUrl} className='thumbnail' />
+            </View>
+            <Text className='legend'>{resource.name}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* 独家放送 */}
+      <View className='section-header'>
+        <Text h2>独家放送</Text>
+        <Button className='detail'>
+          <Text>更多</Text>
+          <Text>{'>'}</Text>
+        </Button>
+      </View>
+      <View className='exclusive-contents'>
+        {state.exclusiveContent.slice(0, 9).map(resource => (
+          <View key={resource.name.slice(0, 6)}>
+            <View className='picture'>
+              <Image className='thumbnail' src={resource.sPicUrl} />
             </View>
             <Text className='legend'>{resource.name}</Text>
           </View>

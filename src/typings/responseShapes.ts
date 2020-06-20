@@ -166,3 +166,8 @@ interface RecommendResource {
   picUrl: Url // 显示的封面图片
   playcount: number // 播放量
 }
+interface ExclusiveContent {
+  id: ID // mvId
+  name: string // legend 话术 例：《今日营业中》霸占云村热搜的男人keshi
+  sPicUrl: Url // 显示的封面图片
+}

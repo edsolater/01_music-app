@@ -61,6 +61,16 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 独家放送(入口列表)
+   */
+  '/personalized/privatecontent': {
+    params: {}
+    response: {
+      result: ExclusiveContent[]
+      code: 200
+    }
+  }
 }
 const requestTable: {
   [T in keyof RequestParams]: (
@@ -83,7 +93,9 @@ const requestTable: {
       }
     }),
   '/banner': params => axiosInstance.get('/banner', { params }),
-  '/recommend/resource': params => axiosInstance.get('/recommend/resource', { params })
+  '/recommend/resource': params => axiosInstance.get('/recommend/resource', { params }),
+  '/personalized/privatecontent': params =>
+    axiosInstance.get('/personalized/privatecontent', { params })
 }
 //#endregion
 

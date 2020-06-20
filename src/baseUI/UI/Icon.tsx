@@ -25,8 +25,8 @@ export default function Icon(
       style={{
         ...(props.style ?? {}),
         // @ts-ignore
-        '-webkit-mask-image': `url(${props.src})`,
-        '-webkit-mask-size': 'cover'
+        WebkitMaskImage: `url(${props.src})`,
+        WebkitMaskSize: 'cover'
       }}
       html={{
         alt: props.alt,
