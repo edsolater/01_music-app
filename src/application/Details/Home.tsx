@@ -73,8 +73,8 @@ const Home = (props: ComponentProps<typeof View>) => {
         </Button>
       </View>
       <View className='recommand-playlists'>
-        <View className='recommend-playlist-item'>
-          <View className='picture-box'>
+        <View>
+          <View className='picture'>
             <View className='thumbnail recommand' />
             <Text className='day'>星期三</Text>
             <Text className='date'>17</Text>
@@ -82,10 +82,12 @@ const Home = (props: ComponentProps<typeof View>) => {
           <Text className='legend'>每日歌曲推荐</Text>
         </View>
         {state.recommendResource.slice(0, 9).map(resource => (
-          <View className='recommend-playlist-item'>
-            <View className='picture-box'>
-              <View className='hover-legend'>{resource.copywriter}</View>
-              <View className='play-count'>
+          <View>
+            <View className='picture'>
+              <View className='legend'>
+                <Text>{resource.copywriter}</Text>
+              </View>
+              <View className='count'>
                 <Icon src={headset} />
                 <View className='number'>{resource.playcount}</View>
               </View>

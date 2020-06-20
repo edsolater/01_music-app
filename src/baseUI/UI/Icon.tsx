@@ -23,8 +23,7 @@ export default function Icon(
     />
   ) : (
     <Image
-      src={props.src}
-      {...props}
+      style={{ ...(props.style ?? {}), mask: `url(${props.src})` }}
       html={{
         alt: props.alt,
         srcSet: props.srcSet,
