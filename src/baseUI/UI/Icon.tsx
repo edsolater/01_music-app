@@ -1,6 +1,5 @@
 import React, { ComponentProps } from 'react'
 import './Icon.scss'
-import Image from './Image'
 import View from './View'
 
 export default function Icon(
@@ -22,8 +21,13 @@ export default function Icon(
       ]}
     />
   ) : (
-    <Image
-      style={{ ...(props.style ?? {}), mask: `url(${props.src})` }}
+    <View
+      style={{
+        ...(props.style ?? {}),
+        // @ts-ignore
+        '-webkit-mask-image': `url(${props.src})`,
+        '-webkit-mask-size': 'cover'
+      }}
       html={{
         alt: props.alt,
         srcSet: props.srcSet,

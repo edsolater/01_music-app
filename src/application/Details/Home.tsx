@@ -89,7 +89,7 @@ const Home = (props: ComponentProps<typeof View>) => {
               </View>
               <View className='count'>
                 <Icon src={headset} />
-                <View className='number'>{resource.playcount}</View>
+                <Text className='number'>{resource.playcount}</Text>
               </View>
               <Image src={resource.picUrl} className='thumbnail' />
             </View>
