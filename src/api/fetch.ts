@@ -39,7 +39,7 @@ type RequestParams = {
    */
   '/banner': {
     params: {
-      type?: number /* type:资源类型,对应以下类型,默认为 0 即 PC
+      type?: ID /* type:资源类型,对应以下类型,默认为 0 即 PC
       0: pc
       1: android
       2: iphone
@@ -71,6 +71,26 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 新歌速递
+   */
+  '/top/song': {
+    params: {
+      /**
+       * type: 地区类型 id,对应以下:
+       * 全部:0
+       * 华语:7
+       * 欧美:96
+       * 日本:8
+       * 韩国:16
+       */
+      type?: ID
+    }
+    response: {
+      data: TopSong[]
+      code: 200
+    }
+  }
 }
 const requestTable: {
   [T in keyof RequestParams]: (
@@ -95,7 +115,8 @@ const requestTable: {
   '/banner': params => axiosInstance.get('/banner', { params }),
   '/recommend/resource': params => axiosInstance.get('/recommend/resource', { params }),
   '/personalized/privatecontent': params =>
-    axiosInstance.get('/personalized/privatecontent', { params })
+    axiosInstance.get('/personalized/privatecontent', { params }),
+  '/top/song': params => axiosInstance.get('/top/song', { params })
 }
 //#endregion
 

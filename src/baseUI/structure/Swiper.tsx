@@ -77,7 +77,6 @@ export default function Swiper(
   return useMemo(
     () => (
       <View {...props} className={[props.className, 'Swiper']}>
-        {console.log('hello')}
         {props.renderList[state.activeIndex]}
         {/* TODO 异想天开： 写一个分页器组件跟这个结合使用 */}
         <View className='pagination'>

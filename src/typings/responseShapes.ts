@@ -171,3 +171,29 @@ interface ExclusiveContent {
   name: string // legend 话术 例：《今日营业中》霸占云村热搜的男人keshi
   sPicUrl: Url // 显示的封面图片
 }
+/**歌手 */
+interface Artist {
+  /**歌手名字 */
+  name: string
+}
+
+interface TopSong {
+  /** 乐曲的名称 */
+  name: string
+  /**乐曲ID */
+  id: ID
+  /** mvID，0代表不存在mv */
+  mvid: ID
+  /**专辑 */
+  album: {
+    /**专辑封面 */
+    blurPicUrl: Url
+  }
+  /**歌手 */
+  artists: Artist[]
+  /**音轨信息 */
+  privilege: {
+    /**音质 */
+    maxbr: number
+  }
+}
