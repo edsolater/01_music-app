@@ -91,6 +91,17 @@ type RequestParams = {
       code: 200
     }
   }
+
+  /**
+   * 推荐mv
+   */
+  '/personalized/mv': {
+    params: {}
+    response: {
+      result: MV[]
+      code: 200
+    }
+  }
 }
 const requestTable: {
   [T in keyof RequestParams]: (
@@ -116,7 +127,8 @@ const requestTable: {
   '/recommend/resource': params => axiosInstance.get('/recommend/resource', { params }),
   '/personalized/privatecontent': params =>
     axiosInstance.get('/personalized/privatecontent', { params }),
-  '/top/song': params => axiosInstance.get('/top/song', { params })
+  '/top/song': params => axiosInstance.get('/top/song', { params }),
+  '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params })
 }
 //#endregion
 

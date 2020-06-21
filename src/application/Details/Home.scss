@@ -124,11 +124,79 @@
   }
 }
 
+/* TODO - 与之前的 .recommand-playlists 与 .exclusive-contents 写一块儿*/
+.mvs {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-flow: column;
+  gap: 20px;
+  .picture {
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+    .count {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.5);
+      top: 0;
+      right: 0;
+      opacity: 0.8;
+      transition: 300ms;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      > *:not(:last-child) {
+        margin-right: 4px;
+      }
+      .Icon {
+        width: 16px;
+        height: 16px;
+        background-color: white;
+      }
+      .number {
+        color: white;
+      }
+    }
+    &:hover .count {
+      opacity: 0;
+    }
+    .legend {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.582);
+      color: white;
+      transform: translateY(-100%);
+      transition: 300ms;
+      padding: 4px;
+      font-size: 0.8em;
+      line-height: 1.6;
+    }
+    &:hover .legend {
+      transform: translateY(0);
+    }
+    .thumbnail {
+      display: block;
+      width: 100%;
+      &.recommand {
+        background-color: white;
+        padding-bottom: 100%;
+      }
+    }
+  }
+  .legend {
+    // display: none;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
+
 .top-songs {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(5, auto);
   grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  grid-template-rows: repeat(5, auto);
   > * {
     display: flex;
     align-items: center;

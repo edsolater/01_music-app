@@ -15,6 +15,7 @@ type State = {
   recommendResource: RecommendResource[]
   exclusiveContent: ExclusiveContent[]
   topSongs: TopSong[]
+  mvs: MV[]
 }
 type Action = {
   type: 'set'
@@ -22,6 +23,7 @@ type Action = {
   recommendResource?: State['recommendResource']
   exclusiveContent?: State['exclusiveContent']
   topSongs?: State['topSongs']
+  mvs?: State['mvs']
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -32,7 +34,8 @@ const reducer = (state: State, action: Action): State => {
         banners: action.banners ?? state.banners,
         recommendResource: action.recommendResource ?? state.recommendResource,
         exclusiveContent: action.exclusiveContent ?? state.exclusiveContent,
-        topSongs: action.topSongs ?? state.topSongs
+        topSongs: action.topSongs ?? state.topSongs,
+        mvs: action.mvs ?? state.mvs
       }
     default:
       return state
@@ -44,7 +47,8 @@ const Home = (props: ComponentProps<typeof View>) => {
     banners: [],
     recommendResource: [],
     exclusiveContent: [],
-    topSongs: []
+    topSongs: [],
+    mvs: []
   })
 
   useEffect(() => {
@@ -52,14 +56,16 @@ const Home = (props: ComponentProps<typeof View>) => {
       fetch('/banner'),
       fetch('/recommend/resource'),
       fetch('/personalized/privatecontent'),
-      fetch('/top/song')
-    ]).then(([bannersRes, recommendResourceRes, exclusiveContentRes, topSongsRes]) => {
+      fetch('/top/song'),
+      fetch('/personalized/mv')
+    ]).then(([bannersRes, recommendResourceRes, exclusiveContentRes, topSongsRes, mvsRes]) => {
       dispatch({
         type: 'set',
         banners: bannersRes?.data.banners,
         recommendResource: recommendResourceRes?.data.recommend,
         exclusiveContent: exclusiveContentRes?.data.result,
-        topSongs: topSongsRes?.data.data
+        topSongs: topSongsRes?.data.data,
+        mvs: mvsRes?.data.result
       })
     })
   }, [])
@@ -88,7 +94,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
       <View className='recommand-playlists'>
         <View>
-          <View className='picture'>
+          <View className='picture daily'>
             <View className='thumbnail recommand' />
             <Text className='day'>星期三</Text>
             <Text className='date'>17</Text>
@@ -121,7 +127,7 @@ const Home = (props: ComponentProps<typeof View>) => {
         </Button>
       </View>
       <View className='exclusive-contents'>
-        {state.exclusiveContent.slice(0, 9).map(resource => (
+        {state.exclusiveContent.slice(0, 3).map(resource => (
           <View key={resource.name.slice(0, 6)}>
             <View className='picture'>
               <Image className='thumbnail' src={resource.sPicUrl} />
@@ -150,13 +156,38 @@ const Home = (props: ComponentProps<typeof View>) => {
             <View className='artists'>
               {resource.artists.map((artist, index, { length }) => (
                 <Fragment key={artist.name}>
-                  <Text className='artist' singleLine>
-                    {artist.name}
-                  </Text>
+                  <Text className='artist'>{artist.name}</Text>
                   {index !== length - 1 && <Text className='slash'>/</Text>}
                 </Fragment>
               ))}
             </View>
+          </View>
+        ))}
+      </View>
+
+      {/* 推荐mv */}
+      <View className='section-header'>
+        <Text h2>推荐mv</Text>
+        <Button className='detail'>
+          <Text>更多</Text>
+          <Text>{'>'}</Text>
+        </Button>
+      </View>
+      <View className='mvs'>
+        {state.mvs.slice(0, 4).map(resource => (
+          <View key={resource.name.slice(0, 6)}>
+            <View className='picture'>
+              <View className='legend'>
+                <Text>{resource.copywriter}</Text>
+              </View>
+              <View className='count'>
+                {/* TODO - 换掉icon */}
+                <Icon src={headset} />
+                <Text className='number'>{resource.playCount}</Text>
+              </View>
+              <Image src={resource.picUrl} className='thumbnail' />
+            </View>
+            <Text className='legend'>{resource.name}</Text>
           </View>
         ))}
       </View>

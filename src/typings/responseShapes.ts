@@ -173,16 +173,19 @@ interface ExclusiveContent {
 }
 /**歌手 */
 interface Artist {
+  /**歌手ID */
+  id: ID
   /**歌手名字 */
   name: string
 }
 
+/**TODO 这个接口定义没准这个是Song，而不是TopSong？ */
 interface TopSong {
-  /** 乐曲的名称 */
+  /**乐曲的名称 */
   name: string
   /**乐曲ID */
   id: ID
-  /** mvID，0代表不存在mv */
+  /**mvID，0代表不存在mv */
   mvid: ID
   /**专辑 */
   album: {
@@ -196,4 +199,17 @@ interface TopSong {
     /**音质 */
     maxbr: number
   }
+}
+
+interface MV {
+  /**涉及到的歌手 */
+  artists: Artist[]
+  /**推荐理由 */
+  copywriter: string
+  /**mv名 */
+  name: string
+  /**mv封面 */
+  picUrl: Url
+  /**mv播放量 */
+  playCount: number
 }
