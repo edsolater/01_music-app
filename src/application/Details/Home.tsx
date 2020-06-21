@@ -1,4 +1,4 @@
-import React, { ComponentProps, useReducer, useEffect } from 'react'
+import React, { ComponentProps, useReducer, useEffect, Fragment } from 'react'
 
 import './Home.scss'
 import View from 'baseUI/UI/View'
@@ -149,12 +149,12 @@ const Home = (props: ComponentProps<typeof View>) => {
             <Icon iconfontName='mv'></Icon>
             <View className='artists'>
               {resource.artists.map((artist, index, { length }) => (
-                <>
+                <Fragment key={artist.name}>
                   <Text className='artist' singleLine>
                     {artist.name}
                   </Text>
                   {index !== length - 1 && <Text className='slash'>/</Text>}
-                </>
+                </Fragment>
               ))}
             </View>
           </View>
