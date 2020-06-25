@@ -8,7 +8,7 @@ import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
-import { headset } from 'assets/icons'
+import { headset, recoder } from 'assets/icons'
 
 type State = {
   banners: Banner[]
@@ -181,8 +181,7 @@ const Home = (props: ComponentProps<typeof View>) => {
                 <Text>{resource.copywriter}</Text>
               </View>
               <View className='count'>
-                {/* TODO - 换掉icon */}
-                <Icon src={headset} />
+                <Icon src={recoder} />
                 <Text className='number'>{resource.playCount}</Text>
               </View>
               <Image src={resource.picUrl} className='thumbnail' />
