@@ -40,12 +40,18 @@
     position: relative;
     .count {
       position: absolute;
-      background-color: rgba(0, 0, 0, 0.5);
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3) 60%,
+        transparent 100%
+      );
       top: 0;
       right: 0;
       opacity: 0.8;
       transition: 300ms;
       padding: 4px;
+      padding-left: 40px;
       display: flex;
       align-items: center;
       > *:not(:last-child) {
@@ -59,14 +65,29 @@
     &:hover .count {
       opacity: 0;
     }
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3) 60%,
+        transparent 100%
+      );
+      color: white;
+      padding: 4px;
+      font-size: 0.8em;
+      line-height: 1.6;
+    }
     .legend {
       position: absolute;
       top: 0;
       width: 100%;
-      background-color: rgba(0, 0, 0, 0.582);
+      background-color: rgba(0, 0, 0, 0.3);
       color: white;
       transform: translateY(-100%);
-      transition: 300ms;
+      transition: 300ms 200ms;
       padding: 4px;
       font-size: 0.8em;
       line-height: 1.6;

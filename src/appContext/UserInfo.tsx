@@ -1,12 +1,12 @@
 import React, { useReducer } from 'react'
 
 type State = {
-  account: IAccount
-  profile: IProfile
+  account: UserAccount
+  profile: UserProfile
   token: string
 }
 
-type Action = { type: 'set'; account: IAccount; profile: IProfile; token: string }
+type Action = { type: 'set'; account: UserAccount; profile: UserProfile; token: string }
 
 const initState: State = { account: {}, profile: {}, token: '' }
 const reducer = (state: State, action: Action): State => {

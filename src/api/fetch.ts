@@ -98,7 +98,29 @@ type RequestParams = {
   '/personalized/mv': {
     params: {}
     response: {
-      result: MV[]
+      result: MVIntro[]
+      code: 200
+    }
+  }
+  /**
+   *  新晋电台榜/热门电台榜
+   */
+  '/dj/toplist': {
+    params: { /** 类型：新/热门 */ type?: 'new' | 'hot' }
+    response: {
+      toplist: DJRankItemIntro[]
+      code: 200
+      /**数据刷新时间 */
+      updateTime: TimeNumber
+    }
+  }
+  /**
+   *  电台-今日优选
+   */
+  '/dj/today/perfered': {
+    params: {}
+    response: {
+      data: DJItemIntro[]
       code: 200
     }
   }
@@ -128,7 +150,9 @@ const requestTable: {
   '/personalized/privatecontent': params =>
     axiosInstance.get('/personalized/privatecontent', { params }),
   '/top/song': params => axiosInstance.get('/top/song', { params }),
-  '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params })
+  '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params }),
+  '/dj/toplist': params => axiosInstance.get('/dj/toplist', { params }),
+  '/dj/today/perfered': params => axiosInstance.get('/dj/today/perfered', { params })
 }
 //#endregion
 
@@ -137,6 +161,7 @@ function fetch<T extends keyof RequestParams>(
   params?: RequestParams[T]['params'],
   options?: RequestOptions
 ): Promise<AxiosResponse<RequestParams[T]['response']>> | undefined {
+  //@ts-expect-error
   return requestTable[url](params, options)
 }
 

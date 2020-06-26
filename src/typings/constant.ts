@@ -7,11 +7,13 @@ type Callback = (...args: any[]) => void
 type UtilFunction = (...args: any[]) => any
 
 type HttpCode = 200
-
-type PicURL = string
-
+/**url地址（例如：图片的src） */
 type Url = string
-
+/**资源ID */
 type ID = number | string
-
-type Counter = number
+/**名字 */
+type Name = string
+/**资源的时间戳 */
+type TimeNumber = number
+/** 一小段文字 */
+type Scentence = string

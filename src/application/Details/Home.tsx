@@ -15,7 +15,8 @@ type State = {
   recommendResource: RecommendResource[]
   exclusiveContent: ExclusiveContent[]
   topSongs: TopSong[]
-  mvs: MV[]
+  mvs: MVIntro[]
+  djSites: DJItemIntro[]
 }
 type Action = {
   type: 'set'
@@ -24,6 +25,7 @@ type Action = {
   exclusiveContent?: State['exclusiveContent']
   topSongs?: State['topSongs']
   mvs?: State['mvs']
+  djSites?: State['djSites']
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -35,7 +37,8 @@ const reducer = (state: State, action: Action): State => {
         recommendResource: action.recommendResource ?? state.recommendResource,
         exclusiveContent: action.exclusiveContent ?? state.exclusiveContent,
         topSongs: action.topSongs ?? state.topSongs,
-        mvs: action.mvs ?? state.mvs
+        mvs: action.mvs ?? state.mvs,
+        djSites: action.djSites ?? state.djSites
       }
     default:
       return state
@@ -48,7 +51,8 @@ const Home = (props: ComponentProps<typeof View>) => {
     recommendResource: [],
     exclusiveContent: [],
     topSongs: [],
-    mvs: []
+    mvs: [],
+    djSites: []
   })
 
   useEffect(() => {
@@ -57,17 +61,28 @@ const Home = (props: ComponentProps<typeof View>) => {
       fetch('/recommend/resource'),
       fetch('/personalized/privatecontent'),
       fetch('/top/song'),
-      fetch('/personalized/mv')
-    ]).then(([bannersRes, recommendResourceRes, exclusiveContentRes, topSongsRes, mvsRes]) => {
-      dispatch({
-        type: 'set',
-        banners: bannersRes?.data.banners,
-        recommendResource: recommendResourceRes?.data.recommend,
-        exclusiveContent: exclusiveContentRes?.data.result,
-        topSongs: topSongsRes?.data.data,
-        mvs: mvsRes?.data.result
-      })
-    })
+      fetch('/personalized/mv'),
+      fetch('/dj/today/perfered')
+    ]).then(
+      ([
+        bannersRes,
+        recommendResourceRes,
+        exclusiveContentRes,
+        topSongsRes,
+        mvsRes,
+        djPrefereds
+      ]) => {
+        dispatch({
+          type: 'set',
+          banners: bannersRes?.data.banners,
+          recommendResource: recommendResourceRes?.data.recommend,
+          exclusiveContent: exclusiveContentRes?.data.result,
+          topSongs: topSongsRes?.data.data,
+          mvs: mvsRes?.data.result,
+          djSites: djPrefereds?.data.data
+        })
+      }
+    )
   }, [])
 
   return (
@@ -187,6 +202,29 @@ const Home = (props: ComponentProps<typeof View>) => {
               <Image src={resource.picUrl} className='thumbnail' />
             </View>
             <Text className='legend'>{resource.name}</Text>
+          </View>
+        ))}
+      </View>
+
+      {/* 主播电台 */}
+      <View className='section-header'>
+        <Text h2>主播电台</Text>
+        <Button className='detail'>
+          <Text>更多</Text>
+          <Text>{'>'}</Text>
+        </Button>
+      </View>
+      <View className='mvs'>
+        {/* TODO 需要界面抽象 */}
+        {state.djSites.slice(0, 5).map(resource => (
+          <View key={resource.name.slice(0, 6)}>
+            <View className='picture'>
+              <View className='bottom'>
+                <Text className='number'>{resource.name}</Text>
+              </View>
+              <Image src={resource.picUrl} className='thumbnail' />
+            </View>
+            <Text className='legend'>{resource.rcmdText}</Text>
           </View>
         ))}
       </View>

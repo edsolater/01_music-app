@@ -8,9 +8,9 @@ const requestLogin = ({ phone = '' as number | string, password = '' } = {}) =>
   axiosInstance.get<{
     loginType: 1
     code: 200
-    account: IAccount
+    account: UserAccount
     token: '7eb0de6e4d56dee68cda47d59a220801b37abf62c42f0e4ef7812704a0f09d5a1c6356423c4672268714e6f02f498a06719111a94fb470b4'
-    profile: IProfile
+    profile: UserProfile
     bindings: [
       {
         expired: false

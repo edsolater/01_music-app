@@ -107,7 +107,7 @@ type MusicInfoInUrl = Partial<{
 }>
 type MusicInfo = MusicInfoInList & MusicInfoInUrl
 
-interface IProfile {
+interface UserProfile {
   description?: string
   vipType?: number
   gender?: number
@@ -119,7 +119,7 @@ interface IProfile {
   djStatus?: number
   userType?: number
   backgroundImgId?: number
-  avatarUrl?: PicURL
+  avatarUrl?: Url
   defaultAvatar?: false
   province?: number
   // experts?: {}
@@ -129,7 +129,7 @@ interface IProfile {
   remarkName?: null
   userId?: number
   detailDescription?: string
-  backgroundUrl?: PicURL
+  backgroundUrl?: Url
   followed?: boolean
   signature?: string
   authority?: number
@@ -139,7 +139,7 @@ interface IProfile {
   playlistCount?: number
   playlistBeSubscribedCount?: number
 }
-interface IAccount {
+interface UserAccount {
   id?: ID // 账号ID
   userName?: string // 账号名（非昵称）
   type?: number // 账号类型
@@ -201,7 +201,8 @@ interface TopSong {
   }
 }
 
-interface MV {
+/**推荐MV */
+interface MVIntro {
   /**涉及到的歌手 */
   artists: Artist[]
   /**推荐理由 */
@@ -212,4 +213,57 @@ interface MV {
   picUrl: Url
   /**mv播放量 */
   playCount: number
+}
+
+/**电台简介信息(排行榜) */
+interface DJRankItemIntro {
+  /**所处分类 */
+  category: string //'创作|翻唱'
+  /**分类的ID */
+  categoryId: ID // 2001
+  /**创作时间 */
+  createTime: number // 1551785967125
+  /**创作人 */
+  creatorName: Name // '一条小团团OvO'
+  feeScope: 0
+  /**电台ID */
+  id: ID // 792868378
+  /**上次排行, -1 代表是新人 */
+  lastRank: number //3
+  /**电台名称 */
+  name: string //'一条小团团OvO的翻唱合集'
+  /**封面 */
+  picUrl: Url //'http://p3.music.126.net/iRkVEquf5YAkzIILGyM_lg==/109951163905919405.jpg'
+  programCount: 0
+  radioFeeType: 0
+  /**排行 */
+  rank: number //2
+  rcmdtext: string //'可神经可温柔的宝藏女声'
+  /**成绩 */
+  score: number //116563
+  /**订阅数 */
+  subCount: number //550587
+}
+
+/**电台简介信息 */
+interface DJItemIntro {
+  feeScope: 0
+  /**电台ID */
+  id: 34
+  /**最近一期的节目的名称 */
+  lastProgramName: '后浪入海'
+  /**电台名称 */
+  name: '在云端'
+  /**付费价格 */
+  // originalPrice: null
+  /**封面 */
+  picUrl: 'http://p2.music.126.net/bcUg3xdpJPJehq9fqfQedw==/109951164910880251.jpg'
+  /**电台节目数 */
+  programCount: 147
+  /**付费类型 */
+  // radioFeeType: 0
+  /**推荐理由 */
+  rcmdText: '林海私人分享，品质音乐推荐'
+  /**是否以订阅 */
+  subed: false
 }
