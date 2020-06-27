@@ -6,10 +6,9 @@ import Swiper from 'baseUI/structure/Swiper'
 import fetch from 'api/fetch'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
-import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import { headset, recoder } from 'assets/icons'
-import { insert } from 'functions/array'
+import SectionHeader from 'components/SectionHeader'
 
 type State = {
   banners: Banner[]
@@ -57,7 +56,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   })
 
   useEffect(() => {
-    // TODO 路由切换还要再请求一次，不太对
+    // TODO 路由切换还要再请求一次，不太对。应该把这个页面的state都保存起来
     Promise.all([
       fetch('/banner'),
       fetch('/recommend/resource'),
@@ -101,11 +100,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       />
 
       {/* 推荐歌单 */}
-      {/* TODO 提取成<Grid>组件 */}
-      <View className='section-header'>
-        <Text h2>推荐歌单</Text>
-        <Button className='detail'>更多</Button>
-      </View>
+      <SectionHeader sectionName='推荐歌单' />
       <View className='recommand-playlists'>
         <View>
           <View className='picture daily'>
@@ -133,10 +128,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
 
       {/* 独家放送 */}
-      <View className='section-header'>
-        <Text h2>独家放送</Text>
-        <Button className='detail'>更多</Button>
-      </View>
+      <SectionHeader sectionName='独家放送' />
       <View className='exclusive-contents'>
         {state.exclusiveContent.slice(0, 3).map(resource => (
           <View key={resource.id}>
@@ -149,10 +141,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
 
       {/* 最新音乐 */}
-      <View className='section-header'>
-        <Text h2>最新音乐</Text>
-        <Button className='detail'>更多</Button>
-      </View>
+      <SectionHeader sectionName='最新音乐' />
       <View className='top-songs'>
         {state.topSongs.slice(0, 10).map((resource, index) => (
           <View key={resource.id}>
@@ -174,10 +163,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
 
       {/* 推荐mv */}
-      <View className='section-header'>
-        <Text h2>推荐mv</Text>
-        <Button className='detail'>更多</Button>
-      </View>
+      <SectionHeader sectionName='推荐mv' />
       <View className='mvs'>
         {state.mvs.slice(0, 4).map(resource => (
           <View key={resource.id}>
@@ -205,10 +191,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
 
       {/* 主播电台 */}
-      <View className='section-header'>
-        <Text h2>主播电台</Text>
-        <Button className='detail'>更多</Button>
-      </View>
+      <SectionHeader sectionName='主播电台' />
       <View className='mvs'>
         {/* TODO 需要界面抽象 */}
         {state.djSites.slice(0, 5).map(resource => (
