@@ -9,6 +9,7 @@ import Text from 'baseUI/UI/Text'
 import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import { headset, recoder } from 'assets/icons'
+import { insert } from 'functions/array'
 
 type State = {
   banners: Banner[]
@@ -204,8 +205,11 @@ const Home = (props: ComponentProps<typeof View>) => {
             </View>
             <Text className='description'>{resource.name}</Text>
             <Text className='subDescription' footnote block>
-              {resource.artists.map(art => (
-                <span key={art.id}>{art.name}</span>
+              {resource.artists.map((art, idx, { length }) => (
+                <Fragment key={art.id}>
+                  <Text>{art.name}</Text>
+                  {idx !== length - 1 && <Text>/</Text>}
+                </Fragment>
               ))}
             </Text>
           </View>
