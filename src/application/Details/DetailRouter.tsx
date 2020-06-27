@@ -1,6 +1,6 @@
 import React, { useContext, ComponentProps } from 'react'
 
-import { PlaylistIdContext } from 'appContext/playlistId'
+import { PlaylistIdContext } from 'context/playlistId'
 import Home from './Home'
 import PageMV from './PageMV'
 import NormalPlaylist from './NormalPlaylist'

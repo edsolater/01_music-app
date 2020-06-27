@@ -124,6 +124,21 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 最新mv
+   */
+  '/mv/first': {
+    params: {
+      /** 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部 */
+      area?: '全部' | '内地' | '港台' | '欧美' | '日本' | '韩国'
+      /** 取出数量 , 默认为 30 */
+      limit?: number
+    }
+    response: {
+      data: MVIntro2[]
+      code: 200
+    }
+  }
 }
 const requestTable: {
   [T in keyof RequestParams]: (
@@ -152,7 +167,8 @@ const requestTable: {
   '/top/song': params => axiosInstance.get('/top/song', { params }),
   '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params }),
   '/dj/toplist': params => axiosInstance.get('/dj/toplist', { params }),
-  '/dj/today/perfered': params => axiosInstance.get('/dj/today/perfered', { params })
+  '/dj/today/perfered': params => axiosInstance.get('/dj/today/perfered', { params }),
+  '/mv/first': params => axiosInstance.get('/mv/first', { params })
 }
 //#endregion
 

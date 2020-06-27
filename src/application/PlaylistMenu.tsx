@@ -11,12 +11,12 @@ import Badge from 'baseUI/UI/Badge'
 
 import './PlaylistMenu.scss'
 import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
-import { PlaylistIdContext } from 'appContext/playlistId'
-import { UserInfoContext } from 'appContext/UserInfo'
+import { PlaylistIdContext } from 'context/playlistId'
+import { UserInfoContext } from 'context/UserInfo'
 
 export default function PlaylistMenu(props: ComponentProps<typeof View>) {
   const [userInfo] = useContext(UserInfoContext)
-  const [, playlistIdDispatch] = useContext(PlaylistIdContext)
+  const [playlistId, playlistIdDispatch] = useContext(PlaylistIdContext)
   const [response, setResponse] = useState<ResponseUserPlaylist>({})
   useEffect(() => {
     requestUserPlaylist({ uid: userInfo.account?.id })?.then(({ data }) => {
@@ -64,7 +64,7 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
       </View>
       <SectionList
         sections={parsedPlaylist}
-        initSelectedPath='0/1'
+        initSelectedPath={`0/${playlistId}`}
         renderSectionHeader={({ title }) =>
           title && (
             <Header>

@@ -201,7 +201,7 @@ interface TopSong {
   }
 }
 
-/**推荐MV */
+/** MV（表） */
 interface MVIntro {
   /**mv ID */
   id: ID
@@ -213,6 +213,22 @@ interface MVIntro {
   name: string
   /**mv封面 */
   picUrl: Url
+  /**mv播放量 */
+  playCount: number
+}
+
+/** MV（表） */
+interface MVIntro2 {
+  /**mv ID */
+  id: ID
+  /**涉及到的歌手 */
+  artists: Artist[]
+  /**推荐理由 */
+  copywriter: string
+  /**mv名 */
+  name: string
+  /**mv封面 */
+  cover: Url
   /**mv播放量 */
   playCount: number
 }

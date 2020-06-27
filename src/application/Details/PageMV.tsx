@@ -11,21 +11,11 @@ import { headset, recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 
 type State = {
-  banners: Banner[]
-  recommendResource: RecommendResource[]
-  exclusiveContent: ExclusiveContent[]
-  topSongs: TopSong[]
-  pageMvs: MVIntro[]
-  djSites: DJItemIntro[]
+  mvs: MVIntro2[]
 }
 type Action = {
   type: 'set'
-  banners?: State['banners']
-  recommendResource?: State['recommendResource']
-  exclusiveContent?: State['exclusiveContent']
-  topSongs?: State['topSongs']
-  pageMvs?: State['pageMvs']
-  djSites?: State['djSites']
+  mvs?: State['mvs']
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -33,12 +23,7 @@ const reducer = (state: State, action: Action): State => {
     case 'set':
       return {
         ...state,
-        banners: action.banners ?? state.banners,
-        recommendResource: action.recommendResource ?? state.recommendResource,
-        exclusiveContent: action.exclusiveContent ?? state.exclusiveContent,
-        topSongs: action.topSongs ?? state.topSongs,
-        pageMvs: action.pageMvs ?? state.pageMvs,
-        djSites: action.djSites ?? state.djSites
+        mvs: action.mvs ?? state.mvs
       }
     default:
       return state
@@ -47,45 +32,49 @@ const reducer = (state: State, action: Action): State => {
 
 const PageMV = (props: ComponentProps<typeof View>) => {
   const [state, dispatch] = useReducer(reducer, {
-    banners: [],
-    recommendResource: [],
-    exclusiveContent: [],
-    topSongs: [],
-    pageMvs: [],
-    djSites: []
+    mvs: []
   })
 
   useEffect(() => {
     // TODO 路由切换还要再请求一次，不太对。应该把这个页面的state都保存起来
-    Promise.all([
-      fetch('/banner'),
-      fetch('/recommend/resource'),
-      fetch('/personalized/privatecontent'),
-      fetch('/top/song'),
-      fetch('/personalized/mv'),
-      fetch('/dj/today/perfered')
-    ]).then(
-      ([
-        bannersRes,
-        recommendResourceRes,
-        exclusiveContentRes,
-        topSongsRes,
-        pageMvsRes,
-        djPrefereds
-      ]) => {
-        dispatch({
-          type: 'set',
-          banners: bannersRes?.data.banners,
-          recommendResource: recommendResourceRes?.data.recommend,
-          exclusiveContent: exclusiveContentRes?.data.result,
-          topSongs: topSongsRes?.data.data,
-          pageMvs: pageMvsRes?.data.result,
-          djSites: djPrefereds?.data.data
-        })
-      }
-    )
+    Promise.all([fetch('/mv/first')]).then(([mvsRes]) => {
+      dispatch({
+        type: 'set',
+        mvs: mvsRes?.data.data
+      })
+    })
   }, [])
 
-  return <Text>hello</Text>
+  const RenderMVIntroItem = (props: { resource: MVIntro2 }) => (
+    <View key={props.resource.id} className='render-mv-intro-item'>
+      <View className='picture'>
+        <View className='count'>
+          <Icon src={recoder} />
+          <Text className='number'>{props.resource.playCount}</Text>
+        </View>
+        <Image src={props.resource.cover} className='thumbnail' />
+      </View>
+      <Text className='description'>{props.resource.name}</Text>
+      <Text className='subDescription' footnote block>
+        {props.resource.artists.map((art, idx, { length }) => (
+          <Fragment key={art.id}>
+            <Text>{art.name}</Text>
+            {idx !== length - 1 && <Text>/</Text>}
+          </Fragment>
+        ))}
+      </Text>
+    </View>
+  )
+  return (
+    <View as='section' {...props} className='page-mv'>
+      {/* 最新MV */}
+      <SectionHeader sectionName='最新MV' />
+      <View className='new-mvs'>
+        {state.mvs.slice(0, 8).map(resource => (
+          <RenderMVIntroItem key={resource.id} resource={resource} />
+        ))}
+      </View>
+    </View>
+  )
 }
 export default PageMV
