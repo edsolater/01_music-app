@@ -39,10 +39,8 @@ const PageMV = (props: ComponentProps<typeof View>) => {
   })
 
   useEffect(() => {
-    // TODO 路由切换还要再请求一次，不太对。应该把这个页面的state都保存起来
     Promise.all([fetch('/mv/all', { order: '最新' }), fetch('/mv/all', { order: '最热' })]).then(
       reses => {
-        console.log('reses: ', reses)
         dispatch({
           type: 'set',
           newMVs: reses[0]?.data.data,
@@ -52,8 +50,8 @@ const PageMV = (props: ComponentProps<typeof View>) => {
     )
   }, [])
 
-  const RenderMVIntroItem = (props: { resource: MVIntro2 }) => (
-    <View key={props.resource.id} className='render-mv-intro-item'>
+  const MVIntroItem = (props: { resource: MVIntro2 }) => (
+    <View key={props.resource.id} className='mv-intro-item'>
       <View className='picture'>
         <View className='count'>
           <Icon src={recoder} />
@@ -78,7 +76,7 @@ const PageMV = (props: ComponentProps<typeof View>) => {
       <SectionHeader sectionName='最新MV' />
       <View className='new-mvs'>
         {state.newMVs.slice(0, 8).map(resource => (
-          <RenderMVIntroItem key={resource.id} resource={resource} />
+          <MVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
 
@@ -86,7 +84,7 @@ const PageMV = (props: ComponentProps<typeof View>) => {
       <SectionHeader sectionName='最热MV' />
       <View className='hot-mvs'>
         {state.hotMVs.slice(0, 8).map(resource => (
-          <RenderMVIntroItem key={resource.id} resource={resource} />
+          <MVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
     </View>

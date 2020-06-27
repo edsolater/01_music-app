@@ -64,26 +64,17 @@ const Home = (props: ComponentProps<typeof View>) => {
       fetch('/top/song'),
       fetch('/personalized/mv'),
       fetch('/dj/today/perfered')
-    ]).then(
-      ([
-        bannersRes,
-        recommendResourceRes,
-        exclusiveContentRes,
-        topSongsRes,
-        mvsRes,
-        djPrefereds
-      ]) => {
-        dispatch({
-          type: 'set',
-          banners: bannersRes?.data.banners,
-          recommendResource: recommendResourceRes?.data.recommend,
-          exclusiveContent: exclusiveContentRes?.data.result,
-          topSongs: topSongsRes?.data.data,
-          mvs: mvsRes?.data.result,
-          djSites: djPrefereds?.data.data
-        })
-      }
-    )
+    ]).then(reses => {
+      dispatch({
+        type: 'set',
+        banners: reses[0]?.data.banners,
+        recommendResource: reses[1]?.data.recommend,
+        exclusiveContent: reses[2]?.data.result,
+        topSongs: reses[3]?.data.data,
+        mvs: reses[4]?.data.result,
+        djSites: reses[5]?.data.data
+      })
+    })
   }, [])
 
   return (
