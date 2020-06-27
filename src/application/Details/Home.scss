@@ -27,6 +27,10 @@
   }
   .Button {
     padding-left: 80px;
+    &::after {
+      margin-left: 4px;
+      content: '>';
+    }
   }
 }
 .recommand-playlists,
@@ -36,15 +40,13 @@
   grid-auto-columns: 1fr;
   grid-auto-flow: column;
   gap: 20px;
-  > * {
-    margin-bottom: 4px;
-  }
   .picture {
     width: 100%;
     background-color: white;
     overflow: hidden;
     margin: auto;
     position: relative;
+    margin-bottom: 4px;
     .count {
       position: absolute;
       background: linear-gradient(
@@ -56,7 +58,7 @@
       top: 0;
       right: 0;
       opacity: 0.8;
-      transition: 300ms;
+      transition: 300ms 200ms;
       padding: 4px;
       padding-left: 40px;
       display: flex;

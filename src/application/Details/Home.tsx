@@ -104,10 +104,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       {/* TODO 提取成<Grid>组件 */}
       <View className='section-header'>
         <Text h2>推荐歌单</Text>
-        <Button className='detail'>
-          <Text>更多</Text>
-          <Text>{'>'}</Text>
-        </Button>
+        <Button className='detail'>更多</Button>
       </View>
       <View className='recommand-playlists'>
         <View>
@@ -138,10 +135,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       {/* 独家放送 */}
       <View className='section-header'>
         <Text h2>独家放送</Text>
-        <Button className='detail'>
-          <Text>更多</Text>
-          <Text>{'>'}</Text>
-        </Button>
+        <Button className='detail'>更多</Button>
       </View>
       <View className='exclusive-contents'>
         {state.exclusiveContent.slice(0, 3).map(resource => (
@@ -157,10 +151,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       {/* 最新音乐 */}
       <View className='section-header'>
         <Text h2>最新音乐</Text>
-        <Button className='detail'>
-          <Text>更多</Text>
-          <Text>{'>'}</Text>
-        </Button>
+        <Button className='detail'>更多</Button>
       </View>
       <View className='top-songs'>
         {state.topSongs.slice(0, 10).map((resource, index) => (
@@ -185,10 +176,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       {/* 推荐mv */}
       <View className='section-header'>
         <Text h2>推荐mv</Text>
-        <Button className='detail'>
-          <Text>更多</Text>
-          <Text>{'>'}</Text>
-        </Button>
+        <Button className='detail'>更多</Button>
       </View>
       <View className='mvs'>
         {state.mvs.slice(0, 4).map(resource => (
@@ -219,10 +207,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       {/* 主播电台 */}
       <View className='section-header'>
         <Text h2>主播电台</Text>
-        <Button className='detail'>
-          <Text>更多</Text>
-          <Text>{'>'}</Text>
-        </Button>
+        <Button className='detail'>更多</Button>
       </View>
       <View className='mvs'>
         {/* TODO 需要界面抽象 */}
