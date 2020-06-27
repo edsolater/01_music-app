@@ -1,5 +1,6 @@
 @use '../sass/layout.scss';
 .player-bar {
+  grid-column: span 2;
   display: grid;
   align-items: center;
   grid-template-columns: auto auto 1fr auto;

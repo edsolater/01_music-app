@@ -167,11 +167,11 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
         <View className='timeSlider'>
           <View className='songTitle'>{songInfo.name}</View>
           <View className='timestamp'>
-            <Text ref={currentSecondSpanRef}>
+            <Text ref={currentSecondSpanRef} line>
               {duration(state.passedMilliseconds).format('mm:ss')}
             </Text>
             <Text className='divider'> / </Text>
-            <Text>{duration(songInfo.dt).format('mm:ss')}</Text>
+            <Text line>{duration(songInfo.dt).format('mm:ss')}</Text>
           </View>
           <Slider
             value={state.passedMilliseconds / (songInfo.dt ?? 0)}

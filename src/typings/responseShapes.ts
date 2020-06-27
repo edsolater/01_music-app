@@ -203,6 +203,8 @@ interface TopSong {
 
 /**推荐MV */
 interface MVIntro {
+  /**mv ID */
+  id: ID
   /**涉及到的歌手 */
   artists: Artist[]
   /**推荐理由 */

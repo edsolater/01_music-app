@@ -37,8 +37,8 @@ function App() {
   return (
     <>
       <PlaylistMenu />
-      <DetailRouter />
       <PlayerBar />
+      <DetailRouter />
     </>
   )
 }

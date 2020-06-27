@@ -1,7 +1,10 @@
 /* ---------------------------------- 原始样式 ---------------------------------- */
 .Text {
   cursor: default;
-  &.singleLine {
+  &.block {
+    display: block;
+  }
+  &.line {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -38,5 +41,9 @@
 .Text.subhead {
   font-size: 0.8em;
   font-weight: bold;
+  color: rgba(0, 0, 0, 0.4);
+}
+.Text.footnote {
+  font-size: 0.8em;
   color: rgba(0, 0, 0, 0.4);
 }

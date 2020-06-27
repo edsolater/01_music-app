@@ -56,6 +56,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   })
 
   useEffect(() => {
+    // TODO 路由切换还要再请求一次，不太对
     Promise.all([
       fetch('/banner'),
       fetch('/recommend/resource'),
@@ -117,7 +118,7 @@ const Home = (props: ComponentProps<typeof View>) => {
           <Text className='legend'>每日歌曲推荐</Text>
         </View>
         {state.recommendResource.slice(0, 9).map(resource => (
-          <View key={resource.name.slice(0, 6)}>
+          <View key={resource.id}>
             <View className='picture'>
               <View className='legend'>
                 <Text>{resource.copywriter}</Text>
@@ -128,7 +129,7 @@ const Home = (props: ComponentProps<typeof View>) => {
               </View>
               <Image src={resource.picUrl} className='thumbnail' />
             </View>
-            <Text className='legend'>{resource.name}</Text>
+            <Text className='description'>{resource.name}</Text>
           </View>
         ))}
       </View>
@@ -143,11 +144,11 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
       <View className='exclusive-contents'>
         {state.exclusiveContent.slice(0, 3).map(resource => (
-          <View key={resource.name.slice(0, 6)}>
+          <View key={resource.id}>
             <View className='picture'>
               <Image className='thumbnail' src={resource.sPicUrl} />
             </View>
-            <Text className='legend'>{resource.name}</Text>
+            <Text className='description'>{resource.name}</Text>
           </View>
         ))}
       </View>
@@ -162,7 +163,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
       <View className='top-songs'>
         {state.topSongs.slice(0, 10).map((resource, index) => (
-          <View key={resource.name.slice(0, 6)}>
+          <View key={resource.id}>
             <Text className='no'>{index + 1}</Text>
             <Image className='album-thumbnail' src={resource.album.blurPicUrl} />
             <Text className='name'>{resource.name}</Text>
@@ -190,7 +191,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       </View>
       <View className='mvs'>
         {state.mvs.slice(0, 4).map(resource => (
-          <View key={resource.name.slice(0, 6)}>
+          <View key={resource.id}>
             <View className='picture'>
               <View className='legend'>
                 <Text>{resource.copywriter}</Text>
@@ -201,7 +202,12 @@ const Home = (props: ComponentProps<typeof View>) => {
               </View>
               <Image src={resource.picUrl} className='thumbnail' />
             </View>
-            <Text className='legend'>{resource.name}</Text>
+            <Text className='description'>{resource.name}</Text>
+            <Text className='subDescription' footnote block>
+              {resource.artists.map(art => (
+                <span key={art.id}>{art.name}</span>
+              ))}
+            </Text>
           </View>
         ))}
       </View>
@@ -217,14 +223,14 @@ const Home = (props: ComponentProps<typeof View>) => {
       <View className='mvs'>
         {/* TODO 需要界面抽象 */}
         {state.djSites.slice(0, 5).map(resource => (
-          <View key={resource.name.slice(0, 6)}>
+          <View key={resource.id}>
             <View className='picture'>
               <View className='bottom'>
                 <Text className='number'>{resource.name}</Text>
               </View>
               <Image src={resource.picUrl} className='thumbnail' />
             </View>
-            <Text className='legend'>{resource.rcmdText}</Text>
+            <Text className='description'>{resource.rcmdText}</Text>
           </View>
         ))}
       </View>

@@ -5,9 +5,10 @@ import View from './View'
 function Text(
   props: ComponentProps<typeof View> & {
     /**
-     * 是否单行显示
+     * 是否显示在一行
      */
-    singleLine?: boolean
+    line?: boolean
+    block?: boolean
     /**
      * 大标题
      */
@@ -68,7 +69,8 @@ function Text(
         props.className,
         'Text',
         {
-          singleLine: props.singleLine,
+          line: props.line,
+          block: props.block,
           largeTitle: props.largeTitle,
           h1: props.h1,
           h2: props.h2,

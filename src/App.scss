@@ -19,20 +19,10 @@ ul {
   --primary: #f3f3f5;
   --secondary: #df3b3b;
   height: 100vh;
-  overflow-y: hidden;
   display: grid;
   grid-template:
-    'a b' 1fr
-    'c c' auto
+    '1 2' 1fr
+    '3 3' auto
     / 226px 1fr;
-  .playlist-menu {
-    grid-area: a;
-  }
-  .detail-router {
-    grid-area: b;
-    overflow: auto;
-  }
-  .player-bar {
-    grid-area: c;
-  }
+  grid-auto-flow: dense;
 }
