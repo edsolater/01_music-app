@@ -73,7 +73,9 @@
     }
   }
 }
-.new-mvs {
+
+.new-mvs,
+.hot-mvs {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;

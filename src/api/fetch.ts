@@ -125,18 +125,24 @@ type RequestParams = {
     }
   }
   /**
-   * 最新mv
+   * mv 列表（各种列表都是这个接口）
    */
-  '/mv/first': {
+  '/mv/all': {
     params: {
+      /** 排序,不填则为上升最快 */
+      order?: '上升最快' | '最热' | '最新'
       /** 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部 */
       area?: '全部' | '内地' | '港台' | '欧美' | '日本' | '韩国'
       /** 取出数量 , 默认为 30 */
       limit?: number
+      /** 偏移数量 , 用于分页 , 如 :( 页数 -1)*50, 其中 50 为 limit 的值 , 默认 为 0 */
+      offset?: number
     }
     response: {
       data: MVIntro2[]
       code: 200
+      hasMore: boolean
+      count: number
     }
   }
 }
@@ -168,7 +174,7 @@ const requestTable: {
   '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params }),
   '/dj/toplist': params => axiosInstance.get('/dj/toplist', { params }),
   '/dj/today/perfered': params => axiosInstance.get('/dj/today/perfered', { params }),
-  '/mv/first': params => axiosInstance.get('/mv/first', { params })
+  '/mv/all': params => axiosInstance.get('/mv/all', { params })
 }
 //#endregion
 

@@ -2,20 +2,21 @@ import React, { ComponentProps, useReducer, useEffect, Fragment } from 'react'
 
 import './PageMV.scss'
 import View from 'baseUI/UI/View'
-import Swiper from 'baseUI/structure/Swiper'
 import fetch from 'api/fetch'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
-import { headset, recoder } from 'assets/icons'
+import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 
 type State = {
-  mvs: MVIntro2[]
+  newMVs: MVIntro2[]
+  hotMVs: MVIntro2[]
 }
 type Action = {
   type: 'set'
-  mvs?: State['mvs']
+  newMVs?: State['newMVs']
+  hotMVs?: State['hotMVs']
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -23,7 +24,8 @@ const reducer = (state: State, action: Action): State => {
     case 'set':
       return {
         ...state,
-        mvs: action.mvs ?? state.mvs
+        newMVs: action.newMVs ?? state.newMVs,
+        hotMVs: action.hotMVs ?? state.hotMVs
       }
     default:
       return state
@@ -32,17 +34,22 @@ const reducer = (state: State, action: Action): State => {
 
 const PageMV = (props: ComponentProps<typeof View>) => {
   const [state, dispatch] = useReducer(reducer, {
-    mvs: []
+    newMVs: [],
+    hotMVs: []
   })
 
   useEffect(() => {
     // TODO 路由切换还要再请求一次，不太对。应该把这个页面的state都保存起来
-    Promise.all([fetch('/mv/first')]).then(([mvsRes]) => {
-      dispatch({
-        type: 'set',
-        mvs: mvsRes?.data.data
-      })
-    })
+    Promise.all([fetch('/mv/all', { order: '最新' }), fetch('/mv/all', { order: '最热' })]).then(
+      reses => {
+        console.log('reses: ', reses)
+        dispatch({
+          type: 'set',
+          newMVs: reses[0]?.data.data,
+          hotMVs: reses[1]?.data.data
+        })
+      }
+    )
   }, [])
 
   const RenderMVIntroItem = (props: { resource: MVIntro2 }) => (
@@ -70,7 +77,15 @@ const PageMV = (props: ComponentProps<typeof View>) => {
       {/* 最新MV */}
       <SectionHeader sectionName='最新MV' />
       <View className='new-mvs'>
-        {state.mvs.slice(0, 8).map(resource => (
+        {state.newMVs.slice(0, 8).map(resource => (
+          <RenderMVIntroItem key={resource.id} resource={resource} />
+        ))}
+      </View>
+
+      {/* 最热MV */}
+      <SectionHeader sectionName='最热MV' />
+      <View className='hot-mvs'>
+        {state.hotMVs.slice(0, 8).map(resource => (
           <RenderMVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
