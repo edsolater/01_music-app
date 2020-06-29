@@ -30,3 +30,6 @@ export function mergeRefs(
     })
   }
 }
+
+// TODO 合并2个props对象
+//  mergeProps
