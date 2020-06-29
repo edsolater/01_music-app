@@ -1,6 +1,14 @@
-import React, { ComponentProps, useState, useRef, useMemo, useEffect } from 'react'
+import React, {
+  ComponentProps,
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+  MutableRefObject
+} from 'react'
 import View from './View'
 import './Input.scss'
+import { mergeRefs } from 'functions/reactComponent'
 
 type IProps = ComponentProps<typeof View> & {
   /**
@@ -37,7 +45,7 @@ const Input = React.forwardRef((props: IProps, ref) => {
     () => (
       <View
         as='input'
-        ref={inputElement}
+        ref={mergeRefs([inputElement, ref])}
         _className='Input'
         _html={{
           onInput: changeValue

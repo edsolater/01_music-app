@@ -88,7 +88,7 @@ const PageMV = (props: ComponentProps<typeof View>) => {
         ))}
       </View>
       {/* TEMP 测试Input的想法 */}
-      <Input value='hello' />
+      <Input value='hello' ref={el => console.log('el: ', el)} />
     </View>
   )
 }
