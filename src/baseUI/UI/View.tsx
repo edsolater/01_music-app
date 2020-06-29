@@ -3,7 +3,9 @@ import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
 type HTMLTag = keyof React.ReactHTML
 
-/**组件代码 */
+/**
+ * _（下划线）开头的，只能在定义时使用。会自动合并到正式属性，优先级较低。
+ */
 const View: ForwardRefRenderFunction<
   any,
   {
@@ -11,36 +13,43 @@ const View: ForwardRefRenderFunction<
      * html使用的标签明
      */
     as?: HTMLTag
-    /**
-     * 其实也是className， 只是专用于排版
-     */
-    layoutClass?: ClassValue
+    /**隐藏节点（使用HTML5的hidden属性） */
+    hidden?: boolean
+
     className?: ClassValue
+    _className?: ClassValue
     /**
      * 内联样式
      */
     style?: CSSProperties
+    _style?: CSSProperties
     /**
      * 基础交互
      */
     onClick?: JSX.IntrinsicElements['div']['onClick']
+    _onClick?: JSX.IntrinsicElements['div']['onClick']
     children?: ReactNode
-    hidden?: boolean
     /**
-     * 原生html属性
+     * 原生属性
      */
     //TOFIX: 要只能推断所有HTMLTag，会奇慢无比。最好有选择性地推测而不是大而全地推测
     html?: JSX.IntrinsicElements['div']
+    _html?: JSX.IntrinsicElements['div']
   }
 > = (props, ref) => {
   return createElement(
     props.as ?? 'div',
     {
       ref: ref,
-      className: classnames(props.className, props.layoutClass) || undefined,
-      style: props.style,
-      onClick: props.onClick,
+      className: classnames(props.className, props._className) || undefined,
+      style: { ...props._style, ...props.style },
+      onClick: ev => {
+        props.onClick?.(ev)
+        props._onClick?.(ev)
+      },
       hidden: props.hidden,
+      //TODO 要能自动识别并merge “on”系列的回调
+      ...props._html,
       ...props.html
     },
     props.children

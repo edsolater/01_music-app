@@ -8,6 +8,7 @@ import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
+import Input from 'baseUI/UI/Input'
 
 type State = {
   newMVs: MVIntro2[]
@@ -79,7 +80,6 @@ const PageMV = (props: ComponentProps<typeof View>) => {
           <MVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
-
       {/* 最热MV */}
       <SectionHeader sectionName='最热MV' />
       <View className='hot-mvs'>
@@ -87,6 +87,8 @@ const PageMV = (props: ComponentProps<typeof View>) => {
           <MVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
+      {/* TEMP 测试Input的想法 */}
+      <Input value='hello' />
     </View>
   )
 }
