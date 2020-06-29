@@ -1,17 +1,16 @@
-import { ClassValue } from 'classnames/types'
 import { MutableRefObject } from 'react'
 
-export const mergeClass = (outer: ClassValue, inner: ClassValue): ClassValue => [outer, inner]
-
-export const mergeCallback = <F extends Callback>(outer: F | undefined, inner: F | undefined): F =>
-  ((...args) => {
-    outer?.(...args)
-    inner?.(...args)
-  }) as F
+/**
+ * 合并Callbacks
+ * @param callbacks 需要合并的Callbacks（数组）
+ */
+export const mergeCallbacks = (callbacks: (Callback | undefined)[]): Callback => (...args) => {
+  callbacks.filter(Boolean).forEach(cb => cb?.(...args))
+}
 
 /**
  * 合并refs
- * @param refs 需要合并的refs（
+ * @param refs 需要合并的refs（数组）
  */
 export const mergeRefs = (refs: React.Ref<unknown>[]) => el => {
   refs.filter(Boolean).forEach(ref => {

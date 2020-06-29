@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode, useMemo, useEffect, useState } from 'react'
 import { exist } from 'functions/judger'
-import { mergeCallback } from 'functions/reactComponent'
+import { mergeCallbacks } from 'functions/reactComponent'
 import View from './View'
 import Button from './Button'
 
@@ -36,10 +36,13 @@ export default function Togger(
       <Button
         {...props}
         className={[props.className, 'Togger']}
-        onClick={mergeCallback(e => {
-          if (!props.justShow) setActive(s => !s)
-          props.onToggle?.(active, active ? props.trusyNode : props.falsyNode)
-        }, props.onClick)}
+        onClick={mergeCallbacks([
+          () => {
+            if (!props.justShow) setActive(s => !s)
+            props.onToggle?.(active, active ? props.trusyNode : props.falsyNode)
+          },
+          props.onClick
+        ])}
       >
         {active ? props.trusyNode : props.falsyNode}
       </Button>
