@@ -1,6 +1,7 @@
 import React, { CSSProperties, ReactNode, createElement, ForwardRefRenderFunction } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
+import { mergeCallbacks } from 'functions/reactComponent'
 type HTMLTag = keyof React.ReactHTML
 
 /**
@@ -33,8 +34,8 @@ const View: ForwardRefRenderFunction<
      * 原生属性
      */
     //TOFIX: 要只能推断所有HTMLTag，会奇慢无比。最好有选择性地推测而不是大而全地推测
-    html?: JSX.IntrinsicElements['div']
-    _html?: JSX.IntrinsicElements['div']
+    originProps?: JSX.IntrinsicElements['div']
+    _originProps?: JSX.IntrinsicElements['div']
   }
 > = (props, ref) => {
   return createElement(
@@ -43,14 +44,11 @@ const View: ForwardRefRenderFunction<
       ref: ref,
       className: classnames(props.className, props._className) || undefined,
       style: { ...props._style, ...props.style },
-      onClick: ev => {
-        props.onClick?.(ev)
-        props._onClick?.(ev)
-      },
+      onClick: mergeCallbacks(props.onClick, props._onClick),
       hidden: props.hidden,
       //TODO 要能自动识别并merge “on”系列的回调
-      ...props._html,
-      ...props.html
+      ...props._originProps,
+      ...props.originProps
     },
     props.children
   )

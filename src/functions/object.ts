@@ -64,7 +64,7 @@ export function omit<T extends AnyObject, K extends (keyof T)[]>(
 ): Omit<T, K[number]> {
   return propertyNames.reduce(
     (acc, propName) => {
-      delete target[propName]
+      delete acc[propName]
       return acc
     },
     { ...target } as any

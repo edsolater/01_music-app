@@ -22,10 +22,10 @@ const Image = React.forwardRef((props: IProps, ref) => (
     ref={ref}
     as='img'
     {...props}
-    html={
+    originProps={
       {
         src: props.src,
-        ...props.html
+        ...props.originProps
       } as any /* 强行不进项局部type推断，以提升整体类型推断的速度 */
     }
     className={[props.className, 'Image']}

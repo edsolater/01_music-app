@@ -17,7 +17,7 @@ const Audio = React.forwardRef((props: IProps, ref: any) => (
     ref={ref}
     as='audio'
     className={[props.className, 'Audio']}
-    html={{ src: props.src, ...props.html } as any}
+    originProps={{ src: props.src, ...props.originProps } as any}
   >
     {props.children}
   </View>

@@ -46,21 +46,21 @@ const Popover: FC<
         'wrapper-part',
         { on: props.open ?? isOpen === true }
       ]}
-      html={{
-        ...props.html,
+      originProps={{
+        ...props.originProps,
         onPointerEnter: event => {
-          props.html?.onPointerEnter?.(event)
+          props.originProps?.onPointerEnter?.(event)
           triggerCallback.on()
         },
         onPointerLeave: event => {
-          props.html?.onPointerLeave?.(event)
+          props.originProps?.onPointerLeave?.(event)
           triggerCallback.off()
         }
       }}
     >
       <View //content不一定得是card形式，Card单独提成一个组件
         className={['Popover', 'content-part', { on: props.open ?? isOpen === true }]}
-        html={{
+        originProps={{
           onPointerEnter: e => {
             e.stopPropagation() //因为 content-part 在 wrapper-part 内部，所以会触发2次
             return triggerCallback.on()

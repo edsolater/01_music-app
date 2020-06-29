@@ -29,10 +29,10 @@ export default function Button(
           _large: props.size === 'large'
         }
       ]}
-      html={
+      originProps={
         {
           type: 'button',
-          ...props.html
+          ...props.originProps
         } as any
       }
     />

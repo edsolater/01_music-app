@@ -69,7 +69,7 @@ function Slider(
       <View
         className='Trigger'
         ref={triggerRef}
-        html={{
+        originProps={{
           onPointerDown: e => {
             toggleDragStatus()
             const slider = ((e.target as Element).parentElement as HTMLDivElement)!

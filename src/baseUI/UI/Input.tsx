@@ -4,31 +4,19 @@ import React, {
   useRef,
   useMemo,
   useEffect,
-  MutableRefObject
+  InputHTMLAttributes
 } from 'react'
 import View from './View'
 import './Input.scss'
-import { mergeRefs } from 'functions/reactComponent'
+import { mergeRefs, mergeCallbacks } from 'functions/reactComponent'
+import { omit } from 'functions/object'
 
-type IProps = ComponentProps<typeof View> & {
-  /**
-   * 除className,style,onClick外的原生属性的
-   */
-  html?: JSX.IntrinsicElements['input']
-  /**
-   * 它的value要特殊处理
-   */
-  value?: JSX.IntrinsicElements['input']['value']
-  /**
-   * 它的value要特殊处理
-   */
-  defaultValue?: JSX.IntrinsicElements['input']['defaultValue']
-}
+type IProps = ComponentProps<typeof View> & InputHTMLAttributes<unknown>
 
 // IDEA：将 controlled component 结合 uncontrolled component
 const Input = React.forwardRef((props: IProps, ref) => {
   const inputElement = useRef<HTMLInputElement>()
-  const [valueInData, setValue] = useState(props.defaultValue ?? props.value ?? '')
+  const [valueInData, setValue] = useState(props.value ?? '')
   useEffect(() => {
     setTimeout(() => {
       setValue('world')
@@ -45,10 +33,11 @@ const Input = React.forwardRef((props: IProps, ref) => {
     () => (
       <View
         as='input'
-        ref={mergeRefs([inputElement, ref])}
+        ref={mergeRefs(inputElement, ref)}
         _className='Input'
-        _html={{
-          onInput: changeValue
+        _originProps={{
+          ...omit(props, 'value', 'ref'),
+          onInput: mergeCallbacks([changeValue, props.onInput, props.originProps?.onInput])
         }}
       />
     ),

@@ -2,23 +2,31 @@ import { MutableRefObject } from 'react'
 
 /**
  * 合并Callbacks
- * @param callbacks 需要合并的Callbacks（数组）
+ * @param callbacks 需要合并的Callbacks（数组或...rest）
  */
-export const mergeCallbacks = (callbacks: (Callback | undefined)[]): Callback => (...args) => {
-  callbacks.filter(Boolean).forEach(cb => cb?.(...args))
+export function mergeCallbacks(...callbacks: MayArrayInArray<Callback | undefined>): Callback {
+  const _callbacks = callbacks.flat().filter(Boolean)
+  return function mergedCallback(...args) {
+    _callbacks.filter(Boolean).forEach(cb => cb?.(...args))
+  }
 }
 
 /**
  * 合并refs
- * @param refs 需要合并的refs（数组）
+ * @param refs 需要合并的refs（数组或...rest）
  */
-export const mergeRefs = (refs: React.Ref<unknown>[]) => el => {
-  refs.filter(Boolean).forEach(ref => {
-    if (ref) {
-      // 回调式ref
-      if (typeof ref === 'function') ref(el)
-      // 对象式ref
-      else (ref as MutableRefObject<any>).current = el
-    }
-  })
+export function mergeRefs(
+  ...refs: MayArrayInArray<React.Ref<any | undefined>>
+): React.RefCallback<any> {
+  const _refs = refs.flat().filter(Boolean)
+  return function mergedRef(el) {
+    _refs.forEach(ref => {
+      if (ref) {
+        // 回调式ref
+        if (typeof ref === 'function') ref(el)
+        // 对象式ref
+        else (ref as MutableRefObject<any>).current = el
+      }
+    })
+  }
 }

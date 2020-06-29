@@ -28,10 +28,10 @@ export default function Icon(
         WebkitMaskImage: `url(${props.src})`,
         WebkitMaskSize: 'cover'
       }}
-      html={{
+      originProps={{
         alt: props.alt,
         srcSet: props.srcSet,
-        ...(props.html as JSX.IntrinsicElements['img'])
+        ...(props.originProps as JSX.IntrinsicElements['img'])
       }}
       className={[props.className, 'Icon']}
     />

@@ -105,7 +105,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View>) {
           <Text>选择</Text>
         </Button>
         <View className='search-slot'>
-          <View as='input' className='input' html={{ placeholder: '搜索歌单歌曲' }} />
+          <View as='input' className='input' originProps={{ placeholder: '搜索歌单歌曲' }} />
           <Icon iconfontName='search' />
         </View>
       </Group>
