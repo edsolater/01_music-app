@@ -1,32 +1,3 @@
-export function mergeObjects<T extends AnyObject, U extends AnyObject>(
-  objA: T,
-  objB: U
-): (T & U) | undefined {
-  if (typeof objA !== 'object' || typeof objB !== 'object') return
-  const newObject: AnyObject = { ...objA }
-  Object.entries(objB).forEach(([key, valueB]) => {
-    const valueA = objA[key]
-    if (Array.isArray(valueA) && Array.isArray(valueB)) {
-      newObject[key] = [...valueA, ...valueB]
-    } else if (
-      typeof valueA === 'object' &&
-      valueA !== null &&
-      typeof valueB === 'object' &&
-      valueB !== null
-    ) {
-      newObject[key] = { ...valueA, ...valueB }
-    } else if (typeof valueA === 'function' && typeof valueB === 'function') {
-      newObject[key] = (...params) => {
-        valueA(...params)
-        valueB(...params)
-      }
-    } else {
-      newObject[key] = valueB
-    }
-  })
-  return (newObject as unknown) as T & U
-}
-
 /**
  * 提取对象的某些属性（immutable）（该属性非undefined时才会被提取）
  * @param target 目标对象
@@ -70,3 +41,37 @@ export function omit<T extends AnyObject, K extends (keyof T)[]>(
     { ...target } as any
   )
 }
+
+/**
+ * 合并两个对象
+ * TODO - 需要测试测试再测试
+ * @param objs 需要合并的对象
+ */
+export function mergeObjects<T, U>(obj1: T, obj2: U): T & U
+export function mergeObjects<T, U, V>(obj1: T, obj2: U, obj3: V): T & U & V
+export function mergeObjects<T, U, V, W>(obj1: T, obj2: U, obj3: V, obj4: W): T & U & V & W
+export function mergeObjects<T>(...objs: T[]): T
+export function mergeObjects(...objs) {
+  const result = {}
+  Object.keys(Object.assign({}, ...objs)).forEach(key => {
+    const values = objs.map(prop => prop[key]).filter(Boolean)
+    if (key === 'a') {
+      result[key] = values.reduce((a, b) => a + b)
+    } else if (values.every(value => typeof value === 'object')) {
+      result[key] = mergeObjects(...values)
+    } else if (values.every(value => typeof value === 'function')) {
+      result[key] = (...args) => values.map(fn => fn(...args))
+    } else {
+      result[key] = values[values.length - 1]
+    }
+  })
+  // @ts-ignore
+  return result
+}
+
+/**
+ * 返回对象的某个属性
+ * 返回函数的函数都以will开头
+ * TODO - 需要测试测试再测试
+ */
+export const willGetProperty = (key: string) => (obj: AnyObject) => obj[key]

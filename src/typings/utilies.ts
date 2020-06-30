@@ -1,1 +1,1 @@
-type MayArrayInArray<Item> = Item[] | Item[][]
+type MayMultiArray<Item> = Item[] | Item[][]

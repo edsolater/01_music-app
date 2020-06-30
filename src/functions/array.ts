@@ -6,3 +6,5 @@ export function insert<T extends any, K extends any>(target: T[], toInsert: K): 
   }
   return copyed
 }
+
+// IDEA 批处理，类似 listDo(target, action1, action2) => newList
