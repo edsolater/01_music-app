@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios'
-import { meaningful } from 'functions/judger'
 import { storage } from 'api/localStorage'
 
 // TODO - 这不是旧时代，gg要使用原生fetch，抛弃axios
@@ -9,11 +8,6 @@ const axiosInstance = axios.create({
 })
 
 //#region ------------------- 业务逻辑 -------------------
-
-type RequestOptions = {
-  ignoreCache?: boolean
-  /* 是否强行请求？默认会3分钟缓存 */ from?: string /* 由哪个组件发起？ */
-}
 
 type RequestParams = {
   /**
@@ -162,47 +156,40 @@ type RequestParams = {
     }
   }
 }
-const requestTable: {
-  [T in keyof RequestParams]: (
-    params?: RequestParams[T]['params'],
-    options?: RequestOptions
-  ) => Promise<AxiosResponse<RequestParams[T]['response']>> | undefined
+const requestConfigs: {
+  [requestUrl in keyof RequestParams]: {
+    /**不要缓存（强行请求） */
+    nocache?: boolean
+    /**额外参数（如用户信息） */
+    additionalParams?: { [key: string]: any }
+  }
 } = {
-  // TODO: 这些结构都高度雷同，应该可以抽象后丢着不管
-  '/like': params =>
-    meaningful(params?.id)
-      ? axiosInstance.get('/like', {
-          params: { ...params, timestamp: Date.now() }
-        })
-      : undefined,
-  '/likelist': params =>
-    axiosInstance.get('/likelist', {
-      params: {
-        ...params,
-        uid: storage.account().id,
-        timestamp: Date.now()
-      }
-    }),
-  '/banner': params => axiosInstance.get('/banner', { params }),
-  '/recommend/resource': params => axiosInstance.get('/recommend/resource', { params }),
-  '/personalized/privatecontent': params =>
-    axiosInstance.get('/personalized/privatecontent', { params }),
-  '/top/song': params => axiosInstance.get('/top/song', { params }),
-  '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params }),
-  '/dj/toplist': params => axiosInstance.get('/dj/toplist', { params }),
-  '/dj/today/perfered': params => axiosInstance.get('/dj/today/perfered', { params }),
-  '/mv/all': params => axiosInstance.get('/mv/all', { params }),
-  '/mv/exclusive/rcmd': params => axiosInstance.get('/mv/exclusive/rcmd', { params })
+  '/like': { nocache: true },
+  '/likelist': { nocache: true, additionalParams: { uid: storage.account().id } },
+  '/banner': {},
+  '/recommend/resource': {},
+  '/personalized/privatecontent': {},
+  '/top/song': {},
+  '/personalized/mv': {},
+  '/dj/toplist': {},
+  '/dj/today/perfered': {},
+  '/mv/all': {},
+  '/mv/exclusive/rcmd': {}
 }
+
 //#endregion
 
 function fetch<T extends keyof RequestParams>(
   url: T,
-  params?: RequestParams[T]['params'],
-  options?: RequestOptions
+  params?: RequestParams[T]['params']
 ): Promise<AxiosResponse<RequestParams[T]['response']>> | undefined {
-  //@ts-expect-error
-  return requestTable[url](params, options)
+  return axiosInstance.get(url, {
+    params: {
+      ...params,
+      ...requestConfigs[url].additionalParams,
+      timestamp: requestConfigs[url].nocache && Date.now()
+    }
+  })
 }
 
 export default fetch
