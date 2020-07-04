@@ -1,6 +1,6 @@
 import React, { ComponentProps, useReducer, useEffect, Fragment } from 'react'
 
-import './PageMV.scss'
+import './MvListPage.scss'
 import View from 'baseUI/UI/View'
 import fetch from 'api/fetch'
 import Image from 'baseUI/UI/Image'
@@ -78,7 +78,7 @@ const PageMV = (props: ComponentProps<typeof View>) => {
     </View>
   )
   return (
-    <View as='section' {...props} className='page-mv'>
+    <View as='section' {...props} className='mv-list-page'>
       {/* 最新MV */}
       <SectionHeader sectionName='最新MV' />
       <View className='new-mvs'>
