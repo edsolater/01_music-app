@@ -8,16 +8,17 @@ import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
-import Input from 'baseUI/UI/Input'
 
 type State = {
   newMVs: MVIntro2[]
   hotMVs: MVIntro2[]
+  neteaseMVs: MVIntro2[]
 }
 type Action = {
   type: 'set'
   newMVs?: State['newMVs']
   hotMVs?: State['hotMVs']
+  neteaseMVs?: State['neteaseMVs']
 }
 
 const reducer = (state: State, action: Action): State => {
@@ -26,7 +27,8 @@ const reducer = (state: State, action: Action): State => {
       return {
         ...state,
         newMVs: action.newMVs ?? state.newMVs,
-        hotMVs: action.hotMVs ?? state.hotMVs
+        hotMVs: action.hotMVs ?? state.hotMVs,
+        neteaseMVs: action.neteaseMVs ?? state.neteaseMVs
       }
     default:
       return state
@@ -36,19 +38,23 @@ const reducer = (state: State, action: Action): State => {
 const PageMV = (props: ComponentProps<typeof View>) => {
   const [state, dispatch] = useReducer(reducer, {
     newMVs: [],
-    hotMVs: []
+    hotMVs: [],
+    neteaseMVs: []
   })
 
   useEffect(() => {
-    Promise.all([fetch('/mv/all', { order: '最新' }), fetch('/mv/all', { order: '最热' })]).then(
-      reses => {
-        dispatch({
-          type: 'set',
-          newMVs: reses[0]?.data.data,
-          hotMVs: reses[1]?.data.data
-        })
-      }
-    )
+    Promise.all([
+      fetch('/mv/all', { order: '最新' }),
+      fetch('/mv/all', { order: '最热' }),
+      fetch('/mv/exclusive/rcmd')
+    ]).then(reses => {
+      dispatch({
+        type: 'set',
+        newMVs: reses[0]?.data.data,
+        hotMVs: reses[1]?.data.data,
+        neteaseMVs: reses[2]?.data.data
+      })
+    })
   }, [])
 
   const MVIntroItem = (props: { resource: MVIntro2 }) => (
@@ -80,6 +86,7 @@ const PageMV = (props: ComponentProps<typeof View>) => {
           <MVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
+
       {/* 最热MV */}
       <SectionHeader sectionName='最热MV' />
       <View className='hot-mvs'>
@@ -87,8 +94,14 @@ const PageMV = (props: ComponentProps<typeof View>) => {
           <MVIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
-      {/* TEMP 测试Input的想法 */}
-      <Input value='hello' ref={el => console.log('el: ', el)} />
+
+      {/* 网易出品MV */}
+      <SectionHeader sectionName='网易出品' />
+      <View className='netease-mvs'>
+        {state.neteaseMVs.slice(0, 8).map(resource => (
+          <MVIntroItem key={resource.id} resource={resource} />
+        ))}
+      </View>
     </View>
   )
 }

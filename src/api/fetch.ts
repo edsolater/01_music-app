@@ -145,6 +145,22 @@ type RequestParams = {
       count: number
     }
   }
+  /**
+   * mv 列表（各种列表都是这个接口）
+   */
+  '/mv/exclusive/rcmd': {
+    params: {
+      /** 取出数量 , 默认为 30 */
+      limit?: number
+      /** 偏移数量 , 用于分页 , 如 :( 页数 -1)*50, 其中 50 为 limit 的值 , 默认 为 0 */
+      offset?: number
+    }
+    response: {
+      data: MVIntro2[]
+      code: 200
+      more: boolean
+    }
+  }
 }
 const requestTable: {
   [T in keyof RequestParams]: (
@@ -152,6 +168,7 @@ const requestTable: {
     options?: RequestOptions
   ) => Promise<AxiosResponse<RequestParams[T]['response']>> | undefined
 } = {
+  // TODO: 这些结构都高度雷同，应该可以抽象后丢着不管
   '/like': params =>
     meaningful(params?.id)
       ? axiosInstance.get('/like', {
@@ -174,7 +191,8 @@ const requestTable: {
   '/personalized/mv': params => axiosInstance.get('/personalized/mv', { params }),
   '/dj/toplist': params => axiosInstance.get('/dj/toplist', { params }),
   '/dj/today/perfered': params => axiosInstance.get('/dj/today/perfered', { params }),
-  '/mv/all': params => axiosInstance.get('/mv/all', { params })
+  '/mv/all': params => axiosInstance.get('/mv/all', { params }),
+  '/mv/exclusive/rcmd': params => axiosInstance.get('/mv/exclusive/rcmd', { params })
 }
 //#endregion
 

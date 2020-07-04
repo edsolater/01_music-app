@@ -18,17 +18,13 @@ const Input = React.forwardRef((props: IProps, ref) => {
   const inputElement = useRef<HTMLInputElement>()
   const [valueInData, setValue] = useState(props.value ?? '')
   useEffect(() => {
-    setTimeout(() => {
-      setValue('world')
-    }, 1800)
-  }, [])
-  useEffect(() => {
     if (inputElement.current) {
       inputElement.current.value = String(valueInData)
     }
   }, [valueInData])
   const changeValue = e => setValue((e.target as HTMLInputElement).value)
 
+  // 一旦创造，这个节点就托管到浏览器中
   return useMemo(
     () => (
       <View

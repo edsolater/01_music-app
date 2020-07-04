@@ -25,4 +25,7 @@ ul {
     '3 3' auto
     / 226px 1fr;
   grid-auto-flow: dense;
+  > * {
+    overflow: auto;
+  }
 }
