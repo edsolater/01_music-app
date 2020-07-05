@@ -1,47 +1,43 @@
 import React, { useReducer } from 'react'
 
 type PathItem = {
+  /**设计思想上类似于域名 */
   name: '' | 'mvDetail' | 'playlist' | 'menu'
+  /**设计思想上类似于端口号 */
   id?: ID
 }
 
 // IDEA 既然理想状态写这个就是写一个配置文件，不妨写成易于理解的大配置对象
 
-type State = {
+type OriginalState = {
   // TODO 做成有last属性的数组超集
   stack: PathItem[]
 }
-type Computed = {
+type ComputedState = {
   last: PathItem
 }
-const initState: State & Computed = { stack: [], last: { name: '' } }
+type State = OriginalState & ComputedState
 type Action =
-  | { type: 'set'; stack: State['stack'] }
-  | { type: 'push'; item: ArrayItem<State['stack']> }
+  | { type: 'set'; stack: OriginalState['stack'] }
+  | { type: 'push'; item: ArrayItem<OriginalState['stack']> }
 
-function pureReducer(state: State, action: Action): State {
+function computeLast(originalState: OriginalState): State {
+  return { ...originalState, last: originalState.stack[originalState.stack.length - 1] }
+}
+function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'set': {
-      return { ...state, stack: action.stack }
+      return computeLast({ ...state, stack: action.stack })
     }
     case 'push': {
-      return { ...state, stack: [...state.stack, action.item] }
+      return computeLast({ ...state, stack: [...state.stack, action.item] })
     }
     default: {
       throw new Error(`from ${RouterProvider.name}'s reducer`)
     }
   }
-} // TODO 可以封装
-function compute(
-  reducer: typeof pureReducer
-): (...args: Parameters<typeof pureReducer>) => State & Computed {
-  return function highReducer(...args) {
-    const state = reducer(...args)
-    const last = state.stack[state.stack.length - 1]
-    return { ...state, last }
-  }
 }
-const reducer = compute(pureReducer)
+const initState = computeLast({ stack: [{ name: '' }] })
 
 export const RouterContext = React.createContext([initState, (_action: Action) => {}] as const)
 export default function RouterProvider({ children }) {
