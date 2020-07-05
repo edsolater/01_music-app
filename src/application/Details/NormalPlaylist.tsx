@@ -36,7 +36,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export default function NormalPlaylist(props: ComponentProps<typeof View>) {
+export default function NormalPlaylist(props: ComponentProps<typeof View> & { id: ID }) {
   /* ----------------------------------- 状态 ----------------------------------- */
 
   const [router] = useContext(RouterContext)
@@ -47,10 +47,10 @@ export default function NormalPlaylist(props: ComponentProps<typeof View>) {
 
   const [response, setResponse] = useState<ResponsePlaylistDetail>({})
   useEffect(() => {
-    requestPlaylistDetail({ id: router.last.id })?.then(({ data }) => {
+    requestPlaylistDetail({ id: props.id })?.then(({ data }) => {
       setResponse(data)
     })
-  }, [router.last.id])
+  }, [props.id])
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (

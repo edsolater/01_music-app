@@ -27,21 +27,21 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
     const resultList = [
       {
         data: [
-          { name: '搜索', iconName: 'search', id: 0 },
-          { name: '发现音乐', iconName: 'music-note', id: 1 },
-          { name: 'MV', iconName: 'mv', id: 2 },
-          { name: '朋友', iconName: 'friends', id: 3 }
+          { name: '搜索', isMenu: true, iconName: 'search', id: 0 },
+          { name: '发现音乐', isMenu: true, iconName: 'music-note', id: 1 },
+          { name: 'MV', isMenu: true, iconName: 'mv', id: 2 },
+          { name: '朋友', isMenu: true, iconName: 'friends', id: 3 }
         ]
       },
       {
         title: '我的音乐',
         data: [
-          { name: '本地音乐', iconName: 'local-music', id: 4 },
-          { name: '下载管理', iconName: 'download', id: 5 },
-          { name: '最近播放', iconName: 'history', id: 6 },
-          { name: '我的音乐云盘', iconName: 'cloud-disk', id: 7 },
-          { name: '我的电台', iconName: 'music-station', id: 8 },
-          { name: '我的收藏', iconName: 'collection-folder', id: 9 }
+          { name: '本地音乐', isMenu: true, iconName: 'local-music', id: 4 },
+          { name: '下载管理', isMenu: true, iconName: 'download', id: 5 },
+          { name: '最近播放', isMenu: true, iconName: 'history', id: 6 },
+          { name: '我的音乐云盘', isMenu: true, iconName: 'cloud-disk', id: 7 },
+          { name: '我的电台', isMenu: true, iconName: 'music-station', id: 8 },
+          { name: '我的收藏', isMenu: true, iconName: 'collection-folder', id: 9 }
         ]
       },
       { title: '创建的歌单', data: [] as NonNullable<typeof response.playlist> },
@@ -73,31 +73,24 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
             </Header>
           )
         }
+        onSelectItem={item => {
+          routerDispatch({
+            type: 'push',
+            // @ts-expect-error isMenu不是类型中一定存在的，
+            item: { name: item.isMenu ? 'menu' : 'playlist', id: item.id }
+          })
+        }}
         renderItem={itemInfo => (
-          <Item
-            onClick={() => {
-              routerDispatch({
-                type: 'push',
-                item: { name: 'playlist', id: itemInfo.id }
-              })
-            }}
-          >
-            {itemInfo.name.includes('喜欢的音乐') ? (
-              <>
-                <Icon iconfontName='heart_empty' />
-                <Text>我喜欢的音乐</Text>
-              </>
-            ) : (
-              <>
-                <Icon
-                  iconfontName={
-                    (itemInfo as any) /* iconName 不是类型中一定存在的，所以用any规避问题 */
-                      .iconName ?? 'music-collection'
-                  }
-                />
-                <Text line>{itemInfo.name}</Text>
-              </>
-            )}
+          <Item>
+            <Icon
+              iconfontName={
+                itemInfo.name.includes('喜欢的音乐')
+                  ? 'heart_empty'
+                  : // @ts-expect-error iconName不是类型中一定存在的，所以不同数据类型的最好不要放在一个数组里
+                    itemInfo.iconName ?? 'music-collection'
+              }
+            />
+            <Text line>{itemInfo.name}</Text>
           </Item>
         )}
         itemKey={item => item.name}

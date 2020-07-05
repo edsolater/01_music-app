@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 
 type PathItem = {
-  name: '' | /* 空白页，默认 */ 'mvList' | 'mvDetail' | 'playlist' | 'all' /* 全部 */
+  name: '' | 'mvDetail' | 'playlist' | 'menu'
   id?: ID
 }
 
