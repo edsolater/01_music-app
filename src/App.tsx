@@ -11,7 +11,6 @@ import requestLikelist from 'requests/likelist'
 import { storage } from './api/localStorage'
 import LikelistProvider, { LikelistContext } from 'context/likelist'
 import SongInfoProvider from 'context/SongInfo'
-import PlaylistIdProvider from 'context/playlistId'
 import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
 import DetailRouter from 'application/Details/DetailRouter'
 import RouterProvider from 'context/router'
@@ -47,11 +46,9 @@ render(
   <RouterProvider>
     <UserInfoProvider>
       <LikelistProvider>
-        <PlaylistIdProvider>
-          <SongInfoProvider>
-            <App />
-          </SongInfoProvider>
-        </PlaylistIdProvider>
+        <SongInfoProvider>
+          <App />
+        </SongInfoProvider>
       </LikelistProvider>
     </UserInfoProvider>
   </RouterProvider>,

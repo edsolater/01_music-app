@@ -6,7 +6,6 @@ import duration from 'functions/duration'
 import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
 import { LikelistContext } from 'context/likelist'
 import { SongInfoContext } from 'context/SongInfo'
-import { PlaylistIdContext } from 'context/playlistId'
 import Text from 'baseUI/UI/Text'
 import Image from 'baseUI/UI/Image'
 import Togger from 'baseUI/UI/Togger'
@@ -18,6 +17,7 @@ import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
+import { RouterContext } from 'context/router'
 
 type State = {
   selectedIndex: number
@@ -39,7 +39,7 @@ const reducer = (state: State, action: Action): State => {
 export default function NormalPlaylist(props: ComponentProps<typeof View>) {
   /* ----------------------------------- 状态 ----------------------------------- */
 
-  const [playlistId] = useContext(PlaylistIdContext)
+  const [router] = useContext(RouterContext)
   const [likelist] = useContext(LikelistContext)
   const [, songInfoDispatch] = useContext(SongInfoContext)
 
@@ -47,10 +47,10 @@ export default function NormalPlaylist(props: ComponentProps<typeof View>) {
 
   const [response, setResponse] = useState<ResponsePlaylistDetail>({})
   useEffect(() => {
-    requestPlaylistDetail({ id: playlistId })?.then(({ data }) => {
+    requestPlaylistDetail({ id: router.last.id })?.then(({ data }) => {
       setResponse(data)
     })
-  }, [playlistId])
+  }, [router.last.id])
 
   const [state, dispatch] = useReducer(reducer, initState)
   return (
