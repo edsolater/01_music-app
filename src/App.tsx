@@ -14,6 +14,7 @@ import SongInfoProvider from 'context/SongInfo'
 import PlaylistIdProvider from 'context/playlistId'
 import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
 import DetailRouter from 'application/Details/DetailRouter'
+import RouterProvider from 'context/router'
 
 function App() {
   const [, likelistDispatch] = useContext(LikelistContext)
@@ -43,14 +44,16 @@ function App() {
   )
 }
 render(
-  <UserInfoProvider>
-    <LikelistProvider>
-      <PlaylistIdProvider>
-        <SongInfoProvider>
-          <App />
-        </SongInfoProvider>
-      </PlaylistIdProvider>
-    </LikelistProvider>
-  </UserInfoProvider>,
+  <RouterProvider>
+    <UserInfoProvider>
+      <LikelistProvider>
+        <PlaylistIdProvider>
+          <SongInfoProvider>
+            <App />
+          </SongInfoProvider>
+        </PlaylistIdProvider>
+      </LikelistProvider>
+    </UserInfoProvider>
+  </RouterProvider>,
   document.getElementById('app')
 )

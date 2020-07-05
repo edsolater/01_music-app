@@ -1,6 +1,7 @@
 import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
 import View from 'baseUI/UI/View'
+import Text from 'baseUI/UI/Text'
 
-export default function NormalPlaylist(props: ComponentProps<typeof View>) {
-  return 'mvId: '
+export default function MvDetailPage(props: ComponentProps<typeof View>) {
+  return <Text>mvId: </Text>
 }

@@ -13,10 +13,12 @@ import './PlaylistMenu.scss'
 import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
 import { PlaylistIdContext } from 'context/playlistId'
 import { UserInfoContext } from 'context/UserInfo'
+import { RouterContext } from 'context/router'
 
 export default function PlaylistMenu(props: ComponentProps<typeof View>) {
   const [userInfo] = useContext(UserInfoContext)
   const [playlistId, playlistIdDispatch] = useContext(PlaylistIdContext)
+  const [router, routerDispatch] = useContext(RouterContext)
   const [response, setResponse] = useState<ResponseUserPlaylist>({})
   useEffect(() => {
     requestUserPlaylist({ uid: userInfo.account?.id })?.then(({ data }) => {
@@ -76,7 +78,12 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
         renderItem={itemInfo => (
           <Item
             onClick={() => {
+              // TODO 干掉
               playlistIdDispatch({ type: 'set', playlistId: itemInfo.id })
+              routerDispatch({
+                type: 'push',
+                item: { name: 'playlist', id: itemInfo.id }
+              })
             }}
           >
             {itemInfo.name.includes('喜欢的音乐') ? (
