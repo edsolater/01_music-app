@@ -17,7 +17,6 @@ import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
-import { RouterContext } from 'context/router'
 
 type State = {
   selectedIndex: number
@@ -39,7 +38,6 @@ const reducer = (state: State, action: Action): State => {
 export default function NormalPlaylist(props: ComponentProps<typeof View> & { id: ID }) {
   /* ----------------------------------- 状态 ----------------------------------- */
 
-  const [router] = useContext(RouterContext)
   const [likelist] = useContext(LikelistContext)
   const [, songInfoDispatch] = useContext(SongInfoContext)
 
