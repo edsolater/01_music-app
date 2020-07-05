@@ -37,7 +37,8 @@ function compute(
 ): (...args: Parameters<typeof pureReducer>) => State & Computed {
   return function highReducer(...args) {
     const state = reducer(...args)
-    return { ...state, last: state.stack[state.stack.length - 1] }
+    const last = state.stack[state.stack.length - 1]
+    return { ...state, last }
   }
 }
 const reducer = compute(pureReducer)

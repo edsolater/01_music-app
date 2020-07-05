@@ -1,4 +1,4 @@
-import React, { ComponentProps, useReducer, useEffect, Fragment } from 'react'
+import React, { ComponentProps, useReducer, useEffect, Fragment, useContext } from 'react'
 
 import './MvListPage.scss'
 import View from 'baseUI/UI/View'
@@ -8,6 +8,7 @@ import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
+import { RouterContext } from 'context/router'
 
 type State = {
   newMVs: MVIntro2[]
@@ -36,6 +37,7 @@ const reducer = (state: State, action: Action): State => {
 }
 
 const PageMV = (props: ComponentProps<typeof View>) => {
+  const [, routeDispatch] = useContext(RouterContext)
   const [state, dispatch] = useReducer(reducer, {
     newMVs: [],
     hotMVs: [],
@@ -59,7 +61,12 @@ const PageMV = (props: ComponentProps<typeof View>) => {
 
   const MVIntroItem = (props: { resource: MVIntro2 }) => (
     <View key={props.resource.id} className='mv-intro-item'>
-      <View className='picture'>
+      <View
+        className='picture'
+        onClick={() => {
+          routeDispatch({ type: 'push', item: { name: 'mvDetail', id: props.resource.id } })
+        }}
+      >
         <View className='count'>
           <Icon src={recoder} />
           <Text className='number'>{props.resource.playCount}</Text>

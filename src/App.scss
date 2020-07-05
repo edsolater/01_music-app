@@ -20,13 +20,12 @@ ul {
   --secondary: #df3b3b;
   height: 100vh;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 240px 1fr;
   grid-template-rows: 1fr auto;
   > * {
     overflow: auto;
   }
   > :nth-child(1) {
-    max-width: 240px;
     // TODO 纯CSS实现拖拽缩放，只能缩放一个角。以后要用JS，写在<View> 上实现
     // resize: horizontal;
   }

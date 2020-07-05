@@ -11,7 +11,7 @@ export default function DetailRouter(props: ComponentProps<typeof View>): JSX.El
   const ResultNode = (() => {
     switch (appRoute.last.name) {
       case 'mvDetail':
-        return <MvDetailPage {...props} />
+        return <MvDetailPage id={appRoute.last.id ?? ''} />
       case 'playlist': {
         // TODO: 先暂时这么写，等出效果了把‘全部页’‘视频列表页’拆出来
         const playlistId = appRoute.last.id
