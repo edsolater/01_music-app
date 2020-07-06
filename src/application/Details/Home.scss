@@ -1,10 +1,14 @@
 .home {
-  width: 100%;
-  padding: 16px;
   background-color: #fafafa;
-  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr minmax(600px, 1000px) 1fr;
+  > * {
+    grid-column: 2 / 3;
+  }
+  > :first-child {
+    grid-column: 1 / -1;
+  }
   .Swiper {
-    margin: -16px;
     height: 30vw;
     margin-bottom: 32px;
     .Image {
