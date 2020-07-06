@@ -11,9 +11,9 @@ import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
 
 type State = {
-  newMVs: MVIntro2[]
-  hotMVs: MVIntro2[]
-  neteaseMVs: MVIntro2[]
+  newMVs: MVBrief2[]
+  hotMVs: MVBrief2[]
+  neteaseMVs: MVBrief2[]
 }
 type Action = {
   type: 'set'
@@ -36,7 +36,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-const PageMV = (props: ComponentProps<typeof View>) => {
+export default function PageMV(props: ComponentProps<typeof View>) {
   const [, routeDispatch] = useContext(RouterContext)
   const [state, dispatch] = useReducer(reducer, {
     newMVs: [],
@@ -59,7 +59,7 @@ const PageMV = (props: ComponentProps<typeof View>) => {
     })
   }, [])
 
-  const MVIntroItem = (props: { resource: MVIntro2 }) => (
+  const MVIntroItem = (props: { resource: MVBrief2 }) => (
     <View key={props.resource.id} className='mv-intro-item'>
       <View
         className='picture'
@@ -112,4 +112,3 @@ const PageMV = (props: ComponentProps<typeof View>) => {
     </View>
   )
 }
-export default PageMV

@@ -13,7 +13,9 @@ type Url = string
 type ID = number | string
 /**名字 */
 type Name = string
-/**资源的时间戳 */
-type TimeNumber = number
 /** 一小段文字 */
 type Scentence = string
+/**资源的时间戳,持续时间等 */
+type TimeNumber = number
+/**代表一个时刻字符串 */
+type DateString = string

@@ -202,7 +202,7 @@ interface TopSong {
 }
 
 /** MV（表） */
-interface MVIntro {
+interface MVBrief {
   /**mv ID */
   id: ID
   /**涉及到的歌手 */
@@ -218,7 +218,7 @@ interface MVIntro {
 }
 
 /** MV（表） */
-interface MVIntro2 {
+interface MVBrief2 {
   /**mv ID */
   id: ID
   /**涉及到的歌手 */
@@ -234,7 +234,13 @@ interface MVIntro2 {
 }
 
 /**电台简介信息(排行榜) */
-interface DJRankItemIntro {
+interface DJRank {
+  /**电台ID */
+  id: ID // 792868378
+  /**电台名称 */
+  name: string //'一条小团团OvO的翻唱合集'
+  /**封面 */
+  picUrl: Url //'http://p3.music.126.net/iRkVEquf5YAkzIILGyM_lg==/109951163905919405.jpg'
   /**所处分类 */
   category: string //'创作|翻唱'
   /**分类的ID */
@@ -243,15 +249,8 @@ interface DJRankItemIntro {
   createTime: number // 1551785967125
   /**创作人 */
   creatorName: Name // '一条小团团OvO'
-  feeScope: 0
-  /**电台ID */
-  id: ID // 792868378
   /**上次排行, -1 代表是新人 */
   lastRank: number //3
-  /**电台名称 */
-  name: string //'一条小团团OvO的翻唱合集'
-  /**封面 */
-  picUrl: Url //'http://p3.music.126.net/iRkVEquf5YAkzIILGyM_lg==/109951163905919405.jpg'
   programCount: 0
   radioFeeType: 0
   /**排行 */
@@ -264,24 +263,57 @@ interface DJRankItemIntro {
 }
 
 /**电台简介信息 */
-interface DJItemIntro {
-  feeScope: 0
+interface DJItem {
   /**电台ID */
   id: 34
-  /**最近一期的节目的名称 */
-  lastProgramName: '后浪入海'
   /**电台名称 */
-  name: '在云端'
+  name: Name
+  /**封面 */
+  picUrl: Url
+  /**最近一期的节目的名称 */
+  lastProgramName: Name
   /**付费价格 */
   // originalPrice: null
-  /**封面 */
-  picUrl: 'http://p2.music.126.net/bcUg3xdpJPJehq9fqfQedw==/109951164910880251.jpg'
   /**电台节目数 */
-  programCount: 147
+  programCount: number
   /**付费类型 */
   // radioFeeType: 0
   /**推荐理由 */
-  rcmdText: '林海私人分享，品质音乐推荐'
+  rcmdText: Scentence
   /**是否以订阅 */
-  subed: false
+  subed: boolean
+}
+
+/** mv 详情（没有视频地址） */
+interface MvDetail {
+  id: ID
+  /**名字，例如：'《今日营业中》黄龄：做NICE(耐撕)的姐姐' */
+  name: Scentence
+  /**封面 */
+  cover: Url
+  artistId: ID
+  artistName: Name
+  /**简介 */
+  desc: Scentence
+  coverId: ID
+  playCount: number
+  subCount: number
+  shareCount: number
+  commentCount: number
+  duration: TimeNumber
+  publishTime: DateString
+  /**清晰度 */
+  // brs: [
+  //   { size: 34831384; br: 240; point: 0 },
+  //   { size: 55557848; br: 480; point: 2 },
+  //   { size: 86622680; br: 720; point: 5 },
+  //   { size: 228604288; br: 1080; point: 10 }
+  // ]
+  artists: Artist[]
+  /**评论列表 */
+  commentThreadId: ID
+}
+
+interface MvUrl {
+  url: Url
 }

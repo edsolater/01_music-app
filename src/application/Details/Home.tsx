@@ -15,8 +15,8 @@ type State = {
   recommendResource: RecommendResource[]
   exclusiveContent: ExclusiveContent[]
   topSongs: TopSong[]
-  mvs: MVIntro[]
-  djSites: DJItemIntro[]
+  mvs: MVBrief[]
+  djSites: DJItem[]
 }
 type Action = {
   type: 'set'

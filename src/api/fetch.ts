@@ -92,7 +92,7 @@ type RequestParams = {
   '/personalized/mv': {
     params: {}
     response: {
-      result: MVIntro[]
+      result: MVBrief[]
       code: 200
     }
   }
@@ -102,7 +102,7 @@ type RequestParams = {
   '/dj/toplist': {
     params: { /** 类型：新/热门 */ type?: 'new' | 'hot' }
     response: {
-      toplist: DJRankItemIntro[]
+      toplist: DJRank[]
       code: 200
       /**数据刷新时间 */
       updateTime: TimeNumber
@@ -114,7 +114,7 @@ type RequestParams = {
   '/dj/today/perfered': {
     params: {}
     response: {
-      data: DJItemIntro[]
+      data: DJItem[]
       code: 200
     }
   }
@@ -133,7 +133,7 @@ type RequestParams = {
       offset?: number
     }
     response: {
-      data: MVIntro2[]
+      data: MVBrief2[]
       code: 200
       hasMore: boolean
       count: number
@@ -150,9 +150,56 @@ type RequestParams = {
       offset?: number
     }
     response: {
-      data: MVIntro2[]
+      data: MVBrief2[]
       code: 200
       more: boolean
+    }
+  }
+  /**
+   * 获取 mv 数据
+   * 其中 mv 视频 网易做了防盗链处理 , 可能不能直接播放 , 需要播放的话需要调用 ' mv 地址' 接口
+   */
+  '/mv/detail': {
+    params: {
+      /** mv 的 id */
+      mvid?: ID
+    }
+    response: {
+      data: MvDetail
+      code: 200
+    }
+  }
+  /**
+   * 获取 mv 的点赞数（自己是否已点赞）
+   */
+  '/mv/detail/info': {
+    params: {
+      /** mv 的 id */
+      mvid?: ID
+    }
+    response: {
+      /**总点赞数 */
+      likedCount: number
+      shareCount: number
+      commentCount: number
+      /**是否已点赞 */
+      liked: boolean
+      code: 200
+    }
+  }
+  /**
+   * 获取 mv 的地址
+   */
+  '/mv/url': {
+    params: {
+      /** mv 的 id */
+      id?: ID
+    }
+    response: {
+      data: {
+        url: Url
+      }
+      code: 200
     }
   }
 }
@@ -174,7 +221,10 @@ const requestConfigs: {
   '/dj/toplist': {},
   '/dj/today/perfered': {},
   '/mv/all': {},
-  '/mv/exclusive/rcmd': {}
+  '/mv/exclusive/rcmd': {},
+  '/mv/detail': {},
+  '/mv/detail/info': {},
+  '/mv/url': {}
 }
 
 //#endregion
