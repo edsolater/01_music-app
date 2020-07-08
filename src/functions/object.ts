@@ -43,22 +43,22 @@ export function omit<T extends AnyObject, K extends (keyof T)[]>(
 }
 
 /**
- * 合并两个对象
+ * 合并两个对象，会对不同类型的值有不同的合并方式
  * TODO - 需要测试测试再测试
  * @param objs 需要合并的对象
  */
-export function mergeObjects<T, U>(obj1: T, obj2: U): T & U
-export function mergeObjects<T, U, V>(obj1: T, obj2: U, obj3: V): T & U & V
-export function mergeObjects<T, U, V, W>(obj1: T, obj2: U, obj3: V, obj4: W): T & U & V & W
-export function mergeObjects<T>(...objs: T[]): T
-export function mergeObjects(...objs) {
+export function mergeDeep<T, U>(obj1: T, obj2: U): T & U
+export function mergeDeep<T, U, V>(obj1: T, obj2: U, obj3: V): T & U & V
+export function mergeDeep<T, U, V, W>(obj1: T, obj2: U, obj3: V, obj4: W): T & U & V & W
+export function mergeDeep<T>(...objs: T[]): T
+export function mergeDeep(...objs) {
   const result = {}
   Object.keys(Object.assign({}, ...objs)).forEach(key => {
     const values = objs.map(prop => prop[key]).filter(Boolean)
     if (key === 'a') {
       result[key] = values.reduce((a, b) => a + b)
     } else if (values.every(value => typeof value === 'object')) {
-      result[key] = mergeObjects(...values)
+      result[key] = mergeDeep(...values)
     } else if (values.every(value => typeof value === 'function')) {
       result[key] = (...args) => values.map(fn => fn(...args))
     } else {
@@ -72,6 +72,23 @@ export function mergeObjects(...objs) {
 /**
  * 返回对象的某个属性
  * 返回函数的函数都以will开头
+ * IDEA: 实际函数包裹一层特殊函数，产出高阶函数。（但是有不够直观的问题）
  * TODO - 需要测试测试再测试
  */
 export const willGetProperty = (key: string) => (obj: AnyObject) => obj[key]
+
+/**
+ * 将剩余对象的属性覆盖到第一个对象，但第一个对象没有的属性不合并，且值为undefined或null的属性不合并
+ * @param targetObj （被overlay）目标对象（也提供输出对象的类型信息）
+ * @param objs （overlay）覆盖的对象
+ */
+export function overlay<T>(targetObj: T, ...objs: Partial<T>[]): T {
+  Object.keys(targetObj).forEach(key => {
+    targetObj[key] =
+      objs.reduce(
+        (acc, cur) => (cur[key] !== undefined && cur[key] !== null ? cur[key] : acc),
+        null
+      ) ?? targetObj[key]
+  })
+  return targetObj
+}

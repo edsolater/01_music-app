@@ -9,6 +9,7 @@ import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
+import { overlay } from 'functions/object'
 
 type State = {
   newMVs: MVBrief2[]
@@ -17,20 +18,12 @@ type State = {
 }
 type Action = {
   type: 'set'
-  newMVs?: State['newMVs']
-  hotMVs?: State['hotMVs']
-  neteaseMVs?: State['neteaseMVs']
-}
+} & Partial<State>
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set':
-      return {
-        ...state,
-        newMVs: action.newMVs ?? state.newMVs,
-        hotMVs: action.hotMVs ?? state.hotMVs,
-        neteaseMVs: action.neteaseMVs ?? state.neteaseMVs
-      }
+      return overlay({ ...state }, action)
     default:
       return state
   }

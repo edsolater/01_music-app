@@ -2,22 +2,19 @@ import React, { ComponentProps, useReducer, useEffect } from 'react'
 import fetch from 'api/fetch'
 import View from 'baseUI/UI/View'
 import Text from 'baseUI/UI/Text'
+import { overlay } from 'functions/object'
 
 type State = {
   mvUrl: Url
 }
 type Action = {
   type: 'set'
-  mvUrl?: Url
-}
+} & Partial<State>
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set':
-      return {
-        ...state,
-        mvUrl: action.mvUrl ?? state.mvUrl
-      }
+      return overlay({ ...state }, action)
     default:
       return state
   }
@@ -40,6 +37,7 @@ export default function MvDetailPage(
   return (
     <View className='Section'>
       <Text>mvId: {props.id}</Text>
+
       <video src={state.mvUrl} controls />
     </View>
   )
