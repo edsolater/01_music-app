@@ -1,5 +1,5 @@
 /**
- * 浅拷贝数组，在数组的每两项间的空隙，插入值
+ * (immutable)在数组的每两项间的空隙，插入值
  * @param target 目标数组
  * @param toInsert 中间插入的值
  * @example
@@ -15,7 +15,7 @@ export function fillGap<T, K>(target: T[], toInsert: K): (T | K)[] {
 }
 
 /**
- * 创造有初始长度的数组，默认空值为undefined
+ * (immutable)新创建一个有初始长度的数组，默认空值为undefined
  * @param length 数组长度
  * @param fill 空位置上的值，默认undefined
  * @example
@@ -32,4 +32,21 @@ export function createArray<T = undefined>(length: number, fill?: T | ((idx: num
     return Array.from({ length }, () => fill)
   }
 }
+
+/**
+ * (mutable)随机打乱数组（Fisher–Yates算法）
+ * @param arr 目标数组
+ * @example
+ * shuffle([1,2,3,4,5]) => [4,3,5,1,2]
+ * @see https://juejin.im/post/5d004ad95188257c6b518056#heading-4
+ */
+export function shuffle<T>(arr: T[]): T[] {
+  let m = arr.length
+  while (m > 1) {
+    let index = Math.floor(Math.random() * m--)
+    ;[arr[m], arr[index]] = [arr[index], arr[m]]
+  }
+  return arr
+}
+
 // IDEA 批处理，类似 listDo(target, action1, action2) => newList
