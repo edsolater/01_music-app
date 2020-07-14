@@ -3,7 +3,7 @@
   width: min(854px, 100%);
   background-color: black;
 }
-.layout.simi-mvs {
+._simi-mvs {
   display: grid;
   grid-template-columns: 200px;
 }
@@ -81,5 +81,33 @@
   }
   .description {
     word-break: break-all;
+  }
+}
+._comment-item {
+  display: grid;
+  grid-template:
+    'a c c' auto
+    'a r r' auto
+    'a t b' 40px / 100px 1fr 1fr;
+  ._left-most {
+    grid-area: a;
+  }
+  ._middle {
+    grid-area: c;
+  }
+  ._bottom-left {
+    grid-area: t;
+  }
+  ._bottom-right {
+    grid-area: b;
+  }
+  ._btns {
+    display: flex;
+  }
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
   }
 }

@@ -9,6 +9,8 @@ type UtilFunction = (...args: any[]) => any
 type HttpCode = 200
 /**url地址（例如：图片的src） */
 type Url = string
+type SrcUrl = Url
+type LinkUrl = Url
 /**资源ID */
 type ID = number | string
 /**名字 */

@@ -215,6 +215,28 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 获取相似mv
+   */
+  '/comment/mv': {
+    params: {
+      /** mv 的 id */
+      id?: ID
+      /**取出评论数量 , 默认为 20 */
+      limit?: number
+      /**偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值 */
+      offset?: number
+      /**分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到) */
+      before?: number
+    }
+    response: {
+      hotComments: MVCommentItem[]
+      comments: MVCommentItem[]
+      total: number
+      more: boolean
+      code: 200
+    }
+  }
 }
 const requestConfigs: {
   [requestUrl in keyof RequestParams]: {
@@ -238,7 +260,8 @@ const requestConfigs: {
   '/mv/detail': {},
   '/simi/mv': {},
   '/mv/detail/info': {},
-  '/mv/url': {}
+  '/mv/url': {},
+  '/comment/mv': {}
 }
 
 //#endregion

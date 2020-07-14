@@ -316,6 +316,34 @@ interface MvDetail {
   commentThreadId: ID
 }
 
-interface MvUrl {
-  url: Url
+/**
+ * 评论中的用户信息
+ */
+interface CommentUserInfo {
+  avatarUrl: SrcUrl
+  nickname: Name
+  userId: ID
+}
+
+/** mv 的评论 */
+interface MVCommentItem {
+  /**评论词条的作者 */
+  user: CommentUserInfo
+  /**因为这条评论而被评论的评论 */
+  beReplied: MVRepliedCommentItem[]
+  commentId: 3376050495
+  content: Scentence
+  time: TimeNumber
+  /**总点赞次数 */
+  likedCount: 0
+  /**我是否已点赞 */
+  liked: false
+}
+
+/** 对评论的回复 */
+interface MVRepliedCommentItem {
+  /**评论词条的作者 */
+  user: CommentUserInfo
+  beRepliedCommentId: 3355914672
+  content: Scentence
 }

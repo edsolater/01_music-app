@@ -11,7 +11,9 @@ import { recoder } from 'assets/icons'
 
 const initState = {
   mvUrl: '' as Url,
-  simiMvs: [] as MVBrief2[]
+  simiMvs: [] as MVBrief2[],
+  hotComments: [] as MVCommentItem[],
+  comments: [] as MVCommentItem[]
 }
 type State = typeof initState
 type Action = {
@@ -60,24 +62,58 @@ export default function MvDetailPage(
     </View>
   )
   useEffect(() => {
-    Promise.all([fetch('/mv/url', { id: props.id }), fetch('/simi/mv', { mvid: props.id })]).then(
-      reses => {
-        dispatch({
-          type: 'set',
-          mvUrl: reses[0]?.data.data.url,
-          simiMvs: reses[1]?.data.mvs
-        })
-      }
-    )
+    Promise.all([
+      fetch('/mv/url', { id: props.id }),
+      fetch('/simi/mv', { mvid: props.id }),
+      fetch('/comment/mv', { id: props.id })
+    ]).then(reses => {
+      dispatch({
+        type: 'set',
+        mvUrl: reses[0]?.data.data.url,
+        simiMvs: reses[1]?.data.mvs,
+        hotComments: reses[2]?.data.hotComments,
+        comments: reses[2]?.data.comments
+      })
+    })
   }, [])
   return (
     <View className='Section'>
       <Text>mvId: {props.id}</Text>
+
       <video className='mv-window' src={state.mvUrl} controls />
-      <div className='layout simi-mvs'>
-        相似mv
-        {state.simiMvs.slice(0, 8).map(resource => (
-          <MVIntroItem key={resource.id} resource={resource} />
+
+      {/* 相似mv */}
+      <div className='_simi-mvs'>
+        {state.simiMvs.slice(0, 8).map(item => (
+          <MVIntroItem key={item.id} resource={item} />
+        ))}
+      </div>
+
+      {/* 评论 */}
+      <div className='_comments'>
+        {state.hotComments.map(item => (
+          <div className='_comment-item'>
+            <div className='_left-most'>
+              <img className='avatar' src={item.user.avatarUrl}></img>
+            </div>
+            <div className='_middle'>
+              <span className='username'>{item.user.nickname}:</span>
+              <span className='content'>{item.content}</span>
+            </div>
+            <div className='_bottom-left'>
+              <div className='create-time'>{item.time}</div>
+            </div>
+            <div className='_bottom-right'>
+              <div className='_btns'>
+                <div className='btn'>举报</div>
+                <div className='divider' />
+                <div className='btn'>分享</div>
+                <div className='divider' />
+                <div className='btn'>回复</div>
+                <div className='divider' />
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </View>
