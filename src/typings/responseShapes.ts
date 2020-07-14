@@ -224,7 +224,9 @@ interface MVBrief2 {
   /**涉及到的歌手 */
   artists: Artist[]
   /**推荐理由 */
-  copywriter: string
+  copywriter?: Scentence
+  /**简单介绍 */
+  briefDesc?: Scentence
   /**mv名 */
   name: string
   /**mv封面 */

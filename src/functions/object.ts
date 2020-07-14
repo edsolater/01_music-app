@@ -82,7 +82,7 @@ export const willGetProperty = (key: string) => (obj: AnyObject) => obj[key]
  * @param targetObj （被overlay）目标对象（也提供输出对象的类型信息）
  * @param objs （overlay）覆盖的对象
  */
-export function overlay<T>(targetObj: T, ...objs: Partial<T>[]): T {
+export function overwrite<T>(targetObj: T, ...objs: Partial<T>[]): T {
   Object.keys(targetObj).forEach(key => {
     targetObj[key] =
       objs.reduce(

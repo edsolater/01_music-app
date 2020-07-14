@@ -9,21 +9,22 @@ import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
-import { overlay } from 'functions/object'
+import { overwrite } from 'functions/object'
 
-type State = {
-  newMVs: MVBrief2[]
-  hotMVs: MVBrief2[]
-  neteaseMVs: MVBrief2[]
-}
+type State = typeof initState
 type Action = {
   type: 'set'
 } & Partial<State>
 
+const initState = {
+  newMVs: [] as MVBrief2[],
+  hotMVs: [] as MVBrief2[],
+  neteaseMVs: [] as MVBrief2[]
+}
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set':
-      return overlay({ ...state }, action)
+      return overwrite({ ...state }, action)
     default:
       return state
   }
@@ -31,11 +32,7 @@ const reducer = (state: State, action: Action): State => {
 
 export default function PageMV(props: ComponentProps<typeof View>) {
   const [, routeDispatch] = useContext(RouterContext)
-  const [state, dispatch] = useReducer(reducer, {
-    newMVs: [],
-    hotMVs: [],
-    neteaseMVs: []
-  })
+  const [state, dispatch] = useReducer(reducer, initState)
 
   useEffect(() => {
     Promise.all([

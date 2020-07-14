@@ -202,6 +202,19 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 获取相似mv
+   */
+  '/simi/mv': {
+    params: {
+      /** mv 的 id */
+      mvid?: ID
+    }
+    response: {
+      mvs: MVBrief2[]
+      code: 200
+    }
+  }
 }
 const requestConfigs: {
   [requestUrl in keyof RequestParams]: {
@@ -223,6 +236,7 @@ const requestConfigs: {
   '/mv/all': {},
   '/mv/exclusive/rcmd': {},
   '/mv/detail': {},
+  '/simi/mv': {},
   '/mv/detail/info': {},
   '/mv/url': {}
 }
