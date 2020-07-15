@@ -1,0 +1,29 @@
+._gc._comment-item {
+  display: grid;
+  grid-template:
+    'a c c' auto
+    'a r r' auto
+    'a t b' 40px / 100px 1fr 1fr;
+  ._gi.avatar {
+    grid-area: a;
+  }
+  ._gi._middle {
+    grid-area: c;
+  }
+  ._gi.create-time {
+    grid-area: t;
+  }
+  ._gi._btns {
+    grid-area: b;
+    display: flex;
+    width: max-content;
+    justify-self: right;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}

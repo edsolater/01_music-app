@@ -92,3 +92,11 @@ export function overwrite<T>(targetObj: T, ...objs: Partial<T>[]): T {
   })
   return targetObj
 }
+
+/**
+ * 检测对象是否为空
+ * @param target 目标对象
+ */
+export function isEmptyObject(target: AnyObject): boolean {
+  return Boolean(Object.keys(target).length)
+}

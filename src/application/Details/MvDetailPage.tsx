@@ -1,19 +1,29 @@
 import React, { ComponentProps, useReducer, useEffect, useContext, Fragment } from 'react'
 import './MvDetailPage.scss'
 import fetch from 'api/fetch'
+import { RouterContext } from 'context/router'
+import { recoder } from 'assets/icons'
 import View from 'baseUI/UI/View'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
-import { overwrite } from 'functions/object'
-import { RouterContext } from 'context/router'
 import Icon from 'baseUI/UI/Icon'
-import { recoder } from 'assets/icons'
+import { overwrite } from 'functions/object'
+import CommentItem from 'components/CommentItem'
 
 const initState = {
   mvUrl: '' as Url,
   simiMvs: [] as MVBrief2[],
   hotComments: [] as MVCommentItem[],
-  comments: [] as MVCommentItem[]
+  comments: [] as MVCommentItem[],
+  statisticData: {
+    /**总点赞数 */
+    likedCount: undefined as number | undefined,
+    shareCount: undefined as number | undefined,
+    commentCount: undefined as number | undefined,
+    /**是否已点赞 */
+    liked: false
+  },
+  mvDetail: {} as MvDetail
 }
 type State = typeof initState
 type Action = {
@@ -65,14 +75,23 @@ export default function MvDetailPage(
     Promise.all([
       fetch('/mv/url', { id: props.id }),
       fetch('/simi/mv', { mvid: props.id }),
-      fetch('/comment/mv', { id: props.id })
+      fetch('/comment/mv', { id: props.id }),
+      fetch('/mv/detail/info', { mvid: props.id }),
+      fetch('/mv/detail', { mvid: props.id })
     ]).then(reses => {
       dispatch({
         type: 'set',
         mvUrl: reses[0]?.data.data.url,
         simiMvs: reses[1]?.data.mvs,
         hotComments: reses[2]?.data.hotComments,
-        comments: reses[2]?.data.comments
+        comments: reses[2]?.data.comments,
+        statisticData: {
+          likedCount: reses[3]?.data.likedCount,
+          shareCount: reses[3]?.data.shareCount,
+          commentCount: reses[3]?.data.commentCount,
+          liked: reses[3]?.data.liked ?? false
+        },
+        mvDetail: reses[4]?.data.data
       })
     })
   }, [])
@@ -89,31 +108,15 @@ export default function MvDetailPage(
         ))}
       </div>
 
-      {/* 评论 */}
+      {/* 评论词条 */}
       <div className='_comments'>
         {state.hotComments.map(item => (
-          <div className='_comment-item'>
-            <div className='_left-most'>
-              <img className='avatar' src={item.user.avatarUrl}></img>
-            </div>
-            <div className='_middle'>
-              <span className='username'>{item.user.nickname}:</span>
-              <span className='content'>{item.content}</span>
-            </div>
-            <div className='_bottom-left'>
-              <div className='create-time'>{item.time}</div>
-            </div>
-            <div className='_bottom-right'>
-              <div className='_btns'>
-                <div className='btn'>举报</div>
-                <div className='divider' />
-                <div className='btn'>分享</div>
-                <div className='divider' />
-                <div className='btn'>回复</div>
-                <div className='divider' />
-              </div>
-            </div>
-          </div>
+          <CommentItem
+            avatarUrl={item.user.avatarUrl}
+            nickname={item.user.nickname}
+            content={item.content}
+            time={item.time}
+          />
         ))}
       </div>
     </View>
