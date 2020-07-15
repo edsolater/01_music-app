@@ -1,4 +1,4 @@
-import React, { ComponentProps, useReducer, useEffect, Fragment } from 'react'
+import React, { ComponentProps, useReducer, useEffect, Fragment, useContext } from 'react'
 
 import './Home.scss'
 import View from 'baseUI/UI/View'
@@ -9,6 +9,7 @@ import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { headset, recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
+import { RouterContext } from 'context/router'
 
 type State = {
   banners: Banner[]
@@ -46,6 +47,7 @@ const reducer = (state: State, action: Action): State => {
 }
 
 const Home = (props: ComponentProps<typeof View>) => {
+  const [, routeDispatch] = useContext(RouterContext)
   const [state, dispatch] = useReducer(reducer, {
     banners: [],
     recommendResource: [],
@@ -122,7 +124,12 @@ const Home = (props: ComponentProps<typeof View>) => {
       <SectionHeader sectionName='独家放送' />
       <View className='exclusive-contents'>
         {state.exclusiveContent.slice(0, 3).map(resource => (
-          <View key={resource.id}>
+          <View
+            key={resource.id}
+            onClick={() => {
+              routeDispatch({ type: 'push', item: { name: 'mvDetail', id: resource.id } })
+            }}
+          >
             <View className='picture'>
               <Image className='thumbnail' src={resource.sPicUrl} />
             </View>
@@ -157,7 +164,12 @@ const Home = (props: ComponentProps<typeof View>) => {
       <SectionHeader sectionName='推荐mv' />
       <View className='mvs'>
         {state.mvs.slice(0, 4).map(resource => (
-          <View key={resource.id}>
+          <View
+            key={resource.id}
+            onClick={() => {
+              routeDispatch({ type: 'push', item: { name: 'mvDetail', id: resource.id } })
+            }}
+          >
             <View className='picture'>
               <View className='legend'>
                 <Text>{resource.copywriter}</Text>

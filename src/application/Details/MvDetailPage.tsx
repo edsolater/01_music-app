@@ -94,7 +94,7 @@ export default function MvDetailPage(
         mvDetail: reses[4]?.data.data
       })
     })
-  }, [])
+  }, [props.id])
   return (
     <View className='Section'>
       <Text>mvId: {props.id}</Text>
