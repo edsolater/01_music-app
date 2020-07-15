@@ -92,7 +92,7 @@ type RequestParams = {
   '/personalized/mv': {
     params: {}
     response: {
-      result: MVBrief[]
+      result: MvBrief[]
       code: 200
     }
   }
@@ -133,7 +133,7 @@ type RequestParams = {
       offset?: number
     }
     response: {
-      data: MVBrief2[]
+      data: MvBrief2[]
       code: 200
       hasMore: boolean
       count: number
@@ -150,7 +150,7 @@ type RequestParams = {
       offset?: number
     }
     response: {
-      data: MVBrief2[]
+      data: MvBrief2[]
       code: 200
       more: boolean
     }
@@ -211,7 +211,7 @@ type RequestParams = {
       mvid?: ID
     }
     response: {
-      mvs: MVBrief2[]
+      mvs: MvBrief2[]
       code: 200
     }
   }
@@ -230,8 +230,8 @@ type RequestParams = {
       before?: number
     }
     response: {
-      hotComments: MVCommentItem[]
-      comments: MVCommentItem[]
+      hotComments: MvCommentItem[]
+      comments: MvCommentItem[]
       total: number
       more: boolean
       code: 200

@@ -17,9 +17,9 @@ type Action = {
 } & Partial<State>
 
 const initState = {
-  newMVs: [] as MVBrief2[],
-  hotMVs: [] as MVBrief2[],
-  neteaseMVs: [] as MVBrief2[]
+  newMVs: [] as MvBrief2[],
+  hotMVs: [] as MvBrief2[],
+  neteaseMVs: [] as MvBrief2[]
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -49,7 +49,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
     })
   }, [])
 
-  const MVIntroItem = (props: { resource: MVBrief2 }) => (
+  const MvIntroItem = (props: { resource: MvBrief2 }) => (
     <View key={props.resource.id} className='mv-intro-item'>
       <View
         className='picture'
@@ -80,7 +80,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       <SectionHeader sectionName='最新MV' />
       <View className='new-mvs'>
         {state.newMVs.slice(0, 8).map(resource => (
-          <MVIntroItem key={resource.id} resource={resource} />
+          <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
 
@@ -88,7 +88,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       <SectionHeader sectionName='最热MV' />
       <View className='hot-mvs'>
         {state.hotMVs.slice(0, 8).map(resource => (
-          <MVIntroItem key={resource.id} resource={resource} />
+          <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
 
@@ -96,7 +96,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       <SectionHeader sectionName='网易出品' />
       <View className='netease-mvs'>
         {state.neteaseMVs.slice(0, 8).map(resource => (
-          <MVIntroItem key={resource.id} resource={resource} />
+          <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
     </View>

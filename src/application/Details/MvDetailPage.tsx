@@ -12,9 +12,9 @@ import CommentItem from 'components/CommentItem'
 
 const initState = {
   mvUrl: '' as Url,
-  simiMvs: [] as MVBrief2[],
-  hotComments: [] as MVCommentItem[],
-  comments: [] as MVCommentItem[],
+  simiMvs: [] as MvBrief2[],
+  hotComments: [] as MvCommentItem[],
+  comments: [] as MvCommentItem[],
   statisticData: {
     /**总点赞数 */
     likedCount: undefined as number | undefined,
@@ -46,7 +46,7 @@ export default function MvDetailPage(
 ) {
   const [state, dispatch] = useReducer(reducer, initState)
   const [, routeDispatch] = useContext(RouterContext)
-  const MVIntroItem = (props: { resource: MVBrief2 }) => (
+  const MvIntroItem = (props: { resource: MvBrief2 }) => (
     <View key={props.resource.id} className='mv-intro-item'>
       <View
         className='picture'
@@ -104,13 +104,13 @@ export default function MvDetailPage(
       {/* 相似mv */}
       <div className='_simi-mvs'>
         {state.simiMvs.slice(0, 8).map(item => (
-          <MVIntroItem key={item.id} resource={item} />
+          <MvIntroItem key={item.id} resource={item} />
         ))}
       </div>
 
       {/* 评论词条 */}
       <div className='_comments'>
-        {state.hotComments.map(item => (
+        {state.comments.map(item => (
           <CommentItem
             avatarUrl={item.user.avatarUrl}
             nickname={item.user.nickname}

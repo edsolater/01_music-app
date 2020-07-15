@@ -202,7 +202,7 @@ interface TopSong {
 }
 
 /** MV（表） */
-interface MVBrief {
+interface MvBrief {
   /**mv ID */
   id: ID
   /**涉及到的歌手 */
@@ -218,7 +218,7 @@ interface MVBrief {
 }
 
 /** MV（表） */
-interface MVBrief2 {
+interface MvBrief2 {
   /**mv ID */
   id: ID
   /**涉及到的歌手 */
@@ -326,11 +326,11 @@ interface CommentUserInfo {
 }
 
 /** mv 的评论 */
-interface MVCommentItem {
+interface MvCommentItem {
   /**评论词条的作者 */
   user: CommentUserInfo
   /**因为这条评论而被评论的评论 */
-  beReplied: MVRepliedCommentItem[]
+  beReplied: MvRepliedCommentItem[]
   commentId: 3376050495
   content: Scentence
   time: TimeNumber
@@ -341,7 +341,7 @@ interface MVCommentItem {
 }
 
 /** 对评论的回复 */
-interface MVRepliedCommentItem {
+interface MvRepliedCommentItem {
   /**评论词条的作者 */
   user: CommentUserInfo
   beRepliedCommentId: 3355914672
