@@ -1,5 +1,13 @@
 .song-detail-page {
   grid-area: 1 / 1 / auto / -1;
   z-index: 1;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
+  transform-origin: bottom left;
+  transition: 300ms;
+  &.hidden {
+    transform: scale(0);
+  }
+  &.shown {
+    transform: none;
+  }
 }
