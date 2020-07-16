@@ -1,5 +1,7 @@
 @use '../sass/layout.scss';
 .player-bar {
+  grid-row: 2;
+  grid-column: 1 / -1;
   display: grid;
   align-items: center;
   grid-template-columns: auto auto 1fr auto;
@@ -7,9 +9,29 @@
   background: var(--theme-color);
   gap: 48px;
   .album-face {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: black;
+      transition: 300ms;
+      opacity: 0;
+    }
+    &:hover::after {
+      opacity: 0.3;
+    }
+    &:active::after {
+      opacity: 0.5;
+    }
   }
   .music-buttons {
     @include layout.row(16px);

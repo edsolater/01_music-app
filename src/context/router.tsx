@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 
 type PathItem = {
   /**设计思想上类似于域名 */
-  name: '' | 'mvDetail' | 'playlist' | 'menu'
+  name: '' | 'mvDetail' | 'playlist' | 'menu' | 'songDetail'
   /**设计思想上类似于端口号 */
   id?: ID
 }
@@ -19,7 +19,8 @@ type ComputedState = {
 type State = OriginalState & ComputedState
 type Action =
   | { type: 'set'; stack: OriginalState['stack'] }
-  | { type: 'push'; item: ArrayItem<OriginalState['stack']> }
+  | { type: 'to'; item: ArrayItem<OriginalState['stack']> }
+  | { type: 'back' }
 
 function computeLast(originalState: OriginalState): State {
   return { ...originalState, last: originalState.stack[originalState.stack.length - 1] }
@@ -29,8 +30,13 @@ function reducer(state: State, action: Action): State {
     case 'set': {
       return computeLast({ ...state, stack: action.stack })
     }
-    case 'push': {
+    case 'to': {
       return computeLast({ ...state, stack: [...state.stack, action.item] })
+    }
+    case 'back': {
+      const clonedStack = [...state.stack]
+      clonedStack.pop()
+      return computeLast({ ...state, stack: clonedStack })
     }
     default: {
       throw new Error(`from ${RouterProvider.name}'s reducer`)

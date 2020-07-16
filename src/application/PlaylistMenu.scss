@@ -2,6 +2,8 @@
 @use '../sass/component.scss';
 @use '../sass/colorBlock.scss';
 .playlist-menu {
+  grid-row: 1;
+  grid-column: 1;
   border-right: var(--section-divider);
   background-color: var(--primary);
   display: flex;

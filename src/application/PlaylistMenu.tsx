@@ -75,7 +75,7 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
         }
         onSelectItem={item => {
           routerDispatch({
-            type: 'push',
+            type: 'to',
             // @ts-expect-error isMenu不是类型中一定存在的，
             item: { name: item.isMenu ? 'menu' : 'playlist', id: item.id }
           })

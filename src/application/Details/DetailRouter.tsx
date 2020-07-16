@@ -1,4 +1,6 @@
 import React, { useContext, ComponentProps } from 'react'
+import './DetailRouter.scss'
+
 import { RouterContext } from 'context/router'
 import Home from './Home'
 import MvListPage from './MvListPage'
@@ -8,7 +10,7 @@ import MvDetailPage from './MvDetailPage'
 
 export default function DetailRouter(props: ComponentProps<typeof View>): JSX.Element {
   const [appRoute] = useContext(RouterContext)
-  const ResultNode = (() => {
+  const ResultNode = () => {
     switch (appRoute.last.name) {
       case 'mvDetail':
         return <MvDetailPage id={appRoute.last.id ?? ''} {...props} />
@@ -28,6 +30,10 @@ export default function DetailRouter(props: ComponentProps<typeof View>): JSX.El
       default:
         return <View>空白内容页</View>
     }
-  })()
-  return ResultNode
+  }
+  return (
+    <section className='detail-router'>
+      <ResultNode />
+    </section>
+  )
 }

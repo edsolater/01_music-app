@@ -14,6 +14,7 @@ import SongInfoProvider from 'context/SongInfo'
 import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
 import DetailRouter from 'application/Details/DetailRouter'
 import RouterProvider from 'context/router'
+import SongDetailPage from 'application/SongDetailPage'
 
 function App() {
   const [, likelistDispatch] = useContext(LikelistContext)
@@ -39,6 +40,7 @@ function App() {
       <PlaylistMenu />
       <DetailRouter />
       <PlayerBar />
+      <SongDetailPage />
     </>
   )
 }

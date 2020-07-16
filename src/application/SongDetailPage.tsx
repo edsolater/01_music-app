@@ -9,6 +9,7 @@ import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { overwrite } from 'functions/object'
 import CommentItem from 'components/CommentItem'
+import { SongInfoContext } from 'context/SongInfo'
 
 const initState = {}
 type State = typeof initState
@@ -25,19 +26,19 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export default function SongDetailPage(
-  props: ComponentProps<typeof View> & {
-    id: ID
-  }
-) {
+export default function SongDetailPage(props: {}) {
   const [state, dispatch] = useReducer(reducer, initState)
-  const [, routeDispatch] = useContext(RouterContext)
+  const [songInfo] = useContext(SongInfoContext)
+  const [router, routerDispatch] = useContext(RouterContext)
   useEffect(() => {
+    console.log(3)
     Promise.all([]).then(reses => {})
-  }, [props.id])
+  }, [songInfo.id])
   return (
-    <section className='song-detail-page'>
-      <Text>songId: {props.id}</Text>
+    <section
+      className={`song-detail-page ${router.last.name === 'songDetail' ? 'shown' : 'hidden'}`}
+    >
+      <Text>songId: {songInfo.id}</Text>
     </section>
   )
 }

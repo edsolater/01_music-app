@@ -127,7 +127,7 @@ const Home = (props: ComponentProps<typeof View>) => {
           <View
             key={resource.id}
             onClick={() => {
-              routeDispatch({ type: 'push', item: { name: 'mvDetail', id: resource.id } })
+              routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
             }}
           >
             <View className='picture'>
@@ -167,7 +167,7 @@ const Home = (props: ComponentProps<typeof View>) => {
           <View
             key={resource.id}
             onClick={() => {
-              routeDispatch({ type: 'push', item: { name: 'mvDetail', id: resource.id } })
+              routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
             }}
           >
             <View className='picture'>

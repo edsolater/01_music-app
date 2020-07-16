@@ -19,6 +19,7 @@ import Popover from 'baseUI/UI/Popover'
 import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'context/likelist'
 import useLogicAndEffect from 'hooks/useAndEffect'
+import { RouterContext } from 'context/router'
 
 type State = {
   userActionCounter: number // 记录用户事件
@@ -126,6 +127,7 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
   useDevRenderCounter(PlayerBar.name)
 
   /* ----------------------------------- 状态 ----------------------------------- */
+  const [router, routerDispatch] = useContext(RouterContext)
   const [songInfo] = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
   const audioElement = useDomNode('audio')
@@ -224,8 +226,19 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
 
   return (
     <>
-      <View as='section' className='player-bar' {...props}>
-        <Image className='album-face' src={songInfo?.al?.picUrl} />
+      <section className='player-bar'>
+        <picture
+          className='album-face'
+          onClick={() => {
+            if (router.last.name === 'songDetail') {
+              routerDispatch({ type: 'back' })
+            } else {
+              routerDispatch({ type: 'to', item: { name: 'songDetail' } })
+            }
+          }}
+        >
+          <img src={songInfo.al?.picUrl} />
+        </picture>
         <View className='music-buttons'>
           <Button className='last-song'>
             <Icon iconfontName='music_pre' />
@@ -312,7 +325,7 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
             <Icon iconfontName='music-list' />
           </Button>
         </View>
-      </View>
+      </section>
     </>
   )
 }

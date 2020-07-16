@@ -12,6 +12,23 @@ ul {
   padding-left: 0;
 }
 
+// 软显示
+.shown {
+  transition: opacity 300ms;
+  opacity: 1;
+  pointer-events: unset;
+}
+// 软隐藏
+.hidden {
+  transition: opacity 300ms;
+  opacity: 0;
+  pointer-events: none;
+}
+// 硬隐藏
+.disppared {
+  display: none;
+}
+
 /* 业务样式 */
 #app {
   --section-divider: 1.5px solid #dddde1;
@@ -22,15 +39,4 @@ ul {
   display: grid;
   grid-template-columns: 240px 1fr;
   grid-template-rows: 1fr auto;
-  > * {
-    overflow: auto;
-  }
-  // > :nth-child(1) {
-  //   // TODO 纯CSS实现拖拽缩放，只能缩放一个角。以后要用JS，写在<View> 上实现
-  //   // resize: horizontal;
-  // }
-  > :nth-child(3) {
-    grid-column: 1 / -1;
-    // resize: vertical;
-  }
 }

@@ -51,7 +51,7 @@ export default function MvDetailPage(
       <View
         className='picture'
         onClick={() => {
-          routeDispatch({ type: 'push', item: { name: 'mvDetail', id: props.resource.id } })
+          routeDispatch({ type: 'to', item: { name: 'mvDetail', id: props.resource.id } })
         }}
       >
         <View className='count'>
