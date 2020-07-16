@@ -1,9 +1,8 @@
-import React, { useRef, useReducer, useContext, ComponentProps } from 'react'
-
+import React, { useRef, useReducer, useContext, ComponentProps, useEffect } from 'react'
 import './PlayerBar.scss'
-import Effect from './PlayerBarEffects'
 
-import { ResponseSongUrl } from 'requests/song/url'
+import fetch from 'api/fetch'
+import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import { clamp } from 'functions/number'
 import duration from 'functions/duration'
@@ -17,9 +16,11 @@ import Icon from 'baseUI/UI/Icon'
 import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
+import useDomNode from 'hooks/useDomNode'
+import { LikelistContext } from 'context/likelist'
+import useLogicAndEffect from 'hooks/useAndEffect'
 
-// export 给 PlayerEffect
-export type State = {
+type State = {
   userActionCounter: number // 记录用户事件
   playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
@@ -32,8 +33,7 @@ export type State = {
   songId?: ID
 }
 
-// export 给 PlayerEffect
-export type Action =
+type Action =
   | {
       type: 'init'
       isLike?: boolean /* 指示新音乐是否属于我喜欢 */
@@ -128,6 +128,30 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
   /* ----------------------------------- 状态 ----------------------------------- */
   const [songInfo] = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
+  const audioElement = useDomNode('audio')
+  const [likelist, likelistDispatch] = useContext(LikelistContext)
+
+  // TODO - useEffect 的音乐相关指令代码，使用一个组件封装他，就叫 <MyAudio> 吧
+  /**
+   * 获取song的url，并判断该song是否是我喜欢的音乐
+   */
+  useEffect(() => {
+    requestSongUrl({ id: songInfo.id })?.then(({ data: { data } }) => {
+      dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
+    })
+    dispatch({ type: 'init', isLike: likelist.includes(songInfo.id ?? NaN) })
+  }, [songInfo])
+
+  /**
+   * 喜欢、取消喜欢音乐
+   */
+  useLogicAndEffect(() => {
+    fetch('/like', { id: state.songId, like: state.isLike })?.then(() => {
+      fetch('/likelist')?.then(({ data: { ids } }) => {
+        likelistDispatch?.({ type: 'set', newLikelist: ids })
+      })
+    })
+  }, [state.userActionCounter, state.isLike])
 
   /* --------------------------------- callback： 时间指示器 -------------------------------- */
   const currentSecondSpanRef = useRef<HTMLSpanElement>()
@@ -137,10 +161,69 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
     }
   }
 
-  /* -------------------------------------------------------------------------- */
+  //#region ------------------- 音乐播放器相关指令代码 -------------------
+  /**
+   * 载入音乐的URL
+   */
+  useEffect(() => {
+    audioElement.src = state.responseSongUrl?.[0].url ?? ''
+  }, [state.responseSongUrl])
+
+  /**
+   * 初始时设定音量，并设定是否能播放、是否播放结束的回调
+   */
+  useEffect(() => {
+    audioElement.volume = state.volumn
+    audioElement.addEventListener('canplay', () => dispatch({ type: 'ready to play' }))
+    audioElement.addEventListener('ended', () => dispatch({ type: 'init', same: true }))
+  }, [])
+
+  /**
+   * 播放/暂停乐曲
+   */
+  useEffect(() => {
+    if (state.playStatus === 'playing') {
+      audioElement.play()
+    }
+    if (state.playStatus === 'paused') {
+      audioElement.pause()
+    }
+  }, [state.playStatus])
+
+  /**
+   * 设定音乐音量
+   */
+  useEffect(() => {
+    audioElement.volume = state.volumn
+  }, [state.volumn])
+
+  /**
+   * 设定音乐的播放进度
+   */
+  useEffect(() => {
+    audioElement.currentTime = state.passedMilliseconds / 1000
+  }, [state.affectAudioElementCounter])
+
+  /**
+   * 进度条数值每秒递增
+   */
+  useEffect(() => {
+    if (state.playStatus === 'playing') {
+      const timeoutId = window.setTimeout(() => {
+        if (state.playStatus === 'playing') {
+          dispatch({
+            type: 'set passed milliseconds',
+            milliseconds: Math.min(state.passedMilliseconds + 1000, Number(songInfo.dt))
+          })
+        }
+      }, 1000)
+      return () => clearTimeout(timeoutId)
+    }
+  })
+  //#endregion
+
   return (
     <>
-      <Effect dispatch={dispatch} state={state} />
       <View as='section' className='player-bar' {...props}>
         <Image className='album-face' src={songInfo?.al?.picUrl} />
         <View className='music-buttons'>
