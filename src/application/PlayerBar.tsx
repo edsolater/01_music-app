@@ -1,4 +1,4 @@
-import React, { useRef, useReducer, useContext, ComponentProps, useEffect } from 'react'
+import React, { useRef, useReducer, useContext, useEffect } from 'react'
 import './PlayerBar.scss'
 
 import fetch from 'api/fetch'
@@ -8,7 +8,6 @@ import { clamp } from 'functions/number'
 import duration from 'functions/duration'
 import { SongInfoContext } from 'context/SongInfo'
 import Text from 'baseUI/UI/Text'
-import Image from 'baseUI/UI/Image'
 import Togger from 'baseUI/UI/Togger'
 import View from 'baseUI/UI/View'
 import Button from 'baseUI/UI/Button'
@@ -19,10 +18,10 @@ import Popover from 'baseUI/UI/Popover'
 import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'context/likelist'
 import useLogicAndEffect from 'hooks/useAndEffect'
-import { RouterContext } from 'context/router'
 import SongDetailPage from './SongDetailPage'
 
-type State = {
+// 导出给它的子组件使用
+export type State = {
   userActionCounter: number // 记录用户事件
   playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
@@ -36,7 +35,7 @@ type State = {
   showSongDetailPage?: boolean //是否显示SongDetaiPage
 }
 
-type Action =
+export type Action =
   | {
       type: 'init'
       isLike?: boolean /* 指示新音乐是否属于我喜欢 */
@@ -328,7 +327,11 @@ export default function PlayerBar() {
           </Button>
         </View>
       </section>
-      <SongDetailPage shown={state.showSongDetailPage} />
+      <SongDetailPage
+        shown={state.showSongDetailPage}
+        palyerState={state}
+        playerDispatch={dispatch}
+      />
     </>
   )
 }

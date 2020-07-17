@@ -13,8 +13,8 @@ import CommentItem from 'components/CommentItem'
 const initState = {
   mvUrl: '' as Url,
   simiMvs: [] as MvBrief2[],
-  hotComments: [] as MvCommentItem[],
-  comments: [] as MvCommentItem[],
+  hotComments: [] as CommentItem[],
+  comments: [] as CommentItem[],
   statisticData: {
     /**总点赞数 */
     likedCount: undefined as number | undefined,

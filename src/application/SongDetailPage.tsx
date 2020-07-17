@@ -1,5 +1,8 @@
 import React, { ComponentProps, useReducer, useEffect, useContext, Fragment } from 'react'
+
+import { State as PlayerState, Action as PlayerAction } from './PlayerBar'
 import './SongDetailPage.scss'
+
 import fetch from 'api/fetch'
 import { RouterContext } from 'context/router'
 import { recoder } from 'assets/icons'
@@ -27,15 +30,17 @@ const reducer = (state: State, action: Action): State => {
 }
 
 export default function SongDetailPage(props: {
-  /**是否打开 */
+  palyerState: PlayerState
+  playerDispatch: React.Dispatch<PlayerAction>
+  /**是否显示/隐藏 */
   shown?: boolean
 }) {
   const [state, dispatch] = useReducer(reducer, initState)
   const [songInfo] = useContext(SongInfoContext)
   useEffect(() => {
-    console.log(3)
     Promise.all([]).then(reses => {})
   }, [songInfo.id])
+  console.log('songInfo: ', songInfo)
   return (
     <section className={`song-detail-page ${props.shown ? 'shown' : 'hidden'}`}>
       <Text>songId: {songInfo.id}</Text>

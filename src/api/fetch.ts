@@ -1,12 +1,14 @@
 import axios, { AxiosResponse } from 'axios'
 import { storage } from 'api/localStorage'
 
-// TODO - 这不是旧时代，gg要使用原生fetch，抛弃axios
-const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
-  withCredentials: true // 需要带入证书信息
-})
-
+type AdditionalSetting = {
+  /**不要缓存（强行请求） */
+  nocache?: boolean
+  /**额外参数（如用户信息） */
+  additionalParams?: {
+    [key: string]: any
+  }
+}
 //#region ------------------- 业务逻辑 -------------------
 
 type RequestParams = {
@@ -216,7 +218,7 @@ type RequestParams = {
     }
   }
   /**
-   * 获取相似mv
+   * 获取 mv 的评论
    */
   '/comment/mv': {
     params: {
@@ -230,41 +232,62 @@ type RequestParams = {
       before?: number
     }
     response: {
-      hotComments: MvCommentItem[]
-      comments: MvCommentItem[]
+      hotComments: CommentItem[]
+      comments: CommentItem[]
       total: number
       more: boolean
       code: 200
     }
   }
-}
-const requestConfigs: {
-  [requestUrl in keyof RequestParams]: {
-    /**不要缓存（强行请求） */
-    nocache?: boolean
-    /**额外参数（如用户信息） */
-    additionalParams?: { [key: string]: any }
+  /**
+   * 获取 歌曲 的评论
+   */
+  '/comment/music': {
+    params: {
+      /** 歌曲 的 id */
+      id?: ID
+      /**取出评论数量 , 默认为 20 */
+      limit?: number
+      /**偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值 */
+      offset?: number
+      /**分页参数,取上一页最后一项的 time 获取下一页数据(获取超过5000条评论的时候需要用到) */
+      before?: number
+    }
+    response: {
+      hotComments: CommentItem[]
+      comments: CommentItem[]
+      total: number
+      more: boolean
+      code: 200
+    }
   }
-} = {
-  '/like': { nocache: true },
-  '/likelist': { nocache: true, additionalParams: { uid: storage.account().id } },
-  '/banner': {},
-  '/recommend/resource': {},
-  '/personalized/privatecontent': {},
-  '/top/song': {},
-  '/personalized/mv': {},
-  '/dj/toplist': {},
-  '/dj/today/perfered': {},
-  '/mv/all': {},
-  '/mv/exclusive/rcmd': {},
-  '/mv/detail': {},
-  '/simi/mv': {},
-  '/mv/detail/info': {},
-  '/mv/url': {},
-  '/comment/mv': {}
+  /**
+   * 获取 歌词
+   */
+  '/lyric': {
+    params: {
+      /** 歌曲 的 id */
+      id?: ID
+    }
+    response: {
+      code: 200
+    } & MusicLyric
+  }
 }
 
+const additionalRequestConfigs: {
+  [requestUrl in keyof RequestParams]?: AdditionalSetting
+} = {
+  '/like': { nocache: true },
+  '/likelist': { nocache: true, additionalParams: { uid: storage.account().id } }
+}
 //#endregion
+
+// TODO - 这不是旧时代，gg要使用原生fetchAPI，抛弃axios
+const axiosInstance = axios.create({
+  baseURL: 'http://localhost:3000',
+  withCredentials: true // 需要带入证书信息
+})
 
 function fetch<T extends keyof RequestParams>(
   url: T,
@@ -273,8 +296,8 @@ function fetch<T extends keyof RequestParams>(
   return axiosInstance.get(url, {
     params: {
       ...params,
-      ...requestConfigs[url].additionalParams,
-      timestamp: requestConfigs[url].nocache && Date.now()
+      ...(additionalRequestConfigs[url] ?? {}).additionalParams,
+      timestamp: (additionalRequestConfigs[url] ?? {}).nocache && Date.now()
     }
   })
 }

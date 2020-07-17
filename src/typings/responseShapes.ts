@@ -326,12 +326,12 @@ interface CommentUserInfo {
 }
 
 /** mv 的评论 */
-interface MvCommentItem {
+interface CommentItem {
+  commentId: ID
   /**评论词条的作者 */
   user: CommentUserInfo
   /**因为这条评论而被评论的评论 */
-  beReplied: MvRepliedCommentItem[]
-  commentId: 3376050495
+  beReplied: RepliedCommentItem[]
   content: Scentence
   time: TimeNumber
   /**总点赞次数 */
@@ -340,10 +340,32 @@ interface MvCommentItem {
   liked: false
 }
 
-/** 对评论的回复 */
-interface MvRepliedCommentItem {
+/** 对评论的回复（适用于 mv 与 歌曲） */
+interface RepliedCommentItem {
   /**评论词条的作者 */
   user: CommentUserInfo
   beRepliedCommentId: 3355914672
   content: Scentence
+}
+
+/** 乐曲歌词 */
+interface MusicLyric {
+  /**翻译者 */
+  transUser: {
+    userId: ID
+    nickName: Name
+    uptime: TimeNumber
+  }
+  /**原始歌词 */
+  lrc: {
+    /**解析的版本 */
+    version: number
+    lyric: Paragraph
+  }
+  /**翻译过的歌词 */
+  tlyric: {
+    /**解析的版本 */
+    version: number
+    lyric: Paragraph
+  }
 }

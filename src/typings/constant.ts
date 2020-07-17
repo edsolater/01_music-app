@@ -17,6 +17,9 @@ type ID = number | string
 type Name = string
 /** 一小段文字 */
 type Scentence = string
+/** 一大段文字信息（带有换行符） */
+type Paragraph = string
+
 /**资源的时间戳,持续时间等 */
 type TimeNumber = number
 /**代表一个时刻字符串 */
