@@ -23,10 +23,10 @@ import SongDetailPage from './SongDetailPage'
 // 导出给它的子组件使用
 export type State = {
   userActionCounter: number // 记录用户事件
-  playStatus: 'paused' | 'playing' | 'loading' // 播放、暂停、载入中
   playMode: 'random-mode' | 'infinit-mode' | 'recursive-mode' // 随机模式、列表模式、单曲循环
   passedMilliseconds: number /* 播放了多少毫秒 */
   canPlay: boolean // 允许开始播放
+  isplaying: boolean // 是否正在播放
   volumn: number // 0~1， 默认1，即全音量
   isLike: boolean // 在 “我喜欢” 的列表中
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
@@ -63,7 +63,7 @@ const initState: State = {
   userActionCounter: 0,
   affectAudioElementCounter: 1,
   canPlay: false,
-  playStatus: 'paused',
+  isplaying: false,
   playMode: 'random-mode',
   passedMilliseconds: 0,
   volumn: 1,
@@ -90,20 +90,20 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         canPlay: Boolean(action.same), // 除非指定，不然就还没准备好播放
         isLike: action.isLike ?? state.isLike, // 判断该音乐是否是我喜欢的音乐
-        playStatus: 'paused', // 暂停播放
+        isplaying: false, // 暂停播放
         passedMilliseconds: 0, // 指针回到初始位置
         affectAudioElementCounter: state.affectAudioElementCounter + 1 // 影响到Audio控件
       }
     }
     case 'play audio': {
       if (state.canPlay) {
-        return { ...state, playStatus: 'playing' }
+        return { ...state, isplaying: true }
       } else {
         return state
       }
     }
     case 'pause audio': {
-      return { ...state, playStatus: 'paused' }
+      return { ...state, isplaying: false }
     }
     case 'set playMode': {
       return { ...state, playMode: action.playMode }
@@ -189,13 +189,13 @@ export default function PlayerBar() {
    * 播放/暂停乐曲
    */
   useEffect(() => {
-    if (state.playStatus === 'playing') {
+    if (state.isplaying === true) {
       audioElement.play()
     }
-    if (state.playStatus === 'paused') {
+    if (state.isplaying === false) {
       audioElement.pause()
     }
-  }, [state.playStatus])
+  }, [state.isplaying])
 
   /**
    * 设定音乐音量
@@ -215,9 +215,9 @@ export default function PlayerBar() {
    * 进度条数值每秒递增
    */
   useEffect(() => {
-    if (state.playStatus === 'playing') {
+    if (state.isplaying === true) {
       const timeoutId = window.setTimeout(() => {
-        if (state.playStatus === 'playing') {
+        if (state.isplaying === true) {
           dispatch({
             type: 'set passed milliseconds',
             milliseconds: Math.min(state.passedMilliseconds + 1000, Number(songInfo.dt))
@@ -248,10 +248,10 @@ export default function PlayerBar() {
             className={['play', state.canPlay && 'can-play']}
             onClick={() =>
               state.canPlay &&
-              dispatch({ type: state.playStatus === 'playing' ? 'pause audio' : 'play audio' })
+              dispatch({ type: state.isplaying === true ? 'pause audio' : 'play audio' })
             }
           >
-            {state.playStatus === 'playing' ? (
+            {state.isplaying === true ? (
               <Icon iconfontName='pause' />
             ) : (
               <Icon iconfontName='play' />

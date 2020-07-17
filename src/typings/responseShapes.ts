@@ -351,19 +351,19 @@ interface RepliedCommentItem {
 /** 乐曲歌词 */
 interface MusicLyric {
   /**翻译者 */
-  transUser: {
+  transUser?: {
     userId: ID
     nickName: Name
     uptime: TimeNumber
   }
   /**原始歌词 */
-  lrc: {
+  lrc?: {
     /**解析的版本 */
     version: number
     lyric: Paragraph
   }
   /**翻译过的歌词 */
-  tlyric: {
+  tlyric?: {
     /**解析的版本 */
     version: number
     lyric: Paragraph

@@ -14,7 +14,9 @@ import { overwrite } from 'functions/object'
 import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
 
-const initState = {}
+const initState = {
+  lyricInfo: undefined as MusicLyric | undefined
+}
 type State = typeof initState
 type Action = {
   type: 'set'
@@ -38,12 +40,27 @@ export default function SongDetailPage(props: {
   const [state, dispatch] = useReducer(reducer, initState)
   const [songInfo] = useContext(SongInfoContext)
   useEffect(() => {
-    Promise.all([]).then(reses => {})
+    Promise.all([
+      fetch('/lyric', { id: songInfo.id }),
+      fetch('/comment/music', { id: songInfo.id })
+    ]).then(reses => {
+      dispatch({
+        type: 'set',
+        lyricInfo: reses[0]?.data
+      })
+    })
   }, [songInfo.id])
-  console.log('songInfo: ', songInfo)
   return (
     <section className={`song-detail-page ${props.shown ? 'shown' : 'hidden'}`}>
       <Text>songId: {songInfo.id}</Text>
+
+      {/* 转啊转的专辑封面 */}
+      <div className={`cover ${props.palyerState.isplaying ? 'rotating' : 'stopped'}`}>
+        <img src={songInfo.al?.picUrl}></img>
+      </div>
+
+      {/* 歌词 */}
+      <div className='lyric'>{state.lyricInfo?.lrc?.lyric ?? '暂无歌词'}</div>
     </section>
   )
 }

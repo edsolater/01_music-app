@@ -13,8 +13,12 @@ import CommentItem from 'components/CommentItem'
 const initState = {
   mvUrl: '' as Url,
   simiMvs: [] as MvBrief2[],
-  hotComments: [] as CommentItem[],
-  comments: [] as CommentItem[],
+  commentInfo: {
+    more: true,
+    total: 0,
+    hotComments: [] as CommentItem[],
+    comments: [] as CommentItem[]
+  },
   statisticData: {
     /**总点赞数 */
     likedCount: undefined as number | undefined,
@@ -83,8 +87,7 @@ export default function MvDetailPage(
         type: 'set',
         mvUrl: reses[0]?.data.data.url,
         simiMvs: reses[1]?.data.mvs,
-        hotComments: reses[2]?.data.hotComments,
-        comments: reses[2]?.data.comments,
+        commentInfo: reses[2]?.data,
         statisticData: {
           likedCount: reses[3]?.data.likedCount,
           shareCount: reses[3]?.data.shareCount,
@@ -110,7 +113,7 @@ export default function MvDetailPage(
 
       {/* 评论词条 */}
       <div className='_comments'>
-        {state.comments.map(item => (
+        {state.commentInfo.comments.map(item => (
           <CommentItem
             avatarUrl={item.user.avatarUrl}
             nickname={item.user.nickname}
