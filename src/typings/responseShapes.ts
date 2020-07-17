@@ -108,36 +108,26 @@ type MusicInfoInUrl = Partial<{
 type MusicInfo = MusicInfoInList & MusicInfoInUrl
 
 interface UserProfile {
-  description?: string
-  vipType?: number
-  gender?: number
-  accountStatus?: number
-  avatarImgId?: number
-  nickname?: string
-  birthday?: number
-  city?: number
-  djStatus?: number
-  userType?: number
-  backgroundImgId?: number
-  avatarUrl?: Url
-  defaultAvatar?: false
-  province?: number
-  // experts?: {}
-  expertTags?: null
-  authStatus?: number
-  mutual?: false
-  remarkName?: null
-  userId?: number
-  detailDescription?: string
-  backgroundUrl?: Url
-  followed?: boolean
-  signature?: string
-  authority?: number
-  followeds?: number
-  follows?: number
-  eventCount?: number
-  playlistCount?: number
-  playlistBeSubscribedCount?: number
+  userId: ID
+  nickname: string
+  avatarUrl: SrcUrl
+  /**个人主页的背景 */
+  backgroundUrl: SrcUrl
+  /**签名信息，就是彰显个性的一句话 */
+  signature: Scentence
+  /** 例：网易云音乐官方账号 */
+  // description: Paragraph
+  /** 例：网易云音乐官方账号 */
+  // detailDescription: Paragraph
+
+  vipType: number
+  gender: number
+  birthday: TimeNumber
+  city: number
+
+  /**关注人数 */
+  follows: number
+  followed: boolean
 }
 interface UserAccount {
   id?: ID // 账号ID
@@ -159,12 +149,8 @@ interface Banner {
   imageUrl: Url
   url: Url // 表示点击后的跳转链接
 }
-interface RecommendResource {
-  id: ID // 歌单Id
+interface RecommendResource extends PlaylistItem {
   copywriter: string // 推荐理由，例：根据你喜欢的单曲《ロストワンの号哭》推荐
-  name: string // legend 话术 例：私人雷达|根据听歌记录为你打造
-  picUrl: Url // 显示的封面图片
-  playcount: number // 播放量
 }
 interface ExclusiveContent {
   id: ID // mvId
@@ -173,16 +159,12 @@ interface ExclusiveContent {
 }
 /**歌手 */
 interface Artist {
-  /**歌手ID */
   id: ID
-  /**歌手名字 */
   name: string
 }
 
 interface Album {
-  /**专辑ID */
   id: ID
-  /**专辑名称 */
   name: Name
   /**专辑描述 */
   // description: Scentence
@@ -199,9 +181,7 @@ interface Album {
 }
 
 interface Song {
-  /**乐曲ID */
   id: ID
-  /**乐曲的名称 */
   name: string
   /**mvID，0代表不存在mv */
   mvid: ID
@@ -389,4 +369,37 @@ interface MusicLyric {
     version: number
     lyric: Paragraph
   }
+}
+
+interface PlaylistItem {
+  id: ID
+  name: Name
+  description: Scentence
+  createTime: TimeNumber
+  coverImageUrl?: SrcUrl // 二选一，后端设计问题
+  picUrl?: SrcUrl // 二选一，后端设计问题
+  creator: UserProfile
+  /**乐曲数 */
+  trackCount: number
+  playCount?: number // 二选一，后端设计问题
+  playcount?: number // 二选一，后端设计问题
+  tags: Tag[]
+}
+
+interface PlaylistDetail extends PlaylistItem {
+  subscribers: UserProfile[]
+  creator: UserProfile
+  tracks: MusicInfoInList[]
+  privileges: MusicPrivileges[]
+}
+
+/**
+ * 指示乐曲清晰度的信息块
+ */
+interface MusicPrivileges {
+  id: ID
+  /**最高清晰度 */
+  maxbr: number
+  playMaxbr: number
+  downloadMaxbr: number
 }

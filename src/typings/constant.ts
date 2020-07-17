@@ -13,6 +13,8 @@ type SrcUrl = Url
 type LinkUrl = Url
 /**资源ID */
 type ID = number | string
+/**短标签 */
+type Tag = string
 /**名字 */
 type Name = string
 /** 一小段文字 */

@@ -286,6 +286,19 @@ type RequestParams = {
       code: 200
     }
   }
+  /**
+   * 包含这首歌的歌单
+   */
+  'simi/playlist': {
+    params: {
+      /** 歌曲 的 id */
+      id?: ID
+    }
+    response: {
+      playlists: Song[]
+      code: 200
+    }
+  }
 }
 
 const additionalRequestConfigs: {
