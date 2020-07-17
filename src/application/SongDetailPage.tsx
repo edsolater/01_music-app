@@ -15,9 +15,23 @@ import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
 
 const initState = {
-  lyricInfo: undefined as MusicLyric | undefined
+  lyricInfo: {},
+  commentInfo: {
+    more: true,
+    total: 0,
+    hotComments: [],
+    comments: []
+  }
 }
-type State = typeof initState
+type State = {
+  lyricInfo: MusicLyric
+  commentInfo: {
+    more: boolean
+    total: number
+    hotComments: CommentItem[]
+    comments: CommentItem[]
+  }
+}
 type Action = {
   type: 'set'
 } & Partial<State>
@@ -46,21 +60,34 @@ export default function SongDetailPage(props: {
     ]).then(reses => {
       dispatch({
         type: 'set',
-        lyricInfo: reses[0]?.data
+        lyricInfo: reses[0]?.data,
+        commentInfo: reses[1]?.data
       })
     })
   }, [songInfo.id])
   return (
-    <section className={`song-detail-page ${props.shown ? 'shown' : 'hidden'}`}>
+    <section className={`song-detail-page ${props.shown ? '--shown' : '--hidden'}`}>
       <Text>songId: {songInfo.id}</Text>
 
       {/* 转啊转的专辑封面 */}
-      <div className={`cover ${props.palyerState.isplaying ? 'rotating' : 'stopped'}`}>
+      <div className={`cover ${props.palyerState.isplaying ? '--rotating' : '--stopped'}`}>
         <img src={songInfo.al?.picUrl}></img>
       </div>
 
       {/* 歌词 */}
-      <div className='lyric'>{state.lyricInfo?.lrc?.lyric ?? '暂无歌词'}</div>
+      <div className='lyric'>{state.lyricInfo.lrc?.lyric ?? '暂无歌词'}</div>
+
+      {/* 评论词条 */}
+      <div className='_comments'>
+        {state.commentInfo.comments.map(item => (
+          <CommentItem
+            avatarUrl={item.user.avatarUrl}
+            nickname={item.user.nickname}
+            content={item.content}
+            time={item.time}
+          />
+        ))}
+      </div>
     </section>
   )
 }

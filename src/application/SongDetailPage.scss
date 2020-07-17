@@ -11,10 +11,10 @@
     position: relative;
     padding: 80px;
     animation: rotateInfinity 25s linear infinite;
-    &.rotating {
+    &.--rotating {
       animation-play-state: running;
     }
-    &.stopped {
+    &.--stopped {
       animation-play-state: paused;
     }
     &::before {
@@ -35,10 +35,10 @@
       border-radius: 50%;
     }
   }
-  &.hidden {
+  &.--hidden {
     transform: scale(0);
   }
-  &.shown {
+  &.--shown {
     transform: none;
   }
 }
