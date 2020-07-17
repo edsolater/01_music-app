@@ -22,5 +22,7 @@ type Paragraph = string
 
 /**资源的时间戳,持续时间等 */
 type TimeNumber = number
+/**表示持续时长 */
+type Milliseconds = number
 /**代表一个时刻字符串 */
 type DateString = string

@@ -15,7 +15,7 @@ type State = {
   banners: Banner[]
   recommendResource: RecommendResource[]
   exclusiveContent: ExclusiveContent[]
-  topSongs: TopSong[]
+  topSongs: Song[]
   mvs: MvBrief[]
   djSites: DJItem[]
 }
@@ -144,7 +144,7 @@ const Home = (props: ComponentProps<typeof View>) => {
         {state.topSongs.slice(0, 10).map((resource, index) => (
           <View key={resource.id}>
             <Text className='no'>{index + 1}</Text>
-            <Image className='album-thumbnail' src={resource.album.blurPicUrl} />
+            <Image className='album-thumbnail' src={resource.album.picUrl} />
             <Text className='name'>{resource.name}</Text>
             <Icon iconfontName='sq'></Icon>
             <Icon iconfontName='mv'></Icon>

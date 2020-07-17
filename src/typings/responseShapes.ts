@@ -179,26 +179,47 @@ interface Artist {
   name: string
 }
 
-/**TODO 这个接口定义没准这个是Song，而不是TopSong？ */
-interface TopSong {
-  /**乐曲的名称 */
-  name: string
+interface Album {
+  /**专辑ID */
+  id: ID
+  /**专辑名称 */
+  name: Name
+  /**专辑描述 */
+  // description: Scentence
+  /**专辑封面 */
+  picUrl: Url
+  /**专辑封面（高斯模糊过） */
+  blurPicUrl: Url
+  /**专辑发行商 */
+  company: Name
+  /**专辑发行时间 */
+  publishTime: TimeNumber
+  /**专辑涉及的歌手 */
+  artists: Artist[]
+}
+
+interface Song {
   /**乐曲ID */
   id: ID
+  /**乐曲的名称 */
+  name: string
   /**mvID，0代表不存在mv */
   mvid: ID
+  /**热度 */
+  popularity: number
+  /**额外信息（如：电影《海王》片尾曲） */
+  alias: Name[]
   /**专辑 */
-  album: {
-    /**专辑封面 */
-    blurPicUrl: Url
-  }
+  album: Album
   /**歌手 */
   artists: Artist[]
   /**音轨信息 */
   privilege: {
-    /**音质 */
+    /**最大音质 */
     maxbr: number
   }
+  /**乐曲时长 */
+  duration: Milliseconds
 }
 
 /** MV（表） */

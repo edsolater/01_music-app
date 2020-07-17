@@ -66,7 +66,7 @@ export default function SongDetailPage(props: {
     })
   }, [songInfo.id])
   return (
-    <section className={`song-detail-page ${props.shown ? '--shown' : '--hidden'}`}>
+    <section className={`_song-detail-page ${props.shown ? '--shown' : '--hidden'}`}>
       <Text>songId: {songInfo.id}</Text>
 
       {/* 转啊转的专辑封面 */}
@@ -75,7 +75,7 @@ export default function SongDetailPage(props: {
       </div>
 
       {/* 歌词 */}
-      <div className='lyric'>{state.lyricInfo.lrc?.lyric ?? '暂无歌词'}</div>
+      <div className='_lyric'>{state.lyricInfo.lrc?.lyric ?? '暂无歌词'}</div>
 
       {/* 评论词条 */}
       <div className='_comments'>

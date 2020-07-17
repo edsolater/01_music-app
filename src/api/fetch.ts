@@ -83,7 +83,7 @@ type RequestParams = {
       type?: ID
     }
     response: {
-      data: TopSong[]
+      data: Song[]
       code: 200
     }
   }
@@ -272,6 +272,19 @@ type RequestParams = {
     response: {
       code: 200
     } & MusicLyric
+  }
+  /**
+   * 相似歌曲
+   */
+  'simi/song': {
+    params: {
+      /** 歌曲 的 id */
+      id?: ID
+    }
+    response: {
+      songs: Song[]
+      code: 200
+    }
   }
 }
 
