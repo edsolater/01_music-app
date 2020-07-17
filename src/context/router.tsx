@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 
 type PathItem = {
   /**设计思想上类似于域名 */
-  name: '' | 'mvDetail' | 'playlist' | 'menu' | 'songDetail'
+  name: '' | 'mvDetail' | 'playlist' | 'menu'
   /**设计思想上类似于端口号 */
   id?: ID
 }

@@ -20,6 +20,7 @@ import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'context/likelist'
 import useLogicAndEffect from 'hooks/useAndEffect'
 import { RouterContext } from 'context/router'
+import SongDetailPage from './SongDetailPage'
 
 type State = {
   userActionCounter: number // 记录用户事件
@@ -32,6 +33,7 @@ type State = {
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
   responseSongUrl?: ResponseSongUrl // 储存response
   songId?: ID
+  showSongDetailPage?: boolean //是否显示SongDetaiPage
 }
 
 type Action =
@@ -56,6 +58,7 @@ type Action =
       songId: ID
       data: ResponseSongUrl
     }
+  | { type: 'toggle <SongDetailPage>' }
 
 const initState: State = {
   userActionCounter: 0,
@@ -65,7 +68,8 @@ const initState: State = {
   playMode: 'random-mode',
   passedMilliseconds: 0,
   volumn: 1,
-  isLike: false
+  isLike: false,
+  showSongDetailPage: false
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -116,18 +120,20 @@ const reducer = (state: State, action: Action): State => {
     case 'set audio volumn': {
       return { ...state, volumn: clamp(action.volumn) }
     }
+    case 'toggle <SongDetailPage>': {
+      return { ...state, showSongDetailPage: !state.showSongDetailPage }
+    }
     default: {
       throw new Error(`${PlayerBar.name} 的 localState 无法初始化`)
     }
   }
 }
 
-export default function PlayerBar(props: ComponentProps<typeof View>) {
+export default function PlayerBar() {
   /* ---------------------------------- dev ---------------------------------- */
   useDevRenderCounter(PlayerBar.name)
 
   /* ----------------------------------- 状态 ----------------------------------- */
-  const [router, routerDispatch] = useContext(RouterContext)
   const [songInfo] = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
   const audioElement = useDomNode('audio')
@@ -230,11 +236,7 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
         <picture
           className='album-face'
           onClick={() => {
-            if (router.last.name === 'songDetail') {
-              routerDispatch({ type: 'back' })
-            } else {
-              routerDispatch({ type: 'to', item: { name: 'songDetail' } })
-            }
+            dispatch({ type: 'toggle <SongDetailPage>' })
           }}
         >
           <img src={songInfo.al?.picUrl} />
@@ -260,8 +262,8 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
             <Icon iconfontName='music_next' />
           </Button>
         </View>
-        <View className='timeSlider'>
-          <View className='songTitle'>{songInfo.name}</View>
+        <View className='time-slider'>
+          <View className='song-title'>{songInfo.name}</View>
           <View className='timestamp'>
             <Text ref={currentSecondSpanRef} line>
               {duration(state.passedMilliseconds).format('mm:ss')}
@@ -326,6 +328,7 @@ export default function PlayerBar(props: ComponentProps<typeof View>) {
           </Button>
         </View>
       </section>
+      <SongDetailPage shown={state.showSongDetailPage} />
     </>
   )
 }

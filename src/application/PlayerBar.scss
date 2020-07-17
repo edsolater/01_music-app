@@ -63,13 +63,13 @@
       }
     }
   }
-  .timeSlider {
+  .time-slider {
     display: grid;
     grid-template:
-      'songTitle  timestamp ' auto
-      'Slider      Slider   ' 1fr / 1fr 1fr;
-    .songTitle {
-      grid-area: songTitle;
+      'song-title  timestamp ' auto
+      'slider      slider   ' 1fr / 1fr 1fr;
+    .song-title {
+      grid-area: song-title;
       justify-self: left;
     }
     .timestamp {
@@ -77,7 +77,7 @@
       justify-self: right;
     }
     .Slider {
-      grid-area: Slider;
+      grid-area: slider;
       width: auto;
       padding: 12px 0;
       margin: 0 10px;

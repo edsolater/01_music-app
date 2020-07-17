@@ -26,18 +26,18 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-export default function SongDetailPage(props: {}) {
+export default function SongDetailPage(props: {
+  /**是否打开 */
+  shown?: boolean
+}) {
   const [state, dispatch] = useReducer(reducer, initState)
   const [songInfo] = useContext(SongInfoContext)
-  const [router, routerDispatch] = useContext(RouterContext)
   useEffect(() => {
     console.log(3)
     Promise.all([]).then(reses => {})
   }, [songInfo.id])
   return (
-    <section
-      className={`song-detail-page ${router.last.name === 'songDetail' ? 'shown' : 'hidden'}`}
-    >
+    <section className={`song-detail-page ${props.shown ? 'shown' : 'hidden'}`}>
       <Text>songId: {songInfo.id}</Text>
     </section>
   )
