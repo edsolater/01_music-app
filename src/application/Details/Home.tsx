@@ -20,7 +20,7 @@ type State = {
   djSites: DJItem[]
 }
 type Action = {
-  type: 'set'
+  type: 'set by data'
   banners?: State['banners']
   recommendResource?: State['recommendResource']
   exclusiveContent?: State['exclusiveContent']
@@ -31,7 +31,7 @@ type Action = {
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set':
+    case 'set by data':
       return {
         ...state,
         banners: action.banners ?? state.banners,
@@ -68,7 +68,7 @@ const Home = (props: ComponentProps<typeof View>) => {
       fetch('/dj/today/perfered')
     ]).then(reses => {
       dispatch({
-        type: 'set',
+        type: 'set by data',
         banners: reses[0]?.data.banners,
         recommendResource: reses[1]?.data.recommend,
         exclusiveContent: reses[2]?.data.result,

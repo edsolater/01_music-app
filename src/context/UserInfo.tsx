@@ -6,12 +6,12 @@ type State = {
   token: string
 }
 
-type Action = { type: 'set'; account: UserAccount; profile: UserProfile; token: string }
+type Action = { type: 'set by data'; account: UserAccount; profile: UserProfile; token: string }
 
 const initState: State = { account: {}, profile: {}, token: '' }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set': {
+    case 'set by data': {
       return { ...state, account: action.account, profile: action.profile, token: action.token }
     }
     default: {

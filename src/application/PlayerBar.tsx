@@ -68,7 +68,7 @@ export type Action =
   | { type: 'like/dislike the song'; isLike: boolean; byUI?: boolean }
   | { type: 'toggle <SongDetailPage>' }
   | ({
-      type: 'set'
+      type: 'set by data'
     } & Partial<State>)
 
 const reducer = (state: State, action: Action): State => {
@@ -117,7 +117,7 @@ const reducer = (state: State, action: Action): State => {
     case 'set audio volumn': {
       return { ...state, volumn: clamp(action.volumn) }
     }
-    case 'set': {
+    case 'set by data': {
       return overwrite({ ...state }, action)
     }
     case 'toggle <SongDetailPage>': {
@@ -146,12 +146,12 @@ export default function PlayerBar() {
   useEffect(() => {
     Promise.all([fetch('/song/url', { id: songInfo.id })]).then(reses => {
       dispatch({
-        type: 'set',
+        type: 'set by data',
         responseSongUrl: reses[0]?.data.data[0].url
       })
     })
     dispatch({
-      type: 'set',
+      type: 'set by data',
       // ? 初始化时因为要拉取数据，重复渲染多次其实是正常现像？
       isLike: likelist.includes(songInfo.id ?? NaN)
     })
@@ -163,7 +163,7 @@ export default function PlayerBar() {
   useLogicAndEffect(() => {
     fetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
       fetch('/likelist')?.then(({ data: { ids } }) => {
-        likelistDispatch?.({ type: 'set', newLikelist: ids })
+        likelistDispatch?.({ type: 'set by data', newLikelist: ids })
       })
     })
   }, [state.userActionCounter, state.isLike])

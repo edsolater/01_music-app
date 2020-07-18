@@ -12,7 +12,7 @@ type State = {
 type Action =
   | { type: 'go forward' }
   | { type: 'go back' }
-  | { type: 'set'; activeIndex?: number; total?: number }
+  | { type: 'set by data'; activeIndex?: number; total?: number }
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -24,7 +24,7 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         activeIndex: loopBackward(state.activeIndex, createIndexArray(state.total))
       }
-    case 'set':
+    case 'set by data':
       return {
         activeIndex: action.activeIndex ?? state.activeIndex,
         total: action.total ?? state.total
@@ -55,11 +55,11 @@ export default function Swiper(
   })
 
   useEffect(() => {
-    dispatch({ type: 'set', total: props.renderList.length })
+    dispatch({ type: 'set by data', total: props.renderList.length })
   }, [props.renderList.length])
 
   useEffect(() => {
-    dispatch({ type: 'set', activeIndex: props.activeIndex })
+    dispatch({ type: 'set by data', activeIndex: props.activeIndex })
   }, [props.activeIndex])
 
   // 自动播放
@@ -84,7 +84,7 @@ export default function Swiper(
             <Button
               key={idx}
               onClick={() => {
-                dispatch({ type: 'set', activeIndex: idx })
+                dispatch({ type: 'set by data', activeIndex: idx })
               }}
             >
               {idx}

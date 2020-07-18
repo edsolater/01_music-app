@@ -2,12 +2,12 @@ import React, { useReducer } from 'react'
 
 type State = MusicInfo
 
-type Action = { type: 'set'; songInfo: State }
+type Action = { type: 'set by data'; songInfo: State }
 
 const initState: State = {}
 const reducer = (_state: State, action: Action): State => {
   switch (action.type) {
-    case 'set': {
+    case 'set by data': {
       return action.songInfo
     }
     default: {

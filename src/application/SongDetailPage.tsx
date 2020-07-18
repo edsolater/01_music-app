@@ -33,12 +33,12 @@ type State = {
   }
 }
 type Action = {
-  type: 'set'
+  type: 'set by data'
 } & Partial<State>
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set':
+    case 'set by data':
       return overwrite({ ...state }, action)
     default:
       return state
@@ -59,7 +59,7 @@ export default function SongDetailPage(props: {
       fetch('/comment/music', { id: songInfo.id })
     ]).then(reses => {
       dispatch({
-        type: 'set',
+        type: 'set by data',
         lyricInfo: reses[0]?.data,
         commentInfo: reses[1]?.data
       })

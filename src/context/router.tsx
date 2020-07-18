@@ -18,7 +18,7 @@ type ComputedState = {
 }
 type State = OriginalState & ComputedState
 type Action =
-  | { type: 'set'; stack: OriginalState['stack'] }
+  | { type: 'set by data'; stack: OriginalState['stack'] }
   | { type: 'to'; item: ArrayItem<OriginalState['stack']> }
   | { type: 'back' }
 
@@ -27,7 +27,7 @@ function computeLast(originalState: OriginalState): State {
 }
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'set': {
+    case 'set by data': {
       return computeLast({ ...state, stack: action.stack })
     }
     case 'to': {
