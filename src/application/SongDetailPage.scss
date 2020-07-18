@@ -1,9 +1,9 @@
-._song-detail-page {
+.SongDetailPage {
   grid-area: 1 / 1 / auto / -1;
   z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  place-items: center;
+  place-items: start;
   background-color: white;
   transform-origin: bottom left;
   transition: 300ms;

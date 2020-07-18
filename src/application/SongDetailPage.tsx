@@ -13,6 +13,7 @@ import Icon from 'baseUI/UI/Icon'
 import { overwrite } from 'functions/object'
 import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
+import PlaylistItem from 'components/PlaylistItem'
 
 const initState = {
   lyricInfo: {},
@@ -21,7 +22,8 @@ const initState = {
     total: 0,
     hotComments: [],
     comments: []
-  }
+  },
+  simiPlaylist: []
 }
 type State = {
   lyricInfo: MusicLyric
@@ -31,6 +33,7 @@ type State = {
     hotComments: CommentItem[]
     comments: CommentItem[]
   }
+  simiPlaylist: PlaylistItem[]
 }
 type Action = {
   type: 'set by data'
@@ -56,17 +59,19 @@ export default function SongDetailPage(props: {
   useEffect(() => {
     Promise.all([
       fetch('/lyric', { id: songInfo.id }),
-      fetch('/comment/music', { id: songInfo.id })
+      fetch('/comment/music', { id: songInfo.id }),
+      fetch('/simi/playlist', { id: songInfo.id })
     ]).then(reses => {
       dispatch({
         type: 'set by data',
         lyricInfo: reses[0]?.data,
-        commentInfo: reses[1]?.data
+        commentInfo: reses[1]?.data,
+        simiPlaylist: reses[2]?.data.playlists
       })
     })
   }, [songInfo.id])
   return (
-    <section className={`_song-detail-page ${props.shown ? '--shown' : '--hidden'}`}>
+    <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden'}`}>
       <Text>songId: {songInfo.id}</Text>
 
       {/* 转啊转的专辑封面 */}
@@ -87,6 +92,13 @@ export default function SongDetailPage(props: {
             content={item.content}
             time={item.time}
           />
+        ))}
+      </div>
+
+      {/* 包含这首歌的歌单 */}
+      <div className='_playlists'>
+        {state.simiPlaylist.map(item => (
+          <PlaylistItem key={item.id} item={item} />
         ))}
       </div>
     </section>

@@ -1,4 +1,4 @@
-._gc._comment-item {
+.CommentItem._gc {
   display: grid;
   grid-template:
     'a c c' auto
@@ -13,7 +13,7 @@
   ._gi.create-time {
     grid-area: t;
   }
-  ._gi._btns {
+  ._gi._btn-group {
     grid-area: b;
     display: flex;
     width: max-content;
