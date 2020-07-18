@@ -15,7 +15,7 @@ type State = {
   banners: Banner[]
   recommendResource: RecommendResource[]
   exclusiveContent: ExclusiveContent[]
-  topSongs: Song[]
+  topSongs: SongItem[]
   mvs: MvBrief[]
   djSites: DJItem[]
 }

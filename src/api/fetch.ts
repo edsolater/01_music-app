@@ -83,7 +83,7 @@ type RequestParams = {
       type?: ID
     }
     response: {
-      data: Song[]
+      data: SongItem[]
       code: 200
     }
   }
@@ -276,13 +276,13 @@ type RequestParams = {
   /**
    * 相似歌曲
    */
-  'simi/song': {
+  '/simi/song': {
     params: {
       /** 歌曲 的 id */
       id?: ID
     }
     response: {
-      songs: Song[]
+      songs: SongItem[]
       code: 200
     }
   }

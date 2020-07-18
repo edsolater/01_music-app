@@ -14,6 +14,7 @@ import { overwrite } from 'functions/object'
 import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
 import PlaylistItem from 'components/PlaylistItem'
+import SongItem from 'components/SongItem'
 
 const initState = {
   lyricInfo: {},
@@ -23,7 +24,8 @@ const initState = {
     hotComments: [],
     comments: []
   },
-  simiPlaylist: []
+  simiPlaylists: [],
+  simiSongs: []
 }
 type State = {
   lyricInfo: MusicLyric
@@ -33,7 +35,8 @@ type State = {
     hotComments: CommentItem[]
     comments: CommentItem[]
   }
-  simiPlaylist: PlaylistItem[]
+  simiPlaylists: PlaylistItem[]
+  simiSongs: SongItem[]
 }
 type Action = {
   type: 'set by data'
@@ -60,20 +63,20 @@ export default function SongDetailPage(props: {
     Promise.all([
       fetch('/lyric', { id: songInfo.id }),
       fetch('/comment/music', { id: songInfo.id }),
-      fetch('/simi/playlist', { id: songInfo.id })
+      fetch('/simi/playlist', { id: songInfo.id }),
+      fetch('/simi/song', { id: songInfo.id })
     ]).then(reses => {
       dispatch({
         type: 'set by data',
         lyricInfo: reses[0]?.data,
         commentInfo: reses[1]?.data,
-        simiPlaylist: reses[2]?.data.playlists
+        simiPlaylists: reses[2]?.data.playlists,
+        simiSongs: reses[3]?.data.songs
       })
     })
   }, [songInfo.id])
   return (
     <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden'}`}>
-      <Text>songId: {songInfo.id}</Text>
-
       {/* 转啊转的专辑封面 */}
       <div className={`cover ${props.palyerState.isplaying ? '--rotating' : '--stopped'}`}>
         <img src={songInfo.al?.picUrl}></img>
@@ -97,8 +100,15 @@ export default function SongDetailPage(props: {
 
       {/* 包含这首歌的歌单 */}
       <div className='_playlists'>
-        {state.simiPlaylist.map(item => (
+        {state.simiPlaylists.map(item => (
           <PlaylistItem key={item.id} item={item} />
+        ))}
+      </div>
+
+      {/* 相似歌曲 */}
+      <div className='_simi'>
+        {state.simiSongs.map(item => (
+          <SongItem key={item.id} item={item} />
         ))}
       </div>
     </section>

@@ -180,7 +180,7 @@ interface Album {
   artists: Artist[]
 }
 
-interface Song {
+interface SongItem {
   id: ID
   name: string
   /**mvID，0代表不存在mv */
