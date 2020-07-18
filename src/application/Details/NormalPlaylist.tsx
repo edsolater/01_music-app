@@ -1,6 +1,6 @@
 import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
 import dayjs from 'dayjs'
-import './NormalPlaylist.scss'
+import './style.scss'
 
 import duration from 'functions/duration'
 import fetch from 'api/fetch'
@@ -66,11 +66,11 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
   }, [props.id])
 
   return (
-    <View as='section' {...props} className='normal-playlist'>
-      <View className='title'>
+    <section className='NormalPlaylist'>
+      <div className='title'>
         <Text subhead>歌单</Text>
-      </View>
-      <View as='header' className='collection-info'>
+      </div>
+      <header className='_collection-info'>
         <Figure className='thumbnail'>
           <Image src={state.playlist?.coverImgUrl} className='bg' />
         </Figure>
@@ -106,7 +106,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
             <Text>更多</Text>
           </Button>
         </Group>
-      </View>
+      </header>
       <Group className='list-operator'>
         <Button className='play-all-btn'>
           <Icon iconfontName='play-all' />
@@ -163,6 +163,6 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
           </Item>
         )}
       />
-    </View>
+    </section>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useRef, useReducer, useContext, useEffect } from 'react'
-import './PlayerBar.scss'
+import './style.scss'
 
 import fetch from 'api/fetch'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
@@ -239,7 +239,7 @@ export default function PlayerBar() {
 
   return (
     <>
-      <section className='player-bar'>
+      <section className='PlayerBar'>
         <div
           className='album-face'
           onClick={() => {

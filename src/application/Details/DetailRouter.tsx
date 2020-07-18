@@ -1,5 +1,5 @@
 import React, { useContext, ComponentProps } from 'react'
-import './DetailRouter.scss'
+import './style.scss'
 
 import { RouterContext } from 'context/router'
 import Home from './Home'
@@ -32,7 +32,7 @@ export default function DetailRouter(props: ComponentProps<typeof View>): JSX.El
     }
   }
   return (
-    <section className='detail-router'>
+    <section className='DetailRouter'>
       <ResultNode />
     </section>
   )

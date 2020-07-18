@@ -1,7 +1,7 @@
 import React, { useReducer, useEffect, useContext } from 'react'
+import './style.scss'
 
 import { State as PlayerState, Action as PlayerAction } from './PlayerBar'
-import './SongDetailPage.scss'
 
 import fetch from 'api/fetch'
 import { overwrite } from 'functions/object'

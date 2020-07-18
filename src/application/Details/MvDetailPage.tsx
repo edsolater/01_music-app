@@ -1,5 +1,6 @@
 import React, { ComponentProps, useReducer, useEffect, useContext, Fragment } from 'react'
-import './MvDetailPage.scss'
+import './style.scss'
+
 import fetch from 'api/fetch'
 import { RouterContext } from 'context/router'
 import { recoder } from 'assets/icons'
@@ -99,7 +100,7 @@ export default function MvDetailPage(
     })
   }, [props.id])
   return (
-    <View className='Section'>
+    <section className='MvDetailPage'>
       <Text>mvId: {props.id}</Text>
 
       <video className='mv-window' src={state.mvUrl} controls />
@@ -123,6 +124,6 @@ export default function MvDetailPage(
           />
         ))}
       </div>
-    </View>
+    </section>
   )
 }

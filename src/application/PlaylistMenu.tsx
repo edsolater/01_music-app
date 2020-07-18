@@ -1,4 +1,5 @@
-import React, { useMemo, useContext, useState, useEffect, ComponentProps } from 'react'
+import React, { useMemo, useContext, useState, useEffect } from 'react'
+import './style.scss'
 
 import SectionList from 'baseUI/structure/SectionList'
 import View from 'baseUI/UI/View'
@@ -9,12 +10,11 @@ import Item from 'baseUI/UI/Item'
 import Avatar from 'baseUI/UI/Avatar'
 import Badge from 'baseUI/UI/Badge'
 
-import './PlaylistMenu.scss'
 import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
 import { UserInfoContext } from 'context/UserInfo'
 import { RouterContext } from 'context/router'
 
-export default function PlaylistMenu(props: ComponentProps<typeof View>) {
+export default function PlaylistMenu() {
   const [userInfo] = useContext(UserInfoContext)
   const [router, routerDispatch] = useContext(RouterContext)
   const [response, setResponse] = useState<ResponseUserPlaylist>({})
@@ -58,7 +58,7 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
     return resultList
   }, [response.playlist])
   return (
-    <View as='aside' className='playlist-menu' {...props}>
+    <aside className='PlaylistMenu'>
       <View className='shrink-button'>
         <Icon iconfontName='menu' />
       </View>
@@ -95,7 +95,7 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
         )}
         itemKey={item => item.name}
       />
-      <View className='user-info'>
+      <View className='_user-info'>
         <Avatar src={userInfo.profile?.avatarUrl} />
         <Text className='nickname'>{userInfo.profile?.nickname}</Text>
         <Badge number={32}>
@@ -103,6 +103,6 @@ export default function PlaylistMenu(props: ComponentProps<typeof View>) {
         </Badge>
         <Icon iconfontName='setting' />
       </View>
-    </View>
+    </aside>
   )
 }

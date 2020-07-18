@@ -1,6 +1,6 @@
 import React, { ComponentProps, useReducer, useEffect, Fragment, useContext } from 'react'
+import './style.scss'
 
-import './Home.scss'
 import View from 'baseUI/UI/View'
 import Swiper from 'baseUI/structure/Swiper'
 import fetch from 'api/fetch'
@@ -46,7 +46,7 @@ const reducer = (state: State, action: Action): State => {
   }
 }
 
-const Home = (props: ComponentProps<typeof View>) => {
+const Home = () => {
   const [, routeDispatch] = useContext(RouterContext)
   const [state, dispatch] = useReducer(reducer, {
     banners: [],
@@ -80,7 +80,7 @@ const Home = (props: ComponentProps<typeof View>) => {
   }, [])
 
   return (
-    <View as='section' {...props} className='home'>
+    <section className='Home'>
       <Swiper
         autoPlay
         renderList={state.banners.map(banner => (
@@ -209,7 +209,7 @@ const Home = (props: ComponentProps<typeof View>) => {
           </View>
         ))}
       </section>
-    </View>
+    </section>
   )
 }
 export default Home

@@ -1,6 +1,6 @@
 import React, { ComponentProps, useReducer, useEffect, Fragment, useContext } from 'react'
+import './style.scss'
 
-import './MvListPage.scss'
 import View from 'baseUI/UI/View'
 import fetch from 'api/fetch'
 import Image from 'baseUI/UI/Image'
@@ -75,10 +75,10 @@ export default function PageMV(props: ComponentProps<typeof View>) {
     </View>
   )
   return (
-    <View as='section' {...props} className='mv-list-page'>
+    <section className='MvListPage'>
       {/* 最新MV */}
       <SectionHeader sectionName='最新MV' />
-      <View className='new-mvs'>
+      <View className='_new-mvs'>
         {state.newMVs.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
@@ -86,7 +86,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
 
       {/* 最热MV */}
       <SectionHeader sectionName='最热MV' />
-      <View className='hot-mvs'>
+      <View className='_hot-mvs'>
         {state.hotMVs.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
@@ -94,11 +94,11 @@ export default function PageMV(props: ComponentProps<typeof View>) {
 
       {/* 网易出品MV */}
       <SectionHeader sectionName='网易出品' />
-      <View className='netease-mvs'>
+      <View className='_netease-mvs'>
         {state.neteaseMVs.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
-    </View>
+    </section>
   )
 }
