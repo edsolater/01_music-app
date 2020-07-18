@@ -1,4 +1,5 @@
-import React, { useReducer } from 'react'
+import React, { useReducer, useEffect } from 'react'
+import { storage } from 'api/localStorage'
 
 type State = {
   account: UserAccount | undefined
@@ -24,6 +25,14 @@ export const UserInfoContext = React.createContext([initState, (_action: Action)
 
 export default function UserInfoProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
-
+  useEffect(() => {
+    storage.set('account', state.account)
+  }, [state.account])
+  useEffect(() => {
+    storage.set('profile', state.profile)
+  }, [state.profile])
+  useEffect(() => {
+    storage.set('token', state.token)
+  }, [state.token])
   return <UserInfoContext.Provider value={[state, dispatch]}>{children}</UserInfoContext.Provider>
 }

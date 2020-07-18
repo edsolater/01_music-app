@@ -130,20 +130,20 @@ interface UserProfile {
   followed: boolean
 }
 interface UserAccount {
-  id?: ID // 账号ID
-  userName?: string // 账号名（非昵称）
-  type?: number // 账号类型
-  status?: number // 账号状态
-  whitelistAuthority?: number //是否是白名单用户
-  createTime?: number //账号创建时间
-  salt?: string //？随机值？
-  tokenVersion?: 1 // token的类型
-  ban?: number
-  baoyueVersion?: number
-  donateVersion?: number
-  vipType?: number //vip类型
-  viptypeVersion?: number //此vip的版本
-  anonimousUser?: boolean //是否是匿名用户
+  id: ID // 账号ID
+  userName: string // 账号名（非昵称）
+  type: number // 账号类型
+  status: number // 账号状态
+  whitelistAuthority: number //是否是白名单用户
+  createTime: number //账号创建时间
+  salt: string //？随机值？
+  tokenVersion: 1 // token的类型
+  ban: number
+  baoyueVersion: number
+  donateVersion: number
+  vipType: number //vip类型
+  viptypeVersion: number //此vip的版本
+  anonimousUser: boolean //是否是匿名用户
 }
 interface Banner {
   imageUrl: Url

@@ -6,58 +6,26 @@ interface ICache {
   token: string
   likelist: ID[]
 }
-type GetWithSet<O extends AnyObject> = {
-  [T in keyof O]: {
-    (data: O[T]): void
-    (): O[T]
-  }
-}
 /**为了避免localhost下的localStorage命名冲突，故加入命名空间前缀 */
 const prefix = 'music_'
-const cache: ICache = { profile: {}, account: {}, token: '', likelist: [] }
-export const storage: GetWithSet<ICache> = {
-  //@ts-ignore
-  profile(data?: UserProfile) {
-    if (data) {
-      cache.profile = data
-      JSON.stringify(window.localStorage.setItem(`${prefix}profile`, JSON.stringify(data)))
+const cache: Partial<ICache> = {}
+export const storage = {
+  get<K extends keyof ICache>(key: K): ICache[K] | undefined {
+    if (cache[key]) {
+      return cache[key] as ICache[K]
     } else {
-      if (!cache.profile)
-        cache.profile = JSON.parse(window.localStorage.getItem(`${prefix}profile`) || '{}')
-      return cache.profile
+      const dataInLocalStorage = window.localStorage.getItem(`${prefix}${key}`)
+      if (dataInLocalStorage) {
+        cache[key] = JSON.parse(dataInLocalStorage)
+        return cache[key] as ICache[K]
+      } else {
+        return undefined
+      }
     }
   },
-  //@ts-ignore
-  account(data?: UserAccount) {
-    if (data) {
-      cache.account = data
-      JSON.stringify(window.localStorage.setItem(`${prefix}account`, JSON.stringify(data)))
-    } else {
-      if (!cache.account)
-        cache.account = JSON.parse(window.localStorage.getItem(`${prefix}account`) || '{}')
-      return cache.account
-    }
-  },
-  //@ts-ignore
-  token(data?: string) {
-    if (data) {
-      cache.token = data
-      JSON.stringify(window.localStorage.setItem(`${prefix}token`, JSON.stringify(data)))
-    } else {
-      if (!cache.token)
-        cache.token = JSON.parse(window.localStorage.getItem(`${prefix}token`) || '""')
-      return cache.token
-    }
-  },
-  //@ts-ignore
-  likelist(data?: ID[]) {
-    if (data) {
-      cache.likelist = data
-      JSON.stringify(window.localStorage.setItem(`${prefix}likelist`, JSON.stringify(data)))
-    } else {
-      if (!cache.likelist)
-        cache.likelist = JSON.parse(window.localStorage.getItem(`${prefix}likelist`) || '{}')
-      return cache.likelist
-    }
+  set<K extends keyof ICache>(key: K, data: ICache[K] | undefined): void {
+    if (data === undefined) return
+    cache[key] = data
+    JSON.stringify(window.localStorage.setItem(`${prefix}profile`, JSON.stringify(data)))
   }
 }

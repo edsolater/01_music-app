@@ -163,7 +163,7 @@ export default function PlayerBar() {
    */
   useLogicAndEffect(() => {
     fetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
-      fetch('/likelist', { uid: storage.account().id })?.then(({ data: { ids } }) => {
+      fetch('/likelist', { uid: storage.get('account')?.id ?? '' })?.then(({ data: { ids } }) => {
         likelistDispatch?.({ type: 'set from data', newLikelist: ids })
       })
     })

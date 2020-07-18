@@ -22,16 +22,13 @@ function App() {
       phone: '18116311669',
       password: 'Zhgy0330#' /* 暂且写死在代码里 */
     })?.then(({ data }) => {
-      storage.account(data.account)
-      storage.profile(data.profile)
-      storage.token(data.token)
       userInfoDispatch({
         type: 'set from data',
         account: data.account,
         profile: data.profile,
         token: data.token
       })
-      fetch('/likelist', { uid: storage.account().id ?? '' })?.then(res => {
+      fetch('/likelist', { uid: storage.get('account')?.id ?? '' })?.then(res => {
         likelistDispatch({ type: 'set from data', newLikelist: res.data.ids })
       })
     })
