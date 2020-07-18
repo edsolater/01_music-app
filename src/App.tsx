@@ -1,13 +1,12 @@
 import React, { useEffect, useContext } from 'react'
 import { render } from 'react-dom'
-
 import 'assets/iconfont/iconfont.css'
-import './App.scss'
 import './initPackage'
+import './App.scss'
+
+import fetch from 'api/fetch'
 import PlaylistMenu from 'application/PlaylistMenu'
 import PlayerBar from 'application/PlayerBar'
-import requestLogin from 'requests/login'
-import requestLikelist from 'requests/likelist'
 import { storage } from './api/localStorage'
 import LikelistProvider, { LikelistContext } from 'context/likelist'
 import SongInfoProvider from 'context/SongInfo'
@@ -19,7 +18,10 @@ function App() {
   const [, likelistDispatch] = useContext(LikelistContext)
   const [, userInfoDispatch] = useContext(UserInfoContext)
   useEffect(() => {
-    requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
+    fetch('/login/cellphone', {
+      phone: '18116311669',
+      password: 'Zhgy0330#' /* 暂且写死在代码里 */
+    })?.then(({ data }) => {
       storage.account(data.account)
       storage.profile(data.profile)
       storage.token(data.token)
@@ -29,8 +31,8 @@ function App() {
         profile: data.profile,
         token: data.token
       })
-      requestLikelist({ params: { uid: storage.account().id } })?.then(({ data }) => {
-        likelistDispatch({ type: 'set from data', newLikelist: data.ids })
+      fetch('/likelist', { uid: storage.account().id ?? '' })?.then(res => {
+        likelistDispatch({ type: 'set from data', newLikelist: res.data.ids })
       })
     })
   }, [])

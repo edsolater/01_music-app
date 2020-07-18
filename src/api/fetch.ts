@@ -1,17 +1,24 @@
 import axios, { AxiosResponse } from 'axios'
-import { storage } from 'api/localStorage'
 
-type AdditionalSetting = {
-  /**不要缓存（强行请求） */
-  nocache?: boolean
-  /**额外参数（如用户信息） */
-  additionalParams?: {
-    [key: string]: any
-  }
-}
 //#region ------------------- 业务逻辑 -------------------
 
 type RequestParams = {
+  /**
+   * 手机登录
+   */
+  '/login/cellphone': {
+    params: {
+      phone: number | string
+      password: string
+    }
+    response: {
+      loginType: 1
+      code: 200
+      account: UserAccount
+      token: '7eb0de6e4d56dee68cda47d59a220801b37abf62c42f0e4ef7812704a0f09d5a1c6356423c4672268714e6f02f498a06719111a94fb470b4'
+      profile: UserProfile
+    }
+  }
   /**
    * 获取用户歌单
    * 说明 : 登陆后调用此接口 , 传入用户 id, 可以获取用户歌单
@@ -38,10 +45,12 @@ type RequestParams = {
    * 说明 : 登陆后调用此接口 , 可以获取用户信息
    */
   '/likelist': {
-    params: {}
+    params: {
+      /**(必选项)用户 id */
+      uid?: ID
+    }
     response: {
       ids: ID[]
-      checkPoint: 1588864548387
       code: 200
     }
   }
@@ -351,12 +360,15 @@ type RequestParams = {
     }
   }
 }
-
+type AdditionalSetting = {
+  /**不要缓存（强行请求） */
+  nocache?: boolean
+}
 const additionalRequestConfigs: {
   [requestUrl in keyof RequestParams]?: AdditionalSetting
 } = {
   '/like': { nocache: true },
-  '/likelist': { nocache: true, additionalParams: { uid: storage.account().id } }
+  '/likelist': { nocache: true }
 }
 //#endregion
 
@@ -373,7 +385,6 @@ function fetch<T extends keyof RequestParams>(
   return axiosInstance.get(url, {
     params: {
       ...params,
-      ...(additionalRequestConfigs[url] ?? {}).additionalParams,
       timestamp: (additionalRequestConfigs[url] ?? {}).nocache && Date.now()
     }
   })

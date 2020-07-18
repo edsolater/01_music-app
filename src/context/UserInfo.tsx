@@ -1,14 +1,14 @@
 import React, { useReducer } from 'react'
 
 type State = {
-  account: UserAccount
-  profile: UserProfile
-  token: string
+  account: UserAccount | undefined
+  profile: UserProfile | undefined
+  token: string | undefined
 }
 
 type Action = { type: 'set from data'; account: UserAccount; profile: UserProfile; token: string }
 
-const initState: State = { account: {}, profile: {}, token: '' }
+const initState: State = { account: undefined, profile: undefined, token: '' }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'set from data': {
@@ -24,5 +24,6 @@ export const UserInfoContext = React.createContext([initState, (_action: Action)
 
 export default function UserInfoProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initState)
+
   return <UserInfoContext.Provider value={[state, dispatch]}>{children}</UserInfoContext.Provider>
 }

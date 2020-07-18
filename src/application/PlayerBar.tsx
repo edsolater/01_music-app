@@ -19,6 +19,7 @@ import { LikelistContext } from 'context/likelist'
 import useLogicAndEffect from 'hooks/useAndEffect'
 import SongDetailPage from './SongDetailPage'
 import { overwrite } from 'functions/object'
+import { storage } from 'api/localStorage'
 
 // 导出给它的子组件使用
 export type State = {
@@ -162,7 +163,7 @@ export default function PlayerBar() {
    */
   useLogicAndEffect(() => {
     fetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
-      fetch('/likelist')?.then(({ data: { ids } }) => {
+      fetch('/likelist', { uid: storage.account().id })?.then(({ data: { ids } }) => {
         likelistDispatch?.({ type: 'set from data', newLikelist: ids })
       })
     })
