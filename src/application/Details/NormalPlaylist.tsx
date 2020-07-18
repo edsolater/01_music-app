@@ -21,8 +21,8 @@ import { overwrite } from 'functions/object'
 
 type State = {
   selectedIndex: number
-  playlist?: PlaylistDetail
-  privileges?: MusicPrivileges[]
+  playlist: PlaylistDetail | undefined
+  privileges: MusicPrivileges[] | undefined
 }
 type Action =
   | { type: 'set selected list index'; index: State['selectedIndex'] }
