@@ -1,6 +1,7 @@
-import React, { useMemo, useContext, useState, useEffect } from 'react'
+import React, { useMemo, useContext, useState, useEffect, useReducer } from 'react'
 import './style.scss'
 
+import fetch from 'api/fetch'
 import SectionList from 'baseUI/structure/SectionList'
 import View from 'baseUI/UI/View'
 import Text from 'baseUI/UI/Text'
@@ -10,17 +11,39 @@ import Item from 'baseUI/UI/Item'
 import Avatar from 'baseUI/UI/Avatar'
 import Badge from 'baseUI/UI/Badge'
 
-import requestUserPlaylist, { ResponseUserPlaylist } from 'requests/user/playlist'
 import { UserInfoContext } from 'context/UserInfo'
 import { RouterContext } from 'context/router'
+import { overwrite } from 'functions/object'
+
+const initState = {
+  playlists: []
+}
+type State = {
+  playlists: PlaylistItem[]
+}
+type Action = {
+  type: 'set by data'
+} & Partial<State>
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'set by data':
+      return overwrite({ ...state }, action)
+    default:
+      return state
+  }
+}
 
 export default function PlaylistMenu() {
   const [userInfo] = useContext(UserInfoContext)
   const [router, routerDispatch] = useContext(RouterContext)
-  const [response, setResponse] = useState<ResponseUserPlaylist>({})
+  const [state, dispatch] = useReducer(reducer, initState)
   useEffect(() => {
-    requestUserPlaylist({ uid: userInfo.account?.id })?.then(({ data }) => {
-      setResponse(data)
+    Promise.all([fetch('/user/playlist', { uid: userInfo.account?.id ?? '' })]).then(reses => {
+      dispatch({
+        type: 'set by data',
+        playlists: reses[0]?.data.playlist
+      })
     })
   }, [userInfo.account?.id])
   const parsedPlaylist = useMemo(() => {
@@ -44,11 +67,11 @@ export default function PlaylistMenu() {
           { name: '我的收藏', isMenu: true, iconName: 'collection-folder', id: 9 }
         ]
       },
-      { title: '创建的歌单', data: [] as NonNullable<typeof response.playlist> },
-      { title: '收藏的歌单', data: [] as NonNullable<typeof response.playlist> }
+      { title: '创建的歌单', data: [] as PlaylistItem[] },
+      { title: '收藏的歌单', data: [] as PlaylistItem[] }
     ]
-    if (response.playlist) {
-      for (const list of response.playlist) {
+    if (state.playlists) {
+      for (const list of state.playlists) {
         //@ts-ignore
         if (list.userId === userInfo.account.id) resultList[2].data.push(list)
         //@ts-ignore
@@ -56,7 +79,7 @@ export default function PlaylistMenu() {
       }
     }
     return resultList
-  }, [response.playlist])
+  }, [state.playlists])
   return (
     <aside className='PlaylistMenu'>
       <View className='shrink-button'>

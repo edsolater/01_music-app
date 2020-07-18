@@ -13,6 +13,22 @@ type AdditionalSetting = {
 
 type RequestParams = {
   /**
+   * 获取用户歌单
+   * 说明 : 登陆后调用此接口 , 传入用户 id, 可以获取用户歌单
+   * @param params.uid  必选项用户 id
+   */
+  '/user/playlist': {
+    params: {
+      /**(必选项)用户 id */
+      uid: ID
+    }
+    response: {
+      more: boolean
+      playlist: PlaylistItem[]
+      code: 200
+    }
+  }
+  /**
    * 喜欢音乐
    * 说明 : 调用此接口 , 传入音乐 id, 可喜欢该音乐
    */
