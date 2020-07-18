@@ -1,5 +1,5 @@
 import React from 'react'
-import './CommentItem.scss'
+import './style.scss'
 
 export default function CommentItem(props: {
   avatarUrl: SrcUrl

@@ -1,6 +1,6 @@
 import React, { ComponentProps } from 'react'
+import './style.scss'
 
-import './SectionHeader.scss'
 import View from 'baseUI/UI/View'
 import Text from 'baseUI/UI/Text'
 import Button from 'baseUI/UI/Button'
@@ -13,7 +13,7 @@ export default function SectionHeader(
   }
 ) {
   return (
-    <View className='section-header'>
+    <View className='SectionHeader'>
       <Text h2>{props.sectionName}</Text>
       <Button className='detail' onClick={props.onClickDetail}>
         更多

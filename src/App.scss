@@ -13,20 +13,24 @@ ul {
 }
 
 // 软显示
-.shown {
+.--shown {
   transition: opacity 300ms;
   opacity: 1;
   pointer-events: unset;
 }
 // 软隐藏
-.hidden {
+.--hidden {
   transition: opacity 300ms;
   opacity: 0;
   pointer-events: none;
 }
 // 硬隐藏
-.disppared {
+.--disppared {
   display: none;
+}
+
+section._gc {
+  margin-bottom: 48px;
 }
 
 /* 业务样式 */

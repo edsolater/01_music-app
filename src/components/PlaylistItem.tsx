@@ -1,10 +1,10 @@
 import React from 'react'
-import './PlaylistItem.scss'
+import './style.scss'
 
 export default function PlaylistItem(props: { item: PlaylistItem }) {
   const playlistItem = props.item
   return (
-    <div className='PlaylistItem _gc'>
+    <div className='PlaylistItem _gc --clickable'>
       <img className='_gi avatar' src={playlistItem.picUrl ?? playlistItem.coverImgUrl}></img>
       <div className='_gi name'>{playlistItem.name}</div>
       <div className='_gi play-count'>播放: {playlistItem.playcount ?? playlistItem.playCount}</div>

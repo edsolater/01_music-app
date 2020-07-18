@@ -1,0 +1,94 @@
+.CommentItem._gc {
+  display: grid;
+  grid-template:
+    'a c c' auto
+    'a r r' auto
+    'a t b' 40px / 100px 1fr 1fr;
+  ._gi.avatar {
+    grid-area: a;
+  }
+  ._gi._middle {
+    grid-area: c;
+  }
+  ._gi.create-time {
+    grid-area: t;
+  }
+  ._gi._btn-group {
+    grid-area: b;
+    display: flex;
+    width: max-content;
+    justify-self: right;
+  }
+
+  .avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
+
+.PlaylistItem._gc {
+  height: 100px;
+  display: grid;
+  grid-template:
+    'a n' 1fr
+    'a d' 1fr / 100px 1fr;
+  ._gi.avatar {
+    grid-area: a;
+  }
+  ._gi.name {
+    grid-area: n;
+    color: #333;
+  }
+  ._gi.paly-count {
+    grid-area: d;
+    color: #999;
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.SectionHeader {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid lightgrey;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  .Button {
+    padding-left: 80px;
+    &::after {
+      margin-left: 4px;
+      content: '>';
+    }
+  }
+}
+
+.SongItem._gc {
+  height: 100px;
+  display: grid;
+  grid-template:
+    'a b' 1fr
+    'a c' 1fr / 100px 1fr;
+  ._gi.avatar {
+    grid-area: a;
+  }
+  ._gi.name {
+    grid-area: b;
+    color: #333;
+  }
+  ._gi.artist-list {
+    grid-area: c;
+    color: #999;
+  }
+
+  .avatar {
+    width: 100%;
+    height: 100%;
+  }
+}

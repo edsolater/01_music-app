@@ -94,7 +94,7 @@ const Home = (props: ComponentProps<typeof View>) => {
 
       {/* 推荐歌单 */}
       <SectionHeader sectionName='推荐歌单' />
-      <View className='recommand-playlists'>
+      <section className='_gc recommand-playlists'>
         <View>
           <View className='picture daily'>
             <View className='thumbnail recommand' />
@@ -118,11 +118,11 @@ const Home = (props: ComponentProps<typeof View>) => {
             <Text className='description'>{resource.name}</Text>
           </View>
         ))}
-      </View>
+      </section>
 
       {/* 独家放送 */}
       <SectionHeader sectionName='独家放送' />
-      <View className='exclusive-contents'>
+      <section className='_gc exclusive-contents'>
         {state.exclusiveContent.slice(0, 3).map(resource => (
           <View
             key={resource.id}
@@ -136,11 +136,11 @@ const Home = (props: ComponentProps<typeof View>) => {
             <Text className='description'>{resource.name}</Text>
           </View>
         ))}
-      </View>
+      </section>
 
       {/* 最新音乐 */}
       <SectionHeader sectionName='最新音乐' />
-      <View className='top-songs'>
+      <section className='_gc top-songs'>
         {state.topSongs.slice(0, 10).map((resource, index) => (
           <View key={resource.id}>
             <Text className='no'>{index + 1}</Text>
@@ -158,11 +158,11 @@ const Home = (props: ComponentProps<typeof View>) => {
             </View>
           </View>
         ))}
-      </View>
+      </section>
 
       {/* 推荐mv */}
       <SectionHeader sectionName='推荐mv' />
-      <View className='mvs'>
+      <section className='_gc mvs'>
         {state.mvs.slice(0, 4).map(resource => (
           <View
             key={resource.id}
@@ -191,11 +191,11 @@ const Home = (props: ComponentProps<typeof View>) => {
             </Text>
           </View>
         ))}
-      </View>
+      </section>
 
       {/* 主播电台 */}
       <SectionHeader sectionName='主播电台' />
-      <View className='mvs'>
+      <section className='_gc mvs'>
         {/* TODO 需要界面抽象 */}
         {state.djSites.slice(0, 5).map(resource => (
           <View key={resource.id}>
@@ -208,7 +208,7 @@ const Home = (props: ComponentProps<typeof View>) => {
             <Text className='description'>{resource.rcmdText}</Text>
           </View>
         ))}
-      </View>
+      </section>
     </View>
   )
 }

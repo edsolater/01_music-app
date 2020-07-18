@@ -1,15 +1,9 @@
-import React, { ComponentProps, useReducer, useEffect, useContext, Fragment } from 'react'
+import React, { useReducer, useEffect, useContext } from 'react'
 
 import { State as PlayerState, Action as PlayerAction } from './PlayerBar'
 import './SongDetailPage.scss'
 
 import fetch from 'api/fetch'
-import { RouterContext } from 'context/router'
-import { recoder } from 'assets/icons'
-import View from 'baseUI/UI/View'
-import Image from 'baseUI/UI/Image'
-import Text from 'baseUI/UI/Text'
-import Icon from 'baseUI/UI/Icon'
 import { overwrite } from 'functions/object'
 import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
