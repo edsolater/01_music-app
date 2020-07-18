@@ -115,6 +115,7 @@ export default function MvDetailPage(
       <div className='_comments'>
         {state.commentInfo.comments.map(item => (
           <CommentItem
+            key={item.commentId}
             avatarUrl={item.user.avatarUrl}
             nickname={item.user.nickname}
             content={item.content}

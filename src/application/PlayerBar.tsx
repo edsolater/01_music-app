@@ -2,7 +2,6 @@ import React, { useRef, useReducer, useContext, useEffect } from 'react'
 import './PlayerBar.scss'
 
 import fetch from 'api/fetch'
-import requestSongUrl, { ResponseSongUrl } from 'requests/song/url'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import { clamp } from 'functions/number'
 import duration from 'functions/duration'
@@ -19,6 +18,7 @@ import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'context/likelist'
 import useLogicAndEffect from 'hooks/useAndEffect'
 import SongDetailPage from './SongDetailPage'
+import { overwrite } from 'functions/object'
 
 // 导出给它的子组件使用
 export type State = {
@@ -30,9 +30,23 @@ export type State = {
   volumn: number // 0~1， 默认1，即全音量
   isLike: boolean // 在 “我喜欢” 的列表中
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
-  responseSongUrl?: ResponseSongUrl // 储存response
-  songId?: ID
-  showSongDetailPage?: boolean //是否显示SongDetaiPage
+  responseSongUrl: SrcUrl // 储存response
+  showSongDetailPage: boolean //是否显示SongDetaiPage
+}
+const initState: State = {
+  // 重渲染会不会影响
+  userActionCounter: 0,
+  affectAudioElementCounter: 1,
+  //播放器状态
+  playMode: 'random-mode',
+  passedMilliseconds: 0,
+  volumn: 1,
+  canPlay: false,
+  isplaying: false,
+  isLike: false,
+  showSongDetailPage: false,
+  // 跟返回值有关
+  responseSongUrl: ''
 }
 
 export type Action =
@@ -52,29 +66,13 @@ export type Action =
   | { type: 'pause audio' }
   | { type: 'set audio volumn'; volumn: State['volumn'] }
   | { type: 'like/dislike the song'; isLike: boolean; byUI?: boolean }
-  | {
-      type: 'set a song url'
-      songId: ID
-      data: ResponseSongUrl
-    }
   | { type: 'toggle <SongDetailPage>' }
+  | ({
+      type: 'set'
+    } & Partial<State>)
 
-const initState: State = {
-  userActionCounter: 0,
-  affectAudioElementCounter: 1,
-  canPlay: false,
-  isplaying: false,
-  playMode: 'random-mode',
-  passedMilliseconds: 0,
-  volumn: 1,
-  isLike: false,
-  showSongDetailPage: false
-}
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set a song url': {
-      return { ...state, songId: action.songId, responseSongUrl: action.data }
-    }
     case 'ready to play': {
       return { ...state, canPlay: true }
     }
@@ -119,6 +117,9 @@ const reducer = (state: State, action: Action): State => {
     case 'set audio volumn': {
       return { ...state, volumn: clamp(action.volumn) }
     }
+    case 'set': {
+      return overwrite({ ...state }, action)
+    }
     case 'toggle <SongDetailPage>': {
       return { ...state, showSongDetailPage: !state.showSongDetailPage }
     }
@@ -143,17 +144,24 @@ export default function PlayerBar() {
    * 获取song的url，并判断该song是否是我喜欢的音乐
    */
   useEffect(() => {
-    requestSongUrl({ id: songInfo.id })?.then(({ data: { data } }) => {
-      dispatch({ type: 'set a song url', songId: songInfo.id || '', data })
+    Promise.all([fetch('/song/url', { id: songInfo.id })]).then(reses => {
+      dispatch({
+        type: 'set',
+        responseSongUrl: reses[0]?.data.data[0].url
+      })
     })
-    dispatch({ type: 'init', isLike: likelist.includes(songInfo.id ?? NaN) })
-  }, [songInfo])
+    dispatch({
+      type: 'set',
+      // ? 初始化时因为要拉取数据，重复渲染多次其实是正常现像？
+      isLike: likelist.includes(songInfo.id ?? NaN)
+    })
+  }, [songInfo.id])
 
   /**
    * 喜欢、取消喜欢音乐
    */
   useLogicAndEffect(() => {
-    fetch('/like', { id: state.songId, like: state.isLike })?.then(() => {
+    fetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
       fetch('/likelist')?.then(({ data: { ids } }) => {
         likelistDispatch?.({ type: 'set', newLikelist: ids })
       })
@@ -173,7 +181,7 @@ export default function PlayerBar() {
    * 载入音乐的URL
    */
   useEffect(() => {
-    audioElement.src = state.responseSongUrl?.[0].url ?? ''
+    audioElement.src = state.responseSongUrl
   }, [state.responseSongUrl])
 
   /**
