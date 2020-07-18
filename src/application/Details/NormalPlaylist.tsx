@@ -27,7 +27,7 @@ type State = {
 type Action =
   | { type: 'set selected list index'; index: State['selectedIndex'] }
   | ({
-      type: 'set by data'
+      type: 'set from data'
     } & Partial<State>)
 
 const initState: State = {
@@ -37,7 +37,7 @@ const initState: State = {
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set by data':
+    case 'set from data':
       return overwrite({ ...state }, action)
     case 'set selected list index':
       return { ...state, selectedIndex: action.index }
@@ -58,7 +58,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
   useEffect(() => {
     Promise.all([fetch('/playlist/detail', { id: props.id })]).then(reses => {
       dispatch({
-        type: 'set by data',
+        type: 'set from data',
         playlist: reses[0]?.data.playlist,
         privileges: reses[0]?.data.privileges
       })
@@ -128,7 +128,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
         onSelectItem={(item, index) => {
           dispatch({ type: 'set selected list index', index })
           //@ts-ignore
-          songInfoDispatch({ type: 'set by data', songInfo: item })
+          songInfoDispatch({ type: 'set from data', songInfo: item })
         }}
         renderItem={(item, idx) => (
           <Item>

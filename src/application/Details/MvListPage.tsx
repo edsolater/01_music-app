@@ -13,7 +13,7 @@ import { overwrite } from 'functions/object'
 
 type State = typeof initState
 type Action = {
-  type: 'set by data'
+  type: 'set from data'
 } & Partial<State>
 
 const initState = {
@@ -23,7 +23,7 @@ const initState = {
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set by data':
+    case 'set from data':
       return overwrite({ ...state }, action)
     default:
       return state
@@ -41,7 +41,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       fetch('/mv/exclusive/rcmd')
     ]).then(reses => {
       dispatch({
-        type: 'set by data',
+        type: 'set from data',
         newMVs: reses[0]?.data.data,
         hotMVs: reses[1]?.data.data,
         neteaseMVs: reses[2]?.data.data

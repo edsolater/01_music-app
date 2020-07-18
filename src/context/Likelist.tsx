@@ -2,12 +2,12 @@ import React, { useReducer } from 'react'
 
 export type LikelistState = ID[]
 
-export type LikelistAction = { type: 'set by data'; newLikelist: LikelistState }
+export type LikelistAction = { type: 'set from data'; newLikelist: LikelistState }
 
 const initState: LikelistState = []
 const reducer = (_state: LikelistState, action: LikelistAction): LikelistState => {
   switch (action.type) {
-    case 'set by data': {
+    case 'set from data': {
       return action.newLikelist
     }
     default: {

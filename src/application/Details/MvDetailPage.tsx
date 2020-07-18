@@ -32,12 +32,12 @@ const initState = {
 }
 type State = typeof initState
 type Action = {
-  type: 'set by data'
+  type: 'set from data'
 } & Partial<State>
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set by data':
+    case 'set from data':
       return overwrite({ ...state }, action)
     default:
       return state
@@ -85,7 +85,7 @@ export default function MvDetailPage(
       fetch('/mv/detail', { mvid: props.id })
     ]).then(reses => {
       dispatch({
-        type: 'set by data',
+        type: 'set from data',
         mvUrl: reses[0]?.data.data.url,
         simiMvs: reses[1]?.data.mvs,
         commentInfo: reses[2]?.data,

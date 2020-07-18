@@ -24,13 +24,13 @@ function App() {
       storage.profile(data.profile)
       storage.token(data.token)
       userInfoDispatch({
-        type: 'set by data',
+        type: 'set from data',
         account: data.account,
         profile: data.profile,
         token: data.token
       })
       requestLikelist({ params: { uid: storage.account().id } })?.then(({ data }) => {
-        likelistDispatch({ type: 'set by data', newLikelist: data.ids })
+        likelistDispatch({ type: 'set from data', newLikelist: data.ids })
       })
     })
   }, [])

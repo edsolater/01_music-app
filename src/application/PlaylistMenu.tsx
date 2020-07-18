@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useState, useEffect, useReducer } from 'react'
+import React, { useMemo, useContext, useEffect, useReducer } from 'react'
 import './style.scss'
 
 import fetch from 'api/fetch'
@@ -22,12 +22,12 @@ type State = {
   playlists: PlaylistItem[]
 }
 type Action = {
-  type: 'set by data'
+  type: 'set from data'
 } & Partial<State>
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set by data':
+    case 'set from data':
       return overwrite({ ...state }, action)
     default:
       return state
@@ -41,7 +41,7 @@ export default function PlaylistMenu() {
   useEffect(() => {
     Promise.all([fetch('/user/playlist', { uid: userInfo.account?.id ?? '' })]).then(reses => {
       dispatch({
-        type: 'set by data',
+        type: 'set from data',
         playlists: reses[0]?.data.playlist
       })
     })
