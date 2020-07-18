@@ -15,7 +15,7 @@ interface CollectionItemInfo {
   }
 }
 
-type MusicInfoInList = Partial<{
+type MusicInfoInList = {
   name: string
   id: number
   pst: number
@@ -85,8 +85,8 @@ type MusicInfoInList = Partial<{
   rtype: number
   rurl: null
   publishTime: number
-}>
-type MusicInfoInUrl = Partial<{
+}
+type MusicInfoInUrl = {
   id: number
   url: string
   br: number
@@ -104,7 +104,7 @@ type MusicInfoInUrl = Partial<{
   freeTrialInfo: null
   level: string
   encodeType: string
-}>
+}
 type MusicInfo = MusicInfoInList & MusicInfoInUrl
 
 interface UserProfile {
@@ -376,7 +376,7 @@ interface PlaylistItem {
   name: Name
   description: Scentence
   createTime: TimeNumber
-  coverImageUrl?: SrcUrl // 二选一，后端设计问题
+  coverImgUrl?: SrcUrl // 二选一，后端设计问题
   picUrl?: SrcUrl // 二选一，后端设计问题
   creator: UserProfile
   /**乐曲数 */
@@ -390,7 +390,6 @@ interface PlaylistDetail extends PlaylistItem {
   subscribers: UserProfile[]
   creator: UserProfile
   tracks: MusicInfoInList[]
-  privileges: MusicPrivileges[]
 }
 
 /**

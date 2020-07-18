@@ -232,14 +232,14 @@ export default function PlayerBar() {
   return (
     <>
       <section className='player-bar'>
-        <picture
+        <div
           className='album-face'
           onClick={() => {
             dispatch({ type: 'toggle <SongDetailPage>' })
           }}
         >
           <img src={songInfo.al?.picUrl} />
-        </picture>
+        </div>
         <View className='music-buttons'>
           <Button className='last-song'>
             <Icon iconfontName='music_pre' />

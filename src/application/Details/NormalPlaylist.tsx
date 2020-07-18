@@ -1,9 +1,9 @@
 import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
 import dayjs from 'dayjs'
-
 import './NormalPlaylist.scss'
+
 import duration from 'functions/duration'
-import { requestPlaylistDetail, ResponsePlaylistDetail } from 'requests/playlist/detail'
+import fetch from 'api/fetch'
 import { LikelistContext } from 'context/likelist'
 import { SongInfoContext } from 'context/SongInfo'
 import Text from 'baseUI/UI/Text'
@@ -17,17 +17,28 @@ import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
+import { overwrite } from 'functions/object'
 
 type State = {
   selectedIndex: number
+  playlist?: PlaylistDetail
+  privileges?: MusicPrivileges[]
 }
-type Action = { type: 'set selected list index'; index: State['selectedIndex'] }
+type Action =
+  | { type: 'set selected list index'; index: State['selectedIndex'] }
+  | ({
+      type: 'set'
+    } & Partial<State>)
 
 const initState: State = {
-  selectedIndex: NaN
+  selectedIndex: NaN,
+  playlist: undefined,
+  privileges: undefined
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
+    case 'set':
+      return overwrite({ ...state }, action)
     case 'set selected list index':
       return { ...state, selectedIndex: action.index }
     default:
@@ -40,17 +51,20 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
 
   const [likelist] = useContext(LikelistContext)
   const [, songInfoDispatch] = useContext(SongInfoContext)
+  const [state, dispatch] = useReducer(reducer, initState)
 
   /* ----------------------------------- 请求 ----------------------------------- */
 
-  const [response, setResponse] = useState<ResponsePlaylistDetail>({})
   useEffect(() => {
-    requestPlaylistDetail({ id: props.id })?.then(({ data }) => {
-      setResponse(data)
+    Promise.all([fetch('/playlist/detail', { id: props.id })]).then(reses => {
+      dispatch({
+        type: 'set',
+        playlist: reses[0]?.data.playlist,
+        privileges: reses[0]?.data.privileges
+      })
     })
   }, [props.id])
 
-  const [state, dispatch] = useReducer(reducer, initState)
   return (
     <View as='section' {...props} className='normal-playlist'>
       <View className='title'>
@@ -58,16 +72,16 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
       </View>
       <View as='header' className='collection-info'>
         <Figure className='thumbnail'>
-          <Image src={response.playlist?.coverImgUrl} className='bg' />
+          <Image src={state.playlist?.coverImgUrl} className='bg' />
         </Figure>
-        <Text h1>{response.playlist?.name}</Text>
+        <Text h1>{state.playlist?.name}</Text>
         <View className='creator'>
-          <Avatar src={response.playlist?.creator.avatarUrl} className='avatar' />
+          <Avatar src={state.playlist?.creator.avatarUrl} className='avatar' />
           <Text subhead className='nickname'>
-            {response.playlist?.creator.nickname}
+            {state.playlist?.creator.nickname}
           </Text>
           <Text footnote className='create-time'>
-            {dayjs(response.playlist?.createTime).format('YYYY-MM-DD')} 创建
+            {dayjs(state.playlist?.createTime).format('YYYY-MM-DD')} 创建
           </Text>
         </View>
         <Group className='buttons'>
@@ -108,7 +122,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
         </View>
       </Group>
       <List
-        data={response.playlist?.tracks}
+        data={state.playlist?.tracks}
         itemKey={item => item.id}
         initSelectedIndex={state.selectedIndex}
         onSelectItem={(item, index) => {
@@ -142,7 +156,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
               <Text>{duration(item.dt).format('mm:ss')}</Text>
             </View>
             <Group className='song-badges'>
-              {Number(response.privileges?.[idx].downloadMaxbr) >= 999000 && (
+              {Number(state.privileges?.[idx].downloadMaxbr) >= 999000 && (
                 <Icon iconfontName='sq' />
               )}
             </Group>

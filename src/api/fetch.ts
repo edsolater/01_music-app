@@ -295,7 +295,24 @@ type RequestParams = {
       id?: ID
     }
     response: {
-      playlists: Song[]
+      playlist: PlaylistItem[]
+      code: 200
+    }
+  }
+  /**
+   * 获取用户歌单
+   * 说明 : 登陆后调用此接口 , 传入用户 id, 可以获取用户歌单
+   */
+  '/playlist/detail': {
+    params: {
+      /** 歌单 id */
+      id?: ID
+      /** 歌单最近的 s 个收藏者 */
+      s?: number
+    }
+    response: {
+      playlist: PlaylistDetail
+      privileges: MusicPrivileges[]
       code: 200
     }
   }
