@@ -20,6 +20,7 @@ import useLogicAndEffect from 'hooks/useAndEffect'
 import SongDetailPage from './SongDetailPage'
 import { overwrite } from 'functions/object'
 import { storage } from 'api/localStorage'
+import PlayerBarAudio from './PlayerBarAduio'
 
 // 导出给它的子组件使用
 export type State = {
@@ -140,7 +141,6 @@ export default function PlayerBar() {
   const audioElement = useDomNode('audio')
   const [likelist, likelistDispatch] = useContext(LikelistContext)
 
-  // TODO - useEffect 的音乐相关指令代码，使用一个组件封装他，就叫 <MyAudio> 吧
   /**
    * 获取song的url，并判断该song是否是我喜欢的音乐
    */
@@ -177,69 +177,20 @@ export default function PlayerBar() {
     }
   }
 
-  //#region ------------------- 音乐播放器相关指令代码 -------------------
-  /**
-   * 载入音乐的URL
-   */
-  useEffect(() => {
-    audioElement.src = state.responseSongUrl
-  }, [state.responseSongUrl])
-
-  /**
-   * 初始时设定音量，并设定是否能播放、是否播放结束的回调
-   */
-  useEffect(() => {
-    audioElement.volume = state.volumn
-    audioElement.addEventListener('canplay', () => dispatch({ type: 'ready to play' }))
-    audioElement.addEventListener('ended', () => dispatch({ type: 'init', same: true }))
-  }, [])
-
-  /**
-   * 播放/暂停乐曲
-   */
-  useEffect(() => {
-    if (state.isplaying === true) {
-      audioElement.play()
-    }
-    if (state.isplaying === false) {
-      audioElement.pause()
-    }
-  }, [state.isplaying])
-
-  /**
-   * 设定音乐音量
-   */
-  useEffect(() => {
-    audioElement.volume = state.volumn
-  }, [state.volumn])
-
-  /**
-   * 设定音乐的播放进度
-   */
-  useEffect(() => {
-    audioElement.currentTime = state.passedMilliseconds / 1000
-  }, [state.affectAudioElementCounter])
-
-  /**
-   * 进度条数值每秒递增
-   */
-  useEffect(() => {
-    if (state.isplaying === true) {
-      const timeoutId = window.setTimeout(() => {
-        if (state.isplaying === true) {
-          dispatch({
-            type: 'set passed milliseconds',
-            milliseconds: Math.min(state.passedMilliseconds + 1000, Number(songInfo.dt))
-          })
-        }
-      }, 1000)
-      return () => clearTimeout(timeoutId)
-    }
-  })
-  //#endregion
-
   return (
     <>
+      <PlayerBarAudio
+        src={state.responseSongUrl}
+        volumn={state.volumn}
+        currentMilliseconds={state.passedMilliseconds}
+        affectUi={state.affectAudioElementCounter}
+        isPlaying={state.isplaying}
+        onEverySecond={seconds =>
+          dispatch({ type: 'set passed milliseconds', milliseconds: seconds * 1000 })
+        }
+        onCanPlay={() => dispatch({ type: 'ready to play' })}
+        onEnded={() => dispatch({ type: 'init', same: true })}
+      />
       <section className='PlayerBar'>
         <div
           className='album-face'
