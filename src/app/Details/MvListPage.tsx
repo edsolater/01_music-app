@@ -8,7 +8,7 @@ import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
-import { RouterContext } from 'context/router'
+import { RouterContext } from 'app/context/router'
 import { overwrite } from 'utils/object'
 
 type State = typeof initState

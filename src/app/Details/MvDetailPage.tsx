@@ -2,7 +2,7 @@ import React, { ComponentProps, useReducer, useEffect, useContext, Fragment } fr
 import './style.scss'
 
 import fetch from 'api/fetch'
-import { RouterContext } from 'context/router'
+import { RouterContext } from 'app/context/router'
 import { recoder } from 'assets/icons'
 import View from 'baseUI/UI/View'
 import Image from 'baseUI/UI/Image'

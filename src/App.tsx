@@ -8,11 +8,11 @@ import fetch from 'api/fetch'
 import PlaylistMenu from 'app/PlaylistMenu'
 import PlayerBar from 'app/PlayerBar'
 import { storage } from './api/localStorage'
-import LikelistProvider, { LikelistContext } from 'context/likelist'
-import SongInfoProvider from 'context/SongInfo'
-import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
+import LikelistProvider, { LikelistContext } from 'app/context/likelist'
+import SongInfoProvider from 'app/context/SongInfo'
+import UserInfoProvider, { UserInfoContext } from 'app/context/UserInfo'
 import DetailRouter from 'app/Details/DetailRouter'
-import RouterProvider from 'context/router'
+import RouterProvider from 'app/context/router'
 
 function App() {
   const [, likelistDispatch] = useContext(LikelistContext)

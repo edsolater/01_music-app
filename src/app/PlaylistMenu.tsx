@@ -11,8 +11,8 @@ import Item from 'baseUI/UI/Item'
 import Avatar from 'baseUI/UI/Avatar'
 import Badge from 'baseUI/UI/Badge'
 
-import { UserInfoContext } from 'context/UserInfo'
-import { RouterContext } from 'context/router'
+import { UserInfoContext } from 'app/context/UserInfo'
+import { RouterContext } from 'app/context/router'
 import { overwrite } from 'utils/object'
 
 const initState = {
