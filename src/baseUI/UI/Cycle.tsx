@@ -1,6 +1,6 @@
 import React, { ComponentProps, ReactNode, useMemo, useEffect, useState } from 'react'
 import View from './View'
-import { exist } from 'functions/judger'
+import { exist } from 'utils/judger'
 
 /**
  *  2种状态的node切换

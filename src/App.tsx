@@ -5,13 +5,13 @@ import './initPackage'
 import './App.scss'
 
 import fetch from 'api/fetch'
-import PlaylistMenu from 'application/PlaylistMenu'
-import PlayerBar from 'application/PlayerBar'
+import PlaylistMenu from 'app/PlaylistMenu'
+import PlayerBar from 'app/PlayerBar'
 import { storage } from './api/localStorage'
 import LikelistProvider, { LikelistContext } from 'context/likelist'
 import SongInfoProvider from 'context/SongInfo'
 import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
-import DetailRouter from 'application/Details/DetailRouter'
+import DetailRouter from 'app/Details/DetailRouter'
 import RouterProvider from 'context/router'
 
 function App() {

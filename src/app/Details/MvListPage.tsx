@@ -9,7 +9,7 @@ import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
-import { overwrite } from 'functions/object'
+import { overwrite } from 'utils/object'
 
 type State = typeof initState
 type Action = {

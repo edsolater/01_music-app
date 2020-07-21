@@ -2,8 +2,8 @@ import React, { ComponentProps, useReducer, ReactNode, useEffect, useMemo } from
 import './Swiper.scss'
 import View from 'baseUI/UI/View'
 import Button from 'baseUI/UI/Button'
-import { loop, loopBackward } from 'functions/loop'
-import { createIndexArray } from 'functions/create'
+import { loop, loopBackward } from 'utils/loop'
+import { createIndexArray } from 'utils/create'
 
 type State = {
   activeIndex: number

@@ -8,7 +8,7 @@ import View from 'baseUI/UI/View'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
-import { overwrite } from 'functions/object'
+import { overwrite } from 'utils/object'
 import CommentItem from 'components/CommentItem'
 
 const initState = {

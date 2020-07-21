@@ -8,8 +8,8 @@ import React, {
 } from 'react'
 import View from './View'
 import './Input.scss'
-import { mergeRefs, mergeCallbacks } from 'functions/reactComponent'
-import { omit } from 'functions/object'
+import { mergeRefs, mergeCallbacks } from 'utils/reactComponent'
+import { omit } from 'utils/object'
 
 type IProps = ComponentProps<typeof View> & InputHTMLAttributes<unknown>
 

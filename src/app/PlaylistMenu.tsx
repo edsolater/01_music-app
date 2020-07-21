@@ -13,7 +13,7 @@ import Badge from 'baseUI/UI/Badge'
 
 import { UserInfoContext } from 'context/UserInfo'
 import { RouterContext } from 'context/router'
-import { overwrite } from 'functions/object'
+import { overwrite } from 'utils/object'
 
 const initState = {
   playlists: []

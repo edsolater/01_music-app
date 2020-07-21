@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactNode, createElement, ForwardRefRenderFunction } from 'react'
 import * as classnames from 'classnames'
 import { ClassValue } from 'classnames/types'
-import { mergeCallbacks } from 'functions/reactComponent'
+import { mergeCallbacks } from 'utils/reactComponent'
 type HTMLTag = keyof React.ReactHTML
 
 /**

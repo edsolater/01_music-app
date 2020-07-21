@@ -4,7 +4,7 @@ import './style.scss'
 import { State as PlayerState, Action as PlayerAction } from './PlayerBar'
 
 import fetch from 'api/fetch'
-import { overwrite } from 'functions/object'
+import { overwrite } from 'utils/object'
 import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
 import PlaylistItem from 'components/PlaylistItem'

@@ -2,7 +2,7 @@ import React, { useReducer, useContext, useState, useEffect, ComponentProps } fr
 import dayjs from 'dayjs'
 import './style.scss'
 
-import duration from 'functions/duration'
+import duration from 'utils/duration'
 import fetch from 'api/fetch'
 import { LikelistContext } from 'context/likelist'
 import { SongInfoContext } from 'context/SongInfo'
@@ -17,7 +17,7 @@ import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
-import { overwrite } from 'functions/object'
+import { overwrite } from 'utils/object'
 
 type State = {
   selectedIndex: number
