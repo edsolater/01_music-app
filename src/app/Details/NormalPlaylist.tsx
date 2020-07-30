@@ -127,7 +127,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
             <Togger
               className='indicator-like'
               justShow
-              active={likelist.includes(item.id)}
+              active={likelist.has(item.id)}
               trusyNode={<Icon iconfontName='heart' />}
               falsyNode={<Icon iconfontName='heart_empty' />}
             />

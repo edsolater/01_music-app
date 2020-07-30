@@ -145,7 +145,7 @@ export default function PlayerBar() {
     dispatch({
       type: 'set from data',
       // ? 初始化时因为要拉取数据，重复渲染多次其实是正常现像？
-      isLike: likelist.includes(songInfo.id ?? NaN)
+      isLike: likelist.has(songInfo.id ?? NaN)
     })
   }, [songInfo.id])
 
