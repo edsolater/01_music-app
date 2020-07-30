@@ -60,52 +60,5 @@ export default function PlayerBarAudio(
   const [state, dispatch] = useReducer(reducer, initState)
   const audioRef = useRef<HTMLAudioElement>(null)
 
-  //#region ------------------- 音乐播放器相关指令代码 -------------------
-
-  /**
-   * 播放/暂停乐曲
-   */
-  useEffect(() => {
-    if (audioRef.current) {
-      if (props.running) {
-        audioRef.current.play()
-      } else {
-        audioRef.current.pause()
-      }
-    }
-  }, [props.running])
-
-  /**
-   * 设定音乐音量
-   */
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = props.volumn
-    }
-  }, [props.volumn])
-
-  /**
-   * 设定音乐的播放进度
-   */
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = props.currentMilliseconds / 1000
-    }
-  }, [props.shouldAffectUi])
-
-  /**
-   * 进度条数值每秒递增
-   */
-  useEffect(() => {
-    if (audioRef.current && props.running) {
-      const timeoutId = window.setTimeout(() => {
-        if (audioRef.current && props.running) {
-          props.onEverySecond(audioRef.current.currentTime)
-        }
-      }, 1000)
-      return () => clearTimeout(timeoutId)
-    }
-  })
-  //#endregion
   return useMemo(() => <audio ref={audioRef} {...props} />, [])
 }

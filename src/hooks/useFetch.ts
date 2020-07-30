@@ -5,10 +5,10 @@ let baseUrl = ''
 let settedRequestInit: RequestInit = {}
 let settedHeader: HeadersInit = {}
 
-function useFetch(url: RequestInfo, init?: RequestInit) {
-  const [data, setData] = useState(null)
+function useFetch<R>(url: RequestInfo, init?: RequestInit) {
+  const [data, setData] = useState<R | undefined>()
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<any>(null)
+  const [error, setError] = useState<any>()
   useEffect(() => {
     fetch(url, {
       ...settedRequestInit,
@@ -36,13 +36,13 @@ function useFetch(url: RequestInfo, init?: RequestInit) {
  * @param params
  * @param init
  */
-useFetch.get = function (url: RequestInfo, params?: Params, init?: RequestInit) {
+useFetch.get = function <R>(url: RequestInfo, params?: Params, init?: RequestInit) {
   if (typeof url === 'string') {
     url = `${baseUrl + url}?${Object.entries(params)
       .map(pair => pair.join('='))
       .join('&')}`
   }
-  return this(url, init)
+  return this<R>(url, init)
 }
 
 /**

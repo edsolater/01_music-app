@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 
 //#region ------------------- 业务逻辑 -------------------
 
-type RequestParams = {
+export type RequestParams = {
   /**
    * 手机登录
    */
@@ -39,7 +39,7 @@ type RequestParams = {
    * 喜欢音乐
    * 说明 : 调用此接口 , 传入音乐 id, 可喜欢该音乐
    */
-  '/like': { params: { id?: ID; like?: boolean }; response: {} }
+  '/like': { params: { id?: ID; like?: boolean; timestamp?: TimeNumber }; response: {} }
   /**
    * 获取用户信息 , 歌单，收藏，mv, dj 数量
    * 说明 : 登陆后调用此接口 , 可以获取用户信息
@@ -48,6 +48,7 @@ type RequestParams = {
     params: {
       /**(必选项)用户 id */
       uid?: ID
+      timestamp?: TimeNumber
     }
     response: {
       ids: ID[]
@@ -359,6 +360,9 @@ type RequestParams = {
       code: 200
     }
   }
+}
+export type AllResponse = {
+  [K in keyof RequestParams]: RequestParams[K]['response']
 }
 type AdditionalSetting = {
   /**不要缓存（强行请求） */
