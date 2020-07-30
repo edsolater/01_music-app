@@ -1,6 +1,4 @@
-//#region ------------------- 业务逻辑 -------------------
-
-export type RequestParams = {
+type RequestParams = {
   /**
    * 手机登录
    */
@@ -358,4 +356,8 @@ export type RequestParams = {
       code: 200
     }
   }
+}
+
+export type AllResponse = {
+  [K in keyof RequestParams]: RequestParams[K]['response']
 }

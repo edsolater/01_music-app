@@ -1,7 +1,7 @@
 import React, { useRef, useReducer, useContext, useEffect } from 'react'
 import './style.scss'
 
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import { clamp } from 'utils/number'
 import duration from 'utils/duration'

@@ -3,7 +3,7 @@ import './style.scss'
 
 import { State as PlayerState, Action as PlayerAction } from './PlayerBar'
 
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'context/SongInfo'
 import PlaylistItem from 'components/PlaylistItem'

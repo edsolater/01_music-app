@@ -4,7 +4,7 @@ import 'assets/iconfont/iconfont.css'
 import './initPackage'
 import './App.scss'
 
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import PlaylistMenu from 'app/PlaylistMenu'
 import PlayerBar from 'app/PlayerBar'
 import { storage } from './api/localStorage'

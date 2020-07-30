@@ -2,7 +2,7 @@ import React, { Fragment, useContext } from 'react'
 import './style.scss'
 
 import View from 'baseUI/UI/View'
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'

@@ -3,7 +3,7 @@ import dayjs from 'dayjs'
 import './style.scss'
 
 import duration from 'utils/duration'
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import { LikelistContext } from 'context/likelist'
 import { SongInfoContext } from 'context/SongInfo'
 import Text from 'baseUI/UI/Text'

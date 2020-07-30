@@ -1,7 +1,7 @@
 import React, { useMemo, useContext } from 'react'
 import './style.scss'
 
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import SectionList from 'baseUI/structure/SectionList'
 import View from 'baseUI/UI/View'
 import Text from 'baseUI/UI/Text'
@@ -21,7 +21,6 @@ export default function PlaylistMenu() {
   const playlists = useResource<AllResponse['/user/playlist']>('/user/playlist', {
     uid: userInfo.account?.id ?? ''
   }).data?.playlist
-  console.log('playlists: ', playlists)
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {

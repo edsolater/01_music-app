@@ -1,7 +1,7 @@
 import React, { ComponentProps, useContext, Fragment } from 'react'
 import './style.scss'
 
-import { AllResponse } from 'api/fetch'
+import { AllResponse } from 'typings/requestPath'
 import { RouterContext } from 'context/router'
 import { recoder } from 'assets/icons'
 import View from 'baseUI/UI/View'
