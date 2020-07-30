@@ -372,7 +372,7 @@ const additionalRequestConfigs: {
 }
 //#endregion
 
-// TODO - 这不是旧时代，gg要使用原生fetchAPI，抛弃axios
+// TODO - 这不是旧时代，最终要使用原生fetchAPI，抛弃axios，不然太重
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000',
   withCredentials: true // 需要带入证书信息

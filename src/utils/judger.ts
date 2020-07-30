@@ -50,3 +50,18 @@ export function isShallowEqual(a: any, b: any): boolean {
     return false
   }
 }
+
+/**
+ * 检查不是默认值或undefined或null
+ * 默认值：string:''; number:0; boolean:false; Object:(没有属性的)
+ * @param value
+ * @example
+ * notDefaultValue([]) => false
+ * notDefaultValue({}) => false
+ * notDefaultValue(undefined) => false
+ */
+export function notDefaultValue(value: any): boolean {
+  if (value === undefined || value === null) return false
+  else if (typeof value === 'object') return Boolean(Object.keys(value).length)
+  else return Boolean(value)
+}

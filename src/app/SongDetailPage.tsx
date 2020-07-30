@@ -9,6 +9,7 @@ import CommentItem from 'components/CommentItem'
 import { SongInfoContext } from 'app/context/SongInfo'
 import PlaylistItem from 'components/PlaylistItem'
 import SongItem from 'components/SongItem'
+import useFetch from 'hooks/useFetch'
 
 const initState = {
   lyricInfo: {},
@@ -69,6 +70,9 @@ export default function SongDetailPage(props: {
       })
     })
   }, [songInfo.id])
+  // TODO： 加入类型系统
+  const { data } = useFetch.get('/simi/song', { id: songInfo.id })
+  console.log('data: ', data)
   return (
     <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden'}`}>
       {/* 转啊转的专辑封面 */}
