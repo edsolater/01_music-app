@@ -1,11 +1,11 @@
-import React, { useReducer, useContext, useState, useEffect, ComponentProps } from 'react'
+import React, { useReducer, useContext, ComponentProps } from 'react'
 import dayjs from 'dayjs'
 import './style.scss'
 
 import duration from 'utils/duration'
-import fetch from 'api/fetch'
-import { LikelistContext } from 'app/context/likelist'
-import { SongInfoContext } from 'app/context/SongInfo'
+import { AllResponse } from 'api/fetch'
+import { LikelistContext } from 'context/likelist'
+import { SongInfoContext } from 'context/SongInfo'
 import Text from 'baseUI/UI/Text'
 import Image from 'baseUI/UI/Image'
 import Togger from 'baseUI/UI/Togger'
@@ -17,12 +17,10 @@ import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
-import { overwrite } from 'utils/object'
+import { useResource } from 'hooks/useFetch'
 
 type State = {
   selectedIndex: number
-  playlist: PlaylistDetail | undefined
-  privileges: MusicPrivileges[] | undefined
 }
 type Action =
   | { type: 'set selected list index'; index: State['selectedIndex'] }
@@ -31,14 +29,10 @@ type Action =
     } & Partial<State>)
 
 const initState: State = {
-  selectedIndex: NaN,
-  playlist: undefined,
-  privileges: undefined
+  selectedIndex: NaN
 }
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case 'set from data':
-      return overwrite({ ...state }, action)
     case 'set selected list index':
       return { ...state, selectedIndex: action.index }
     default:
@@ -55,15 +49,10 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
 
   /* ----------------------------------- 请求 ----------------------------------- */
 
-  useEffect(() => {
-    Promise.all([fetch('/playlist/detail', { id: props.id })]).then(reses => {
-      dispatch({
-        type: 'set from data',
-        playlist: reses[0]?.data.playlist,
-        privileges: reses[0]?.data.privileges
-      })
-    })
-  }, [props.id])
+  const { playlist, privileges } =
+    useResource<AllResponse['/playlist/detail']>('/playlist/detail', {
+      id: props.id
+    }).data ?? {}
 
   return (
     <section className='NormalPlaylist'>
@@ -72,16 +61,16 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
       </div>
       <header className='_collection-info'>
         <Figure className='thumbnail'>
-          <Image src={state.playlist?.coverImgUrl} className='bg' />
+          <Image src={playlist?.coverImgUrl} className='bg' />
         </Figure>
-        <Text h1>{state.playlist?.name}</Text>
+        <Text h1>{playlist?.name}</Text>
         <View className='creator'>
-          <Avatar src={state.playlist?.creator.avatarUrl} className='avatar' />
+          <Avatar src={playlist?.creator.avatarUrl} className='avatar' />
           <Text subhead className='nickname'>
-            {state.playlist?.creator.nickname}
+            {playlist?.creator.nickname}
           </Text>
           <Text footnote className='create-time'>
-            {dayjs(state.playlist?.createTime).format('YYYY-MM-DD')} 创建
+            {dayjs(playlist?.createTime).format('YYYY-MM-DD')} 创建
           </Text>
         </View>
         <Group className='buttons'>
@@ -122,7 +111,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
         </View>
       </Group>
       <List
-        data={state.playlist?.tracks}
+        data={playlist?.tracks}
         itemKey={item => item.id}
         initSelectedIndex={state.selectedIndex}
         onSelectItem={(item, index) => {
@@ -156,9 +145,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
               <Text>{duration(item.dt).format('mm:ss')}</Text>
             </View>
             <Group className='song-badges'>
-              {Number(state.privileges?.[idx].downloadMaxbr) >= 999000 && (
-                <Icon iconfontName='sq' />
-              )}
+              {Number(privileges?.[idx].downloadMaxbr) >= 999000 && <Icon iconfontName='sq' />}
             </Group>
           </Item>
         )}

@@ -1,7 +1,7 @@
 import React, { useContext, ComponentProps } from 'react'
 import './style.scss'
 
-import { RouterContext } from 'app/context/router'
+import { RouterContext } from 'context/router'
 import Home from './Home'
 import MvListPage from './MvListPage'
 import NormalPlaylist from './NormalPlaylist'

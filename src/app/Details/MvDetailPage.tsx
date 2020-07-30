@@ -1,55 +1,21 @@
-import React, { ComponentProps, useReducer, useEffect, useContext, Fragment } from 'react'
+import React, { ComponentProps, useContext, Fragment } from 'react'
 import './style.scss'
 
-import fetch from 'api/fetch'
-import { RouterContext } from 'app/context/router'
+import { AllResponse } from 'api/fetch'
+import { RouterContext } from 'context/router'
 import { recoder } from 'assets/icons'
 import View from 'baseUI/UI/View'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
-import { overwrite } from 'utils/object'
 import CommentItem from 'components/CommentItem'
-
-const initState = {
-  mvUrl: '' as Url,
-  simiMvs: [] as MvBrief2[],
-  commentInfo: {
-    more: true,
-    total: 0,
-    hotComments: [] as CommentItem[],
-    comments: [] as CommentItem[]
-  },
-  statisticData: {
-    /**总点赞数 */
-    likedCount: undefined as number | undefined,
-    shareCount: undefined as number | undefined,
-    commentCount: undefined as number | undefined,
-    /**是否已点赞 */
-    liked: false
-  },
-  mvDetail: {} as MvDetail
-}
-type State = typeof initState
-type Action = {
-  type: 'set from data'
-} & Partial<State>
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'set from data':
-      return overwrite({ ...state }, action)
-    default:
-      return state
-  }
-}
+import { useResource } from 'hooks/useFetch'
 
 export default function MvDetailPage(
   props: ComponentProps<typeof View> & {
     id: ID
   }
 ) {
-  const [state, dispatch] = useReducer(reducer, initState)
   const [, routeDispatch] = useContext(RouterContext)
   const MvIntroItem = (props: { resource: MvBrief2 }) => (
     <View key={props.resource.id} className='mv-intro-item'>
@@ -76,45 +42,38 @@ export default function MvDetailPage(
       </Text>
     </View>
   )
-  useEffect(() => {
-    Promise.all([
-      fetch('/mv/url', { id: props.id }),
-      fetch('/simi/mv', { mvid: props.id }),
-      fetch('/comment/mv', { id: props.id }),
-      fetch('/mv/detail/info', { mvid: props.id }),
-      fetch('/mv/detail', { mvid: props.id })
-    ]).then(reses => {
-      dispatch({
-        type: 'set from data',
-        mvUrl: reses[0]?.data.data.url,
-        simiMvs: reses[1]?.data.mvs,
-        commentInfo: reses[2]?.data,
-        statisticData: {
-          likedCount: reses[3]?.data.likedCount,
-          shareCount: reses[3]?.data.shareCount,
-          commentCount: reses[3]?.data.commentCount,
-          liked: reses[3]?.data.liked ?? false
-        },
-        mvDetail: reses[4]?.data.data
-      })
-    })
-  }, [props.id])
+  const mvUrl = useResource<AllResponse['/mv/url']>('/mv/url', {
+    id: props.id
+  }).data?.data.url
+  const simiMvs = useResource<AllResponse['/simi/mv']>('/simi/mv', {
+    mvid: props.id
+  }).data?.mvs
+  const commentInfo = useResource<AllResponse['/comment/mv']>('/comment/mv', {
+    id: props.id
+  }).data
+  // const mvStatisticData = useResource<AllResponse['/mv/detail/info']>('/mv/detail/info', {
+  //   mvid: props.id
+  // }).data
+  // const mvDetail = useResource<AllResponse['/mv/detail']>('/mv/detail', {
+  //    mvid: props.id
+  // }).data?.data
+
   return (
     <section className='MvDetailPage'>
       <Text>mvId: {props.id}</Text>
 
-      <video className='mv-window' src={state.mvUrl} controls />
+      <video className='mv-window' src={mvUrl} controls />
 
       {/* 相似mv */}
       <div className='_simi-mvs'>
-        {state.simiMvs.slice(0, 8).map(item => (
+        {simiMvs?.slice(0, 8).map(item => (
           <MvIntroItem key={item.id} resource={item} />
         ))}
       </div>
 
       {/* 评论词条 */}
       <div className='_comments'>
-        {state.commentInfo.comments.map(item => (
+        {commentInfo?.comments.map(item => (
           <CommentItem
             key={item.commentId}
             avatarUrl={item.user.avatarUrl}

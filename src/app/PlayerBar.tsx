@@ -1,11 +1,11 @@
 import React, { useRef, useReducer, useContext, useEffect } from 'react'
 import './style.scss'
 
-import fetch from 'api/fetch'
+import { AllResponse } from 'api/fetch'
 import useDevRenderCounter from 'hooks/useDevRenderCounter'
 import { clamp } from 'utils/number'
 import duration from 'utils/duration'
-import { SongInfoContext } from 'app/context/SongInfo'
+import { SongInfoContext } from 'context/SongInfo'
 import Text from 'baseUI/UI/Text'
 import Togger from 'baseUI/UI/Togger'
 import View from 'baseUI/UI/View'
@@ -15,12 +15,13 @@ import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
 import useDomNode from 'hooks/useDomNode'
-import { LikelistContext } from 'app/context/likelist'
-import useLogicAndEffect from 'hooks/useAndEffect'
+import { LikelistContext } from 'context/likelist'
+import useAndEffect from 'hooks/useAndEffect'
 import SongDetailPage from './SongDetailPage'
 import { overwrite } from 'utils/object'
 import { storage } from 'api/localStorage'
 import PlayerBarAudio from './PlayerBarAduio'
+import { useResource, myFetch } from 'hooks/useFetch'
 
 // 导出给它的子组件使用
 export type State = {
@@ -32,7 +33,6 @@ export type State = {
   volumn: number // 0~1， 默认1，即全音量
   isLike: boolean // 在 “我喜欢” 的列表中
   affectAudioElementCounter: number // 是否会影响到Audio元素（递增值时能触发effect）
-  responseSongUrl: SrcUrl // 储存response
   showSongDetailPage: boolean //是否显示SongDetaiPage
 }
 const initState: State = {
@@ -46,9 +46,7 @@ const initState: State = {
   canPlay: false,
   isplaying: false,
   isLike: false,
-  showSongDetailPage: false,
-  // 跟返回值有关
-  responseSongUrl: ''
+  showSongDetailPage: false
 }
 
 export type Action =
@@ -138,19 +136,12 @@ export default function PlayerBar() {
   /* ----------------------------------- 状态 ----------------------------------- */
   const [songInfo] = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
-  const audioElement = useDomNode('audio')
   const [likelist, likelistDispatch] = useContext(LikelistContext)
 
   /**
    * 获取song的url，并判断该song是否是我喜欢的音乐
    */
   useEffect(() => {
-    Promise.all([fetch('/song/url', { id: songInfo.id })]).then(reses => {
-      dispatch({
-        type: 'set from data',
-        responseSongUrl: reses[0]?.data.data[0].url
-      })
-    })
     dispatch({
       type: 'set from data',
       // ? 初始化时因为要拉取数据，重复渲染多次其实是正常现像？
@@ -158,13 +149,17 @@ export default function PlayerBar() {
     })
   }, [songInfo.id])
 
+  const responseSongUrl = useResource<AllResponse['/song/url']>('/song/url', {
+    id: songInfo.id
+  }).data?.data[0]?.url
+
   /**
    * 喜欢、取消喜欢音乐
    */
-  useLogicAndEffect(() => {
-    fetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
-      fetch('/likelist', { uid: storage.get('account')?.id ?? '' })?.then(({ data: { ids } }) => {
-        likelistDispatch?.({ type: 'set from data', newLikelist: ids })
+  useAndEffect(() => {
+    myFetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
+      myFetch('/likelist', { uid: storage.get('account')?.id ?? '' })?.then((res: any) => {
+        likelistDispatch?.({ type: 'set from data', newLikelist: res.ids })
       })
     })
   }, [state.userActionCounter, state.isLike])
@@ -180,7 +175,7 @@ export default function PlayerBar() {
   return (
     <>
       <PlayerBarAudio
-        src={state.responseSongUrl}
+        src={responseSongUrl ?? ''}
         volumn={state.volumn}
         currentMilliseconds={state.passedMilliseconds}
         affectUi={state.affectAudioElementCounter}

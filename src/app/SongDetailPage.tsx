@@ -5,10 +5,10 @@ import { State as PlayerState, Action as PlayerAction } from './PlayerBar'
 
 import { AllResponse } from 'api/fetch'
 import CommentItem from 'components/CommentItem'
-import { SongInfoContext } from 'app/context/SongInfo'
+import { SongInfoContext } from 'context/SongInfo'
 import PlaylistItem from 'components/PlaylistItem'
 import SongItem from 'components/SongItem'
-import useFetch from 'hooks/useFetch'
+import { useResource } from 'hooks/useFetch'
 
 export default function SongDetailPage(props: {
   palyerState: PlayerState
@@ -18,20 +18,18 @@ export default function SongDetailPage(props: {
 }) {
   const [songInfo] = useContext(SongInfoContext)
   // TODO： 总觉得可以再简化
-  const resource = {
-    lyricInfo: useFetch.get<AllResponse['/lyric']>('/lyric', {
-      id: songInfo.id
-    }).data,
-    commentInfo: useFetch.get<AllResponse['/comment/music']>('/comment/music', {
-      id: songInfo.id
-    }).data,
-    simiPlaylists: useFetch.get<AllResponse['/simi/playlist']>('/simi/playlist', {
-      id: songInfo.id
-    }).data?.playlists,
-    simiSong: useFetch.get<AllResponse['/simi/song']>('/simi/song', {
-      id: songInfo.id
-    }).data?.songs
-  }
+  const lyricInfo = useResource<AllResponse['/lyric']>('/lyric', {
+    id: songInfo.id
+  }).data
+  const commentInfo = useResource<AllResponse['/comment/music']>('/comment/music', {
+    id: songInfo.id
+  }).data
+  const simiPlaylists = useResource<AllResponse['/simi/playlist']>('/simi/playlist', {
+    id: songInfo.id
+  }).data?.playlists
+  const simiSong = useResource<AllResponse['/simi/song']>('/simi/song', {
+    id: songInfo.id
+  }).data?.songs
 
   return (
     <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden'}`}>
@@ -41,11 +39,11 @@ export default function SongDetailPage(props: {
       </div>
 
       {/* 歌词 */}
-      <div className='_lyric'>{resource.lyricInfo?.lrc?.lyric ?? '暂无歌词'}</div>
+      <div className='_lyric'>{lyricInfo?.lrc?.lyric ?? '暂无歌词'}</div>
 
       {/* 评论词条 */}
       <div className='_comments'>
-        {resource.commentInfo?.comments.map(item => (
+        {commentInfo?.comments.map(item => (
           <CommentItem
             key={item.commentId}
             avatarUrl={item.user.avatarUrl}
@@ -58,14 +56,14 @@ export default function SongDetailPage(props: {
 
       {/* 包含这首歌的歌单 */}
       <div className='_playlists'>
-        {resource.simiPlaylists?.map(item => (
+        {simiPlaylists?.map(item => (
           <PlaylistItem key={item.id} item={item} />
         ))}
       </div>
 
       {/* 相似歌曲 */}
       <div className='_simi'>
-        {resource.simiSong?.map(item => (
+        {simiSong?.map(item => (
           <SongItem key={item.id} item={item} />
         ))}
       </div>

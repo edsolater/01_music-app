@@ -1,7 +1,7 @@
-import React, { useMemo, useContext, useEffect, useReducer } from 'react'
+import React, { useMemo, useContext } from 'react'
 import './style.scss'
 
-import fetch from 'api/fetch'
+import { AllResponse } from 'api/fetch'
 import SectionList from 'baseUI/structure/SectionList'
 import View from 'baseUI/UI/View'
 import Text from 'baseUI/UI/Text'
@@ -11,41 +11,17 @@ import Item from 'baseUI/UI/Item'
 import Avatar from 'baseUI/UI/Avatar'
 import Badge from 'baseUI/UI/Badge'
 
-import { UserInfoContext } from 'app/context/UserInfo'
-import { RouterContext } from 'app/context/router'
-import { overwrite } from 'utils/object'
-
-const initState = {
-  playlists: []
-}
-type State = {
-  playlists: PlaylistItem[]
-}
-type Action = {
-  type: 'set from data'
-} & Partial<State>
-
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'set from data':
-      return overwrite({ ...state }, action)
-    default:
-      return state
-  }
-}
+import { UserInfoContext } from 'context/UserInfo'
+import { RouterContext } from 'context/router'
+import { useResource } from 'hooks/useFetch'
 
 export default function PlaylistMenu() {
   const [userInfo] = useContext(UserInfoContext)
   const [router, routerDispatch] = useContext(RouterContext)
-  const [state, dispatch] = useReducer(reducer, initState)
-  useEffect(() => {
-    Promise.all([fetch('/user/playlist', { uid: userInfo.account?.id ?? '' })]).then(reses => {
-      dispatch({
-        type: 'set from data',
-        playlists: reses[0]?.data.playlist
-      })
-    })
-  }, [userInfo.account?.id])
+  const playlists = useResource<AllResponse['/user/playlist']>('/user/playlist', {
+    uid: userInfo.account?.id ?? ''
+  }).data?.playlist
+  console.log('playlists: ', playlists)
   const parsedPlaylist = useMemo(() => {
     const resultList = [
       {
@@ -70,8 +46,8 @@ export default function PlaylistMenu() {
       { title: '创建的歌单', data: [] as PlaylistItem[] },
       { title: '收藏的歌单', data: [] as PlaylistItem[] }
     ]
-    if (state.playlists) {
-      for (const list of state.playlists) {
+    if (playlists) {
+      for (const list of playlists) {
         //@ts-ignore
         if (list.userId === userInfo.account.id) resultList[2].data.push(list)
         //@ts-ignore
@@ -79,7 +55,7 @@ export default function PlaylistMenu() {
       }
     }
     return resultList
-  }, [state.playlists])
+  }, [playlists])
   return (
     <aside className='PlaylistMenu'>
       <View className='shrink-button'>

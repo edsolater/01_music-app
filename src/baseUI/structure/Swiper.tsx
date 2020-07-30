@@ -35,7 +35,7 @@ const reducer = (state: State, action: Action): State => {
 }
 export default function Swiper(
   props: ComponentProps<typeof View> & {
-    renderList: ReactNode[]
+    renderList?: ReactNode[]
     activeIndex?: number
     /**
      * 自动播放
@@ -51,12 +51,12 @@ export default function Swiper(
 ) {
   const [state, dispatch] = useReducer(reducer, {
     activeIndex: props.activeIndex ?? 0,
-    total: props.renderList.length
+    total: props.renderList?.length ?? 0
   })
 
   useEffect(() => {
-    dispatch({ type: 'set from data', total: props.renderList.length })
-  }, [props.renderList.length])
+    dispatch({ type: 'set from data', total: props.renderList?.length })
+  }, [props.renderList?.length])
 
   useEffect(() => {
     dispatch({ type: 'set from data', activeIndex: props.activeIndex })
@@ -77,10 +77,10 @@ export default function Swiper(
   return useMemo(
     () => (
       <View {...props} className={[props.className, 'Swiper']}>
-        {props.renderList[state.activeIndex]}
+        {props.renderList?.[state.activeIndex]}
         {/* TODO 异想天开： 写一个分页器组件跟这个结合使用 */}
         <View className='pagination'>
-          {props.renderList.map((_item, idx) => (
+          {props.renderList?.map((_item, idx) => (
             <Button
               key={idx}
               onClick={() => {

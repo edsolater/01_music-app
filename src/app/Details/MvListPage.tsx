@@ -1,53 +1,25 @@
-import React, { ComponentProps, useReducer, useEffect, Fragment, useContext } from 'react'
+import React, { Fragment, useContext } from 'react'
 import './style.scss'
 
 import View from 'baseUI/UI/View'
-import fetch from 'api/fetch'
+import { AllResponse } from 'api/fetch'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
-import { RouterContext } from 'app/context/router'
-import { overwrite } from 'utils/object'
+import { RouterContext } from 'context/router'
+import { useResource } from 'hooks/useFetch'
 
-type State = typeof initState
-type Action = {
-  type: 'set from data'
-} & Partial<State>
-
-const initState = {
-  newMVs: [] as MvBrief2[],
-  hotMVs: [] as MvBrief2[],
-  neteaseMVs: [] as MvBrief2[]
-}
-const reducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case 'set from data':
-      return overwrite({ ...state }, action)
-    default:
-      return state
-  }
-}
-
-export default function PageMV(props: ComponentProps<typeof View>) {
+export default function PageMV() {
   const [, routeDispatch] = useContext(RouterContext)
-  const [state, dispatch] = useReducer(reducer, initState)
-
-  useEffect(() => {
-    Promise.all([
-      fetch('/mv/all', { order: '最新' }),
-      fetch('/mv/all', { order: '最热' }),
-      fetch('/mv/exclusive/rcmd')
-    ]).then(reses => {
-      dispatch({
-        type: 'set from data',
-        newMVs: reses[0]?.data.data,
-        hotMVs: reses[1]?.data.data,
-        neteaseMVs: reses[2]?.data.data
-      })
-    })
-  }, [])
+  const newMvs = useResource<AllResponse['/mv/all']>('/mv/all', {
+    order: '最新'
+  }).data?.data
+  const hotMvs = useResource<AllResponse['/mv/all']>('/mv/all', {
+    order: '最热'
+  }).data?.data
+  const neteaseMvs = useResource<AllResponse['/mv/exclusive/rcmd']>('/mv/exclusive/rcmd').data?.data
 
   const MvIntroItem = (props: { resource: MvBrief2 }) => (
     <View key={props.resource.id} className='mv-intro-item'>
@@ -79,7 +51,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       {/* 最新MV */}
       <SectionHeader sectionName='最新MV' />
       <View className='_new-mvs'>
-        {state.newMVs.slice(0, 8).map(resource => (
+        {newMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
@@ -87,7 +59,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       {/* 最热MV */}
       <SectionHeader sectionName='最热MV' />
       <View className='_hot-mvs'>
-        {state.hotMVs.slice(0, 8).map(resource => (
+        {hotMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
@@ -95,7 +67,7 @@ export default function PageMV(props: ComponentProps<typeof View>) {
       {/* 网易出品MV */}
       <SectionHeader sectionName='网易出品' />
       <View className='_netease-mvs'>
-        {state.neteaseMVs.slice(0, 8).map(resource => (
+        {neteaseMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
       </View>
