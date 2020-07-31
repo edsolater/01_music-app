@@ -32,9 +32,9 @@ export default function SongDetailPage(props: {
   }).data?.songs
 
   return (
-    <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden'}`}>
+    <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden--scale-mode'}`}>
       {/* 转啊转的专辑封面 */}
-      <div className={`cover ${props.palyerState.isplaying ? '--rotating' : '--stopped'}`}>
+      <div className={`cover ${props.palyerState.isplaying ? '--playing' : '--paused'}`}>
         <img src={songInfo.al?.picUrl}></img>
       </div>
 

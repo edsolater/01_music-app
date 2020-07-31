@@ -93,7 +93,7 @@ export default function PlaylistMenu() {
         )}
         itemKey={item => item.name}
       />
-      <View className='_user-info'>
+      <View className='user-info-box'>
         <Avatar src={userInfo.profile?.avatarUrl} />
         <Text className='nickname'>{userInfo.profile?.nickname}</Text>
         <Badge number={32}>

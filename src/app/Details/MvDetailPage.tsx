@@ -65,7 +65,7 @@ export default function MvDetailPage(
       <video className='mv-window' src={mvUrl} controls />
 
       {/* 相似mv */}
-      <div className='_simi-mvs'>
+      <div className='simi-mvs-box'>
         {simiMvs?.slice(0, 8).map(item => (
           <MvIntroItem key={item.id} resource={item} />
         ))}

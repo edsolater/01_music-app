@@ -57,7 +57,10 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
         return (
           <View className='Groupbox' key={groupName}>
             <Slot
-              className={['MenuGroupTitle', { _selected: groupName === currentMenuPath[0].label }]}
+              className={[
+                'MenuGroupTitle',
+                { '--selected': groupName === currentMenuPath[0].label }
+              ]}
             >
               {props.renderMenuGroup?.(groupInfo, groupIndex)}
             </Slot>
@@ -75,7 +78,7 @@ export default function Menu<T extends { label: string /* TODO 去除对label这
                   <Slot
                     className={[
                       {
-                        _selected:
+                        '--selected':
                           currentMenuPath[0].label === groupInfo.label &&
                           currentMenuPath[1].label === itemInfo.label
                       }

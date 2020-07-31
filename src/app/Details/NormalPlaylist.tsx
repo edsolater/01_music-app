@@ -1,5 +1,4 @@
 import React, { useReducer, useContext, ComponentProps } from 'react'
-import dayjs from 'dayjs'
 import './style.scss'
 
 import duration from 'utils/duration'
@@ -18,6 +17,7 @@ import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
 import { useResource } from 'hooks/useFetch'
+import { getDateString } from 'utils/functions'
 
 type State = {
   selectedIndex: number
@@ -44,7 +44,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
   /* ----------------------------------- 状态 ----------------------------------- */
 
   const [likelist] = useContext(LikelistContext)
-  const [, songInfoDispatch] = useContext(SongInfoContext)
+  const [, songInfoContextDispatch] = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
 
   /* ----------------------------------- 请求 ----------------------------------- */
@@ -70,7 +70,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
             {playlist?.creator.nickname}
           </Text>
           <Text footnote className='create-time'>
-            {dayjs(playlist?.createTime).format('YYYY-MM-DD')} 创建
+            {getDateString(playlist?.createTime)} 创建
           </Text>
         </View>
         <Group className='buttons'>
@@ -117,7 +117,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
         onSelectItem={(item, index) => {
           dispatch({ type: 'set selected list index', index })
           //@ts-ignore
-          songInfoDispatch({ type: 'set from data', songInfo: item })
+          songInfoContextDispatch({ type: 'set from data', songInfo: item })
         }}
         renderItem={(item, idx) => (
           <Item>

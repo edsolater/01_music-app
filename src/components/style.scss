@@ -1,4 +1,4 @@
-.CommentItem._gc {
+.CommentItem.grid-box {
   display: grid;
   grid-template:
     'a c c' auto
@@ -28,7 +28,7 @@
   }
 }
 
-.PlaylistItem._gc {
+.PlaylistItem.grid-box {
   height: 100px;
   display: grid;
   grid-template:
@@ -69,7 +69,7 @@
   }
 }
 
-.SongItem._gc {
+.SongItem.grid-box {
   height: 100px;
   display: grid;
   grid-template:

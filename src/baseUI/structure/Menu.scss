@@ -10,12 +10,12 @@
 /* 示例 */
 // .Groupbox {
 //   .MenuGroupTitle {
-//     &._selected {
+//     &.--selected {
 //       background-color: rgb(177, 217, 252);
 //     }
 //   }
 //   .Item {
-//     &._selected {
+//     &.--selected {
 //       border-left: 4px solid var(--primary, dodgerblue);
 //     }
 //   }

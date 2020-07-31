@@ -1,39 +1,7 @@
-/* 初始化样式 */
-body {
-  margin: 0;
-}
-body * {
-  box-sizing: border-box;
-}
-body [hidden] {
-  display: none !important;
-}
-ul {
-  padding-left: 0;
-}
-
-// 软显示
-.--shown {
-  transition: opacity 300ms;
-  opacity: 1;
-  pointer-events: unset;
-}
-// 软隐藏
-.--hidden {
-  transition: opacity 300ms;
-  opacity: 0;
-  pointer-events: none;
-}
-// 硬隐藏
-.--disppared {
-  display: none;
-}
-
-section._gc {
+section.grid-box {
   margin-bottom: 48px;
 }
 
-/* 业务样式 */
 #app {
   --section-divider: 1.5px solid #dddde1;
   --theme-color: #fff; // 无彩色

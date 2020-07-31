@@ -1,6 +1,3 @@
-@use '../sass/layout.scss';
-@use '../sass/component.scss';
-@use '../sass/colorBlock.scss';
 .PlaylistMenu {
   grid-row: 1;
   grid-column: 1;
@@ -27,7 +24,7 @@
       color: #999;
       margin-left: 12px;
     }
-    .__SectionHeader {
+    .SectionHeader {
       display: flex;
       align-items: center;
       .Icon {
@@ -57,13 +54,20 @@
       &:hover {
         background-color: rgba(0, 0, 0, 0.04);
       }
-      &._selected {
+      &.--selected {
         background-color: rgba(0, 0, 0, 0.1);
-        @include colorBlock.float-line($color: var(--secondary), $width: 4px, $direction: left);
+        position: relative;
+        &::before {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border-left: 4px solid var(--secondary);
+        }
       }
     }
   }
-  ._user-info {
+  .user-info-box {
     height: 80px;
     padding: 8px;
     border-top: var(--section-divider);
@@ -88,6 +92,7 @@
 }
 
 .SongDetailPage {
+  // TODO: 有没有办法插入link
   grid-area: 1 / 1 / auto / -1;
   z-index: 1;
   display: grid;
@@ -103,12 +108,6 @@
     position: relative;
     padding: 80px;
     animation: rotateInfinity 25s linear infinite;
-    &.--rotating {
-      animation-play-state: running;
-    }
-    &.--stopped {
-      animation-play-state: paused;
-    }
     &::before {
       content: '';
       position: absolute;
@@ -126,12 +125,6 @@
       height: 260px;
       border-radius: 50%;
     }
-  }
-  &.--hidden {
-    transform: scale(0);
-  }
-  &.--shown {
-    transform: none;
   }
 }
 
@@ -151,26 +144,29 @@
       object-fit: cover;
     }
     position: relative;
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: black;
-      transition: 300ms;
-      opacity: 0;
-    }
-    &:hover::after {
-      opacity: 0.3;
-    }
-    &:active::after {
-      opacity: 0.5;
-    }
+    // // TODO：这个也能抽象成一种特殊的状态
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   background-color: black;
+    //   transition: 300ms;
+    //   opacity: 0;
+    // }
+    // &:hover::after {
+    //   opacity: 0.3;
+    // }
+    // &:active::after {
+    //   opacity: 0.5;
+    // }
   }
   .music-buttons {
-    @include layout.row(16px);
+    display: flex;
+    gap: 16px;
+    align-items: center;
     .Button {
       width: 40px;
       height: 40px;
@@ -226,7 +222,9 @@
 
   .info-panel {
     margin-right: 24px;
-    @include layout.row(24px);
+    display: flex;
+    gap: 24px;
+    align-items: center;
     .Button {
       &._off {
         filter: brightness(0.5);

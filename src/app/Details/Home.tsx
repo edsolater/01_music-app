@@ -39,7 +39,7 @@ const Home = () => {
 
       {/* 推荐歌单 */}
       <SectionHeader sectionName='推荐歌单' />
-      <section className='_gc recommand-playlists'>
+      <section className='grid-box recommand-playlists'>
         <View>
           <View className='picture daily'>
             <View className='thumbnail recommand' />
@@ -67,7 +67,7 @@ const Home = () => {
 
       {/* 独家放送 */}
       <SectionHeader sectionName='独家放送' />
-      <section className='_gc exclusive-contents'>
+      <section className='grid-box exclusive-contents'>
         {exclusiveContent?.slice(0, 3).map(resource => (
           <View
             key={resource.id}
@@ -85,7 +85,7 @@ const Home = () => {
 
       {/* 最新音乐 */}
       <SectionHeader sectionName='最新音乐' />
-      <section className='_gc top-songs'>
+      <section className='grid-box top-songs'>
         {topSongs?.slice(0, 10).map((resource, index) => (
           <View key={resource.id}>
             <Text className='no'>{index + 1}</Text>
@@ -107,7 +107,7 @@ const Home = () => {
 
       {/* 推荐mv */}
       <SectionHeader sectionName='推荐mv' />
-      <section className='_gc mvs'>
+      <section className='grid-box mvs'>
         {mvs?.slice(0, 4).map(resource => (
           <View
             key={resource.id}
@@ -140,7 +140,7 @@ const Home = () => {
 
       {/* 主播电台 */}
       <SectionHeader sectionName='主播电台' />
-      <section className='_gc mvs'>
+      <section className='grid-box mvs'>
         {/* TODO 需要界面抽象 */}
         {djSites?.slice(0, 5).map(resource => (
           <View key={resource.id}>

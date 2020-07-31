@@ -1,0 +1,51 @@
+.--transiable {
+  transition-duration: 300ms;
+}
+.--transiable--fast {
+  transition-duration: 150ms;
+}
+.--transiable--faster {
+  transition-duration: 200ms;
+}
+.--transiable--slower {
+  transition-duration: 430ms;
+}
+.--transiable--slow {
+  transition-duration: 600ms;
+}
+
+.--active {
+  @extend .--shown;
+}
+.--shown {
+  transition: 300ms;
+  opacity: 1;
+  pointer-events: unset;
+}
+.--hidden {
+  transition: 300ms;
+  opacity: 0;
+  pointer-events: none;
+}
+.--hidden--scale-mode {
+  transition: 300ms;
+  transform: scale(0);
+}
+.--disppared {
+  display: none;
+}
+
+.--playing {
+  animation-play-state: running;
+}
+.--paused {
+  animation-play-state: paused !important/* animation 是简写属性会重置，所以写上 */;
+}
+.--clickable {
+  &:hover {
+    filter: brightness(80%);
+  }
+  &:active {
+    filter: brightness(50%);
+  }
+}

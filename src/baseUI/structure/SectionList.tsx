@@ -60,9 +60,7 @@ function SectionList<
               : sectionInfo[String(senctionKey)] ?? String(senctionKey)
           }
         >
-          <Slot className='__SectionHeader'>
-            {renderSectionHeader?.(sectionInfo, sectionIndex)}
-          </Slot>
+          <Slot className='SectionHeader'>{renderSectionHeader?.(sectionInfo, sectionIndex)}</Slot>
           <View className='list' as='ul'>
             {Array.isArray(sectionInfo.data) &&
               sectionInfo.data.map((itemInfo: T, itemIndex) => (
@@ -76,11 +74,11 @@ function SectionList<
                   className={[
                     '__ListItem',
                     {
-                      _first: itemIndex === 0,
-                      _end: itemIndex === sectionInfo.data.length - 1,
-                      _odd: itemIndex % 2 === 1,
-                      _even: itemIndex % 2 === 0,
-                      _selected: `${sectionIndex}/${itemIndex}` === selectedPath
+                      '_first': itemIndex === 0,
+                      '_end': itemIndex === sectionInfo.data.length - 1,
+                      '_odd': itemIndex % 2 === 1,
+                      '_even': itemIndex % 2 === 0,
+                      '--selected': `${sectionIndex}/${itemIndex}` === selectedPath
                     }
                   ]}
                   onClick={() => {

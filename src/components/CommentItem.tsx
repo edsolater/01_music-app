@@ -8,7 +8,7 @@ export default function CommentItem(props: {
   time: TimeNumber
 }): JSX.Element {
   return (
-    <div className='CommentItem _gc'>
+    <div className='CommentItem grid-box'>
       <img className='_gi avatar' src={props.avatarUrl}></img>
       <p className='_gi _middle'>
         <span className='username'>{props.nickname}:</span>

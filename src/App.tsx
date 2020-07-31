@@ -2,6 +2,8 @@ import React, { useEffect, useContext } from 'react'
 import { render } from 'react-dom'
 import 'assets/iconfont/iconfont.css'
 import './initPackage'
+import './utils/style_init_default.scss' // 针对浏览器默认样式
+import './utils/style_status.scss' // 基本状态类们
 import './App.scss'
 
 import { AllResponse } from 'typings/requestPath'
@@ -21,7 +23,7 @@ function App() {
   useEffect(() => {
     myFetch<AllResponse['/login/cellphone']>('/login/cellphone', {
       phone: '18116311669',
-      password: 'Zhgy0330#' /* 暂且写死在代码里 */
+      password: 'Zhgy0330#' /* 暂且写死在代码里， 以后要换成输入的state */
     }).then(data => {
       userInfoDispatch({
         type: 'set from data',

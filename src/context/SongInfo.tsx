@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 
-type State = MusicInfo
+type State = MusicInfo | AnyObject
 
 type Action = { type: 'set from data'; songInfo: State }
 

@@ -1,5 +1,3 @@
-@use '../../sass/initialize.scss';
-
 .Home {
   background-color: #fafafa;
   display: grid;
@@ -161,7 +159,7 @@
     max-height: 480px;
     background-color: black;
   }
-  ._simi-mvs {
+  .simi-mvs-box {
     display: grid;
     grid-template-columns: 200px;
   }
@@ -430,7 +428,8 @@
       .input {
         font-size: 0.8em;
         width: 88px;
-        @include initialize.input;
+        border: none;
+        background: none;
         &::placeholder {
           color: lightgray;
         }

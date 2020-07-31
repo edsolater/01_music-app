@@ -66,7 +66,7 @@ export type Action =
   | { type: 'pause audio' }
   | { type: 'set audio volumn'; volumn: State['volumn'] }
   | { type: 'like/dislike the song'; isLike: boolean; byUI?: boolean }
-  | { type: 'toggle <SongDetailPage>' }
+  | { type: 'show/hide <SongDetailPage>' }
   | ({
       type: 'set from data'
     } & Partial<State>)
@@ -120,7 +120,7 @@ const reducer = (state: State, action: Action): State => {
     case 'set from data': {
       return overwrite({ ...state }, action)
     }
-    case 'toggle <SongDetailPage>': {
+    case 'show/hide <SongDetailPage>': {
       return { ...state, showSongDetailPage: !state.showSongDetailPage }
     }
     default: {
@@ -188,9 +188,9 @@ export default function PlayerBar() {
       />
       <section className='PlayerBar'>
         <div
-          className='album-face'
+          className='album-face --clickable --transiable'
           onClick={() => {
-            dispatch({ type: 'toggle <SongDetailPage>' })
+            dispatch({ type: 'show/hide <SongDetailPage>' })
           }}
         >
           <img src={songInfo.al?.picUrl} />

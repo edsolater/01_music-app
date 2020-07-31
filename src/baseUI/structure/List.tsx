@@ -44,11 +44,11 @@ function List<T>({
               : itemInfo[String(itemKey)] ?? String(itemKey)
           }
           className={{
-            _first: index === 0,
-            _end: index === data.length - 1,
-            _odd: index % 2 === 1,
-            _even: index % 2 === 0,
-            _selected: index === selectedIndex
+            '_first': index === 0,
+            '_end': index === data.length - 1,
+            '_odd': index % 2 === 1,
+            '_even': index % 2 === 0,
+            '--selected': index === selectedIndex
           }}
           onClick={() => {
             onSelectItem?.(itemInfo, index, items)
