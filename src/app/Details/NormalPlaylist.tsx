@@ -59,7 +59,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
       <div className='title'>
         <Text subhead>歌单</Text>
       </div>
-      <header className='_collection-info'>
+      <header className='playlist-info'>
         <Figure className='thumbnail'>
           <Image src={playlist?.coverImgUrl} className='bg' />
         </Figure>
@@ -120,7 +120,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
           songInfoContextDispatch({ type: 'set from data', songInfo: item })
         }}
         renderItem={(item, idx) => (
-          <Item>
+          <Item className='--clickable'>
             <View className='song-index'>
               <Text>{String(idx).padStart(2, '0')}</Text>
             </View>

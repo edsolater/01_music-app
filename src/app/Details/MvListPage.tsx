@@ -50,7 +50,7 @@ export default function PageMV() {
     <section className='MvListPage'>
       {/* 最新MV */}
       <SectionHeader sectionName='最新MV' />
-      <View className='_new-mvs'>
+      <View className='new-mvs-gallary'>
         {newMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
@@ -58,7 +58,7 @@ export default function PageMV() {
 
       {/* 最热MV */}
       <SectionHeader sectionName='最热MV' />
-      <View className='_hot-mvs'>
+      <View className='hot-mvs-gallary'>
         {hotMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
@@ -66,7 +66,7 @@ export default function PageMV() {
 
       {/* 网易出品MV */}
       <SectionHeader sectionName='网易出品' />
-      <View className='_netease-mvs'>
+      <View className='netease-mvs-gallary'>
         {neteaseMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}

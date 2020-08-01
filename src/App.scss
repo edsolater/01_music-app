@@ -1,7 +1,3 @@
-section.grid-box {
-  margin-bottom: 48px;
-}
-
 #app {
   --section-divider: 1.5px solid #dddde1;
   --theme-color: #fff; // 无彩色
@@ -12,3 +8,8 @@ section.grid-box {
   grid-template-columns: 240px 1fr;
   grid-template-rows: 1fr auto;
 }
+section.grid-box {
+  margin-bottom: 48px;
+}
+
+/* ----------------------------- 对基本样式的overwrite ---------------------------- */

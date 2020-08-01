@@ -39,7 +39,7 @@ const Home = () => {
 
       {/* 推荐歌单 */}
       <SectionHeader sectionName='推荐歌单' />
-      <section className='grid-box recommand-playlists'>
+      <section className='grid-box recommand-playlists-area'>
         <View>
           <View className='picture daily'>
             <View className='thumbnail recommand' />
@@ -67,7 +67,7 @@ const Home = () => {
 
       {/* 独家放送 */}
       <SectionHeader sectionName='独家放送' />
-      <section className='grid-box exclusive-contents'>
+      <section className='grid-box exclusive-contents-area'>
         {exclusiveContent?.slice(0, 3).map(resource => (
           <View
             key={resource.id}
@@ -107,7 +107,7 @@ const Home = () => {
 
       {/* 推荐mv */}
       <SectionHeader sectionName='推荐mv' />
-      <section className='grid-box mvs'>
+      <section className='grid-box mvs-gallary'>
         {mvs?.slice(0, 4).map(resource => (
           <View
             key={resource.id}
@@ -140,7 +140,7 @@ const Home = () => {
 
       {/* 主播电台 */}
       <SectionHeader sectionName='主播电台' />
-      <section className='grid-box mvs'>
+      <section className='grid-box mvs-gallary'>
         {/* TODO 需要界面抽象 */}
         {djSites?.slice(0, 5).map(resource => (
           <View key={resource.id}>

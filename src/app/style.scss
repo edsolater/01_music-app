@@ -50,22 +50,6 @@
         width: max-content;
       }
     }
-    .Item {
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.04);
-      }
-      &.--selected {
-        background-color: rgba(0, 0, 0, 0.1);
-        position: relative;
-        &::before {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          border-left: 4px solid var(--secondary);
-        }
-      }
-    }
   }
   .user-info-box {
     height: 80px;
@@ -144,24 +128,6 @@
       object-fit: cover;
     }
     position: relative;
-    // // TODO：这个也能抽象成一种特殊的状态
-    // &::after {
-    //   content: '';
-    //   position: absolute;
-    //   top: 0;
-    //   right: 0;
-    //   bottom: 0;
-    //   left: 0;
-    //   background-color: black;
-    //   transition: 300ms;
-    //   opacity: 0;
-    // }
-    // &:hover::after {
-    //   opacity: 0.3;
-    // }
-    // &:active::after {
-    //   opacity: 0.5;
-    // }
   }
   .music-buttons {
     display: flex;

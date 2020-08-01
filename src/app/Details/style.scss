@@ -17,9 +17,9 @@
       object-fit: cover;
     }
   }
-  .recommand-playlists,
-  .exclusive-contents,
-  .mvs {
+  .recommand-playlists-area,
+  .exclusive-contents-area,
+  .mvs-gallary {
     display: grid;
     grid-auto-columns: 1fr;
     grid-auto-flow: column;
@@ -98,7 +98,7 @@
       }
     }
   }
-  .recommand-playlists {
+  .recommand-playlists-area {
     grid-template-columns: repeat(5, 1fr);
     grid-auto-flow: row;
     .picture {
@@ -143,7 +143,7 @@
       height: 130px;
     }
   }
-  .exclusive-contents {
+  .exclusive-contents-area {
     grid-template-columns: repeat(3, 1fr);
   }
 }
@@ -159,7 +159,7 @@
     max-height: 480px;
     background-color: black;
   }
-  .simi-mvs-box {
+  .simi-mvs-gallary {
     display: grid;
     grid-template-columns: 200px;
   }
@@ -247,9 +247,9 @@
   background-color: #fafafa;
   grid-template-columns: 1fr minmax(600px, 1000px) 1fr;
   grid-auto-flow: row;
-  ._netease-mvs,
-  ._new-mvs,
-  ._hot-mvs {
+  .netease-mvs-gallary,
+  .new-mvs-gallary,
+  .hot-mvs-gallary {
     display: grid;
     grid-column: 2 / 3;
     grid-template-columns: repeat(4, 1fr);
@@ -346,7 +346,7 @@
     margin-top: 16px;
     margin-bottom: 16px;
   }
-  ._collection-info {
+  .playlist-info {
     display: grid;
     grid-template:
       'thumbnail  title  ' max-content
