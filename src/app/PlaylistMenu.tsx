@@ -22,38 +22,38 @@ export default function PlaylistMenu() {
     uid: userInfo.account?.id ?? ''
   }).data?.playlist
   const parsedPlaylist = useMemo(() => {
-    const resultList = [
-      {
-        data: [
-          { name: '搜索', isMenu: true, iconName: 'search', id: 0 },
-          { name: '发现音乐', isMenu: true, iconName: 'music-note', id: 1 },
-          { name: 'MV', isMenu: true, iconName: 'mv', id: 2 },
-          { name: '朋友', isMenu: true, iconName: 'friends', id: 3 }
-        ]
-      },
-      {
-        title: '我的音乐',
-        data: [
-          { name: '本地音乐', isMenu: true, iconName: 'local-music', id: 4 },
-          { name: '下载管理', isMenu: true, iconName: 'download', id: 5 },
-          { name: '最近播放', isMenu: true, iconName: 'history', id: 6 },
-          { name: '我的音乐云盘', isMenu: true, iconName: 'cloud-disk', id: 7 },
-          { name: '我的电台', isMenu: true, iconName: 'music-station', id: 8 },
-          { name: '我的收藏', isMenu: true, iconName: 'collection-folder', id: 9 }
-        ]
-      },
-      { title: '创建的歌单', data: [] as PlaylistItem[] },
-      { title: '收藏的歌单', data: [] as PlaylistItem[] }
-    ]
     if (playlists) {
+      const resultList = [
+        {
+          data: [
+            // { name: '搜索', isMenu: true, iconName: 'search', id: 0 },
+            { name: '发现音乐', isMenu: true, iconName: 'music-note', id: 1 },
+            { name: 'MV', isMenu: true, iconName: 'mv', id: 2 }
+            // { name: '朋友', isMenu: true, iconName: 'friends', id: 3 }
+          ]
+        },
+        {
+          title: '我的音乐',
+          data: [
+            // { name: '本地音乐', isMenu: true, iconName: 'local-music', id: 4 },
+            // { name: '下载管理', isMenu: true, iconName: 'download', id: 5 },
+            // { name: '最近播放', isMenu: true, iconName: 'history', id: 6 },
+            // { name: '我的音乐云盘', isMenu: true, iconName: 'cloud-disk', id: 7 },
+            // { name: '我的电台', isMenu: true, iconName: 'music-station', id: 8 },
+            // { name: '我的收藏', isMenu: true, iconName: 'collection-folder', id: 9 }
+          ]
+        },
+        { title: '创建的歌单', data: [] as PlaylistItem[] },
+        { title: '收藏的歌单', data: [] as PlaylistItem[] }
+      ]
       for (const list of playlists) {
-        //@ts-ignore
+        // @ts-ignore
         if (list.userId === userInfo.account.id) resultList[2].data.push(list)
-        //@ts-ignore
+        // @ts-ignore
         else resultList[3].data.push(list)
       }
+      return resultList
     }
-    return resultList
   }, [playlists])
   return (
     <aside className='PlaylistMenu'>

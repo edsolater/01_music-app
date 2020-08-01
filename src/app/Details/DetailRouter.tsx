@@ -21,14 +21,14 @@ export default function DetailRouter(props: ComponentProps<typeof View>): JSX.El
           case 2:
             return <MvListPage {...props} />
           default:
-            return <View>未知menuID：{appRoute.last.id}</View>
+            return <div>未知menuID：{appRoute.last.id}</div>
         }
       }
       case 'playlist': {
         return <NormalPlaylist id={appRoute.last.id ?? ''} {...props} />
       }
       default:
-        return <View>空白内容页</View>
+        return <Home {...props} />
     }
   }
   return (

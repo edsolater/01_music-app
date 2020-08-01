@@ -91,7 +91,10 @@
     width: max-content;
     position: relative;
     padding: 80px;
-    animation: rotateInfinity 25s linear infinite;
+    animation-name: rotateInfinity;
+    animation-duration: 25s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
     &::before {
       content: '';
       position: absolute;

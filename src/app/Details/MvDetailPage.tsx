@@ -18,7 +18,7 @@ export default function MvDetailPage(
 ) {
   const [, routeDispatch] = useContext(RouterContext)
   const MvIntroItem = (props: { resource: MvBrief2 }) => (
-    <View key={props.resource.id} className='mv-intro-item'>
+    <View key={props.resource.id} className='mv-entry'>
       <View
         className='picture'
         onClick={() => {
@@ -65,7 +65,7 @@ export default function MvDetailPage(
       <video className='mv-window' src={mvUrl} controls />
 
       {/* 相似mv */}
-      <div className='simi-mvs-gallary'>
+      <div className='simi-mvs-gallery'>
         {simiMvs?.slice(0, 8).map(item => (
           <MvIntroItem key={item.id} resource={item} />
         ))}

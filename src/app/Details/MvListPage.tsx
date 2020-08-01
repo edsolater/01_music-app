@@ -22,7 +22,7 @@ export default function PageMV() {
   const neteaseMvs = useResource<AllResponse['/mv/exclusive/rcmd']>('/mv/exclusive/rcmd').data?.data
 
   const MvIntroItem = (props: { resource: MvBrief2 }) => (
-    <View key={props.resource.id} className='mv-intro-item'>
+    <View key={props.resource.id} className='mv-entry'>
       <View
         className='picture'
         onClick={() => {
@@ -50,7 +50,7 @@ export default function PageMV() {
     <section className='MvListPage'>
       {/* 最新MV */}
       <SectionHeader sectionName='最新MV' />
-      <View className='new-mvs-gallary'>
+      <View className='new-mvs-gallery'>
         {newMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
@@ -58,7 +58,7 @@ export default function PageMV() {
 
       {/* 最热MV */}
       <SectionHeader sectionName='最热MV' />
-      <View className='hot-mvs-gallary'>
+      <View className='hot-mvs-gallery'>
         {hotMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
@@ -66,7 +66,7 @@ export default function PageMV() {
 
       {/* 网易出品MV */}
       <SectionHeader sectionName='网易出品' />
-      <View className='netease-mvs-gallary'>
+      <View className='netease-mvs-gallery'>
         {neteaseMvs?.slice(0, 8).map(resource => (
           <MvIntroItem key={resource.id} resource={resource} />
         ))}
