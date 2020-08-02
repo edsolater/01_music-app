@@ -17,7 +17,6 @@
       object-fit: cover;
     }
   }
-  .exclusive-contents-gallery,
   .mvs-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -90,41 +89,15 @@
       }
     }
   }
-  .recommand-playlists-gallery {
+  .recommend-playlists-gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
-    .picture {
-      width: 100%;
-      background-color: white;
-      overflow: hidden;
-      contain: paint;
-      margin-bottom: 4px;
-      .day {
-        position: absolute;
-        top: 20%;
-        left: 0;
-        right: 0;
-        color: #666;
-        font-size: 1.4em;
-        text-align: center;
-      }
-      .date {
-        position: absolute;
-        top: 22%;
-        left: 0;
-        right: 0;
-        text-align: center;
-        color: #c62f2f;
-        font-size: 136px;
-      }
-    }
-    .thumbnail-recommand {
-      display: block;
-      width: 100%;
-      padding-bottom: 100%;
-      background-color: white;
-    }
+  }
+  .exclusive-contents-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
+    gap: 20px;
   }
   .top-songs-gallery {
     display: grid;
@@ -146,9 +119,6 @@
       width: 130px;
       height: 130px;
     }
-  }
-  .exclusive-contents-gallery {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -233,7 +203,7 @@
       .thumbnail {
         display: block;
         width: 100%;
-        &.recommand {
+        &.recommend {
           background-color: white;
           padding-bottom: 100%;
         }
@@ -327,7 +297,7 @@
       .thumbnail {
         display: block;
         width: 100%;
-        &.recommand {
+        &.recommend {
           background-color: white;
           padding-bottom: 100%;
         }

@@ -5,8 +5,13 @@ import { headset } from 'assets/icons'
 import { RouterContext } from 'context/router'
 
 export default function PlaylistItem(props: {
-  item: PlaylistItem | RecommendResource
-  type?: 'portrait'
+  item?: PlaylistItem | RecommendResource
+  type?: 'portrait' | 'daily-recommend'
+  /**只有当 'daily-recommend' 时才可用 */
+  dailyInfo?: {
+    day: string
+    date: string
+  }
 }) {
   const [, routeDispatch] = useContext(RouterContext)
   switch (props.type) {
@@ -30,6 +35,23 @@ export default function PlaylistItem(props: {
             <img src={playlistItem.picUrl} className='thumbnail' />
           </div>
           <span className='description'>{playlistItem.name}</span>
+        </div>
+      )
+    }
+    case 'daily-recommend': {
+      return (
+        <div
+          className='PlaylistItem_daily-recommend --clickable'
+          onClick={() =>
+            routeDispatch({ type: 'to', item: { name: 'playlist', id: 'daily-recommend' } })
+          }
+        >
+          <div className='picture'>
+            <div className='thumbnail-recommend' />
+            <span className='day'>{props.dailyInfo?.day}</span>
+            <span className='date'>{props.dailyInfo?.date}</span>
+          </div>
+          <span className='legend'>每日歌曲推荐</span>
         </div>
       )
     }

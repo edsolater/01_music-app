@@ -11,3 +11,9 @@ body [hidden] {
 ul {
   padding-left: 0;
 }
+img {
+  display: block;
+}
+img:not([src]) {
+  visibility: hidden;
+}

@@ -12,6 +12,7 @@ import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
 import { useResource } from 'hooks/useFetch'
 import PlaylistItem from 'components/PlaylistItem'
+import MvItem from 'components/MvItem'
 
 const Home = () => {
   const [, routeDispatch] = useContext(RouterContext)
@@ -40,15 +41,8 @@ const Home = () => {
 
       {/* 推荐歌单 */}
       <SectionHeader sectionName='推荐歌单' />
-      <section className='recommand-playlists-gallery'>
-        <View>
-          <View className='picture'>
-            <View className='thumbnail-recommand' />
-            <Text className='day'>星期三</Text>
-            <Text className='date'>17</Text>
-          </View>
-          <Text className='legend'>每日歌曲推荐</Text>
-        </View>
+      <section className='recommend-playlists-gallery'>
+        <PlaylistItem type='daily-recommend' dailyInfo={{ day: '星期三', date: '11' }} />
         {recommendResource?.slice(0, 9).map(item => (
           <PlaylistItem key={item.id} type='portrait' item={item} />
         ))}
@@ -58,17 +52,7 @@ const Home = () => {
       <SectionHeader sectionName='独家放送' />
       <section className='exclusive-contents-gallery'>
         {exclusiveContent?.slice(0, 3).map(resource => (
-          <View
-            key={resource.id}
-            onClick={() => {
-              routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
-            }}
-          >
-            <View className='picture'>
-              <Image className='thumbnail' src={resource.sPicUrl} />
-            </View>
-            <Text className='description'>{resource.name}</Text>
-          </View>
+          <MvItem item={resource} key={resource.id} />
         ))}
       </section>
 
