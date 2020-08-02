@@ -104,7 +104,7 @@
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     grid-template-rows: repeat(5, auto);
-    > * {
+    .rank-item {
       display: flex;
       align-items: center;
       padding: 16px 0;
@@ -114,10 +114,6 @@
       &:hover {
         background-color: #ebeced;
       }
-    }
-    .album-thumbnail {
-      width: 130px;
-      height: 130px;
     }
   }
 }
@@ -384,7 +380,7 @@
     z-index: 1;
     .play-all-btn {
       .Icon {
-        color: var(--secondary);
+        color: var(--secondary-color);
       }
     }
     .select-btn {
@@ -415,15 +411,14 @@
   .List {
     .Item {
       padding: 16px;
-      &._even {
+      &:nth-child(even) {
         background: rgb(244, 244, 246);
       }
       > * {
         display: flex;
       }
-      .Icon.heart,
       .Icon.sq {
-        color: var(--secondary);
+        color: var(--secondary-color);
         filter: brightness(0.9);
       }
       .song-index {

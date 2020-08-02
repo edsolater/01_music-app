@@ -1,8 +1,8 @@
 #app {
   --section-divider: 1.5px solid #dddde1;
   --theme-color: #fff; // 无彩色
-  --primary: #f3f3f5;
-  --secondary: #df3b3b;
+  --primary-color: #d31212; //主色
+  --secondary-color: #ff280b; // 状态色
   height: 100vh;
   display: grid;
   grid-template-columns: 240px 1fr;

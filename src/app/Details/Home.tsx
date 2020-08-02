@@ -13,6 +13,8 @@ import { RouterContext } from 'context/router'
 import { useResource } from 'hooks/useFetch'
 import PlaylistItem from 'components/PlaylistItem'
 import MvItem from 'components/MvItem'
+import SongItem from 'components/SongItem'
+import { padLeft } from 'utils/functions'
 
 const Home = () => {
   const [, routeDispatch] = useContext(RouterContext)
@@ -59,22 +61,11 @@ const Home = () => {
       {/* 最新音乐 */}
       <SectionHeader sectionName='最新音乐' />
       <section className='top-songs-gallery'>
-        {topSongs?.slice(0, 10).map((resource, index) => (
-          <View key={resource.id}>
-            <Text className='no'>{index + 1}</Text>
-            <Image className='album-thumbnail' src={resource.album.picUrl} />
-            <Text className='name'>{resource.name}</Text>
-            <Icon iconfontName='sq'></Icon>
-            <Icon iconfontName='mv'></Icon>
-            <View className='artists'>
-              {resource.artists.map((artist, index, { length }) => (
-                <Fragment key={artist.name}>
-                  <Text className='artist'>{artist.name}</Text>
-                  {index !== length - 1 && <Text className='slash'>/</Text>}
-                </Fragment>
-              ))}
-            </View>
-          </View>
+        {topSongs?.slice(0, 10).map((item, index) => (
+          <div key={item.id} className='rank-item --clickable'>
+            <span className='rank'>{padLeft(index + 1, 2, 0)}</span>
+            <SongItem type='in-home' item={item} />
+          </div>
         ))}
       </section>
 
@@ -111,10 +102,9 @@ const Home = () => {
         ))}
       </section>
 
-      {/* 主播电台 */}
+      {/* 主播电台
       <SectionHeader sectionName='主播电台' />
       <section className='mvs-gallery'>
-        {/* TODO 需要界面抽象 */}
         {djSites?.slice(0, 5).map(resource => (
           <View key={resource.id}>
             <View className='picture'>
@@ -126,7 +116,7 @@ const Home = () => {
             <Text className='description'>{resource.rcmdText}</Text>
           </View>
         ))}
-      </section>
+      </section> */}
     </section>
   )
 }
