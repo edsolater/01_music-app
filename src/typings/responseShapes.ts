@@ -391,6 +391,9 @@ interface PlaylistDetail extends PlaylistItem {
   creator: UserProfile
   tracks: MusicInfoInList[]
 }
+interface RecommendResource extends PlaylistItem {
+  copywriter: string // 推荐理由，例：根据你喜欢的单曲《ロストワンの号哭》推荐
+}
 
 /**
  * 指示乐曲清晰度的信息块

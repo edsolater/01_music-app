@@ -17,7 +17,6 @@
       object-fit: cover;
     }
   }
-  .recommand-playlists-gallery,
   .exclusive-contents-gallery,
   .mvs-gallery {
     display: grid;
@@ -46,9 +45,7 @@
         padding-left: 40px;
         display: flex;
         align-items: center;
-        > *:not(:last-child) {
-          margin-right: 4px;
-        }
+        gap: 4px;
         .Icon,
         .number {
           color: white;
@@ -90,17 +87,19 @@
       .thumbnail {
         display: block;
         width: 100%;
-        &-recommand {
-          background-color: white;
-          padding-bottom: 100%;
-        }
       }
     }
   }
   .recommand-playlists-gallery {
-    grid-template-columns: repeat(5, 1fr);
-    grid-auto-flow: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
     .picture {
+      width: 100%;
+      background-color: white;
+      overflow: hidden;
+      contain: paint;
+      margin-bottom: 4px;
       .day {
         position: absolute;
         top: 20%;
@@ -119,6 +118,12 @@
         color: #c62f2f;
         font-size: 136px;
       }
+    }
+    .thumbnail-recommand {
+      display: block;
+      width: 100%;
+      padding-bottom: 100%;
+      background-color: white;
     }
   }
   .top-songs-gallery {

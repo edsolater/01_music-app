@@ -7,10 +7,11 @@ import { AllResponse } from 'typings/requestPath'
 import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
-import { headset, recoder } from 'assets/icons'
+import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
 import { useResource } from 'hooks/useFetch'
+import PlaylistItem from 'components/PlaylistItem'
 
 const Home = () => {
   const [, routeDispatch] = useContext(RouterContext)
@@ -48,20 +49,8 @@ const Home = () => {
           </View>
           <Text className='legend'>每日歌曲推荐</Text>
         </View>
-        {recommendResource?.slice(0, 9).map(resource => (
-          <View key={resource.id}>
-            <View className='picture'>
-              <View className='legend'>
-                <Text>{resource.copywriter}</Text>
-              </View>
-              <View className='count'>
-                <Icon src={headset} />
-                <Text className='number'>{resource.playcount}</Text>
-              </View>
-              <Image src={resource.picUrl} className='thumbnail' />
-            </View>
-            <Text className='description'>{resource.name}</Text>
-          </View>
+        {recommendResource?.slice(0, 9).map(item => (
+          <PlaylistItem key={item.id} type='portrait' item={item} />
         ))}
       </section>
 
