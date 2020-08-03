@@ -22,7 +22,7 @@ export default function MvGalleryPage() {
       <SectionHeader sectionName='最新MV' />
       <View className='new-mvs-gallery'>
         {newMvs?.slice(0, 8).map(resource => (
-          <MvItem type='mv-page' key={resource.id} item={resource} />
+          <MvItem type='brief2' key={resource.id} item={resource} />
         ))}
       </View>
 
@@ -30,7 +30,7 @@ export default function MvGalleryPage() {
       <SectionHeader sectionName='最热MV' />
       <View className='hot-mvs-gallery'>
         {hotMvs?.slice(0, 8).map(resource => (
-          <MvItem type='mv-page' key={resource.id} item={resource} />
+          <MvItem type='brief2' key={resource.id} item={resource} />
         ))}
       </View>
 
@@ -38,7 +38,7 @@ export default function MvGalleryPage() {
       <SectionHeader sectionName='网易出品' />
       <View className='netease-mvs-gallery'>
         {neteaseMvs?.slice(0, 8).map(resource => (
-          <MvItem type='mv-page' key={resource.id} item={resource} />
+          <MvItem type='brief2' key={resource.id} item={resource} />
         ))}
       </View>
     </section>

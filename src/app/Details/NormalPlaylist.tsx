@@ -3,7 +3,7 @@ import './style.scss'
 
 import MyCover from 'components/MyCover'
 import { useResource } from 'hooks/useFetch'
-import { getDateString } from 'utils/functions'
+import { formatDateString } from 'utils/functions'
 import duration from 'utils/duration'
 import { AllResponse } from 'typings/requestPath'
 import { LikelistContext } from 'context/likelist'
@@ -70,7 +70,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
             {playlist?.creator.nickname}
           </Text>
           <Text footnote className='create-time'>
-            {getDateString(playlist?.createTime)} 创建
+            {formatDateString(playlist?.createTime)} 创建
           </Text>
         </View>
         <Group className='buttons'>

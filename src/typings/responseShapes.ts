@@ -234,6 +234,8 @@ interface MvBrief2 {
   cover: Url
   /**mv播放量 */
   playCount: number
+  /** 持续时间 */
+  duration: TimeNumber
 }
 
 /**电台简介信息(排行榜) */

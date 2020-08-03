@@ -96,7 +96,7 @@
     }
   }
 }
-.MvItem_mv-page {
+.MvItem_brief2 {
   .picture {
     width: 100%;
     background-color: white;
@@ -129,6 +129,63 @@
         color: white;
       }
     }
+  }
+}
+.MvItem_in-detail-page {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, auto);
+  column-gap: 0.5em;
+  row-gap: 0.3em;
+  > :nth-child(1) {
+    grid-row: 1 / -1;
+  }
+  .picture {
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+    margin-bottom: 4px;
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+    }
+    .count {
+      transform-origin: top right;
+      transform: scale(0.8);
+      position: absolute;
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3) 60%,
+        transparent 100%
+      );
+      top: 0;
+      right: 0;
+      opacity: 0.8;
+      padding: 4px;
+      padding-left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      .Icon,
+      .number {
+        color: white;
+      }
+    }
+  }
+  .description {
+    font-size: 0.8em;
+    opacity: 0.8;
+  }
+  .duration {
+    font-size: 0.8em;
+    opacity: 0.4;
+  }
+  .sub-description {
+    font-size: 0.8em;
+    opacity: 0.4;
   }
 }
 
