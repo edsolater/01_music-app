@@ -3,7 +3,7 @@ import './style.scss'
 
 import { RouterContext } from 'context/router'
 import Home from './Home'
-import MvListPage from './MvListPage'
+import MvGalleryPage from './MvGalleryPage'
 import NormalPlaylist from './NormalPlaylist'
 import View from 'baseUI/UI/View'
 import MvDetailPage from './MvDetailPage'
@@ -19,7 +19,7 @@ export default function DetailRouter(props: ComponentProps<typeof View>): JSX.El
           case 1:
             return <Home {...props} />
           case 2:
-            return <MvListPage {...props} />
+            return <MvGalleryPage {...props} />
           default:
             return <div>未知menuID：{appRoute.last.id}</div>
         }

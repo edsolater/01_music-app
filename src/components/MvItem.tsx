@@ -6,8 +6,8 @@ import { recoder } from 'assets/icons'
 import MyCover from './MyCover'
 
 export default function MvItem(props: {
-  item: ExclusiveContent | MvBrief | undefined
-  type?: 'in-home'
+  item: ExclusiveContent | MvBrief | MvBrief2 | undefined
+  type?: 'in-home' | 'mv-page'
   onClick?: () => void
 }) {
   const [, routeDispatch] = useContext(RouterContext)
@@ -17,7 +17,7 @@ export default function MvItem(props: {
       const resource = props.item as MvBrief
       return (
         <div
-          className='MvItem_in-home'
+          className='MvItem_in-home --clickable'
           onClick={() => {
             routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
           }}
@@ -44,11 +44,39 @@ export default function MvItem(props: {
         </div>
       )
     }
+    case 'mv-page': {
+      const resource = props.item as MvBrief2
+      return (
+        <div
+          className='MvItem_mv-page --clickable'
+          onClick={() => {
+            routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
+          }}
+        >
+          <div className='picture'>
+            <div className='count'>
+              <Icon src={recoder} />
+              <span className='number'>{resource.playCount}</span>
+            </div>
+            <MyCover src={resource.cover} className='thumbnail' />
+          </div>
+          <span className='description'>{resource.name}</span>
+          <span className='sub-description _footnote _block'>
+            {resource.artists.map((art, idx, { length }) => (
+              <Fragment key={art.id}>
+                <span>{art.name}</span>
+                {idx !== length - 1 && <span>/</span>}
+              </Fragment>
+            ))}
+          </span>
+        </div>
+      )
+    }
     default: {
       const resource = props.item as ExclusiveContent
       return (
         <div
-          className='MvItem'
+          className='MvItem --clickable'
           onClick={() => {
             props.onClick?.()
             routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })

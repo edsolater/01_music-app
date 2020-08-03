@@ -96,6 +96,41 @@
     }
   }
 }
+.MvItem_mv-page {
+  .picture {
+    width: 100%;
+    background-color: white;
+    overflow: hidden;
+    margin: auto;
+    position: relative;
+    margin-bottom: 4px;
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+    }
+    .count {
+      position: absolute;
+      background: linear-gradient(
+        to left,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.3) 60%,
+        transparent 100%
+      );
+      top: 0;
+      right: 0;
+      opacity: 0.8;
+      padding: 4px;
+      padding-left: 40px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      .Icon,
+      .number {
+        color: white;
+      }
+    }
+  }
+}
 
 .PlaylistItem {
   height: 100px;
