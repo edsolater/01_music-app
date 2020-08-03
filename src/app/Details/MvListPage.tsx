@@ -15,11 +15,11 @@ export default function PageMV() {
   const [, routeDispatch] = useContext(RouterContext)
   const newMvs = useResource<AllResponse['/mv/all']>('/mv/all', {
     order: '最新'
-  }).data?.data
+  }).res?.data
   const hotMvs = useResource<AllResponse['/mv/all']>('/mv/all', {
     order: '最热'
-  }).data?.data
-  const neteaseMvs = useResource<AllResponse['/mv/exclusive/rcmd']>('/mv/exclusive/rcmd').data?.data
+  }).res?.data
+  const neteaseMvs = useResource<AllResponse['/mv/exclusive/rcmd']>('/mv/exclusive/rcmd').res?.data
 
   const MvIntroItem = (props: { resource: MvBrief2 }) => (
     <View key={props.resource.id} className='mv-entry'>

@@ -39,7 +39,7 @@ function useFetch<R>(url: RequestInfo, init?: RequestInit) {
  */
 export function useResource<R>(url: RequestInfo, params?: Params, init?: RequestInit) {
   url = `${(typeof url === 'string' ? baseUrl : '') + url}?${getQueryString(params)}`
-  const [data, setData] = useState<R | undefined>()
+  const [res, setData] = useState<R | undefined>()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<any>()
   useEffect(() => {
@@ -59,7 +59,7 @@ export function useResource<R>(url: RequestInfo, params?: Params, init?: Request
       })
       .finally(() => setLoading(false))
   }, [init, url])
-  return { data, loading, error }
+  return { res, loading, error }
 }
 
 /**

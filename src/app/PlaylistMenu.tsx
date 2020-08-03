@@ -20,7 +20,7 @@ export default function PlaylistMenu() {
   const [router, routerDispatch] = useContext(RouterContext)
   const playlists = useResource<AllResponse['/user/playlist']>('/user/playlist', {
     uid: userInfo.account?.id ?? ''
-  }).data?.playlist
+  }).res?.playlist
   const parsedPlaylist = useMemo(() => {
     if (playlists) {
       const resultList = [

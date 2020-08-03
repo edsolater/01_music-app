@@ -14,7 +14,6 @@ import Icon from 'baseUI/UI/Icon'
 import Slider from 'baseUI/UI/Slider'
 import Cycle from 'baseUI/UI/Cycle'
 import Popover from 'baseUI/UI/Popover'
-import useDomNode from 'hooks/useDomNode'
 import { LikelistContext } from 'context/likelist'
 import useAndEffect from 'hooks/useAndEffect'
 import SongDetailPage from './SongDetailPage'
@@ -145,19 +144,19 @@ export default function PlayerBar() {
     dispatch({
       type: 'set from data',
       // ? 初始化时因为要拉取数据，重复渲染多次其实是正常现像？
-      isLike: likelist.has(songInfo.id ?? NaN)
+      isLike: likelist.has(songInfo?.id ?? NaN)
     })
-  }, [songInfo.id])
+  }, [songInfo?.id])
 
   const responseSongUrl = useResource<AllResponse['/song/url']>('/song/url', {
-    id: songInfo.id
-  }).data?.data[0]?.url
+    id: songInfo?.id
+  }).res?.data[0]?.url
 
   /**
    * 喜欢、取消喜欢音乐
    */
   useAndEffect(() => {
-    myFetch('/like', { id: songInfo.id, like: state.isLike })?.then(() => {
+    myFetch('/like', { id: songInfo?.id, like: state.isLike })?.then(() => {
       myFetch('/likelist', { uid: storage.get('account')?.id ?? '' })?.then((res: any) => {
         likelistDispatch?.({ type: 'set from data', newLikelist: res.ids })
       })
@@ -193,7 +192,7 @@ export default function PlayerBar() {
             dispatch({ type: 'show/hide <SongDetailPage>' })
           }}
         >
-          <img src={songInfo.al?.picUrl} />
+          <img src={songInfo?.al?.picUrl} />
         </div>
         <View className='music-buttons'>
           <Button className='last-song'>
@@ -217,21 +216,21 @@ export default function PlayerBar() {
           </Button>
         </View>
         <View className='time-slider'>
-          <View className='song-title'>{songInfo.name}</View>
+          <View className='song-title'>{songInfo?.name}</View>
           <View className='timestamp'>
             <Text ref={currentSecondSpanRef} line>
               {duration(state.passedMilliseconds).format('mm:ss')}
             </Text>
             <Text className='divider'> / </Text>
-            <Text line>{duration(songInfo.dt).format('mm:ss')}</Text>
+            <Text line>{duration(songInfo?.dt).format('mm:ss')}</Text>
           </View>
           <Slider
-            value={state.passedMilliseconds / (songInfo.dt ?? 0)}
-            onMoveTrigger={percent => changingSecondText(percent * (songInfo.dt ?? 0))}
+            value={state.passedMilliseconds / (songInfo?.dt ?? 0)}
+            onMoveTrigger={percent => changingSecondText(percent * (songInfo?.dt ?? 0))}
             onMoveTriggerDone={percent => {
               dispatch({
                 type: 'set passed milliseconds',
-                milliseconds: (songInfo.dt ?? NaN) * percent,
+                milliseconds: (songInfo?.dt ?? NaN) * percent,
                 needAffactAudioElement: true
               })
             }}

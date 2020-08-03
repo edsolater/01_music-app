@@ -19,23 +19,25 @@ export default function SongDetailPage(props: {
   const [songInfo] = useContext(SongInfoContext)
   // TODO： 总觉得可以再简化
   const lyricInfo = useResource<AllResponse['/lyric']>('/lyric', {
-    id: songInfo.id
-  }).data
+    id: songInfo?.id
+  }).res
   const commentInfo = useResource<AllResponse['/comment/music']>('/comment/music', {
-    id: songInfo.id
-  }).data
+    id: songInfo?.id
+  }).res
   const simiPlaylists = useResource<AllResponse['/simi/playlist']>('/simi/playlist', {
-    id: songInfo.id
-  }).data?.playlists
+    id: songInfo?.id
+  }).res?.playlists
   const simiSong = useResource<AllResponse['/simi/song']>('/simi/song', {
-    id: songInfo.id
-  }).data?.songs
+    id: songInfo?.id
+  }).res?.songs
 
   return (
     <section className={`SongDetailPage ${props.shown ? '--shown' : '--hidden--scale-mode'}`}>
       {/* 转啊转的专辑封面 */}
-      <div className={`cover ${props.palyerState.isplaying ? '--playing' : '--paused'}`}>
-        <img src={songInfo.al?.picUrl}></img>
+      <div
+        className={`current-song-cover ${props.palyerState.isplaying ? '--playing' : '--paused'}`}
+      >
+        <img src={songInfo?.al?.picUrl}></img>
       </div>
 
       {/* 歌词 */}

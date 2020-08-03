@@ -1,8 +1,10 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import './style.scss'
 import Icon from 'baseUI/UI/Icon'
+import { SongInfoContext } from 'context/SongInfo'
 
 export default function SongItem(props: { item: SongItem; type?: 'in-home' }) {
+  const [, , setSongId] = useContext(SongInfoContext)
   const songItem = props.item
   switch (props.type) {
     case 'in-home': {
@@ -26,8 +28,14 @@ export default function SongItem(props: { item: SongItem; type?: 'in-home' }) {
       )
     }
     default: {
+      console.log(songItem)
       return (
-        <div className='SongItem --clickable'>
+        <div
+          className='SongItem --clickable'
+          onClick={() => {
+            setSongId(songItem.id)
+          }}
+        >
           <img className='cover' src={songItem.album.picUrl}></img>
           <div className='name'>{songItem.name}</div>
           <div className='artist-list'>{songItem.artists.map(i => i.name).join(' ')}</div>

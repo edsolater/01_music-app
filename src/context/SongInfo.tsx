@@ -1,24 +1,22 @@
-import React, { useReducer } from 'react'
+import React, { useState } from 'react'
+import { myFetch } from 'hooks/useFetch'
 
-type State = MusicInfo | AnyObject
-
-type Action = { type: 'set from data'; songInfo: State }
-
-const initState: State = {}
-const reducer = (_state: State, action: Action): State => {
-  switch (action.type) {
-    case 'set from data': {
-      return action.songInfo
-    }
-    default: {
-      throw new Error(`from ${SongInfoProvider.name}'s reducer`)
-    }
-  }
-}
-
-export const SongInfoContext = React.createContext([initState, (_action: Action) => {}] as const)
+export const SongInfoContext = React.createContext([
+  undefined as MusicInfoWithoutUrl | undefined,
+  (_: MusicInfoWithoutUrl) => {},
+  (_: ID) => {}
+] as const)
 
 export default function SongInfoProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initState)
-  return <SongInfoContext.Provider value={[state, dispatch]}>{children}</SongInfoContext.Provider>
+  const [resource, setResource] = useState<MusicInfoWithoutUrl>()
+  function setId(id: ID) {
+    myFetch('/song/detail', { ids: id }).then((res: any) => {
+      setResource(res?.songs[0])
+    })
+  }
+  return (
+    <SongInfoContext.Provider value={[resource, setResource, setId]}>
+      {children}
+    </SongInfoContext.Provider>
+  )
 }

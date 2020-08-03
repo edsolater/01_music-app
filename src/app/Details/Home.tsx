@@ -15,18 +15,20 @@ import PlaylistItem from 'components/PlaylistItem'
 import MvItem from 'components/MvItem'
 import SongItem from 'components/SongItem'
 import { padLeft } from 'utils/functions'
+import { SongInfoContext } from 'context/SongInfo'
 
 const Home = () => {
   const [, routeDispatch] = useContext(RouterContext)
-  const banners = useResource<AllResponse['/banner']>('/banner').data?.banners
+  const [, , setSongId] = useContext(SongInfoContext)
+  const banners = useResource<AllResponse['/banner']>('/banner').res?.banners
   const recommendResource = useResource<AllResponse['/recommend/resource']>('/recommend/resource')
-    .data?.recommend
+    .res?.recommend
   const exclusiveContent = useResource<AllResponse['/personalized/privatecontent']>(
     '/personalized/privatecontent'
-  ).data?.result
-  const topSongs = useResource<AllResponse['/top/song']>('/top/song').data?.data
-  const mvs = useResource<AllResponse['/personalized/mv']>('/personalized/mv').data?.result
-  const djSites = useResource<AllResponse['/dj/today/perfered']>('/dj/today/perfered').data?.data
+  ).res?.result
+  const topSongs = useResource<AllResponse['/top/song']>('/top/song').res?.data
+  const mvs = useResource<AllResponse['/personalized/mv']>('/personalized/mv').res?.result
+  // const djSites = useResource<AllResponse['/dj/today/perfered']>('/dj/today/perfered').data?.data
 
   return (
     <section className='Home'>
@@ -62,7 +64,13 @@ const Home = () => {
       <SectionHeader sectionName='最新音乐' />
       <section className='top-songs-gallery'>
         {topSongs?.slice(0, 10).map((item, index) => (
-          <div key={item.id} className='rank-item --clickable'>
+          <div
+            key={item.id}
+            className='rank-item --clickable'
+            onClick={() => {
+              setSongId(item.id)
+            }}
+          >
             <span className='rank'>{padLeft(index + 1, 2, 0)}</span>
             <SongItem type='in-home' item={item} />
           </div>
@@ -72,33 +80,8 @@ const Home = () => {
       {/* 推荐mv */}
       <SectionHeader sectionName='推荐mv' />
       <section className='mvs-gallery'>
-        {mvs?.slice(0, 4).map(resource => (
-          <View
-            key={resource.id}
-            onClick={() => {
-              routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
-            }}
-          >
-            <View className='picture'>
-              <View className='legend'>
-                <Text>{resource.copywriter}</Text>
-              </View>
-              <View className='count'>
-                <Icon src={recoder} />
-                <Text className='number'>{resource.playCount}</Text>
-              </View>
-              <Image src={resource.picUrl} className='thumbnail' />
-            </View>
-            <Text className='description'>{resource.name}</Text>
-            <Text className='subDescription' footnote block>
-              {resource.artists.map((art, idx, { length }) => (
-                <Fragment key={art.id}>
-                  <Text>{art.name}</Text>
-                  {idx !== length - 1 && <Text>/</Text>}
-                </Fragment>
-              ))}
-            </Text>
-          </View>
+        {mvs?.slice(0, 4).map(item => (
+          <MvItem key={item.id} type='in-home' item={item} />
         ))}
       </section>
 

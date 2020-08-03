@@ -334,7 +334,7 @@ type RequestParams = {
     }
     response: {
       playlist: PlaylistDetail
-      privileges: MusicPrivileges[]
+      privileges: MusicPrivilege[]
       code: 200
     }
   }
@@ -343,17 +343,33 @@ type RequestParams = {
    * 说明 : 使用歌单详情接口后 , 能得到的音乐的 id, 但不能得到的音乐 url, 调用此接口 , 传入的音乐 id( 可多个 , 用逗号隔开 ), 可以获取对应的音乐的 url( 不需要登录 )
    */
   '/song/url': {
-    params: {
+    'params': {
       /** 音乐 id */
       id?: ID
       /**  码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推 */
       br?: number
     }
-    response: {
+    'response': {
       data: {
         url: SrcUrl
       }[]
       code: 200
+    }
+
+    /**
+     * 获取歌曲详情
+     * 说明 : 使用歌单详情接口后 , 能得到的音乐的 id, 但不能得到的音乐 url, 调用此接口 , 传入的音乐 id( 可多个 , 用逗号隔开 ), 可以获取对应的音乐的 url( 不需要登录 )
+     */
+    '/song/detail': {
+      params: {
+        /** 音乐 id */
+        ids?: ID | ID[]
+      }
+      response: {
+        songs: MusicInfoWithoutUrl[]
+        privileges: MusicPrivilege[]
+        code: 200
+      }
     }
   }
 }

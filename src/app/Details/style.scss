@@ -1,3 +1,7 @@
+.DetailRouter {
+  grid-area: 1 / 2;
+  overflow: auto;
+}
 .Home {
   background-color: #fafafa;
   display: grid;
@@ -21,73 +25,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
-    .picture {
-      width: 100%;
-      background-color: white;
-      overflow: hidden;
-      margin: auto;
-      position: relative;
-      margin-bottom: 4px;
-      .count {
-        position: absolute;
-        background: linear-gradient(
-          to left,
-          rgba(0, 0, 0, 0.3),
-          rgba(0, 0, 0, 0.3) 60%,
-          transparent 100%
-        );
-        top: 0;
-        right: 0;
-        opacity: 0.8;
-        transition: 300ms 200ms;
-        padding: 4px;
-        padding-left: 40px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        .Icon,
-        .number {
-          color: white;
-        }
-      }
-      &:hover .count {
-        opacity: 0;
-      }
-      .bottom {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background: linear-gradient(
-          to top,
-          rgba(0, 0, 0, 0.3),
-          rgba(0, 0, 0, 0.3) 60%,
-          transparent 100%
-        );
-        color: white;
-        padding: 4px;
-        font-size: 0.8em;
-        line-height: 1.6;
-      }
-      .legend {
-        position: absolute;
-        top: 0;
-        width: 100%;
-        background-color: rgba(0, 0, 0, 0.3);
-        color: white;
-        transform: translateY(-100%);
-        transition: 300ms 200ms;
-        padding: 4px;
-        font-size: 0.8em;
-        line-height: 1.6;
-      }
-      &:hover .legend {
-        transform: translateY(0);
-      }
-      .thumbnail {
-        display: block;
-        width: 100%;
-      }
-    }
   }
   .recommend-playlists-gallery {
     display: grid;
@@ -116,11 +53,6 @@
       }
     }
   }
-}
-
-.DetailRouter {
-  grid-area: 1 / 2;
-  overflow: auto;
 }
 
 .MvDetailPage {

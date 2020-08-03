@@ -15,7 +15,7 @@ interface CollectionItemInfo {
   }
 }
 
-type MusicInfoInList = {
+type MusicInfoWithoutUrl = {
   name: string
   id: number
   pst: number
@@ -105,7 +105,7 @@ type MusicInfoInUrl = {
   level: string
   encodeType: string
 }
-type MusicInfo = MusicInfoInList & MusicInfoInUrl
+type MusicInfo = MusicInfoWithoutUrl & MusicInfoInUrl
 
 interface UserProfile {
   userId: ID
@@ -389,7 +389,7 @@ interface PlaylistItem {
 interface PlaylistDetail extends PlaylistItem {
   subscribers: UserProfile[]
   creator: UserProfile
-  tracks: MusicInfoInList[]
+  tracks: MusicInfoWithoutUrl[]
 }
 interface RecommendResource extends PlaylistItem {
   copywriter: string // 推荐理由，例：根据你喜欢的单曲《ロストワンの号哭》推荐
@@ -398,7 +398,7 @@ interface RecommendResource extends PlaylistItem {
 /**
  * 指示乐曲清晰度的信息块
  */
-interface MusicPrivileges {
+interface MusicPrivilege {
   id: ID
   /**最高清晰度 */
   maxbr: number

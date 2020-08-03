@@ -44,7 +44,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
   /* ----------------------------------- 状态 ----------------------------------- */
 
   const [likelist] = useContext(LikelistContext)
-  const [, songInfoContextDispatch] = useContext(SongInfoContext)
+  const [, setSongInfo] = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
 
   /* ----------------------------------- 请求 ----------------------------------- */
@@ -52,7 +52,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
   const { playlist, privileges } =
     useResource<AllResponse['/playlist/detail']>('/playlist/detail', {
       id: props.id
-    }).data ?? {}
+    }).res ?? {}
 
   return (
     <section className='NormalPlaylist'>
@@ -116,8 +116,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
         initSelectedIndex={state.selectedIndex}
         onSelectItem={(item, index) => {
           dispatch({ type: 'set selected list index', index })
-          //@ts-ignore
-          songInfoContextDispatch({ type: 'set from data', songInfo: item })
+          setSongInfo(item)
         }}
         renderItem={(item, idx) => (
           <Item className='--clickable'>

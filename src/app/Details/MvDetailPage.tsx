@@ -44,13 +44,13 @@ export default function MvDetailPage(
   )
   const mvUrl = useResource<AllResponse['/mv/url']>('/mv/url', {
     id: props.id
-  }).data?.data.url
+  }).res?.data.url
   const simiMvs = useResource<AllResponse['/simi/mv']>('/simi/mv', {
     mvid: props.id
-  }).data?.mvs
+  }).res?.mvs
   const commentInfo = useResource<AllResponse['/comment/mv']>('/comment/mv', {
     id: props.id
-  }).data
+  }).res
   // const mvStatisticData = useResource<AllResponse['/mv/detail/info']>('/mv/detail/info', {
   //   mvid: props.id
   // }).data
