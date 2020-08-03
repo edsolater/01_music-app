@@ -106,7 +106,7 @@
       border-radius: 50%;
       background-image: repeating-radial-gradient(#111, #111 10px, #222 10px, #222 11px);
     }
-    img {
+    .MyCover {
       display: block;
       width: 260px;
       height: 260px;
@@ -125,7 +125,7 @@
   background: var(--theme-color);
   gap: 48px;
   .album-face {
-    img {
+    .MyCover {
       width: 80px;
       height: 80px;
       object-fit: cover;

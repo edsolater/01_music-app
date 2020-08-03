@@ -5,11 +5,11 @@ import { AllResponse } from 'typings/requestPath'
 import { RouterContext } from 'context/router'
 import { recoder } from 'assets/icons'
 import View from 'baseUI/UI/View'
-import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import CommentItem from 'components/CommentItem'
 import { useResource } from 'hooks/useFetch'
+import MyCover from 'components/MyCover'
 
 export default function MvDetailPage(
   props: ComponentProps<typeof View> & {
@@ -29,7 +29,7 @@ export default function MvDetailPage(
           <Icon src={recoder} />
           <Text className='number'>{props.resource.playCount}</Text>
         </View>
-        <Image src={props.resource.cover} className='thumbnail' />
+        <MyCover src={props.resource.cover} className='thumbnail' />
       </View>
       <Text className='description'>{props.resource.name}</Text>
       <Text className='subDescription' footnote block>

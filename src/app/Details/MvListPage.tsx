@@ -3,13 +3,13 @@ import './style.scss'
 
 import View from 'baseUI/UI/View'
 import { AllResponse } from 'typings/requestPath'
-import Image from 'baseUI/UI/Image'
 import Text from 'baseUI/UI/Text'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
 import { RouterContext } from 'context/router'
 import { useResource } from 'hooks/useFetch'
+import MyCover from 'components/MyCover'
 
 export default function PageMV() {
   const [, routeDispatch] = useContext(RouterContext)
@@ -33,7 +33,7 @@ export default function PageMV() {
           <Icon src={recoder} />
           <Text className='number'>{props.resource.playCount}</Text>
         </View>
-        <Image src={props.resource.cover} className='thumbnail' />
+        <MyCover src={props.resource.cover} className='thumbnail' />
       </View>
       <Text className='description'>{props.resource.name}</Text>
       <Text className='subDescription' footnote block>

@@ -1,12 +1,14 @@
 import React, { useReducer, useContext, ComponentProps } from 'react'
 import './style.scss'
 
+import MyCover from 'components/MyCover'
+import { useResource } from 'hooks/useFetch'
+import { getDateString } from 'utils/functions'
 import duration from 'utils/duration'
 import { AllResponse } from 'typings/requestPath'
 import { LikelistContext } from 'context/likelist'
 import { SongInfoContext } from 'context/SongInfo'
 import Text from 'baseUI/UI/Text'
-import Image from 'baseUI/UI/Image'
 import Togger from 'baseUI/UI/Togger'
 import View from 'baseUI/UI/View'
 import Figure from 'baseUI/UI/Figure'
@@ -16,8 +18,6 @@ import Button from 'baseUI/UI/Button'
 import Icon from 'baseUI/UI/Icon'
 import Item from 'baseUI/UI/Item'
 import List from 'baseUI/structure/List'
-import { useResource } from 'hooks/useFetch'
-import { getDateString } from 'utils/functions'
 
 type State = {
   selectedIndex: number
@@ -44,7 +44,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
   /* ----------------------------------- 状态 ----------------------------------- */
 
   const [likelist] = useContext(LikelistContext)
-  const [, setSongInfo] = useContext(SongInfoContext)
+  const { setSongInfo } = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
 
   /* ----------------------------------- 请求 ----------------------------------- */
@@ -61,7 +61,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
       </div>
       <header className='playlist-info'>
         <Figure className='thumbnail'>
-          <Image src={playlist?.coverImgUrl} className='bg' />
+          <MyCover src={playlist?.coverImgUrl} className='bg' />
         </Figure>
         <Text h1>{playlist?.name}</Text>
         <View className='creator'>

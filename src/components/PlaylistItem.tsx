@@ -3,6 +3,7 @@ import './style.scss'
 import Icon from 'baseUI/UI/Icon'
 import { headset } from 'assets/icons'
 import { RouterContext } from 'context/router'
+import MyCover from './MyCover'
 
 export default function PlaylistItem(props: {
   item?: PlaylistItem | RecommendResource
@@ -32,7 +33,7 @@ export default function PlaylistItem(props: {
               <Icon src={headset} />
               <span className='number'>{playlistItem.playcount}</span>
             </div>
-            <img src={playlistItem.picUrl} className='thumbnail' />
+            <MyCover src={playlistItem.picUrl} className='thumbnail' />
           </div>
           <span className='description'>{playlistItem.name}</span>
         </div>
@@ -64,7 +65,7 @@ export default function PlaylistItem(props: {
             routeDispatch({ type: 'to', item: { name: 'playlist', id: playlistItem.id } })
           }
         >
-          <img className='avatar' src={playlistItem.picUrl ?? playlistItem.coverImgUrl}></img>
+          <MyCover className='avatar' src={playlistItem.picUrl ?? playlistItem.coverImgUrl} />
           <div className='name'>{playlistItem.name}</div>
           <div className='play-count'>播放: {playlistItem.playcount ?? playlistItem.playCount}</div>
         </div>

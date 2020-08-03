@@ -1,5 +1,6 @@
 import React from 'react'
 import './style.scss'
+import MyCover from './MyCover'
 
 export default function CommentItem(props: {
   avatarUrl: SrcUrl
@@ -9,7 +10,7 @@ export default function CommentItem(props: {
 }): JSX.Element {
   return (
     <div className='CommentItem'>
-      <img className='avatar' src={props.avatarUrl}></img>
+      <MyCover className='avatar' src={props.avatarUrl} />
       <p className='middle-part'>
         <span className='username'>{props.nickname}:</span>
         <span className='content'>{props.content}</span>

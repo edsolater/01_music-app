@@ -1,25 +1,19 @@
-import React, { Fragment, useContext } from 'react'
+import React, { useContext } from 'react'
 import './style.scss'
 
-import View from 'baseUI/UI/View'
 import Swiper from 'baseUI/structure/Swiper'
 import { AllResponse } from 'typings/requestPath'
-import Image from 'baseUI/UI/Image'
-import Text from 'baseUI/UI/Text'
-import Icon from 'baseUI/UI/Icon'
-import { recoder } from 'assets/icons'
 import SectionHeader from 'components/SectionHeader'
-import { RouterContext } from 'context/router'
 import { useResource } from 'hooks/useFetch'
 import PlaylistItem from 'components/PlaylistItem'
 import MvItem from 'components/MvItem'
 import SongItem from 'components/SongItem'
 import { padLeft } from 'utils/functions'
 import { SongInfoContext } from 'context/SongInfo'
+import MyCover from 'components/MyCover'
 
 const Home = () => {
-  const [, routeDispatch] = useContext(RouterContext)
-  const [, , setSongId] = useContext(SongInfoContext)
+  const { setSongId } = useContext(SongInfoContext)
   const banners = useResource<AllResponse['/banner']>('/banner').res?.banners
   const recommendResource = useResource<AllResponse['/recommend/resource']>('/recommend/resource')
     .res?.recommend
@@ -35,7 +29,7 @@ const Home = () => {
       <Swiper
         autoPlay
         renderList={banners?.map(banner => (
-          <Image
+          <MyCover
             key={banner.imageUrl.slice(24, 29)}
             src={banner.imageUrl}
             onClick={() => window.open(banner.url)}

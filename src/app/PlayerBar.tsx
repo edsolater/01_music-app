@@ -21,6 +21,7 @@ import { overwrite } from 'utils/object'
 import { storage } from 'api/localStorage'
 import PlayerBarAudio from './PlayerBarAduio'
 import { useResource, myFetch } from 'hooks/useFetch'
+import MyCover from 'components/MyCover'
 
 // 导出给它的子组件使用
 export type State = {
@@ -133,7 +134,7 @@ export default function PlayerBar() {
   useDevRenderCounter(PlayerBar.name)
 
   /* ----------------------------------- 状态 ----------------------------------- */
-  const [songInfo] = useContext(SongInfoContext)
+  const { songInfo } = useContext(SongInfoContext)
   const [state, dispatch] = useReducer(reducer, initState)
   const [likelist, likelistDispatch] = useContext(LikelistContext)
 
@@ -192,7 +193,7 @@ export default function PlayerBar() {
             dispatch({ type: 'show/hide <SongDetailPage>' })
           }}
         >
-          <img src={songInfo?.al?.picUrl} />
+          <MyCover src={songInfo?.al?.picUrl} />
         </div>
         <View className='music-buttons'>
           <Button className='last-song'>

@@ -3,6 +3,7 @@ import './style.scss'
 import { RouterContext } from 'context/router'
 import Icon from 'baseUI/UI/Icon'
 import { recoder } from 'assets/icons'
+import MyCover from './MyCover'
 
 export default function MvItem(props: {
   item: ExclusiveContent | MvBrief | undefined
@@ -29,7 +30,7 @@ export default function MvItem(props: {
               <Icon src={recoder} />
               <span className='number'>{resource.playCount}</span>
             </div>
-            <img src={resource.picUrl} className='thumbnail' />
+            <MyCover src={resource.picUrl} className='thumbnail' />
           </div>
           <span className='description'>{resource.name}</span>
           <span className='sub-description _footnote _block'>
@@ -54,7 +55,7 @@ export default function MvItem(props: {
           }}
         >
           <div className='picture'>
-            <img className='thumbnail' src={resource.sPicUrl} />
+            <MyCover className='thumbnail' src={resource.sPicUrl} />
           </div>
           <p className='description'>{resource.name}</p>
         </div>

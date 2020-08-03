@@ -9,6 +9,7 @@ import { SongInfoContext } from 'context/SongInfo'
 import PlaylistItem from 'components/PlaylistItem'
 import SongItem from 'components/SongItem'
 import { useResource } from 'hooks/useFetch'
+import MyCover from 'components/MyCover'
 
 export default function SongDetailPage(props: {
   palyerState: PlayerState
@@ -16,7 +17,7 @@ export default function SongDetailPage(props: {
   /**是否显示/隐藏 */
   shown?: boolean
 }) {
-  const [songInfo] = useContext(SongInfoContext)
+  const { songInfo } = useContext(SongInfoContext)
   // TODO： 总觉得可以再简化
   const lyricInfo = useResource<AllResponse['/lyric']>('/lyric', {
     id: songInfo?.id
@@ -37,7 +38,7 @@ export default function SongDetailPage(props: {
       <div
         className={`current-song-cover ${props.palyerState.isplaying ? '--playing' : '--paused'}`}
       >
-        <img src={songInfo?.al?.picUrl}></img>
+        <MyCover src={songInfo?.al?.picUrl}></MyCover>
       </div>
 
       {/* 歌词 */}
