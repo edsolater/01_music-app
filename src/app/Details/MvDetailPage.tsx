@@ -30,7 +30,7 @@ export default function MvDetailPage(
 
   return (
     <section className='MvDetailPage'>
-      <div className='col1'>
+      <div className='col-1'>
         <video className='mv-window' src={mvUrl} controls />
         {/* 评论词条 */}
         <div className='comments'>
@@ -46,7 +46,7 @@ export default function MvDetailPage(
         </div>
       </div>
 
-      <div className='col2'>
+      <div className='col-2'>
         {/* mv介绍 */}
         <div className='mv-info'>
           <div className='info-header'>MV介绍</div>

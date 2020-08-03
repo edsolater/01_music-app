@@ -76,19 +76,25 @@
 }
 
 .SongDetailPage {
-  // TODO: 有没有办法插入link
   grid-area: 1 / 1 / auto / -1;
   z-index: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  place-items: start;
+  grid-template:
+    'cover   cover   lyric   lyric   ' auto
+    'comment comment comment playlist' auto
+    'comment comment comment song    ' 1fr / 2fr 1fr 1fr 2fr;
   background-color: white;
   transform-origin: bottom left;
   transition: 300ms;
   contain: size;
   overflow: auto;
+  column-gap: 2em;
+  row-gap: 5em;
   .current-song-cover {
+    grid-area: cover;
+    place-self: center;
     width: max-content;
+    margin: 5em;
     position: relative;
     padding: 80px;
     animation-name: rotateInfinity;
@@ -111,6 +117,48 @@
       width: 260px;
       height: 260px;
       border-radius: 50%;
+    }
+  }
+  .lyric-box {
+    grid-area: lyric;
+    padding: 1em 3em;
+  }
+  .comments {
+    grid-area: comment;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+  }
+  .playlists {
+    grid-area: playlist;
+    display: flex;
+    flex-direction: column;
+    .info-header {
+      font-size: 2em;
+      padding: 0.1em 0.2em;
+      border-bottom: 1px solid lightgray;
+      margin-bottom: 0.5em;
+    }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8em;
+    }
+  }
+  .simi-songs {
+    grid-area: song;
+    display: flex;
+    flex-direction: column;
+    .info-header {
+      font-size: 2em;
+      padding: 0.1em 0.2em;
+      border-bottom: 1px solid lightgray;
+      margin-bottom: 0.5em;
+    }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8em;
     }
   }
 }

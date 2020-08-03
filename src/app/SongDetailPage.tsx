@@ -42,10 +42,10 @@ export default function SongDetailPage(props: {
       </div>
 
       {/* 歌词 */}
-      <div className='_lyric'>{lyricInfo?.lrc?.lyric ?? '暂无歌词'}</div>
+      <div className='lyric-box'>{lyricInfo?.lrc?.lyric ?? '暂无歌词'}</div>
 
       {/* 评论词条 */}
-      <div className='_comments'>
+      <div className='comments'>
         {commentInfo?.comments.map(item => (
           <CommentItem
             key={item.commentId}
@@ -58,17 +58,23 @@ export default function SongDetailPage(props: {
       </div>
 
       {/* 包含这首歌的歌单 */}
-      <div className='_playlists'>
-        {simiPlaylists?.map(item => (
-          <PlaylistItem key={item.id} item={item} />
-        ))}
+      <div className='playlists'>
+        <div className='info-header'>包含这首歌的歌单</div>
+        <div className='list'>
+          {simiPlaylists?.map(item => (
+            <PlaylistItem key={item.id} item={item} />
+          ))}
+        </div>
       </div>
 
       {/* 相似歌曲 */}
-      <div className='_simi'>
-        {simiSong?.map(item => (
-          <SongItem key={item.id} item={item} />
-        ))}
+      <div className='simi-songs'>
+        <div className='info-header'>相似歌曲</div>
+        <div className='list'>
+          {simiSong?.map(item => (
+            <SongItem key={item.id} item={item} />
+          ))}
+        </div>
       </div>
     </section>
   )

@@ -9,7 +9,7 @@ export default function CommentItem(props: {
   time: TimeNumber
 }): JSX.Element {
   return (
-    <div className='CommentItem'>
+    <div className='CommentItem --clickable'>
       <MyCover className='avatar' src={props.avatarUrl} />
       <p className='middle-part'>
         <span className='username'>{props.nickname}:</span>
