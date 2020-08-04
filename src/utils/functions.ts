@@ -1,4 +1,4 @@
-/**
+/**TODO 这四个方法只是dayjs的format方法，要合并成一个
  * 格式化输出日期
  * @param timestamp 可被new Date 解析的即可
  * @param format 格式
@@ -39,6 +39,23 @@ export function formatTimeNumber(
     default:
       return 'unknown'
   }
+}
+/**
+ * 返回今天是星期几
+ * @param format 格式字符串（将会被替换）
+ */
+export function getDay(format: '星期x' | '周x' = '周x') {
+  const date = new Date()
+  const day = ['日', '一', '二', '三', '四', '五', '六'][date.getDay()]
+  return format.replace(/x/, day)
+}
+/**
+ * 返回今天是几号
+ * @param format 格式字符串（将会被替换）
+ */
+export function getDate() {
+  const date = new Date()
+  return String(date.getDate())
 }
 
 /**

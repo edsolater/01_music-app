@@ -8,7 +8,7 @@ import { useResource } from 'hooks/useFetch'
 import PlaylistItem from 'components/PlaylistItem'
 import MvItem from 'components/MvItem'
 import SongItem from 'components/SongItem'
-import { padLeft } from 'utils/functions'
+import { padLeft, getDay, getDate } from 'utils/functions'
 import { SongInfoContext } from 'context/SongInfo'
 import MyCover from 'components/MyCover'
 
@@ -40,7 +40,10 @@ const Home = () => {
       {/* 推荐歌单 */}
       <SectionHeader sectionName='推荐歌单' />
       <section className='recommend-playlists-gallery'>
-        <PlaylistItem type='daily-recommend' dailyInfo={{ day: '星期三', date: '11' }} />
+        <PlaylistItem
+          type='daily-recommend'
+          dailyInfo={{ day: getDay('星期x'), date: getDate() }}
+        />
         {recommendResource?.slice(0, 9).map(item => (
           <PlaylistItem key={item.id} type='portrait' item={item} />
         ))}
