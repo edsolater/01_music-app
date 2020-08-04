@@ -18,7 +18,7 @@ export default function MvItem(props: {
       const resource = props.item as MvBrief
       return (
         <div
-          className='MvItem_in-home --clickable'
+          className='MvItem_in-home _clickable'
           onClick={() => {
             routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
           }}
@@ -49,7 +49,7 @@ export default function MvItem(props: {
       const resource = props.item as MvBrief2
       return (
         <div
-          className='MvItem_brief2 --clickable'
+          className='MvItem_brief2 _clickable'
           onClick={() => {
             routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
           }}
@@ -77,7 +77,7 @@ export default function MvItem(props: {
       const resource = props.item as MvBrief2
       return (
         <div
-          className='MvItem_in-detail-page --clickable'
+          className='MvItem_in-detail-page _clickable'
           onClick={() => {
             routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })
           }}
@@ -107,7 +107,7 @@ export default function MvItem(props: {
       const resource = props.item as ExclusiveContent
       return (
         <div
-          className='MvItem --clickable'
+          className='MvItem _clickable'
           onClick={() => {
             props.onClick?.()
             routeDispatch({ type: 'to', item: { name: 'mvDetail', id: resource.id } })

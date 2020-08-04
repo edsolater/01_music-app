@@ -190,9 +190,11 @@ export default function PlayerBar() {
       />
       <section className='PlayerBar'>
         <div
-          className='album-face --clickable --transiable'
+          className='album-face _clickable _transiable'
           onClick={() => {
-            dispatch({ type: 'show/hide <SongDetailPage>' })
+            if (songInfo?.id) {
+              dispatch({ type: 'show/hide <SongDetailPage>' })
+            }
           }}
         >
           <MyCover src={songInfo?.al?.picUrl} />

@@ -63,7 +63,7 @@ const Home = () => {
         {topSongs?.slice(0, 10).map((item, index) => (
           <div
             key={item.id}
-            className='rank-item --clickable'
+            className='rank-item _clickable'
             onClick={() => {
               setSongId(item.id)
             }}

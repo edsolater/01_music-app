@@ -21,7 +21,7 @@ export default function PlaylistItem(props: {
       const playlistItem = props.item as RecommendResource
       return (
         <div
-          className='PlaylistItem_portrait --clickable'
+          className='PlaylistItem_portrait _clickable'
           onClick={ev => {
             props.onClick?.(ev)
             routeDispatch({ type: 'to', item: { name: 'playlist', id: playlistItem.id } })
@@ -44,7 +44,7 @@ export default function PlaylistItem(props: {
     case 'daily-recommend': {
       return (
         <div
-          className='PlaylistItem_daily-recommend --clickable'
+          className='PlaylistItem_daily-recommend _clickable'
           onClick={ev => {
             props.onClick?.(ev)
             routeDispatch({ type: 'to', item: { name: 'playlist', id: 'daily-recommend' } })
@@ -63,7 +63,7 @@ export default function PlaylistItem(props: {
       const playlistItem = props.item as PlaylistItem
       return (
         <div
-          className='PlaylistItem --clickable'
+          className='PlaylistItem _clickable'
           onClick={ev => {
             props.onClick?.(ev)
             routeDispatch({ type: 'to', item: { name: 'playlist', id: playlistItem.id } })

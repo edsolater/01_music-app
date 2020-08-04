@@ -252,6 +252,21 @@
     }
   }
 }
+.RouteBubble {
+  min-width: 2em;
+  min-height: 2em;
+  font-size: 2em;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: var(--primary-color);
+  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.4), 0 0.4em 0.8em rgba(0, 0, 0, 0.2),
+    0 0.8em 1.6em rgba(0, 0, 0, 0.1);
+  position: fixed;
+  z-index: 1;
+  border-radius: 50%;
+  user-select: none;
+}
 
 @keyframes rotateInfinity {
   from {

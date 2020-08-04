@@ -79,7 +79,7 @@ export default function PlaylistMenu() {
           })
         }}
         renderItem={itemInfo => (
-          <Item className='--clickable'>
+          <Item className='_clickable'>
             <Icon
               iconfontName={
                 itemInfo.name.includes('喜欢的音乐')

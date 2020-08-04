@@ -34,6 +34,7 @@ function reducer(state: State, action: Action): State {
       return computeLast({ ...state, stack: [...state.stack, action.item] })
     }
     case 'back': {
+      if (state.stack.length <= 1) return state
       const clonedStack = [...state.stack]
       clonedStack.pop()
       return computeLast({ ...state, stack: clonedStack })

@@ -119,7 +119,7 @@ export default function NormalPlaylist(props: ComponentProps<typeof View> & { id
           setSongInfo(item)
         }}
         renderItem={(item, idx) => (
-          <Item className='--clickable'>
+          <Item className='_clickable'>
             <View className='song-index'>
               <Text>{String(idx).padStart(2, '0')}</Text>
             </View>

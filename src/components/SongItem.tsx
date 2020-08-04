@@ -24,7 +24,7 @@ export default function SongItem(props: {
           <div className='artist-list'>
             {songItem.artists.map((artist, index, { length }) => (
               <Fragment key={artist.name}>
-                <span className='artist --clickable-without-backdrop-effect'>{artist.name}</span>
+                <span className='artist _clickable-without-backdrop-effect'>{artist.name}</span>
                 {index !== length - 1 && <span className='slash'>/</span>}
               </Fragment>
             ))}
@@ -35,7 +35,7 @@ export default function SongItem(props: {
     default: {
       return (
         <div
-          className='SongItem --clickable'
+          className='SongItem _clickable'
           onClick={ev => {
             props.onClick?.(ev)
             setSongId(songItem.id)

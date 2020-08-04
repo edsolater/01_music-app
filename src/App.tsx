@@ -17,6 +17,7 @@ import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
 import DetailRouter from 'app/Details/DetailRouter'
 import RouterProvider from 'context/router'
 import { myFetch } from 'hooks/useFetch'
+import RouteBubble from 'app/RouteBubble'
 
 function App() {
   const [, likelistDispatch] = useContext(LikelistContext)
@@ -41,6 +42,7 @@ function App() {
   }, [])
   return (
     <>
+      <RouteBubble />
       <PlaylistMenu />
       <DetailRouter />
       <PlayerBar />
