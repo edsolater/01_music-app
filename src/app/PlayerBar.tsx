@@ -160,9 +160,11 @@ export default function PlayerBar() {
    */
   useAndEffect(() => {
     myFetch('/like', { id: songInfo?.id, like: state.isLike })?.then(() => {
-      myFetch('/likelist', { uid: storage.get('account')?.id ?? '' })?.then((res: any) => {
-        likelistDispatch?.({ type: 'set from data', newLikelist: res.ids })
-      })
+      myFetch('/likelist', { uid: storage.get('account')?.id ?? '', timestamp: Date.now() })?.then(
+        (res: any) => {
+          likelistDispatch?.({ type: 'set from data', newLikelist: res.ids })
+        }
+      )
     })
   }, [state.userActionCounter, state.isLike])
 
@@ -243,7 +245,7 @@ export default function PlayerBar() {
         </View>
         <View className='info-panel'>
           <Togger
-            className='favourite'
+            className='favorite'
             active={state.isLike}
             trusyNode={<Icon iconfontName='heart' />}
             falsyNode={<Icon iconfontName='heart_empty' />}
