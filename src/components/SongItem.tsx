@@ -1,10 +1,14 @@
-import React, { Fragment, useContext } from 'react'
+import React, { Fragment, useContext, MouseEventHandler } from 'react'
 import './style.scss'
 import Icon from 'baseUI/UI/Icon'
 import { SongInfoContext } from 'context/SongInfo'
 import MyCover from './MyCover'
 
-export default function SongItem(props: { item: SongItem; type?: 'in-home' }) {
+export default function SongItem(props: {
+  item: SongItem
+  type?: 'in-home'
+  onClick?: MouseEventHandler<HTMLDivElement>
+}) {
   const { setSongId } = useContext(SongInfoContext)
   const songItem = props.item
   switch (props.type) {
@@ -32,7 +36,8 @@ export default function SongItem(props: { item: SongItem; type?: 'in-home' }) {
       return (
         <div
           className='SongItem --clickable'
-          onClick={() => {
+          onClick={ev => {
+            props.onClick?.(ev)
             setSongId(songItem.id)
           }}
         >

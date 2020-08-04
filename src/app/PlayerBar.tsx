@@ -147,6 +147,8 @@ export default function PlayerBar() {
       // ? 初始化时因为要拉取数据，重复渲染多次其实是正常现像？
       isLike: likelist.has(songInfo?.id ?? NaN)
     })
+    dispatch({ type: 'pause audio' })
+    dispatch({ type: 'set passed milliseconds', milliseconds: 0 })
   }, [songInfo?.id])
 
   const responseSongUrl = useResource<AllResponse['/song/url']>('/song/url', {

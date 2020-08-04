@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, MouseEventHandler } from 'react'
 import './style.scss'
 import Icon from 'baseUI/UI/Icon'
 import { headset } from 'assets/icons'
@@ -13,6 +13,7 @@ export default function PlaylistItem(props: {
     day: string
     date: string
   }
+  onClick?: MouseEventHandler<HTMLDivElement>
 }) {
   const [, routeDispatch] = useContext(RouterContext)
   switch (props.type) {
@@ -21,9 +22,10 @@ export default function PlaylistItem(props: {
       return (
         <div
           className='PlaylistItem_portrait --clickable'
-          onClick={() =>
+          onClick={ev => {
+            props.onClick?.(ev)
             routeDispatch({ type: 'to', item: { name: 'playlist', id: playlistItem.id } })
-          }
+          }}
         >
           <div className='picture'>
             <div className='legend'>
@@ -43,9 +45,10 @@ export default function PlaylistItem(props: {
       return (
         <div
           className='PlaylistItem_daily-recommend --clickable'
-          onClick={() =>
+          onClick={ev => {
+            props.onClick?.(ev)
             routeDispatch({ type: 'to', item: { name: 'playlist', id: 'daily-recommend' } })
-          }
+          }}
         >
           <div className='picture'>
             <div className='thumbnail-recommend' />
@@ -61,9 +64,10 @@ export default function PlaylistItem(props: {
       return (
         <div
           className='PlaylistItem --clickable'
-          onClick={() =>
+          onClick={ev => {
+            props.onClick?.(ev)
             routeDispatch({ type: 'to', item: { name: 'playlist', id: playlistItem.id } })
-          }
+          }}
         >
           <MyCover className='avatar' src={playlistItem.picUrl ?? playlistItem.coverImgUrl} />
           <div className='name'>{playlistItem.name}</div>

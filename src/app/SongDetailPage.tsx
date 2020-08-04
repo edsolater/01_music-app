@@ -62,7 +62,11 @@ export default function SongDetailPage(props: {
         <div className='info-header'>包含这首歌的歌单</div>
         <div className='list'>
           {simiPlaylists?.map(item => (
-            <PlaylistItem key={item.id} item={item} />
+            <PlaylistItem
+              key={item.id}
+              item={item}
+              onClick={() => props.playerDispatch({ type: 'show/hide <SongDetailPage>' })}
+            />
           ))}
         </div>
       </div>
