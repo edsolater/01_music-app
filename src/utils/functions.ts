@@ -75,3 +75,95 @@ export function padLeft(
     return ''
   }
 }
+
+/**
+ * @TODO 如果第一参数是target对象的话，就不用返回函数了，直接返回值
+ *
+ * closure 返回函数的函数
+ * 提取对象的某个值，保证智能提示完好
+ *
+ *
+ * 目的是：为了读代码时能从单词中独出语义，而不是从符号中
+ *
+ * @param propName 属性名
+ * @example
+ * const arr = [{ abbb: 'hello' }, { abbb: 'world' }, {}]
+ * const b = arr.map(getProperty('a')) // const b: string[]
+ */
+export const getProperty = <T, P extends keyof T>(propName: P) => (
+  obj: T
+): T extends Object ? T[P] : undefined => {
+  //@ts-ignore
+  if (!obj || typeof obj !== 'object') return undefined
+  //@ts-ignore
+  return obj[propName]
+}
+
+export const isNullish = val => val === undefined || val === null
+export const notNullish = val => val !== undefined && val !== null
+
+//IDEA: 原来已经有属性了就自动添加成对象 addProperty(obj, 'key', value)。毙掉，太烦了
+export const bucketAdd = <O>(obj: O, propName: keyof O, value: any) => {
+  if (notNullish(obj[propName])) {
+    //@ts-ignore
+    obj[propName] = [obj[propName], value]
+  } else {
+    obj[propName] = value
+  }
+}
+export const wrapArray = <T>(val: T): T extends Array<any> ? T : T[] =>
+  //@ts-ignore
+  Array.isArray(val) ? val : [val]
+
+// const _toggleStringList = [
+//   ['on', 'off'],
+//   ['up','right','down','left'],
+//   []
+// ]
+// const _toggleStringMap = new Map(_toggleStringList)
+// export const toggleValue = <T>(val: T): T => {
+//   if (val === false) {
+//     return true
+//   } else {
+//     return val
+//   }
+// }
+
+/**
+ * 简单地输出数组字符串，(如果不是数组，就输出空字符串)
+ * @param val 需要转化的变量/属性
+ */
+export const toArrayString = (arr: any[]): string => {
+  if (Array.isArray(arr)) return arr.toString()
+  else return ''
+}
+
+/**
+ * 记忆一个函数函数：对相同的输入，直接返回输出，不重新计算了。
+ * **注意** 只适用于纯函数
+ * **注意** 非大计算量的函数不要缓存，大概率反而会更快。这是迫不得已用的
+ * @param fn 要缓存的函数
+ * @param keyFunc=hello 从函数参数映射出缓存用的键
+ * @see https://segmentfault.com/a/1190000023384154
+ */
+export const memorize = <T extends (...args: any[]) => any>(
+  fn: T,
+  keyFunc?: (...args: Parameters<T>) => any
+) => {
+  // @ts-ignore
+  const memorizedFn: typeof fn & { cache: Map<any, any> } = (...args) => {
+    //TODO：这样的话就不会垃圾处理了，所以可能会缓存爆炸
+    const cache = memorizedFn.cache
+    // @ts-ignore
+    const argKey = keyFunc ? keyFunc(...args) : args[0]
+    if (cache.has(argKey)) {
+      return cache.get(argKey)
+    } else {
+      const result = fn(...args)
+      cache.set(argKey, result)
+      return result
+    }
+  }
+  memorizedFn.cache = new Map()
+  return memorizedFn
+}
