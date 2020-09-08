@@ -1,0 +1,19 @@
+/* 初始化样式 */
+body {
+  margin: 0;
+}
+body * {
+  box-sizing: border-box;
+}
+body [hidden] {
+  display: none !important;
+}
+ul {
+  padding-left: 0;
+}
+img {
+  display: block;
+}
+img:not([src]) {
+  visibility: hidden;
+}

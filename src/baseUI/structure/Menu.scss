@@ -1,0 +1,22 @@
+// .Menu {
+//   --menu-gap-width: 32px;
+//   display: grid;
+//   grid-auto-rows: max-content;
+//   gap: var(--menu-gap-width);
+//   width: 100%;
+//   grid-template-columns: 100%;
+// }
+
+/* 示例 */
+// .Groupbox {
+//   .MenuGroupTitle {
+//     &.--selected {
+//       background-color: rgb(177, 217, 252);
+//     }
+//   }
+//   .Item {
+//     &.--selected {
+//       border-left: 4px solid var(--primary-color, dodgerblue);
+//     }
+//   }
+// }

@@ -1,0 +1,38 @@
+._footnote {
+  font-size: 0.8em;
+  opacity: 0.4;
+}
+
+._block {
+  display: block;
+}
+
+._clickable:not(.--selected) {
+  cursor: pointer;
+  &:hover {
+    backdrop-filter: brightness(100%);
+    filter: brightness(95%);
+  }
+  &:active {
+    backdrop-filter: brightness(100%);
+    filter: brightness(60%);
+  }
+}
+._clickable-without-backdrop-effect:not(.--selected) {
+  cursor: pointer;
+  &:hover {
+    filter: brightness(75%);
+  }
+  &:active {
+    filter: brightness(60%);
+  }
+}
+._transiable {
+  transition-duration: var(--duration, 300ms);
+}
+._hoverable {
+  opacity: 0.5;
+  &:hover {
+    opacity: 1;
+  }
+}

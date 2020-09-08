@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "es2015", //如果过于新，typescript就不会转换 export * as ns 的语法了
-    "target": "es2019", //如果设定esnext会产生报错。因为webpack无法理解原生的optional chain语法
+    "module": "ES2015", //如果过于新，typescript就不会转换 export * as ns 的语法了
+    "target": "ES2019", //如果设定esnext会产生报错。因为webpack无法理解原生的optional chain语法
     "jsx": "react",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
@@ -9,5 +9,6 @@
     "noImplicitAny": false,
     "strict": true,
     "baseUrl": "./src" //typescript 根路径（绝对路径的根节点）
-  }
+  },
+  "include": [/* "node_modules/@ant-design", */ "src/**/*"]
 }

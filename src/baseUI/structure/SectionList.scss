@@ -1,0 +1,8 @@
+.SectionList {
+  list-style: none;
+  > .group {
+    &:not(:last-child) {
+      margin-bottom: 48px;
+    }
+  }
+}

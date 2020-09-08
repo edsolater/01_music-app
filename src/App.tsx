@@ -1,44 +1,63 @@
-import React, { FC, useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux'
-
 import 'assets/iconfont/iconfont.css'
-import './App.scss'
 import './initPackage'
-import { store } from 'redux/$createStore'
-import { Playlist, MainAppContent, PlayerBar } from 'apps'
-import requestLogin from 'requests/login'
-import useLocalStorage from 'hooks/useLocalStorage'
-import { useTypedDispatch } from 'redux/$createReducer'
+import './utils/style_init_default.scss' // 针对浏览器默认样式
+import './utils/style_shortcut.scss' // 快捷方式类
+import './utils/style_status.scss' // 基本状态类们
+import './App.scss'
 
-/**<App> */
-const App: FC<{}> = () => {
-  const [localStorage, setLocalStorage] = useLocalStorage()
-  const dispatch = useTypedDispatch()
+import { AllResponse } from 'typings/requestPath'
+import PlaylistMenu from 'app/PlaylistMenu'
+import PlayerBar from 'app/PlayerBar'
+import { storage } from './api/localStorage'
+import LikelistProvider, { LikelistContext } from 'context/likelist'
+import SongInfoProvider from 'context/SongInfo'
+import UserInfoProvider, { UserInfoContext } from 'context/UserInfo'
+import DetailRouter from 'app/Details/DetailRouter'
+import RouterProvider from 'context/router'
+import { myFetch } from 'hooks/useFetch'
+import RouteBubble from 'app/RouteBubble'
+
+function App() {
+  const [, likelistDispatch] = useContext(LikelistContext)
+  const [, userInfoDispatch] = useContext(UserInfoContext)
   useEffect(() => {
-    if (!localStorage.account.id) {
-      requestLogin({ phone: 18116311669, password: 'Zhgy0330#' }).then(({ data }) => {
-        setLocalStorage('account', data.account)
-        setLocalStorage('profile', data.profile)
-        setLocalStorage('token', data.token)
-        dispatch({
-          type: 'UPDATE_LOGIN_INFO',
-          data: { profile: data.profile, account: data.account, token: data.token },
-        })
+    myFetch<AllResponse['/login/cellphone']>('/login/cellphone', {
+      phone: '18116311669',
+      password: 'Zhgy0330#' /* 暂且写死在代码里， 以后要换成输入的state */
+    }).then(data => {
+      userInfoDispatch({
+        type: 'set from data',
+        account: data.account,
+        profile: data.profile,
+        token: data.token
       })
-    }
+      myFetch<AllResponse['/likelist']>('/likelist', {
+        uid: storage.get('account')?.id ?? ''
+      }).then(res => {
+        likelistDispatch({ type: 'set from data', newLikelist: res.ids })
+      })
+    })
   }, [])
   return (
     <>
-      <Playlist />
-      <MainAppContent />
+      <RouteBubble />
+      <PlaylistMenu />
+      <DetailRouter />
       <PlayerBar />
     </>
   )
 }
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('app'),
+  <RouterProvider>
+    <UserInfoProvider>
+      <LikelistProvider>
+        <SongInfoProvider>
+          <App />
+        </SongInfoProvider>
+      </LikelistProvider>
+    </UserInfoProvider>
+  </RouterProvider>,
+  document.getElementById('app')
 )

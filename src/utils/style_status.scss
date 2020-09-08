@@ -1,0 +1,43 @@
+.--active {
+  @extend .--shown;
+  @extend .--playing;
+}
+.--selected {
+  backdrop-filter: brightness(100%);
+  filter: brightness(80%);
+  contain: paint;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-left: 4px solid var(--secondary-color, #1e63f8);
+  }
+}
+.--selected--just-brightness {
+  backdrop-filter: brightness(100%);
+  filter: brightness(80%);
+  contain: paint;
+}
+.--shown {
+  opacity: 1;
+}
+.--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.--hidden--scale-mode {
+  transform: scale(0);
+}
+.--disppared {
+  display: none;
+}
+
+.--playing {
+  animation-play-state: running;
+}
+.--paused {
+  animation-play-state: paused !important/* animation 是简写属性会重置，所以写上 */;
+}

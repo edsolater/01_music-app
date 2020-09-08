@@ -1,0 +1,278 @@
+.PlaylistMenu {
+  grid-row: 1;
+  grid-column: 1;
+  border-right: var(--section-divider);
+  background-color: #f3f3f5;
+  display: flex;
+  flex-direction: column;
+  .shrink-button {
+    display: flex;
+    position: sticky;
+    top: 0;
+    height: 30px;
+    align-items: center;
+    .Icon {
+      margin-left: 12px;
+    }
+  }
+  .SectionList {
+    flex: 1 1 0;
+    width: 100%;
+    overflow: hidden auto;
+    .Text.headline {
+      font-size: 0.8em;
+      color: #999;
+      margin-left: 12px;
+    }
+    .SectionHeader {
+      display: flex;
+      align-items: center;
+      .Icon {
+        margin-left: auto;
+        margin-right: 12px;
+        color: #999;
+      }
+    }
+    .Item {
+      padding: 16px 0;
+      display: flex;
+      align-items: center;
+      .Icon {
+        color: #666;
+        margin: 0 12px;
+        flex-shrink: 0;
+      }
+      .Text {
+        color: #333;
+      }
+      .textbox {
+        max-width: 90%;
+        width: max-content;
+      }
+    }
+  }
+  .user-info-box {
+    height: 80px;
+    padding: 8px;
+    border-top: var(--section-divider);
+    background-color: transparent;
+    box-shadow: unset;
+    display: flex;
+    align-items: center;
+    .Avatar {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      margin-right: 8px;
+    }
+    .Text.nickname {
+      flex: 1;
+    }
+    .Icon {
+      font-size: 1.5em;
+      margin-left: 8px;
+    }
+  }
+}
+
+.SongDetailPage {
+  grid-area: 1 / 1 / auto / -1;
+  z-index: 1;
+  display: grid;
+  grid-template:
+    'cover   cover   lyric   lyric   ' auto
+    'comment comment comment playlist' auto
+    'comment comment comment song    ' 1fr / 2fr 1fr 1fr 2fr;
+  background-color: white;
+  transform-origin: bottom left;
+  transition: 300ms;
+  contain: size;
+  overflow: auto;
+  column-gap: 2em;
+  row-gap: 5em;
+  .current-song-cover {
+    grid-area: cover;
+    place-self: center;
+    width: max-content;
+    margin: 5em;
+    position: relative;
+    padding: 80px;
+    animation-name: rotateInfinity;
+    animation-duration: 25s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      border-radius: 50%;
+      background-image: repeating-radial-gradient(#111, #111 10px, #222 10px, #222 11px);
+    }
+    .MyCover {
+      display: block;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+    }
+  }
+  .lyric-box {
+    grid-area: lyric;
+    padding: 1em 3em;
+  }
+  .comments {
+    grid-area: comment;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4em;
+  }
+  .playlists {
+    grid-area: playlist;
+    display: flex;
+    flex-direction: column;
+    .info-header {
+      font-size: 2em;
+      padding: 0.1em 0.2em;
+      border-bottom: 1px solid lightgray;
+      margin-bottom: 0.5em;
+    }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8em;
+    }
+  }
+  .simi-songs {
+    grid-area: song;
+    display: flex;
+    flex-direction: column;
+    .info-header {
+      font-size: 2em;
+      padding: 0.1em 0.2em;
+      border-bottom: 1px solid lightgray;
+      margin-bottom: 0.5em;
+    }
+    .list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8em;
+    }
+  }
+}
+
+.PlayerBar {
+  grid-row: 2;
+  grid-column: 1 / -1;
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto auto 1fr auto;
+  border-top: var(--section-divider);
+  background: var(--theme-color);
+  gap: 48px;
+  .album-face {
+    .MyCover {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+    }
+    position: relative;
+  }
+  .music-buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    .Button {
+      width: 40px;
+      height: 40px;
+      border-radius: 1000px;
+      background: var(--secondary-color);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 0.8em;
+      &:hover {
+        transform: scale(1.2);
+      }
+      &:active {
+        filter: brightness(0.8);
+      }
+      &.last-song .Text {
+        padding-bottom: 3px;
+        padding-right: 1.5px;
+      }
+      &.play:not(.can-play) {
+        cursor: not-allowed;
+      }
+      &.next-song .Text {
+        padding-bottom: 3px;
+        padding-left: 1.5px;
+      }
+    }
+  }
+  .time-slider {
+    display: grid;
+    grid-template:
+      'song-title  timestamp ' auto
+      'slider      slider   ' 1fr / 1fr 1fr;
+    .song-title {
+      grid-area: song-title;
+      justify-self: left;
+    }
+    .timestamp {
+      grid-area: timestamp;
+      justify-self: right;
+    }
+    .Slider {
+      grid-area: slider;
+      width: auto;
+      padding: 12px 0;
+      margin: 0 10px;
+      .Trigger {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  .info-panel {
+    margin-right: 24px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    .Button {
+      &._off {
+        filter: brightness(0.5);
+      }
+    }
+    .Popover > .Content {
+      padding: 0px 8px;
+    }
+  }
+}
+.RouteBubble {
+  min-width: 2em;
+  min-height: 2em;
+  font-size: 2em;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: var(--primary-color);
+  box-shadow: 0 0.2em 0.4em rgba(0, 0, 0, 0.4), 0 0.4em 0.8em rgba(0, 0, 0, 0.2),
+    0 0.8em 1.6em rgba(0, 0, 0, 0.1);
+  position: fixed;
+  z-index: 1;
+  border-radius: 50%;
+  user-select: none;
+}
+
+@keyframes rotateInfinity {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

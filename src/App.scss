@@ -1,43 +1,15 @@
-/* 初始化样式 */
-body {
-  margin: 0;
-}
-body * {
-  box-sizing: border-box;
-}
-body [hidden] {
-  display: none;
-}
-
-/* 业务样式 */
 #app {
   --section-divider: 1.5px solid #dddde1;
   --theme-color: #fff; // 无彩色
-  --primary: #f3f3f5;
-  --secondary: #df3b3b;
+  --primary-color: #d31212; //主色
+  --secondary-color: #ff280b; // 状态色
   height: 100vh;
-  overflow-y: hidden;
   display: grid;
-  grid-template:
-    'a b' 1fr
-    'c c' auto
-    / 226px 1fr;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 1fr auto;
 }
-.album-menu {
-  grid-area: a;
-}
-.main-app-content {
-  grid-area: b;
-}
-.player-bar {
-  grid-area: c;
+.SectionHeader + * {
+  margin-bottom: 48px;
 }
 
-.collections-list {
-  .MenuList {
-    .Image {
-      width: 40px;
-      height: 40px;
-    }
-  }
-}
+/* ----------------------------- 对基本样式的overwrite ---------------------------- */
