@@ -46,7 +46,7 @@ export default function SongDetailPage(props: {
 
       {/* 评论词条 */}
       <div className='comments'>
-        {commentInfo?.comments.map(item => (
+        {commentInfo?.comments?.map(item => (
           <CommentItem
             key={item.commentId}
             avatarUrl={item.user.avatarUrl}

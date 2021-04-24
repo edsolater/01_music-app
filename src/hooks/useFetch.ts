@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { getQueryString } from 'utils/string'
 type Params = any
 
-let baseUrl = ''
+let baseUrl = 'localhost:3000'
 let settedRequestInit: RequestInit = {}
 let settedHeader: HeadersInit = {}
 
@@ -49,7 +49,7 @@ export function useResource<R>(url: RequestInfo, params?: Params, init?: Request
       headers: { ...settedHeader, ...init?.headers }
     })
       .then(response => {
-        if (response.ok) return response.json()
+        if (response.ok) return response.json().catch(e => setError(e))
         setError(response)
       })
       .then(data => setData(data))
